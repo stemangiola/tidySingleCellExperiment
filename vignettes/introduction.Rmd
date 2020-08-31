@@ -1,14 +1,14 @@
 ---
-title: "Overview of the tidybulk package"
+title: "Overview of the tidySCE package"
 author: "Stefano Mangiola"
 date: "`r Sys.Date()`"
-package: tidybulk
+package: tidySCE
 output:
   BiocStyle::html_document:
     toc_float: true
 vignette: >
   %\VignetteEngine{knitr::knitr}
-  %\VignetteIndexEntry{Overview of the tidybulk package}
+  %\VignetteIndexEntry{Overview of the tidySCE package}
   %\usepackage[UTF-8]{inputenc}
 ---
 
