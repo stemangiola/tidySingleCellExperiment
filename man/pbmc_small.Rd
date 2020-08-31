@@ -5,7 +5,7 @@
 \alias{pbmc_small}
 \title{Example data set}
 \format{
-An object of class \code{Seurat} with 230 rows and 80 columns.
+An object of class \code{SingleCellExperiment} with 230 rows and 80 columns.
 }
 \usage{
 pbmc_small

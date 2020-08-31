@@ -116,8 +116,8 @@ get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE){
     tail(1) %>%
     .[[1]] %>%
     when(
-      variable_genes %>% is.null %>% `!` ~ (.)[variable_genes,],
-      transcripts %>% is.null %>% `!` ~ (.)[transcripts,],
+      variable_genes %>% is.null %>% `!` ~ (.)[variable_genes,, drop=FALSE],
+      transcripts %>% is.null %>% `!` ~ (.)[transcripts,, drop=FALSE],
       ~ stop("It is not convenient to extract all genes, you should have either variable features or transcript list to extract")
     ) %>%
     as.matrix() %>%
@@ -255,7 +255,7 @@ get_special_datasets = function(SingleCellExperiment_object){
 
   map2(rd %>% as.list, names(rd), ~ {
 
-    mat = .x[,1:min(5, ncol(.x))]
+    mat = .x[,1:min(5, ncol(.x)), drop=FALSE]
 
     # Set names as SCE is much less constrained and there could be missing names
     if(length(colnames(mat))==0) colnames(mat) = sprintf("%s%s", .y, 1:ncol(mat))

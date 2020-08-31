@@ -23,14 +23,20 @@ Imports:
     plotly,
     ellipsis,
     tidyselect,
-    utils
+    utils,
+    S4Vectors
 Suggests:
     BiocStyle,
     testthat,
     knitr,
     GGally,
     markdown,
-    SingleCellSignalR
+    SingleCellSignalR,
+    scater,
+    scran,
+    tidyHeatmap,
+    igraph,
+    uwot
 VignetteBuilder: 
     knitr
 RdMacros:
