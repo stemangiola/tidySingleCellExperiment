@@ -111,12 +111,13 @@ get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE){
   else variable_genes = NULL
 
   # Just grub last assay
-  .data@assays %>%
+  .data@assays@data %>%
+    as.list %>%
     tail(1) %>%
     .[[1]] %>%
     when(
-      variable_genes %>% is.null %>% `!` ~ (.)@counts[variable_genes,],
-      transcripts %>% is.null %>% `!` ~ (.)@counts[transcripts,],
+      variable_genes %>% is.null %>% `!` ~ (.)[variable_genes,],
+      transcripts %>% is.null %>% `!` ~ (.)[transcripts,],
       ~ stop("It is not convenient to extract all genes, you should have either variable features or transcript list to extract")
     ) %>%
     as.matrix() %>%
@@ -179,22 +180,24 @@ get_abundance_sc_long = function(.data, transcripts = NULL, all = FALSE, exclude
   assay_names = .data@assays %>% names
 
 
-  .data@assays %>%
+  .data@assays@data %>%
+    as.list %>%
 
     # Take active assay
     map2(assay_names,
 
          ~ .x %>%
            when(
-             variable_genes %>% is.null %>% `!` ~ .x@data[variable_genes,, drop=FALSE],
-             transcripts %>% is.null %>% `!` ~ .x@data[ toupper(rownames(.x@data)) %in% toupper(transcripts),, drop=FALSE],
-             all  ~ .x@data,
+             variable_genes %>% is.null %>% `!` ~ .x[variable_genes,, drop=FALSE],
+             transcripts %>% is.null %>% `!` ~ .x[ toupper(rownames(.x)) %in% toupper(transcripts),, drop=FALSE],
+             all  ~ .x,
              ~ stop("It is not convenient to extract all genes, you should have either variable features or transcript list to extract")
            ) %>%
 
            # Replace 0 with NA
            when(exclude_zeros ~ (.) %>% { x = (.); x[x == 0] <- NA; x }, ~ (.)) %>%
 
+           as.matrix() %>%
            data.frame() %>%
            as_tibble(rownames = "transcript") %>%
            tidyr::pivot_longer(
