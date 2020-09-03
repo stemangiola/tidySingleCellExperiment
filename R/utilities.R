@@ -28,7 +28,7 @@ prepend = function (x, values, before = 1)
     c(values, x)
   }
   else {
-    c(x[1:(before - 1)], values, x[before:n])
+    c(x[seq_len(before - 1)], values, x[before:n])
   }
 }
 #' Add class to abject
@@ -258,10 +258,10 @@ get_special_datasets = function(SingleCellExperiment_object){
 
   map2(rd %>% as.list, names(rd), ~ {
 
-    mat = .x[,1:min(5, ncol(.x)), drop=FALSE]
+    mat = .x[,seq_len(min(5, ncol(.x))), drop=FALSE]
 
     # Set names as SCE is much less constrained and there could be missing names
-    if(length(colnames(mat))==0) colnames(mat) = sprintf("%s%s", .y, 1:ncol(mat))
+    if(length(colnames(mat))==0) colnames(mat) = sprintf("%s%s", .y, seq_len(ncol(mat)))
 
     mat
   })
