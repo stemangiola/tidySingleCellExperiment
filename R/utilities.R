@@ -78,6 +78,7 @@ drop_class = function(var, name) {
 #'
 #'
 #' @export
+#' @noRd
 get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE){
 
   # Solve CRAN warnings
@@ -144,6 +145,8 @@ get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE){
 #' @return A tidySCE object
 #'
 #' @export
+#' 
+#' @noRd
 get_abundance_sc_long = function(.data, transcripts = NULL, all = FALSE, exclude_zeros = FALSE){
 
   # Solve CRAN warnings
