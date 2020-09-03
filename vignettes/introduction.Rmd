@@ -20,7 +20,7 @@ vignette: >
 
 website: [stemangiola.github.io/tidySCE/](https://stemangiola.github.io/tidySCE/)
 
-Please have a look also to 
+Please also have a look at 
 
 - [tidyseurat](https://stemangiola.github.io/tidyseurat/) for tidy manipulation of Seurat objects
 - [tidybulk](https://stemangiola.github.io/tidybulk/) for tidy high-level data
@@ -55,7 +55,7 @@ library(igraph)
 library(tidyHeatmap)
 library(tidySCE)
 
-
+# plot settings
 my_theme = 	
   list(
     scale_fill_brewer(palette="Set1"),
@@ -109,10 +109,11 @@ devtools::install_github("stemangiola/tidySCE")
 ```
 
 ## Create `tidySCE`, the best of both worlds!
+
 This is a SingleCellExperiment object but it is evaluated as tibble. So it is fully compatible both with SingleCellExperiment and tidyverse APIs. 
 
 ```{r}
-pbmc_small_tidy = tidySCE::pbmc_small %>% tidy()
+pbmc_small_tidy <- tidySCE::pbmc_small %>% tidy()
 ```
 
 **It looks like a tibble**
@@ -127,10 +128,11 @@ pbmc_small_tidy
 pbmc_small_tidy@assays
 ```
 ## Annotation polishing using tidyverse
-We may have a column that contains the directory each run was taken from. We may want to extract the run/sample name out of it.
+
+We may have a column that contains the directory each run was taken from, such as the "file" column in `pbmc_small_tidy`. We may want to extract the run/sample name out of it. `extract` can be used to convert a character column into multiple columns using regular expression groups.
 
 ```{r}
-pbmc_small_polished =
+pbmc_small_polished <-
   pbmc_small_tidy %>%
   extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove = FALSE) 
 
@@ -139,6 +141,7 @@ pbmc_small_polished %>%
 ```
 
 ## Preliminary plots
+
 We can treat `pbmc_small_polished` effectively as a normal tibble for plotting. 
 
 Here we plot number of transcripts per cell
@@ -176,11 +179,12 @@ pbmc_small_polished %>%
 ```
 
 ## Preprocess the dataset
+
 Also you can treat the object as SingleCellExperiment object and proceed with data processing.
 
 ```{r preprocess, cache=TRUE}
 
-variable_gens = 
+variable_genes <- 
   pbmc_small_polished %>%
   modelGeneVar() %>%
   getTopHVGs(prop=0.1)
