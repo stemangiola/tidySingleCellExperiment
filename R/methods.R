@@ -1,6 +1,6 @@
 
 
-setClass("tidySCE", contains="SingleCellExperiment")
+setClass("tidySCE", contains = "SingleCellExperiment")
 
 #' @importFrom methods show
 #' @import SingleCellExperiment
@@ -9,12 +9,9 @@ setMethod(
   f = "show",
   signature = "tidySCE",
   definition = function(object) {
-
-      object %>%
+    object %>%
       as_tibble() %>%
       print()
-
-
   }
 )
 
@@ -23,20 +20,24 @@ setMethod(
 #' @param object A SingleCellExperiment object
 #'
 #' @return A tidySCE object
-#' 
-#' @examples
-#' 
-#' tidySCE::pbmc_small %>% tidy()
 #'
+#' @examples
+#'
+#' tidySCE::pbmc_small %>% tidy()
+#' 
 #' @export
-tidy <- function(object) {  UseMethod("tidy", object) }
+tidy <- function(object) {
+  UseMethod("tidy", object)
+}
 
 #' @importFrom methods as
 #'
 #' @param object A SingleCellExperiment object
 #'
 #' @export
-tidy.SingleCellExperiment <- function(object){  as(object, "tidySCE") }
+tidy.SingleCellExperiment <- function(object) {
+  as(object, "tidySCE")
+}
 
 
 
@@ -44,7 +45,7 @@ tidy.SingleCellExperiment <- function(object){  as(object, "tidySCE") }
 #'
 #' \lifecycle{experimental}
 #'
-#' @description join_transcripts() takes as imput a `tbl` formatted as | <SAMPLE> | <TRANSCRIPT> | <COUNT> | <...> | and returns a `tbl` with additional columns for the statistics from the hypothesis test.
+#' @description join_transcripts() extracts and joins information for specific transcripts
 #'
 #' @importFrom rlang enquo
 #' @importFrom magrittr "%>%"
@@ -53,39 +54,31 @@ tidy.SingleCellExperiment <- function(object){  as(object, "tidySCE") }
 #' @rdname join_transcripts
 #'
 #' @param .data A `tbl` formatted as | <SAMPLE> | <TRANSCRIPT> | <COUNT> | <...> |
-#' @param transcripts A formula with no response variable, representing the desired linear model
-#' @param all The name of the sample column
-#' @param exclude_zeros The name of the transcript/gene column
-#' @param shape The name of the transcript/gene abundance column
+#' @param transcripts A vector of transcript identifiers to join
+#' @param all If TRUE return all
+#' @param exclude_zeros If TRUE exclude zero values
+#' @param shape Format of the returned table "long" or "wide"
 #'
-#' @details At the moment this function uses edgeR only, but other inference algorithms will be added in the near future.
+#' @details This function extracts information for specified transcripts and returns the informationin either long or wide format.
 #'
-#' @return A `tbl` with additional columns for the statistics from the hypothesis test (e.g.,  log fold change, p-value and false discovery rate).
+#' @return A `tbl` containing the information.for the specified transcripts
 #'
 #'
 #'
 #'
 #' @examples
-#'\donttest{
-#'
-#'
-#'
-#' 	join_transcripts(
-#' 	    ~ condition,
-#' 	    sample,
-#' 	    transcript,
-#' 	    `count`
-#' 	)
-#'
-#'}
+#' 
+#' tidySCE::pbmc_small %>% 
+#' tidy() %>% 
+#' join_transcripts(transcripts = c("HLA-DRA", "LYZ"))
 #'
 #' @export
 #'
 join_transcripts <- function(.data,
-                              transcripts = NULL,
-                              all = FALSE,
-                              exclude_zeros = FALSE,
-                              shape = "long") {
+                             transcripts = NULL,
+                             all = FALSE,
+                             exclude_zeros = FALSE,
+                             shape = "long") {
   UseMethod("join_transcripts", .data)
 }
 #' @export
@@ -94,8 +87,7 @@ join_transcripts.default <-
            transcripts = NULL,
            all = FALSE,
            exclude_zeros = FALSE,
-           shape = "long")
-  {
+           shape = "long") {
     print("This function cannot be applied to this object")
   }
 #' @export
@@ -104,30 +96,28 @@ join_transcripts.tidySCE <-
            transcripts = NULL,
            all = FALSE,
            exclude_zeros = FALSE,
-           shape = "long")
-  {
-
+           shape = "long") {
     message("tidySCE says: A data frame is returned for independent data analysis.")
 
     .data %>%
       as_tibble() %>%
-
       when(
 
-      # Shape is long
-      shape == "long" ~ (.) %>% left_join(
-        get_abundance_sc_long(
-          .data = .data,
-          transcripts = transcripts,
-          all = all,
-          exclude_zeros = exclude_zeros
-        ),
-        by = "cell"
-      ) %>%
-        select(cell, transcript, contains("abundance"), everything()),
+        # Shape is long
+        shape == "long" ~ (.) %>%
+          left_join(
+            get_abundance_sc_long(
+              .data = .data,
+              transcripts = transcripts,
+              all = all,
+              exclude_zeros = exclude_zeros
+            ),
+            by = "cell"
+          ) %>%
+          select(cell, transcript, contains("abundance"), everything()),
 
-      # Shape if wide
-      ~ (.) %>% left_join(
+        # Shape if wide
+        ~ (.) %>% left_join(
           get_abundance_sc_wide(
             .data = .data,
             transcripts = transcripts,
@@ -136,9 +126,4 @@ join_transcripts.tidySCE <-
           by = "cell"
         )
       )
-
-
-
   }
-
-
