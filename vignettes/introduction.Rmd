@@ -132,7 +132,7 @@ We may have a column that contains the directory each run was taken from. We may
 ```{r}
 pbmc_small_polished =
   pbmc_small_tidy %>%
-  extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove = F) 
+  extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove = FALSE) 
 
 pbmc_small_polished %>%
   select(sample, everything())
