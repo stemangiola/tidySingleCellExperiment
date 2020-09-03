@@ -23,6 +23,10 @@ setMethod(
 #' @param object A SingleCellExperiment object
 #'
 #' @return A tidySCE object
+#' 
+#' @examples
+#' 
+#' tidySCE::pbmc_small %>% tidy()
 #'
 #' @export
 tidy <- function(object) {  UseMethod("tidy", object) }

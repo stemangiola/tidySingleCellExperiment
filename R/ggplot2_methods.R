@@ -39,8 +39,12 @@
 #' 
 #' @export
 #' @examples
-#' # Generate some sample data, then compute mean and standard deviation
-#' # in each group
+#' 
+#' tidySCE::pbmc_small %>% 
+#' tidy() %>% 
+#' tidySCE::ggplot(aes(groups, nCount_RNA)) + 
+#' geom_boxplot()
+
 ggplot <- function(.data = NULL, mapping = aes(), ..., environment = parent.frame()) {
   UseMethod("ggplot")
 }
