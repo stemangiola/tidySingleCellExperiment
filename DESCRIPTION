@@ -39,7 +39,8 @@ Suggests:
     scran,
     tidyHeatmap,
     igraph,
-    uwot
+    uwot,
+    dittoSeq
 VignetteBuilder: 
     knitr
 RdMacros:
