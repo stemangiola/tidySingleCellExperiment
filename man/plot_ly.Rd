@@ -136,7 +136,6 @@ help inform default axis/scale titles
 (e.g., `plot_ly(x = mtcars$wt)` vs `plot_ly(x = ~mtcars$wt)`)
 }
 \examples{
-\dontrun{
 
 # plot_ly() tries to create a sensible plot based on the information you 
 # give it. If you don't provide a trace type, plot_ly() will infer one.
@@ -171,7 +170,6 @@ add_markers(p, color = ~Species, colors = "Set1")
 add_markers(p, symbol = ~Species)
 add_paths(p, linetype = ~Species)
 
-}
 
 }
 \references{
