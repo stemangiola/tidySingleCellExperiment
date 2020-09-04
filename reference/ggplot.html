@@ -75,7 +75,7 @@ subsequent layers unless specifically overridden." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySCE</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.0</span>
       </span>
     </div>
 
@@ -179,9 +179,17 @@ multiple data frames are used to produce different layers, as
 is often the case in complex graphics.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Generate some sample data, then compute mean and standard deviation</span>
-<span class='co'># in each group</span>
-</div></pre>
+    <pre class="examples"><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span>)
+</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘ggplot2’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:tidySCE’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    ggplot</span></div><div class='input'>
+<span class='kw'>tidySCE</span>::<span class='kw'><a href='pbmc_small.html'>pbmc_small</a></span> <span class='op'>%&gt;%</span> 
+<span class='fu'><a href='tidy.html'>tidy</a></span>() <span class='op'>%&gt;%</span> 
+<span class='kw'>tidySCE</span>::<span class='fu'>ggplot</span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>groups</span>, <span class='kw'>nCount_RNA</span>)) <span class='op'>+</span> 
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span>()
+</div><div class='img'><img src='ggplot-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
