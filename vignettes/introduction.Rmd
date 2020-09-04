@@ -56,10 +56,13 @@ library(tidyHeatmap)
 library(tidySCE)
 
 # plot settings
+
+friendly_cols <- dittoSeq::dittoColors()
+
 my_theme <- 	
   list(
-    scale_fill_brewer(palette="Set1"),
-    scale_color_brewer(palette="Set1") ,
+    scale_fill_manual(values=friendly_cols),
+    scale_color_manual(values=friendly_cols) ,
     theme_bw() +
   	theme(
   		panel.border = element_blank(),
@@ -203,7 +206,8 @@ If a tool is not included in the tidySCE collection, we can use `as_tibble` to p
 pbmc_small_pca %>%
   as_tibble %>%
   select(contains("PC"), everything()) %>%
-	  GGally::ggpairs(columns = 1:5, ggplot2::aes(colour=groups))
+	  GGally::ggpairs(columns = 1:5, ggplot2::aes(colour=groups)) +
+    my_theme
 
 ```
 
