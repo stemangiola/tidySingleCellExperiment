@@ -12,4 +12,8 @@ void
 \description{
 See \code{magrittr::\link[magrittr:pipe]{\%>\%}} for details.
 }
+\examples{
+
+tidySCE::pbmc_small \%>\% tidy()
+}
 \keyword{internal}

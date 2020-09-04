@@ -20,7 +20,7 @@ vignette: >
 
 website: [stemangiola.github.io/tidySCE/](https://stemangiola.github.io/tidySCE/)
 
-Please have a look also to 
+Please also have a look at 
 
 - [tidyseurat](https://stemangiola.github.io/tidyseurat/) for tidy manipulation of Seurat objects
 - [tidybulk](https://stemangiola.github.io/tidybulk/) for tidy high-level data
@@ -55,8 +55,8 @@ library(igraph)
 library(tidyHeatmap)
 library(tidySCE)
 
-
-my_theme = 	
+# plot settings
+my_theme <- 	
   list(
     scale_fill_brewer(palette="Set1"),
     scale_color_brewer(palette="Set1") ,
@@ -109,10 +109,11 @@ devtools::install_github("stemangiola/tidySCE")
 ```
 
 ## Create `tidySCE`, the best of both worlds!
+
 This is a SingleCellExperiment object but it is evaluated as tibble. So it is fully compatible both with SingleCellExperiment and tidyverse APIs. 
 
 ```{r}
-pbmc_small_tidy = tidySCE::pbmc_small %>% tidy()
+pbmc_small_tidy <- tidySCE::pbmc_small %>% tidy()
 ```
 
 **It looks like a tibble**
@@ -127,18 +128,20 @@ pbmc_small_tidy
 pbmc_small_tidy@assays
 ```
 ## Annotation polishing using tidyverse
-We may have a column that contains the directory each run was taken from. We may want to extract the run/sample name out of it.
+
+We may have a column that contains the directory each run was taken from, such as the "file" column in `pbmc_small_tidy`. We may want to extract the run/sample name out of it. `extract` can be used to convert a character column into multiple columns using regular expression groups.
 
 ```{r}
-pbmc_small_polished =
+pbmc_small_polished <-
   pbmc_small_tidy %>%
-  extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove = F) 
+  extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove = FALSE) 
 
 pbmc_small_polished %>%
   select(sample, everything())
 ```
 
 ## Preliminary plots
+
 We can treat `pbmc_small_polished` effectively as a normal tibble for plotting. 
 
 Here we plot number of transcripts per cell
@@ -166,7 +169,7 @@ pbmc_small_polished %>%
 Here we plot abundance of two transcripts for each group
 ```{r}
 pbmc_small_polished %>% 
-  join_transcripts(transcripts = c("HLA-DRA" ,     "LYZ" )) %>%
+  join_transcripts(transcripts = c("HLA-DRA", "LYZ")) %>%
   ggplot(aes(groups, abundance_counts + 1, fill=groups)) + 
   geom_boxplot(outlier.shape = NA) + 
   geom_jitter(aes(size=nCount_RNA), alpha=0.5, width = 0.2) + 
@@ -176,18 +179,19 @@ pbmc_small_polished %>%
 ```
 
 ## Preprocess the dataset
+
 Also you can treat the object as SingleCellExperiment object and proceed with data processing.
 
 ```{r preprocess, cache=TRUE}
 
-variable_gens = 
+variable_genes <- 
   pbmc_small_polished %>%
   modelGeneVar() %>%
   getTopHVGs(prop=0.1)
 
-pbmc_small_pca = 
+pbmc_small_pca <- 
   pbmc_small_polished %>% 
-  runPCA(   subset_row = variable_gens  )
+  runPCA(subset_row = variable_genes)
 
 pbmc_small_pca
 ```
@@ -207,11 +211,11 @@ pbmc_small_pca %>%
 We proceed with cluster identification
 ```{r cluster, cache=TRUE}
 
-pbmc_small_cluster = pbmc_small_pca
+pbmc_small_cluster <- pbmc_small_pca
 
 
 # Assigning to the 'colLabels' of the 'sce'.
-colLabels(pbmc_small_cluster) =
+colLabels(pbmc_small_cluster) <-
   pbmc_small_pca %>%
   buildSNNGraph(use.dimred="PCA") %>%
   igraph::cluster_walktrap() %$%
@@ -232,7 +236,7 @@ pbmc_small_cluster %>%
 We can identify cluster markers using SingleCellExperiment
 ```{r}
 # Identify markers
-marker_genes = 
+marker_genes <- 
   pbmc_small_cluster %>%
   findMarkers(groups=pbmc_small_cluster$label) %>% 
   as.list %>% 
@@ -276,9 +280,9 @@ pbmc_small_UMAP %>%
 We can infer cell type identities using singleR
 
 ```{r eval=FALSE}
-blueprint = SingleR::BlueprintEncodeData()
+blueprint <- SingleR::BlueprintEncodeData()
 
-cell_type_df = 
+cell_type_df <- 
   pbmc_small_UMAP@assays@data$logcounts %>%
   Matrix::Matrix(sparse = TRUE) %>%
    SingleR::SingleR(
@@ -292,7 +296,7 @@ cell_type_df =
 ```
 
 ```{r}
-pbmc_small_cell_type =
+pbmc_small_cell_type <-
   pbmc_small_UMAP %>%
   left_join(cell_type_df, by="cell")
 
@@ -333,7 +337,7 @@ pbmc_small_cell_type %>%
   mutate(mitochondrial = rnorm(n())) %>%
   
   # Plot correlation
-  join_transcripts(transcripts = c("CST3" ,     "LYZ" ), shape = "wide") %>%
+  join_transcripts(transcripts = c("CST3" , "LYZ"), shape = "wide") %>%
   ggplot(aes(CST3 +1, LYZ + 1, color=groups, size=mitochondrial)) +
   geom_point() + 
   facet_wrap(~first.labels, scales = "free") +
@@ -346,7 +350,7 @@ pbmc_small_cell_type %>%
 A powerful tool we can use with tidySCE is `nest`. We can easily perform independent analyses on subsets of the dataset. First we classify cell types in lymphoid and myeloid; then, nest based on the new classification
 
 ```{r}
-pbmc_small_nested = 
+pbmc_small_nested <- 
   pbmc_small_cell_type %>%
   filter(first.labels != "Erythrocytes") %>%
   mutate(cell_class = if_else(`first.labels` %in% c("Macrophages", "Monocytes"), "myeloid", "lmphoid")) %>%
@@ -358,14 +362,14 @@ pbmc_small_nested
 Now we can independently (i) find variable features, (ii) reduce dimensions, and (iii) cluster. Using both tidyverse and SingleCellExperiment seamlessy
 
 ```{r}
-pbmc_small_nested_reanalysed = 
+pbmc_small_nested_reanalysed <- 
   pbmc_small_nested %>%
   mutate(data = map(
     data, ~ {
       
-      .x = runPCA(.x, subset_row = variable_gens )
+      .x = runPCA(.x, subset_row = variable_genes )
       
-      variable_gens = 
+      variable_genes = 
         .x %>%
         modelGeneVar() %>%
         getTopHVGs(prop=0.3)
@@ -409,7 +413,7 @@ pbmc_small_nested_reanalysed %>%
 We can perform a large number of functional analyses on data subsets. For example intra-sample cell-cell interactions, for then comparing/testing whether interactions have strenghten/weaken across conditions. In this small dataset we have just two sample (one for condition) but you can imagine how you can use tidyverse to perform t-tests and visualisation.
 
 ```{r, eval = FALSE}
-pbmc_small_nested_interactions = 
+pbmc_small_nested_interactions <- 
   pbmc_small_nested_reanalysed %>%
   
   # Unnest based on cell category

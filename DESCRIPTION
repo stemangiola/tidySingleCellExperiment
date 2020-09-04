@@ -1,11 +1,14 @@
 Type: Package
 Package: tidySCE
 Title: 'Brings SingleCellExperiment to the Tidyverse 
-Version: 0.1.0
+Version: 0.99.0
 Authors@R: c(person("Stefano", "Mangiola", email = "mangiolastefano@gmail.com",
                   role = c("aut", "cre")) )
-Description: It creates an invisible layer that allow to see the 'SingleCellExperiment' object 
-    as tibble and interact seamlessly with the tidyverse.
+Description: tidySCE creates an invisible layer that enables using the 
+    Bioconductor 'SingleCellExperiment' object as a tibble and interacting 
+    seamlessly with the tidyverse. Tidyverse packages such as dplyr, tidyr, 
+    ggplot and plotly can all be used with the tidy SingleCellExperiment object.
+    This allows users to get the best of both Bioconductor and tidyverse worlds.
 License: GPL-3
 Depends:
     R (>= 4.0.0),

@@ -3,6 +3,8 @@
 #' @keywords internal
 #'
 #' @param .data A tidySCE
+#' 
+#' @noRd
 to_tib = function(.data){ .data@colData %>% as.data.frame %>%  as_tibble(rownames = "cell") }
 
 # Greater than
@@ -28,7 +30,7 @@ prepend = function (x, values, before = 1)
     c(values, x)
   }
   else {
-    c(x[1:(before - 1)], values, x[before:n])
+    c(x[seq_len(before - 1)], values, x[before:n])
   }
 }
 #' Add class to abject
@@ -77,7 +79,7 @@ drop_class = function(var, name) {
 #' @return A tidySCE object
 #'
 #'
-#' @export
+#' @noRd
 get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE){
 
   # Solve CRAN warnings
@@ -143,7 +145,8 @@ get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE){
 #'
 #' @return A tidySCE object
 #'
-#' @export
+#' 
+#' @noRd
 get_abundance_sc_long = function(.data, transcripts = NULL, all = FALSE, exclude_zeros = FALSE){
 
   # Solve CRAN warnings
@@ -222,7 +225,8 @@ get_abundance_sc_long = function(.data, transcripts = NULL, all = FALSE, exclude
 #'
 #' @param .data A tibble
 #' @param SingleCellExperiment_object A tidySCE
-#'
+#' 
+#' @noRd
 as_meta_data = function(.data, SingleCellExperiment_object){
 
   # Solve CRAN warnings
@@ -242,6 +246,8 @@ as_meta_data = function(.data, SingleCellExperiment_object){
 #' @keywords internal
 #'
 #' @param SingleCellExperiment_object A tidySCE
+#' 
+#' @noRd
 #'
 get_special_columns = function(SingleCellExperiment_object){
   get_special_datasets(SingleCellExperiment_object) %>%
@@ -255,10 +261,10 @@ get_special_datasets = function(SingleCellExperiment_object){
 
   map2(rd %>% as.list, names(rd), ~ {
 
-    mat = .x[,1:min(5, ncol(.x)), drop=FALSE]
+    mat = .x[,seq_len(min(5, ncol(.x))), drop=FALSE]
 
     # Set names as SCE is much less constrained and there could be missing names
-    if(length(colnames(mat))==0) colnames(mat) = sprintf("%s%s", .y, 1:ncol(mat))
+    if(length(colnames(mat))==0) colnames(mat) = sprintf("%s%s", .y, seq_len(ncol(mat)))
 
     mat
   })

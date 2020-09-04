@@ -15,3 +15,8 @@ A tidySCE object
 \description{
 tidy for SingleCellExperiment
 }
+\examples{
+
+tidySCE::pbmc_small \%>\% tidy()
+
+}

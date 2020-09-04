@@ -47,6 +47,11 @@ multiple data frames are used to produce different layers, as
 is often the case in complex graphics.
 }
 \examples{
-# Generate some sample data, then compute mean and standard deviation
-# in each group
+
+library(ggplot2)
+
+tidySCE::pbmc_small \%>\% 
+tidy() \%>\% 
+tidySCE::ggplot(aes(groups, nCount_RNA)) + 
+geom_boxplot()
 }
