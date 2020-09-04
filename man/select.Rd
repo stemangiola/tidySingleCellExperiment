@@ -53,8 +53,8 @@ The following methods are currently available in loaded packages:
 
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
-  tidy() \%>\%
-  select(cell, orig.ident)
+    tidy() \%>\%
+    select(cell, orig.ident)
 }
 \seealso{
 Other single table verbs: 

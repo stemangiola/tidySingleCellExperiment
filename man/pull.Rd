@@ -52,6 +52,6 @@ The following methods are currently available in loaded packages:
 
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
-  tidy() \%>\%
-  pull(groups)
+    tidy() \%>\%
+    pull(groups)
 }

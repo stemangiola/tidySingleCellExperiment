@@ -152,14 +152,14 @@ add_lines(plot_ly(economics, x = ~date, y = ~ unemploy / pop))
 
 # To make code more readable, plotly imports the pipe operator from magrittr
 economics \%>\%
-  plot_ly(x = ~date, y = ~ unemploy / pop) \%>\%
-  add_lines()
+    plot_ly(x = ~date, y = ~ unemploy / pop) \%>\%
+    add_lines()
 
 # Attributes defined via plot_ly() set 'global' attributes that
 # are carried onto subsequent traces, but those may be over-written
 plot_ly(economics, x = ~date, color = I("black")) \%>\%
-  add_lines(y = ~uempmed) \%>\%
-  add_lines(y = ~psavert, color = I("red"))
+    add_lines(y = ~uempmed) \%>\%
+    add_lines(y = ~psavert, color = I("red"))
 
 # Attributes are documented in the figure reference -> https://plot.ly/r/reference
 # You might notice plot_ly() has named arguments that aren't in this figure

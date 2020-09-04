@@ -52,22 +52,22 @@
 #' @export
 #' @examples
 #' pbmc_small %>%
-#'   tidy() %>%
-#'   as_tibble()
+#'     tidy() %>%
+#'     as_tibble()
 as_tibble <- function(x, ...,
-                      .name_repair = c("check_unique", "unique", "universal", "minimal"),
-                      rownames = pkgconfig::get_config("tibble::rownames", NULL)) {
-  UseMethod("as_tibble")
+    .name_repair = c("check_unique", "unique", "universal", "minimal"),
+    rownames = pkgconfig::get_config("tibble::rownames", NULL)) {
+    UseMethod("as_tibble")
 }
 
 #' @export
 as_tibble.default <- function(x, ...,
-                              .name_repair = c("check_unique", "unique", "universal", "minimal"),
-                              rownames = pkgconfig::get_config("tibble::rownames", NULL)) {
-  tibble::as_tibble(x, ...,
-    .name_repair = .name_repair,
-    rownames = rownames
-  )
+    .name_repair = c("check_unique", "unique", "universal", "minimal"),
+    rownames = pkgconfig::get_config("tibble::rownames", NULL)) {
+    tibble::as_tibble(x, ...,
+        .name_repair = .name_repair,
+        rownames = rownames
+    )
 }
 
 #' @export
@@ -78,35 +78,35 @@ as_tibble.default <- function(x, ...,
 #'
 #'
 as_tibble.tidySCE <- function(x, ...,
-                              .name_repair = c("check_unique", "unique", "universal", "minimal"),
-                              rownames = pkgconfig::get_config("tibble::rownames", NULL)) {
-  x@colData %>%
-    as.data.frame() %>%
-    tibble::as_tibble(rownames = "cell") %>%
+    .name_repair = c("check_unique", "unique", "universal", "minimal"),
+    rownames = pkgconfig::get_config("tibble::rownames", NULL)) {
+    x@colData %>%
+        as.data.frame() %>%
+        tibble::as_tibble(rownames = "cell") %>%
 
 
-    # Attach reduced dimensions
-    when(
+        # Attach reduced dimensions
+        when(
 
-      # Only if I have reduced dimensions and special datasets
-      ncol(x@int_colData@listData$reducedDims) > 0 ~ (.) %>% bind_cols(
-        get_special_datasets(x) %>%
-          map(~ .x %>% when(
+            # Only if I have reduced dimensions and special datasets
+            ncol(x@int_colData@listData$reducedDims) > 0 ~ (.) %>% bind_cols(
+                get_special_datasets(x) %>%
+                    map(~ .x %>% when(
 
-            # If row == 1 do a trick
-            dim(.) %>% is.null() ~ {
-              (.) %>%
-                tibble::enframe() %>%
-                spread(name, value)
-            },
+                        # If row == 1 do a trick
+                        dim(.) %>% is.null() ~ {
+                            (.) %>%
+                                tibble::enframe() %>%
+                                spread(name, value)
+                        },
 
-            # Otherwise continue normally
-            ~ as_tibble(.)
-          )) %>%
-          reduce(bind_cols)
-      ),
+                        # Otherwise continue normally
+                        ~ as_tibble(.)
+                    )) %>%
+                    reduce(bind_cols)
+            ),
 
-      # Otherwise skip
-      ~ (.)
-    )
+            # Otherwise skip
+            ~ (.)
+        )
 }

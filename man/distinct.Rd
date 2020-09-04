@@ -23,6 +23,6 @@ distinct
 
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
-  tidy() \%>\%
-  distinct(groups)
+    tidy() \%>\%
+    distinct(groups)
 }

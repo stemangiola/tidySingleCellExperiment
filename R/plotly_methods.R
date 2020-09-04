@@ -108,14 +108,14 @@
 #'
 #' # To make code more readable, plotly imports the pipe operator from magrittr
 #' economics %>%
-#'   plot_ly(x = ~date, y = ~ unemploy / pop) %>%
-#'   add_lines()
+#'     plot_ly(x = ~date, y = ~ unemploy / pop) %>%
+#'     add_lines()
 #'
 #' # Attributes defined via plot_ly() set 'global' attributes that
 #' # are carried onto subsequent traces, but those may be over-written
 #' plot_ly(economics, x = ~date, color = I("black")) %>%
-#'   add_lines(y = ~uempmed) %>%
-#'   add_lines(y = ~psavert, color = I("red"))
+#'     add_lines(y = ~uempmed) %>%
+#'     add_lines(y = ~psavert, color = I("red"))
 #'
 #' # Attributes are documented in the figure reference -> https://plot.ly/r/reference
 #' # You might notice plot_ly() has named arguments that aren't in this figure
@@ -130,68 +130,68 @@
 #' }
 #'
 plot_ly <- function(data = data.frame(), ..., type = NULL, name = NULL,
-                    color = NULL, colors = NULL, alpha = NULL,
-                    stroke = NULL, strokes = NULL, alpha_stroke = 1,
-                    size = NULL, sizes = c(10, 100),
-                    span = NULL, spans = c(1, 20),
-                    symbol = NULL, symbols = NULL,
-                    linetype = NULL, linetypes = NULL,
-                    split = NULL, frame = NULL,
-                    width = NULL, height = NULL, source = "A") {
-  UseMethod("plot_ly")
+    color = NULL, colors = NULL, alpha = NULL,
+    stroke = NULL, strokes = NULL, alpha_stroke = 1,
+    size = NULL, sizes = c(10, 100),
+    span = NULL, spans = c(1, 20),
+    symbol = NULL, symbols = NULL,
+    linetype = NULL, linetypes = NULL,
+    split = NULL, frame = NULL,
+    width = NULL, height = NULL, source = "A") {
+    UseMethod("plot_ly")
 }
 
 #' @export
 #'
 plot_ly.tbl_df <- function(data = data.frame(), ..., type = NULL, name = NULL,
-                           color = NULL, colors = NULL, alpha = NULL,
-                           stroke = NULL, strokes = NULL, alpha_stroke = 1,
-                           size = NULL, sizes = c(10, 100),
-                           span = NULL, spans = c(1, 20),
-                           symbol = NULL, symbols = NULL,
-                           linetype = NULL, linetypes = NULL,
-                           split = NULL, frame = NULL,
-                           width = NULL, height = NULL, source = "A") {
-  data %>%
+    color = NULL, colors = NULL, alpha = NULL,
+    stroke = NULL, strokes = NULL, alpha_stroke = 1,
+    size = NULL, sizes = c(10, 100),
+    span = NULL, spans = c(1, 20),
+    symbol = NULL, symbols = NULL,
+    linetype = NULL, linetypes = NULL,
+    split = NULL, frame = NULL,
+    width = NULL, height = NULL, source = "A") {
+    data %>%
 
-    # This is a trick to not loop the call
-    drop_class("tbl_df") %>%
-    plotly::plot_ly(...,
-      type = type, name = name,
-      color = color, colors = colors, alpha = alpha,
-      stroke = stroke, strokes = strokes, alpha_stroke = alpha_stroke,
-      size = size, sizes = sizes,
-      span = span, spans = spans,
-      symbol = symbol, symbols = symbols,
-      linetype = linetype, linetypes = linetypes,
-      split = split, frame = frame,
-      width = width, height = height, source = source
-    )
+        # This is a trick to not loop the call
+        drop_class("tbl_df") %>%
+        plotly::plot_ly(...,
+            type = type, name = name,
+            color = color, colors = colors, alpha = alpha,
+            stroke = stroke, strokes = strokes, alpha_stroke = alpha_stroke,
+            size = size, sizes = sizes,
+            span = span, spans = spans,
+            symbol = symbol, symbols = symbols,
+            linetype = linetype, linetypes = linetypes,
+            split = split, frame = frame,
+            width = width, height = height, source = source
+        )
 }
 
 #' @export
 plot_ly.tidySCE <- function(data = data.frame(), ..., type = NULL, name = NULL,
-                            color = NULL, colors = NULL, alpha = NULL,
-                            stroke = NULL, strokes = NULL, alpha_stroke = 1,
-                            size = NULL, sizes = c(10, 100),
-                            span = NULL, spans = c(1, 20),
-                            symbol = NULL, symbols = NULL,
-                            linetype = NULL, linetypes = NULL,
-                            split = NULL, frame = NULL,
-                            width = NULL, height = NULL, source = "A") {
-  data %>%
+    color = NULL, colors = NULL, alpha = NULL,
+    stroke = NULL, strokes = NULL, alpha_stroke = 1,
+    size = NULL, sizes = c(10, 100),
+    span = NULL, spans = c(1, 20),
+    symbol = NULL, symbols = NULL,
+    linetype = NULL, linetypes = NULL,
+    split = NULL, frame = NULL,
+    width = NULL, height = NULL, source = "A") {
+    data %>%
 
-    # This is a trick to not loop the call
-    as_tibble() %>%
-    plotly::plot_ly(...,
-      type = type, name = name,
-      color = color, colors = colors, alpha = alpha,
-      stroke = stroke, strokes = strokes, alpha_stroke = alpha_stroke,
-      size = size, sizes = sizes,
-      span = span, spans = spans,
-      symbol = symbol, symbols = symbols,
-      linetype = linetype, linetypes = linetypes,
-      split = split, frame = frame,
-      width = width, height = height, source = source
-    )
+        # This is a trick to not loop the call
+        as_tibble() %>%
+        plotly::plot_ly(...,
+            type = type, name = name,
+            color = color, colors = colors, alpha = alpha,
+            stroke = stroke, strokes = strokes, alpha_stroke = alpha_stroke,
+            size = size, sizes = sizes,
+            span = span, spans = spans,
+            symbol = symbol, symbols = symbols,
+            linetype = linetype, linetypes = linetypes,
+            split = split, frame = frame,
+            width = width, height = height, source = source
+        )
 }

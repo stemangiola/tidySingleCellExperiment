@@ -76,8 +76,8 @@ Methods available in currently loaded packages:
 
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
-  tidy() \%>\%
-  slice(1)
+    tidy() \%>\%
+    slice(1)
 }
 \seealso{
 Other single table verbs: 

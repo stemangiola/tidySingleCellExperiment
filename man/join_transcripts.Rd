@@ -37,6 +37,6 @@ This function extracts information for specified transcripts and returns the inf
 \examples{
 
 tidySCE::pbmc_small \%>\%
-  tidy() \%>\%
-  join_transcripts(transcripts = c("HLA-DRA", "LYZ"))
+    tidy() \%>\%
+    join_transcripts(transcripts = c("HLA-DRA", "LYZ"))
 }

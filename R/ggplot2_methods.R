@@ -43,26 +43,26 @@
 #' library(ggplot2)
 #'
 #' tidySCE::pbmc_small %>%
-#'   tidy() %>%
-#'   tidySCE::ggplot(aes(groups, nCount_RNA)) +
-#'   geom_boxplot()
+#'     tidy() %>%
+#'     tidySCE::ggplot(aes(groups, nCount_RNA)) +
+#'     geom_boxplot()
 ggplot <- function(.data = NULL, mapping = aes(), ..., environment = parent.frame()) {
-  UseMethod("ggplot")
+    UseMethod("ggplot")
 }
 
 #' @export
 #'
 ggplot.tbl_df <- function(.data = NULL, mapping = aes(), ..., environment = parent.frame()) {
-  .data %>%
+    .data %>%
 
-    # This is a trick to not loop the call
-    drop_class("tbl_df") %>%
-    ggplot2::ggplot(mapping = mapping, ..., environment = environment)
+        # This is a trick to not loop the call
+        drop_class("tbl_df") %>%
+        ggplot2::ggplot(mapping = mapping, ..., environment = environment)
 }
 
 #' @export
 ggplot.tidySCE <- function(.data = NULL, mapping = aes(), ..., environment = parent.frame()) {
-  .data %>%
-    as_tibble() %>%
-    ggplot2::ggplot(mapping = mapping)
+    .data %>%
+        as_tibble() %>%
+        ggplot2::ggplot(mapping = mapping)
 }

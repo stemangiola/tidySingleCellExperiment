@@ -74,8 +74,8 @@ The following methods are currently available in loaded packages:
 
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
-  tidy() \%>\%
-  filter(groups == "g1")
+    tidy() \%>\%
+    filter(groups == "g1")
 
 # Learn more in ?dplyr_tidy_eval
 }

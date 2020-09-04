@@ -112,6 +112,6 @@ under active development.
 
 library(dplyr)
 pbmc_small \%>\%
-  tidy() \%>\%
-  pivot_longer(c(orig.ident, groups), names_to = "name", values_to = "value")
+    tidy() \%>\%
+    pivot_longer(c(orig.ident, groups), names_to = "name", values_to = "value")
 }

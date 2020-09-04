@@ -51,7 +51,7 @@ is often the case in complex graphics.
 library(ggplot2)
 
 tidySCE::pbmc_small \%>\%
-  tidy() \%>\%
-  tidySCE::ggplot(aes(groups, nCount_RNA)) +
-  geom_boxplot()
+    tidy() \%>\%
+    tidySCE::ggplot(aes(groups, nCount_RNA)) +
+    geom_boxplot()
 }

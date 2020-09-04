@@ -85,13 +85,13 @@ nest
 
 library(dplyr)
 pbmc_small \%>\%
-  tidy() \%>\%
-  nest(data = -groups) \%>\%
-  unnest(data)
+    tidy() \%>\%
+    nest(data = -groups) \%>\%
+    unnest(data)
 
 library(dplyr)
 pbmc_small \%>\%
-  tidy() \%>\%
-  nest(data = -groups) \%>\%
-  unnest(data)
+    tidy() \%>\%
+    nest(data = -groups) \%>\%
+    unnest(data)
 }

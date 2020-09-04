@@ -79,8 +79,8 @@ The following methods are currently available in loaded packages:
 \examples{
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
-  tidy() \%>\%
-  arrange(nFeature_RNA)
+    tidy() \%>\%
+    arrange(nFeature_RNA)
 }
 \seealso{
 Other single table verbs: 
