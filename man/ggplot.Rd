@@ -48,6 +48,8 @@ is often the case in complex graphics.
 }
 \examples{
 
+library(ggplot2)
+
 tidySCE::pbmc_small \%>\% 
 tidy() \%>\% 
 tidySCE::ggplot(aes(groups, nCount_RNA)) + 
