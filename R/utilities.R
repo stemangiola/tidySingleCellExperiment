@@ -77,7 +77,6 @@ drop_class = function(var, name) {
 #' @return A tidySCE object
 #'
 #'
-#' @export
 #' @noRd
 get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE){
 
@@ -144,7 +143,6 @@ get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE){
 #'
 #' @return A tidySCE object
 #'
-#' @export
 #' 
 #' @noRd
 get_abundance_sc_long = function(.data, transcripts = NULL, all = FALSE, exclude_zeros = FALSE){
