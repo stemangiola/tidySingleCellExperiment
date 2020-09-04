@@ -13,7 +13,7 @@ join_transcripts(
 )
 }
 \arguments{
-\item{.data}{A `tbl` formatted as | <SAMPLE> | <TRANSCRIPT> | <COUNT> | <...> |}
+\item{.data}{A tidy SingleCellExperiment object}
 
 \item{transcripts}{A vector of transcript identifiers to join}
 
@@ -27,16 +27,18 @@ join_transcripts(
 A `tbl` containing the information.for the specified transcripts
 }
 \description{
-join_transcripts() extracts and joins information for specific transcripts
+join_transcripts() extracts and joins information for specific 
+  transcripts
 }
 \details{
 \lifecycle{experimental}
 
-This function extracts information for specified transcripts and returns the informationin either long or wide format.
+This function extracts information for specified transcripts and 
+  returns the information in either long or wide format.
 }
 \examples{
 
 tidySCE::pbmc_small \%>\%
     tidy() \%>\%
-    join_transcripts(transcripts = c("HLA-DRA", "LYZ"))
+    join_transcripts(transcripts=c("HLA-DRA", "LYZ"))
 }

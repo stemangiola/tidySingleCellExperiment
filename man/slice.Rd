@@ -48,7 +48,7 @@ helpers for common use cases:
   of a variable.
 
 If `.data` is a [grouped_df], the operation will be performed on each group,
-so that (e.g.) `slice_head(df, n = 5)` will select the first five rows in
+so that (e.g.) `slice_head(df, n=5)` will select the first five rows in
 each group.
 }
 \details{

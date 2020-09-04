@@ -46,23 +46,23 @@
 #'     tidy() %>%
 #'     tidySCE::ggplot(aes(groups, nCount_RNA)) +
 #'     geom_boxplot()
-ggplot <- function(.data = NULL, mapping = aes(), ..., environment = parent.frame()) {
+ggplot <- function(.data=NULL, mapping=aes(), ..., environment=parent.frame()) {
     UseMethod("ggplot")
 }
 
 #' @export
 #'
-ggplot.tbl_df <- function(.data = NULL, mapping = aes(), ..., environment = parent.frame()) {
+ggplot.tbl_df <- function(.data=NULL, mapping=aes(), ..., environment=parent.frame()) {
     .data %>%
 
         # This is a trick to not loop the call
         drop_class("tbl_df") %>%
-        ggplot2::ggplot(mapping = mapping, ..., environment = environment)
+        ggplot2::ggplot(mapping=mapping, ..., environment=environment)
 }
 
 #' @export
-ggplot.tidySCE <- function(.data = NULL, mapping = aes(), ..., environment = parent.frame()) {
+ggplot.tidySCE <- function(.data=NULL, mapping=aes(), ..., environment=parent.frame()) {
     .data %>%
         as_tibble() %>%
-        ggplot2::ggplot(mapping = mapping)
+        ggplot2::ggplot(mapping=mapping)
 }

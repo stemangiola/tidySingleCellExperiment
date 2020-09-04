@@ -93,7 +93,7 @@ Methods available in currently loaded packages:
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
     tidy() \%>\%
-    mutate(nFeature_RNA = 1)
+    mutate(nFeature_RNA=1)
 }
 \seealso{
 Other single table verbs: 

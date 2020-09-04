@@ -34,7 +34,7 @@ There should be one group (defined by `()`) for each element of `into`.}
 \item{remove}{If `TRUE`, remove input column from output data frame.}
 
 \item{convert}{If `TRUE`, will run [type.convert()] with
-  `as.is = TRUE` on new columns. This is useful if the component
+  `as.is=TRUE` on new columns. This is useful if the component
   columns are integer, numeric or logical.
 
   NB: this will cause string `"NA"`s to be converted to `NA`s.}
@@ -53,7 +53,7 @@ is NA, the output will be NA.
 
 pbmc_small \%>\%
     tidy() \%>\%
-    extract(groups, into = "g", regex = "g([0-9])", convert = TRUE)
+    extract(groups, into="g", regex="g([0-9])", convert=TRUE)
 }
 \seealso{
 [separate()] to split up by a separator.

@@ -16,19 +16,19 @@ In `ungroup()`, variables to remove from the grouping.}
 
 \item{.add}{When `FALSE`, the default, `group_by()` will
   override existing groups. To add to the existing groups, use
-  `.add = TRUE`.
+  `.add=TRUE`.
 
   This argument was previously called `add`, but that prevented
   creating a new grouping variable called `add`, and conflicts with
   our naming conventions.}
 
-\item{.drop}{When `.drop = TRUE`, empty groups are dropped. See [group_by_drop_default()] for
-what the default value is for this argument.}
+\item{.drop}{When `.drop=TRUE`, empty groups are dropped. See 
+[group_by_drop_default()] for what the default value is for this argument.}
 }
 \value{
-A [grouped data frame][grouped_df()], unless the combination of `...` and `add`
-  yields a non empty set of grouping columns, a regular (ungrouped) data frame
-  otherwise.
+A [grouped data frame][grouped_df()], unless the combination of 
+  `...` and `add` yields a non empty set of grouping columns, a 
+  regular (ungrouped) data frame otherwise.
 }
 \description{
 Most data operations are done on groups defined by variables.

@@ -67,7 +67,7 @@ from the start of each variable name.}
 
 \item{names_transform, values_transform}{A list of column name-function pairs.
 Use these arguments if you need to change the type of specific columns.
-For example, `names_transform = list(week = as.integer)` would convert
+For example, `names_transform=list(week=as.integer)` would convert
 a character week variable to an integer.}
 
 \item{names_repair}{What happens if the output has invalid column names?
@@ -113,5 +113,5 @@ under active development.
 library(dplyr)
 pbmc_small \%>\%
     tidy() \%>\%
-    pivot_longer(c(orig.ident, groups), names_to = "name", values_to = "value")
+    pivot_longer(c(orig.ident, groups), names_to="name", values_to="value")
 }

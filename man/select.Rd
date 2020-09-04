@@ -22,7 +22,7 @@ properties:
 
 * Rows are not affected.
 * Output columns are a subset of input columns, potentially with a different
-  order. Columns will be renamed if `new_name = old_name` form is used.
+  order. Columns will be renamed if `new_name=old_name` form is used.
 * Data frame attributes are preserved.
 * Groups are maintained; you can't select off grouping variables.
 }
@@ -36,7 +36,7 @@ variables based on their properties.
 
 ## Overview of selection features
 
-```{r, child = "man/rmd/overview.Rmd"}
+```{r, child="man/rmd/overview.Rmd"}
 ```
 }
 \section{Methods}{

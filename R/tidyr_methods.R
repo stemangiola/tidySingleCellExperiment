@@ -8,17 +8,17 @@
 #'   compatible sizes, i.e. they're either equal or length 1 (following the
 #'   standard tidyverse recycling rules).
 #' @param ... <[`tidy-select`][tidyr_tidy_select]> Columns to nest, specified
-#'   using name-variable pairs of the form `new_col = c(col1, col2, col3)`.
+#'   using name-variable pairs of the form `new_col=c(col1, col2, col3)`.
 #'   The right hand side can be any valid tidy select expression.
 #'
 #'   \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}:
 #'   previously you could write `df %>% nest(x, y, z)` and `df %>%
-#'   unnest(x, y, z)`. Convert to `df %>% nest(data = c(x, y, z))`.
+#'   unnest(x, y, z)`. Convert to `df %>% nest(data=c(x, y, z))`.
 #'   and `df %>% unnest(c(x, y, z))`.
 #'
 #'   If you previously created new variable in `unnest()` you'll now need to
-#'   do it explicitly with `mutate()`. Convert `df %>% unnest(y = fun(x, y, z))`
-#'   to `df %>% mutate(y = fun(x, y, z)) %>% unnest(y)`.
+#'   do it explicitly with `mutate()`. Convert `df %>% unnest(y=fun(x, y, z))`
+#'   to `df %>% mutate(y=fun(x, y, z)) %>% unnest(y)`.
 #' @param names_sep If `NULL`, the default, the names will be left
 #'   as is. In `nest()`, inner names will come from the former outer names;
 #'   in `unnest()`, the new outer names will come from the inner names.
@@ -40,24 +40,24 @@
 #' library(dplyr)
 #' pbmc_small %>%
 #'     tidy() %>%
-#'     nest(data = -groups) %>%
+#'     nest(data=-groups) %>%
 #'     unnest(data)
 #' @rdname tidyr-methods
 #'
 #' @export
-unnest <- function(.data, cols, ..., keep_empty = FALSE, ptype = NULL,
-    names_sep = NULL, names_repair = "check_unique") {
+unnest <- function(.data, cols, ..., keep_empty=FALSE, ptype=NULL,
+    names_sep=NULL, names_repair="check_unique") {
     UseMethod("unnest")
 }
 
 #' @export
 #' @rdname tidyr-methods
-unnest.default <- function(.data, cols, ..., keep_empty = FALSE, ptype = NULL,
-    names_sep = NULL, names_repair = "check_unique") {
+unnest.default <- function(.data, cols, ..., keep_empty=FALSE, ptype=NULL,
+    names_sep=NULL, names_repair="check_unique") {
     cols <- enquo(cols)
     tidyr::unnest(.data, !!cols, ...,
-        keep_empty = keep_empty, ptype = ptype,
-        names_sep = names_sep, names_repair = names_repair
+        keep_empty=keep_empty, ptype=ptype,
+        names_sep=names_sep, names_repair=names_repair
     )
 }
 
@@ -66,8 +66,8 @@ unnest.default <- function(.data, cols, ..., keep_empty = FALSE, ptype = NULL,
 #'
 #' @export
 #' @rdname tidyr-methods
-unnest.tidySCE_nested <- function(.data, cols, ..., keep_empty = FALSE, ptype = NULL,
-    names_sep = NULL, names_repair = "check_unique") {
+unnest.tidySCE_nested <- function(.data, cols, ..., keep_empty=FALSE, ptype=NULL,
+    names_sep=NULL, names_repair="check_unique") {
     # Need this otherwise crashes map
     .data_ <- .data
 
@@ -101,7 +101,7 @@ unnest.tidySCE_nested <- function(.data, cols, ..., keep_empty = FALSE, ptype = 
             # Else do normal stuff
             ~ (.) %>%
                 drop_class("tidySCE_nested") %>%
-                tidyr::unnest(!!cols, ..., keep_empty = keep_empty, ptype = ptype, names_sep = names_sep, names_repair = names_repair) %>%
+                tidyr::unnest(!!cols, ..., keep_empty=keep_empty, ptype=ptype, names_sep=names_sep, names_repair=names_repair) %>%
                 add_class("tidySCE_nested")
         )
 }
@@ -111,7 +111,7 @@ unnest.tidySCE_nested <- function(.data, cols, ..., keep_empty = FALSE, ptype = 
 #' @importFrom tidyr nest
 #'
 #' @param .data A tbl. (See tidyr)
-#' @param ... Name-variable pairs of the form new_col = c(col1, col2, col3) (See tidyr)
+#' @param ... Name-variable pairs of the form new_col=c(col1, col2, col3) (See tidyr)
 #'
 #' @return A tidySCE objector a tibble depending on input
 #'
@@ -120,7 +120,7 @@ unnest.tidySCE_nested <- function(.data, cols, ..., keep_empty = FALSE, ptype = 
 #' library(dplyr)
 #' pbmc_small %>%
 #'     tidy() %>%
-#'     nest(data = -groups) %>%
+#'     nest(data=-groups) %>%
 #'     unnest(data)
 #' @rdname tidyr-methods
 #'
@@ -187,7 +187,7 @@ nest.tidySCE <- function(.data, ...) {
 #'   There should be one group (defined by `()`) for each element of `into`.
 #' @param remove If `TRUE`, remove input column from output data frame.
 #' @param convert If `TRUE`, will run [type.convert()] with
-#'   `as.is = TRUE` on new columns. This is useful if the component
+#'   `as.is=TRUE` on new columns. This is useful if the component
 #'   columns are integer, numeric or logical.
 #'
 #'   NB: this will cause string `"NA"`s to be converted to `NA`s.
@@ -198,36 +198,36 @@ nest.tidySCE <- function(.data, ...) {
 #'
 #' pbmc_small %>%
 #'     tidy() %>%
-#'     extract(groups, into = "g", regex = "g([0-9])", convert = TRUE)
+#'     extract(groups, into="g", regex="g([0-9])", convert=TRUE)
 #' @return A tidySCE objector a tibble depending on input
 #'
 #' @importFrom tidyr extract
 #'
 #' @export
-extract <- function(data, col, into, regex = "([[:alnum:]]+)", remove = TRUE,
-    convert = FALSE, ...) {
+extract <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE,
+    convert=FALSE, ...) {
     UseMethod("extract")
 }
 
 #' @export
-extract.default <- function(data, col, into, regex = "([[:alnum:]]+)", remove = TRUE,
-    convert = FALSE, ...) {
+extract.default <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE,
+    convert=FALSE, ...) {
     col <- enquo(col)
     tidyr::extract(
-        col = !!col, into = into, regex = regex, remove = remove,
-        convert = convert, ...
+        col=!!col, into=into, regex=regex, remove=remove,
+        convert=convert, ...
     )
 }
 
 #' @export
-extract.tidySCE <- function(data, col, into, regex = "([[:alnum:]]+)", remove = TRUE,
-    convert = FALSE, ...) {
+extract.tidySCE <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE,
+    convert=FALSE, ...) {
     col <- enquo(col)
 
     data@colData <-
         data %>%
         as_tibble() %>%
-        tidyr::extract(col = !!col, into = into, regex = regex, remove = remove, convert = convert, ...) %>%
+        tidyr::extract(col=!!col, into=into, regex=regex, remove=remove, convert=convert, ...) %>%
         as_meta_data(data)
 
 
@@ -295,7 +295,7 @@ extract.tidySCE <- function(data, col, into, regex = "([[:alnum:]]+)", remove = 
 #'   values in `data` were created by its structure.
 #' @param names_transform,values_transform A list of column name-function pairs.
 #'   Use these arguments if you need to change the type of specific columns.
-#'   For example, `names_transform = list(week = as.integer)` would convert
+#'   For example, `names_transform=list(week=as.integer)` would convert
 #'   a character week variable to an integer.
 #' @param names_ptypes,values_ptypes A list of column name-prototype pairs.
 #'   A prototype (or ptype for short) is a zero-length vector (like `integer()`
@@ -317,20 +317,20 @@ extract.tidySCE <- function(data, col, into, regex = "([[:alnum:]]+)", remove = 
 #' library(dplyr)
 #' pbmc_small %>%
 #'     tidy() %>%
-#'     pivot_longer(c(orig.ident, groups), names_to = "name", values_to = "value")
+#'     pivot_longer(c(orig.ident, groups), names_to="name", values_to="value")
 pivot_longer <- function(data,
     cols,
-    names_to = "name",
-    names_prefix = NULL,
-    names_sep = NULL,
-    names_pattern = NULL,
-    names_ptypes = list(),
-    names_transform = list(),
-    names_repair = "check_unique",
-    values_to = "value",
-    values_drop_na = FALSE,
-    values_ptypes = list(),
-    values_transform = list(),
+    names_to="name",
+    names_prefix=NULL,
+    names_sep=NULL,
+    names_pattern=NULL,
+    names_ptypes=list(),
+    names_transform=list(),
+    names_repair="check_unique",
+    values_to="value",
+    values_drop_na=FALSE,
+    values_ptypes=list(),
+    values_transform=list(),
     ...) {
     ellipsis::check_dots_used()
     UseMethod("pivot_longer")
@@ -339,32 +339,32 @@ pivot_longer <- function(data,
 #' @export
 pivot_longer.default <- function(data,
     cols,
-    names_to = "name",
-    names_prefix = NULL,
-    names_sep = NULL,
-    names_pattern = NULL,
-    names_ptypes = list(),
-    names_transform = list(),
-    names_repair = "check_unique",
-    values_to = "value",
-    values_drop_na = FALSE,
-    values_ptypes = list(),
-    values_transform = list(),
+    names_to="name",
+    names_prefix=NULL,
+    names_sep=NULL,
+    names_pattern=NULL,
+    names_ptypes=list(),
+    names_transform=list(),
+    names_repair="check_unique",
+    values_to="value",
+    values_drop_na=FALSE,
+    values_ptypes=list(),
+    values_transform=list(),
     ...) {
     cols <- enquo(cols)
     tidyr::pivot_longer(data,
         cols,
-        names_to = names_to,
-        names_prefix = names_prefix,
-        names_sep = names_sep,
-        names_pattern = names_pattern,
-        names_ptypes = names_ptypes,
-        names_transform = names_transform,
-        names_repair = names_repair,
-        values_to = values_to,
-        values_drop_na = values_drop_na,
-        values_ptypes = values_ptypes,
-        values_transform = values_transform,
+        names_to=names_to,
+        names_prefix=names_prefix,
+        names_sep=names_sep,
+        names_pattern=names_pattern,
+        names_ptypes=names_ptypes,
+        names_transform=names_transform,
+        names_repair=names_repair,
+        values_to=values_to,
+        values_drop_na=values_drop_na,
+        values_ptypes=values_ptypes,
+        values_transform=values_transform,
         ...
     )
 }
@@ -372,17 +372,17 @@ pivot_longer.default <- function(data,
 #' @export
 pivot_longer.tidySCE <- function(data,
     cols,
-    names_to = "name",
-    names_prefix = NULL,
-    names_sep = NULL,
-    names_pattern = NULL,
-    names_ptypes = list(),
-    names_transform = list(),
-    names_repair = "check_unique",
-    values_to = "value",
-    values_drop_na = FALSE,
-    values_ptypes = list(),
-    values_transform = list(),
+    names_to="name",
+    names_prefix=NULL,
+    names_sep=NULL,
+    names_pattern=NULL,
+    names_ptypes=list(),
+    names_transform=list(),
+    names_repair="check_unique",
+    values_to="value",
+    values_drop_na=FALSE,
+    values_ptypes=list(),
+    values_transform=list(),
     ...) {
     cols <- enquo(cols) %>% quo_names()
 
@@ -391,17 +391,17 @@ pivot_longer.tidySCE <- function(data,
     data %>%
         as_tibble() %>%
         tidyr::pivot_longer(cols,
-            names_to = names_to,
-            names_prefix = names_prefix,
-            names_sep = names_sep,
-            names_pattern = names_pattern,
-            names_ptypes = names_ptypes,
-            names_transform = names_transform,
-            names_repair = names_repair,
-            values_to = values_to,
-            values_drop_na = values_drop_na,
-            values_ptypes = values_ptypes,
-            values_transform = values_transform,
+            names_to=names_to,
+            names_prefix=names_prefix,
+            names_sep=names_sep,
+            names_pattern=names_pattern,
+            names_ptypes=names_ptypes,
+            names_transform=names_transform,
+            names_repair=names_repair,
+            values_to=values_to,
+            values_drop_na=values_drop_na,
+            values_ptypes=values_ptypes,
+            values_transform=values_transform,
             ...
         )
 }
@@ -434,29 +434,29 @@ pivot_longer.tidySCE <- function(data,
 #' pbmc_small %>%
 #'     tidy() %>%
 #'     unite("new_col", c(orig.ident, groups))
-unite <- function(data, col, ..., sep = "_", remove = TRUE, na.rm = FALSE) {
+unite <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
     ellipsis::check_dots_unnamed()
     UseMethod("unite")
 }
 #' @export
-unite.default <- function(data, col, ..., sep = "_", remove = TRUE, na.rm = FALSE) {
+unite.default <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
     cols <- enquo(col)
-    tidyr::unite(data, !!cols, ..., sep = sep, remove = remove, na.rm = na.rm)
+    tidyr::unite(data, !!cols, ..., sep=sep, remove=remove, na.rm=na.rm)
 }
 
 #' @export
-unite.tidySCE <- function(data, col, ..., sep = "_", remove = TRUE, na.rm = FALSE) {
+unite.tidySCE <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
 
     # Check that we are not modifying a key column
     cols <- enquo(col)
     if (intersect(cols %>% quo_names(), get_special_columns(data) %>% c(get_needed_columns())) %>% length() %>% gt(0) & remove) {
-        stop(sprintf("tidySCE says: you are trying to rename a column that is view only %s (it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(data) %>% c(get_needed_columns()) %>% paste(collapse = ", ")))
+        stop(sprintf("tidySCE says: you are trying to rename a column that is view only %s (it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(data) %>% c(get_needed_columns()) %>% paste(collapse=", ")))
     }
 
 
     data@colData <- data %>%
         as_tibble() %>%
-        tidyr::unite(!!cols, ..., sep = sep, remove = remove, na.rm = na.rm) %>%
+        tidyr::unite(!!cols, ..., sep=sep, remove=remove, na.rm=na.rm) %>%
         as_meta_data(data)
 
     data
@@ -502,37 +502,37 @@ unite.tidySCE <- function(data, col, ..., sep = "_", remove = TRUE, na.rm = FALS
 #' un <- pbmc_small %>%
 #'     tidy() %>%
 #'     unite("new_col", c(orig.ident, groups))
-#' un %>% separate(col = new_col, into = c("orig.ident", "groups"))
-separate <- function(data, col, into, sep = "[^[:alnum:]]+", remove = TRUE,
-    convert = FALSE, extra = "warn", fill = "warn", ...) {
+#' un %>% separate(col=new_col, into=c("orig.ident", "groups"))
+separate <- function(data, col, into, sep="[^[:alnum:]]+", remove=TRUE,
+    convert=FALSE, extra="warn", fill="warn", ...) {
     ellipsis::check_dots_used()
     UseMethod("separate")
 }
 #' @export
-separate.default <- function(data, col, into, sep = "[^[:alnum:]]+", remove = TRUE,
-    convert = FALSE, extra = "warn", fill = "warn", ...) {
+separate.default <- function(data, col, into, sep="[^[:alnum:]]+", remove=TRUE,
+    convert=FALSE, extra="warn", fill="warn", ...) {
     cols <- enquo(col)
     tidyr::separate(data, !!cols,
-        into = into, sep = sep, remove = remove,
-        convert = convert, extra = extra, fill = fill, ...
+        into=into, sep=sep, remove=remove,
+        convert=convert, extra=extra, fill=fill, ...
     )
 }
 
 #' @export
-separate.tidySCE <- function(data, col, into, sep = "[^[:alnum:]]+", remove = TRUE,
-    convert = FALSE, extra = "warn", fill = "warn", ...) {
+separate.tidySCE <- function(data, col, into, sep="[^[:alnum:]]+", remove=TRUE,
+    convert=FALSE, extra="warn", fill="warn", ...) {
 
     # Check that we are not modifying a key column
     cols <- enquo(col)
     if (intersect(cols %>% quo_names(), get_special_columns(data) %>% c(get_needed_columns())) %>% length() %>% gt(0) & remove) {
-        stop(sprintf("tidySCE says: you are trying to rename a column that is view only %s (it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(data) %>% c(get_needed_columns()) %>% paste(collapse = ", ")))
+        stop(sprintf("tidySCE says: you are trying to rename a column that is view only %s (it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(data) %>% c(get_needed_columns()) %>% paste(collapse=", ")))
     }
 
 
     data@colData <-
         data %>%
         as_tibble() %>%
-        tidyr::separate(!!cols, into = into, sep = sep, remove = remove, convert = convert, extra = extra, fill = fill, ...) %>%
+        tidyr::separate(!!cols, into=into, sep=sep, remove=remove, convert=convert, extra=extra, fill=fill, ...) %>%
         as_meta_data(data)
 
     data

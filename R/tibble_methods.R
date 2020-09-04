@@ -23,7 +23,7 @@
 #' `rownames` argument.
 #'
 #' For existing code that relies on the retention of row names, call
-#' `pkgconfig::set_config("tibble::rownames" = NA)` in your script or in your
+#' `pkgconfig::set_config("tibble::rownames"=NA)` in your script or in your
 #' package's [.onLoad()]  function.
 #'
 #' @section Life cycle:
@@ -55,18 +55,18 @@
 #'     tidy() %>%
 #'     as_tibble()
 as_tibble <- function(x, ...,
-    .name_repair = c("check_unique", "unique", "universal", "minimal"),
-    rownames = pkgconfig::get_config("tibble::rownames", NULL)) {
+    .name_repair=c("check_unique", "unique", "universal", "minimal"),
+    rownames=pkgconfig::get_config("tibble::rownames", NULL)) {
     UseMethod("as_tibble")
 }
 
 #' @export
 as_tibble.default <- function(x, ...,
-    .name_repair = c("check_unique", "unique", "universal", "minimal"),
-    rownames = pkgconfig::get_config("tibble::rownames", NULL)) {
+    .name_repair=c("check_unique", "unique", "universal", "minimal"),
+    rownames=pkgconfig::get_config("tibble::rownames", NULL)) {
     tibble::as_tibble(x, ...,
-        .name_repair = .name_repair,
-        rownames = rownames
+        .name_repair=.name_repair,
+        rownames=rownames
     )
 }
 
@@ -78,11 +78,11 @@ as_tibble.default <- function(x, ...,
 #'
 #'
 as_tibble.tidySCE <- function(x, ...,
-    .name_repair = c("check_unique", "unique", "universal", "minimal"),
-    rownames = pkgconfig::get_config("tibble::rownames", NULL)) {
+    .name_repair=c("check_unique", "unique", "universal", "minimal"),
+    rownames=pkgconfig::get_config("tibble::rownames", NULL)) {
     x@colData %>%
         as.data.frame() %>%
-        tibble::as_tibble(rownames = "cell") %>%
+        tibble::as_tibble(rownames="cell") %>%
 
 
         # Attach reduced dimensions

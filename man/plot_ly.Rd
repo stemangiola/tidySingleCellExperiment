@@ -37,9 +37,10 @@ plot_ly(
 See [schema()] for a list of acceptable attributes for a given trace `type`
 (by going to `traces` -> `type` -> `attributes`). Note that attributes
 provided at this level may override other arguments
-(e.g. `plot_ly(x = 1:10, y = 1:10, color = I("red"), marker = list(color = "blue"))`).}
+(e.g. `plot_ly(x=1:10, y=1:10, color=I("red"), marker=list(color="blue"))`).}
 
-\item{type}{A character string specifying the trace type (e.g. `"scatter"`, `"bar"`, `"box"`, etc).
+\item{type}{A character string specifying the trace type 
+  (e.g. `"scatter"`, `"bar"`, `"box"`, etc).
 If specified, it *always* creates a trace, otherwise}
 
 \item{name}{Values mapped to the trace's name attribute. Since a trace can
@@ -51,10 +52,12 @@ creates one trace for every unique value.}
 [marker.color](https://plot.ly/r/reference#scatter-marker-color),
 [textfont.color](https://plot.ly/r/reference/#scatter-textfont-color), etc.).
 The mapping from data values to color codes may be controlled using
-`colors` and `alpha`, or avoided altogether via [I()] (e.g., `color = I("red")`).
+`colors` and `alpha`, or avoided altogether via [I()] 
+  (e.g., `color=I("red")`).
 Any color understood by [grDevices::col2rgb()] may be used in this way.}
 
-\item{colors}{Either a colorbrewer2.org palette name (e.g. "YlOrRd" or "Blues"),
+\item{colors}{Either a colorbrewer2.org palette name 
+  (e.g. "YlOrRd" or "Blues"),
 or a vector of colors to interpolate in hexadecimal "#RRGGBB" format,
 or a color interpolation function like `colorRamp()`.}
 
@@ -75,7 +78,7 @@ for filled polygons). If not specified, `stroke` inherits from `color`.}
 [textfont.size](https://plot.ly/r/reference#scatter-textfont-size),
 and [error_x.width](https://plot.ly/r/reference#scatter-error_x-width)).
 The mapping from data values to symbols may be controlled using
-`sizes`, or avoided altogether via [I()] (e.g., `size = I(30)`).}
+`sizes`, or avoided altogether via [I()] (e.g., `size=I(30)`).}
 
 \item{sizes}{A numeric vector of length 2 used to scale `size` to pixels.}
 
@@ -85,20 +88,20 @@ The mapping from data values to symbols may be controlled using
 [line.width](https://plot.ly/r/reference#scatter-line-width) for filled polygons,
 and [error_x.thickness](https://plot.ly/r/reference#scatter-error_x-thickness))
 The mapping from data values to symbols may be controlled using
-`spans`, or avoided altogether via [I()] (e.g., `span = I(30)`).}
+`spans`, or avoided altogether via [I()] (e.g., `span=I(30)`).}
 
 \item{spans}{A numeric vector of length 2 used to scale `span` to pixels.}
 
 \item{symbol}{(Discrete) values mapped to [marker.symbol](https://plot.ly/r/reference#scatter-marker-symbol).
 The mapping from data values to symbols may be controlled using
-`symbols`, or avoided altogether via [I()] (e.g., `symbol = I("pentagon")`).
+`symbols`, or avoided altogether via [I()] (e.g., `symbol=I("pentagon")`).
 Any [pch] value or [symbol name](https://plot.ly/r/reference#scatter-marker-symbol) may be used in this way.}
 
 \item{symbols}{A character vector of [pch] values or [symbol names](https://plot.ly/r/reference#scatter-marker-symbol).}
 
 \item{linetype}{(Discrete) values mapped to [line.dash](https://plot.ly/r/reference#scatter-line-dash).
 The mapping from data values to symbols may be controlled using
-`linetypes`, or avoided altogether via [I()] (e.g., `linetype = I("dash")`).
+`linetypes`, or avoided altogether via [I()] (e.g., `linetype=I("dash")`).
 Any `lty` (see [par]) value or [dash name](https://plot.ly/r/reference#scatter-line-dash) may be used in this way.}
 
 \item{linetypes}{A character vector of `lty` values or [dash names](https://plot.ly/r/reference#scatter-line-dash)}
@@ -130,47 +133,47 @@ some different defaults to make the interface feel more 'R-like'
 Unless `type` is specified, this function just initiates a plotly
 object with 'global' attributes that are passed onto downstream uses of
 [add_trace()] (or similar). A [formula] must always be used when
-referencing column name(s) in `data` (e.g. `plot_ly(mtcars, x = ~wt)`).
+referencing column name(s) in `data` (e.g. `plot_ly(mtcars, x=~wt)`).
 Formulas are optional when supplying values directly, but they do
 help inform default axis/scale titles
-(e.g., `plot_ly(x = mtcars$wt)` vs `plot_ly(x = ~mtcars$wt)`)
+(e.g., `plot_ly(x=mtcars$wt)` vs `plot_ly(x=~mtcars$wt)`)
 }
 \examples{
 \dontrun{
 # plot_ly() tries to create a sensible plot based on the information you
 # give it. If you don't provide a trace type, plot_ly() will infer one.
-plot_ly(economics, x = ~pop)
-plot_ly(economics, x = ~date, y = ~pop)
+plot_ly(economics, x=~pop)
+plot_ly(economics, x=~date, y=~pop)
 # plot_ly() doesn't require data frame(s), which allows one to take
 # advantage of trace type(s) designed specifically for numeric matrices
-plot_ly(z = ~volcano)
-plot_ly(z = ~volcano, type = "surface")
+plot_ly(z=~volcano)
+plot_ly(z=~volcano, type="surface")
 
 # plotly has a functional interface: every plotly function takes a plotly
 # object as it's first input argument and returns a modified plotly object
-add_lines(plot_ly(economics, x = ~date, y = ~ unemploy / pop))
+add_lines(plot_ly(economics, x=~date, y=~ unemploy / pop))
 
 # To make code more readable, plotly imports the pipe operator from magrittr
 economics \%>\%
-    plot_ly(x = ~date, y = ~ unemploy / pop) \%>\%
+    plot_ly(x=~date, y=~ unemploy / pop) \%>\%
     add_lines()
 
 # Attributes defined via plot_ly() set 'global' attributes that
 # are carried onto subsequent traces, but those may be over-written
-plot_ly(economics, x = ~date, color = I("black")) \%>\%
-    add_lines(y = ~uempmed) \%>\%
-    add_lines(y = ~psavert, color = I("red"))
+plot_ly(economics, x=~date, color=I("black")) \%>\%
+    add_lines(y=~uempmed) \%>\%
+    add_lines(y=~psavert, color=I("red"))
 
 # Attributes are documented in the figure reference -> https://plot.ly/r/reference
 # You might notice plot_ly() has named arguments that aren't in this figure
 # reference. These arguments make it easier to map abstract data values to
 # visual attributes.
-p <- plot_ly(iris, x = ~Sepal.Width, y = ~Sepal.Length)
-add_markers(p, color = ~Petal.Length, size = ~Petal.Length)
-add_markers(p, color = ~Species)
-add_markers(p, color = ~Species, colors = "Set1")
-add_markers(p, symbol = ~Species)
-add_paths(p, linetype = ~Species)
+p <- plot_ly(iris, x=~Sepal.Width, y=~Sepal.Length)
+add_markers(p, color=~Petal.Length, size=~Petal.Length)
+add_markers(p, color=~Species)
+add_markers(p, color=~Species, colors="Set1")
+add_markers(p, symbol=~Species)
+add_paths(p, linetype=~Species)
 }
 
 }

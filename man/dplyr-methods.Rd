@@ -35,7 +35,9 @@ grouped data frames only.}
   names of the list. If no names are found a numeric sequence is
   used instead.}
 
-\item{add.cell.ids}{from SingleCellExperiment 3.0 A character vector of length(x = c(x, y)). Appends the corresponding values to the start of each objects' cell names.}
+\item{add.cell.ids}{from SingleCellExperiment 3.0 A character vector of 
+length(x=c(x, y)). Appends the corresponding values to the start of each 
+objects' cell names.}
 }
 \value{
 A tibble
@@ -53,7 +55,7 @@ An object of the same type as `.data`.
 columns.
 
 Unlike other dplyr verbs, `arrange()` largely ignores grouping; you
-need to explicit mention grouping variables (or use  `by_group = TRUE`)
+need to explicit mention grouping variables (or use  `by_group=TRUE`)
 in order to group by them, and functions of variables are evaluated
 once per data frame, not once per group.
 }

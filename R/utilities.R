@@ -8,7 +8,7 @@
 to_tib <- function(.data) {
     .data@colData %>%
         as.data.frame() %>%
-        as_tibble(rownames = "cell")
+        as_tibble(rownames="cell")
 }
 
 # Greater than
@@ -36,7 +36,7 @@ eq <- function(a, b) {
     a == b
 }
 
-prepend <- function(x, values, before = 1) {
+prepend <- function(x, values, before=1) {
     n <- length(x)
     stopifnot(before > 0 && before <= n)
     if (before == 1) {
@@ -92,7 +92,7 @@ drop_class <- function(var, name) {
 #'
 #'
 #' @noRd
-get_abundance_sc_wide <- function(.data, transcripts = NULL, all = FALSE) {
+get_abundance_sc_wide <- function(.data, transcripts=NULL, all=FALSE) {
 
     # Solve CRAN warnings
     . <- NULL
@@ -107,12 +107,12 @@ get_abundance_sc_wide <- function(.data, transcripts = NULL, all = FALSE) {
             all == FALSE
     ) {
         stop("
-                Your object do not contain variable trancript labels,
-                transcript argument is empty and all argument is set to FALSE.
+                Your object does not contain variable transcript labels,
+                transcript argument is empty and all arguments are set to FALSE.
                 Either:
                 1. use detect_variable_features() to select variable feature
-                2. pass an array of transcripts names
-                3. set all = TRUE (this will output a very large object, do you computer have enough RAM?)
+                2. pass an array of transcript names
+                3. set all=TRUE (this will output a very large object, does your computer have enough RAM?)
                 ")
     }
 
@@ -134,13 +134,13 @@ get_abundance_sc_wide <- function(.data, transcripts = NULL, all = FALSE) {
         tail(1) %>%
         .[[1]] %>%
         when(
-            variable_genes %>% is.null() %>% `!`() ~ (.)[variable_genes, , drop = FALSE],
-            transcripts %>% is.null() %>% `!`() ~ (.)[transcripts, , drop = FALSE],
+            variable_genes %>% is.null() %>% `!`() ~ (.)[variable_genes, , drop=FALSE],
+            transcripts %>% is.null() %>% `!`() ~ (.)[transcripts, , drop=FALSE],
             ~ stop("It is not convenient to extract all genes, you should have either variable features or transcript list to extract")
         ) %>%
         as.matrix() %>%
         t() %>%
-        as_tibble(rownames = "cell")
+        as_tibble(rownames="cell")
 }
 
 #' get abundance long
@@ -162,7 +162,7 @@ get_abundance_sc_wide <- function(.data, transcripts = NULL, all = FALSE) {
 #'
 #'
 #' @noRd
-get_abundance_sc_long <- function(.data, transcripts = NULL, all = FALSE, exclude_zeros = FALSE) {
+get_abundance_sc_long <- function(.data, transcripts=NULL, all=FALSE, exclude_zeros=FALSE) {
 
     # Solve CRAN warnings
     . <- NULL
@@ -177,12 +177,12 @@ get_abundance_sc_long <- function(.data, transcripts = NULL, all = FALSE, exclud
             all == FALSE
     ) {
         stop("
-                Your object do not contain variable trancript labels,
-                transcript argument is empty and all argument is set to FALSE.
+                Your object does not contain variable transcript labels,
+                transcript argument is empty and all arguments are set to FALSE.
                 Either:
                 1. use detect_variable_features() to select variable feature
-                2. pass an array of transcripts names
-                3. set all = TRUE (this will output a very large object, do you computer have enough RAM?)
+                2. pass an array of transcript names
+                3. set all=TRUE (this will output a very large object, does your computer have enough RAM?)
                 ")
     }
 
@@ -211,8 +211,8 @@ get_abundance_sc_long <- function(.data, transcripts = NULL, all = FALSE, exclud
 
             ~ .x %>%
                 when(
-                    variable_genes %>% is.null() %>% `!`() ~ .x[variable_genes, , drop = FALSE],
-                    transcripts %>% is.null() %>% `!`() ~ .x[toupper(rownames(.x)) %in% toupper(transcripts), , drop = FALSE],
+                    variable_genes %>% is.null() %>% `!`() ~ .x[variable_genes, , drop=FALSE],
+                    transcripts %>% is.null() %>% `!`() ~ .x[toupper(rownames(.x)) %in% toupper(transcripts), , drop=FALSE],
                     all ~ .x,
                     ~ stop("It is not convenient to extract all genes, you should have either variable features or transcript list to extract")
                 ) %>%
@@ -225,17 +225,17 @@ get_abundance_sc_long <- function(.data, transcripts = NULL, all = FALSE, exclud
                 }, ~ (.)) %>%
                 as.matrix() %>%
                 data.frame() %>%
-                as_tibble(rownames = "transcript") %>%
+                as_tibble(rownames="transcript") %>%
                 tidyr::pivot_longer(
-                    cols = -transcript,
-                    names_to = "cell",
-                    values_to = "abundance" %>% paste(.y, sep = "_"),
-                    values_drop_na = TRUE
+                    cols=-transcript,
+                    names_to="cell",
+                    values_to="abundance" %>% paste(.y, sep="_"),
+                    values_drop_na=TRUE
                 )
             # %>%
             # mutate_if(is.character, as.factor) %>%
         ) %>%
-        Reduce(function(...) left_join(..., by = c("transcript", "cell")), .)
+        Reduce(function(...) left_join(..., by=c("transcript", "cell")), .)
 }
 
 #' @importFrom dplyr select_if
@@ -257,7 +257,7 @@ as_meta_data <- function(.data, SingleCellExperiment_object) {
     .data %>%
         select_if(!colnames(.) %in% col_to_exclude) %>%
         # select(-one_of(col_to_exclude)) %>%
-        data.frame(row.names = "cell") %>%
+        data.frame(row.names="cell") %>%
         DataFrame()
 }
 
@@ -280,7 +280,7 @@ get_special_datasets <- function(SingleCellExperiment_object) {
     rd <- SingleCellExperiment_object@int_colData@listData$reducedDims
 
     map2(rd %>% as.list(), names(rd), ~ {
-        mat <- .x[, seq_len(min(5, ncol(.x))), drop = FALSE]
+        mat <- .x[, seq_len(min(5, ncol(.x))), drop=FALSE]
 
         # Set names as SCE is much less constrained and there could be missing names
         if (length(colnames(mat)) == 0) colnames(mat) <- sprintf("%s%s", .y, seq_len(ncol(mat)))

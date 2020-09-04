@@ -29,5 +29,5 @@ Inner join datasets
 `\%>\%` <- magrittr::`\%>\%`
 
 tt <- pbmc_small \%>\% tidy()
-tt \%>\% inner_join(tt \%>\% distinct(groups) \%>\% mutate(new_column = 1:2) \%>\% slice(1))
+tt \%>\% inner_join(tt \%>\% distinct(groups) \%>\% mutate(new_column=1:2) \%>\% slice(1))
 }
