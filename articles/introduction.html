@@ -304,7 +304,8 @@
 <span class="kw">pbmc_small_pca</span> <span class="op">%&gt;%</span>
   <span class="kw">as_tibble</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span>(<span class="st">"PC"</span>), <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span>()) <span class="op">%&gt;%</span>
-      <span class="kw">GGally</span>::<span class="fu"><a href="https://ggobi.github.io/ggally/reference/ggpairs.html">ggpairs</a></span>(columns = <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="kw">ggplot2</span>::<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(colour=<span class="kw">groups</span>))</pre></div>
+      <span class="kw">GGally</span>::<span class="fu"><a href="https://ggobi.github.io/ggally/reference/ggpairs.html">ggpairs</a></span>(columns = <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="kw">ggplot2</span>::<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(colour=<span class="kw">groups</span>)) <span class="op">+</span>
+    <span class="kw">my_theme</span></pre></div>
 <p><img src="introduction_files/figure-html/pc_plot-1.png" width="700"></p>
 </div>
 <div id="identify-clusters" class="section level2">
@@ -384,10 +385,11 @@
 <div class="sourceCode" id="cb22"><pre class="downlit">
 <span class="kw">pbmc_small_UMAP</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="../reference/plot_ly.html">plot_ly</a></span>(
-        x = <span class="op">~</span><span class="kw">`UMAP_1`</span>,
-        y = <span class="op">~</span><span class="kw">`UMAP_2`</span>, 
-        z = <span class="op">~</span><span class="kw">`UMAP_3`</span>,
-        color = <span class="op">~</span> <span class="kw">label</span>
+        x = <span class="op">~</span><span class="kw">`UMAP1`</span>,
+        y = <span class="op">~</span><span class="kw">`UMAP2`</span>,
+        z = <span class="op">~</span><span class="kw">`UMAP3`</span>,
+        color = <span class="op">~</span> <span class="kw">label</span>,
+        colors = <span class="kw">friendly_cols</span>[<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>]
     ) </pre></div>
 <div class="figure">
 <img src="man/figures/plotly.png" alt=""><p class="caption">screenshot plotly</p>
@@ -453,7 +455,7 @@
 ##  9 3     Macrophages      1
 ## 10 3     Monocytes       23
 ## 11 4     Erythrocytes     9</code></pre>
-<p>We can easily reshape the data for building information-rish faceted plots</p>
+<p>We can easily reshape the data for building information-rich faceted plots</p>
 <div class="sourceCode" id="cb28"><pre class="downlit">
 <span class="kw">pbmc_small_cell_type</span> <span class="op">%&gt;%</span>
   
