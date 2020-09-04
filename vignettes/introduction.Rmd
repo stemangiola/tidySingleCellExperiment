@@ -57,6 +57,7 @@ library(tidySCE)
 
 # plot settings
 
+# use colourblind-friendly colours
 friendly_cols <- dittoSeq::dittoColors()
 
 my_theme <- 	
@@ -270,10 +271,11 @@ and we can plot them using 3D plot using plotly
 
 pbmc_small_UMAP %>%
 	plot_ly(
-		x = ~`UMAP_1`,
-		y = ~`UMAP_2`, 
-		z = ~`UMAP_3`,
-		color = ~ label
+		x = ~`UMAP1`,
+		y = ~`UMAP2`,
+		z = ~`UMAP3`,
+		color = ~ label,
+		colors = friendly_cols[1:4]
 	) 
 
 ```
@@ -313,7 +315,7 @@ pbmc_small_cell_type %>%
   count(label, first.labels)
 ```
 
-We can easily reshape the data for building information-rish faceted plots
+We can easily reshape the data for building information-rich faceted plots
 
 ```{r}
 pbmc_small_cell_type %>%
