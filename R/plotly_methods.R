@@ -92,7 +92,7 @@
 #' @return A plotly
 #' @export
 #' @examples
-#' 
+#' \dontrun{
 #' # plot_ly() tries to create a sensible plot based on the information you 
 #' # give it. If you don't provide a trace type, plot_ly() will infer one.
 #' plot_ly(economics, x = ~pop)
@@ -125,7 +125,7 @@
 #' add_markers(p, color = ~Species, colors = "Set1")
 #' add_markers(p, symbol = ~Species)
 #' add_paths(p, linetype = ~Species)
-#' 
+#' }
 #' 
 plot_ly <- function(data = data.frame(), ..., type = NULL, name= NULL,
                     color= NULL, colors = NULL, alpha = NULL, 
