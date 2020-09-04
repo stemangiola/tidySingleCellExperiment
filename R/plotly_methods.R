@@ -71,7 +71,7 @@
 #' @param spans A numeric vector of length 2 used to scale `span` to pixels.
 #' @param split (Discrete) values used to create multiple traces (one trace per value).
 #' @param frame (Discrete) values used to create animation frames.
-#' @param width	Width in pixels (optional, defaults to automatic sizing).
+#' @param width Width in pixels (optional, defaults to automatic sizing).
 #' @param height Height in pixels (optional, defaults to automatic sizing).
 #' @param source a character string of length 1. Match the value of this string
 #' with the source argument in [event_data()] to retrieve the

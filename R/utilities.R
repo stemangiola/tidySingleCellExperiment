@@ -107,13 +107,13 @@ get_abundance_sc_wide <- function(.data, transcripts = NULL, all = FALSE) {
             all == FALSE
     ) {
         stop("
-				 Your object do not contain variable trancript labels,
-				 transcript argument is empty and all argument is set to FALSE.
-				 Either:
-				 1. use detect_variable_features() to select variable feature
-				 2. pass an array of transcripts names
-				 3. set all = TRUE (this will output a very large object, do you computer have enough RAM?)
-				 ")
+                Your object do not contain variable trancript labels,
+                transcript argument is empty and all argument is set to FALSE.
+                Either:
+                1. use detect_variable_features() to select variable feature
+                2. pass an array of transcripts names
+                3. set all = TRUE (this will output a very large object, do you computer have enough RAM?)
+                ")
     }
 
     # Get variable features if existing
@@ -177,13 +177,13 @@ get_abundance_sc_long <- function(.data, transcripts = NULL, all = FALSE, exclud
             all == FALSE
     ) {
         stop("
-				 Your object do not contain variable trancript labels,
-				 transcript argument is empty and all argument is set to FALSE.
-				 Either:
-				 1. use detect_variable_features() to select variable feature
-				 2. pass an array of transcripts names
-				 3. set all = TRUE (this will output a very large object, do you computer have enough RAM?)
-				 ")
+                Your object do not contain variable trancript labels,
+                transcript argument is empty and all argument is set to FALSE.
+                Either:
+                1. use detect_variable_features() to select variable feature
+                2. pass an array of transcripts names
+                3. set all = TRUE (this will output a very large object, do you computer have enough RAM?)
+                ")
     }
 
 
