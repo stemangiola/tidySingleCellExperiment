@@ -169,7 +169,6 @@ nest.tidySCE <- function (.data, ...)
 #' each group into a new column. If the groups don't match, or the input
 #' is NA, the output will be NA.
 #'
-#' @inheritParams expand
 #' @param data A tidySCE object
 #' @param col Column name or position. This is passed to
 #'   [tidyselect::vars_pull()].
