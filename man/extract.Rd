@@ -51,8 +51,9 @@ is NA, the output will be NA.
 }
 \examples{
 
-pbmc_small \%>\% tidy \%>\% extract(groups, into = "g", regex = "g([0-9])", convert = TRUE)
-
+pbmc_small \%>\%
+  tidy() \%>\%
+  extract(groups, into = "g", regex = "g([0-9])", convert = TRUE)
 }
 \seealso{
 [separate()] to split up by a separator.

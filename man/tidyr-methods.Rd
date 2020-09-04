@@ -84,11 +84,14 @@ nest
 \examples{
 
 library(dplyr)
-pbmc_small \%>\% tidy \%>\% nest(data = -groups) \%>\% unnest(data)
-
-
+pbmc_small \%>\%
+  tidy() \%>\%
+  nest(data = -groups) \%>\%
+  unnest(data)
 
 library(dplyr)
-pbmc_small \%>\% tidy \%>\% nest(data = -groups) \%>\% unnest(data)
-
+pbmc_small \%>\%
+  tidy() \%>\%
+  nest(data = -groups) \%>\%
+  unnest(data)
 }

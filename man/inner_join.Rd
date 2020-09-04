@@ -26,8 +26,8 @@ A tidySCE object
 Inner join datasets
 }
 \examples{
-`\%>\%` = magrittr::`\%>\%`
+`\%>\%` <- magrittr::`\%>\%`
 
-tt = pbmc_small \%>\% tidy
+tt <- pbmc_small \%>\% tidy()
 tt \%>\% inner_join(tt \%>\% distinct(groups) \%>\% mutate(new_column = 1:2) \%>\% slice(1))
 }

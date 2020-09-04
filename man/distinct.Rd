@@ -21,7 +21,8 @@ distinct
 }
 \examples{
 
-`\%>\%` = magrittr::`\%>\%`
-pbmc_small \%>\% tidy \%>\% distinct(groups)
-
+`\%>\%` <- magrittr::`\%>\%`
+pbmc_small \%>\%
+  tidy() \%>\%
+  distinct(groups)
 }

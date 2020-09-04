@@ -26,9 +26,8 @@ A tidySCE object
 Full join datasets
 }
 \examples{
-`\%>\%` = magrittr::`\%>\%`
+`\%>\%` <- magrittr::`\%>\%`
 
-tt = pbmc_small \%>\% tidy
-tt \%>\% full_join(tibble::tibble(groups = "g1", other=1:4))
-
+tt <- pbmc_small \%>\% tidy()
+tt \%>\% full_join(tibble::tibble(groups = "g1", other = 1:4))
 }

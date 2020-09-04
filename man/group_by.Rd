@@ -45,8 +45,9 @@ Methods available in currently loaded packages:
 }
 
 \examples{
-`\%>\%` = magrittr::`\%>\%`
-pbmc_small \%>\% tidy \%>\% group_by(groups)
-
+`\%>\%` <- magrittr::`\%>\%`
+pbmc_small \%>\%
+  tidy() \%>\%
+  group_by(groups)
 }
 \concept{grouping functions}

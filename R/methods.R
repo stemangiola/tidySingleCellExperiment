@@ -24,7 +24,6 @@ setMethod(
 #' @examples
 #'
 #' tidySCE::pbmc_small %>% tidy()
-#' 
 #' @export
 tidy <- function(object) {
   UseMethod("tidy", object)
@@ -64,11 +63,10 @@ tidy.SingleCellExperiment <- function(object) {
 #' @return A `tbl` containing the information.for the specified transcripts
 #'
 #' @examples
-#' 
-#' tidySCE::pbmc_small %>% 
-#' tidy() %>% 
-#' join_transcripts(transcripts = c("HLA-DRA", "LYZ"))
 #'
+#' tidySCE::pbmc_small %>%
+#'   tidy() %>%
+#'   join_transcripts(transcripts = c("HLA-DRA", "LYZ"))
 #' @export
 #'
 join_transcripts <- function(.data,

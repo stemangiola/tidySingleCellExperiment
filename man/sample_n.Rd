@@ -52,9 +52,12 @@ design issues with `sample_n()`/`sample_frac`:
 }
 \examples{
 
-`\%>\%` = magrittr::`\%>\%`
-pbmc_small \%>\% tidy \%>\% sample_n(50)
-pbmc_small \%>\% tidy \%>\% sample_frac(0.1)
-
+`\%>\%` <- magrittr::`\%>\%`
+pbmc_small \%>\%
+  tidy() \%>\%
+  sample_n(50)
+pbmc_small \%>\%
+  tidy() \%>\%
+  sample_frac(0.1)
 }
 \keyword{internal}

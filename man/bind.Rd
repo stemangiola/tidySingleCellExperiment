@@ -41,11 +41,10 @@ The output of `bind_rows()` will contain a column if that column
 appears in any of the inputs.
 }
 \examples{
-`\%>\%` = magrittr::`\%>\%`
-tt = pbmc_small \%>\% tidy
-bind_rows(    tt, tt  )
+`\%>\%` <- magrittr::`\%>\%`
+tt <- pbmc_small \%>\% tidy()
+bind_rows(tt, tt)
 
-tt_bind = tt \%>\% select(nCount_RNA ,nFeature_RNA)
+tt_bind <- tt \%>\% select(nCount_RNA, nFeature_RNA)
 tt \%>\% bind_cols(tt_bind)
-
 }

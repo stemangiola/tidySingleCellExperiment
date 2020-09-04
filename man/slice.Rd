@@ -74,8 +74,10 @@ Methods available in currently loaded packages:
 
 \examples{
 
-`\%>\%` = magrittr::`\%>\%`
-pbmc_small \%>\% tidy \%>\% slice(1)
+`\%>\%` <- magrittr::`\%>\%`
+pbmc_small \%>\%
+  tidy() \%>\%
+  slice(1)
 }
 \seealso{
 Other single table verbs: 
