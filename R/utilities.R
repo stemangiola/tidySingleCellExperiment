@@ -3,6 +3,8 @@
 #' @keywords internal
 #'
 #' @param .data A tidySCE
+#' 
+#' @noRd
 to_tib = function(.data){ .data@colData %>% as.data.frame %>%  as_tibble(rownames = "cell") }
 
 # Greater than
@@ -223,7 +225,8 @@ get_abundance_sc_long = function(.data, transcripts = NULL, all = FALSE, exclude
 #'
 #' @param .data A tibble
 #' @param SingleCellExperiment_object A tidySCE
-#'
+#' 
+#' @noRd
 as_meta_data = function(.data, SingleCellExperiment_object){
 
   # Solve CRAN warnings
@@ -243,6 +246,8 @@ as_meta_data = function(.data, SingleCellExperiment_object){
 #' @keywords internal
 #'
 #' @param SingleCellExperiment_object A tidySCE
+#' 
+#' @noRd
 #'
 get_special_columns = function(SingleCellExperiment_object){
   get_special_datasets(SingleCellExperiment_object) %>%

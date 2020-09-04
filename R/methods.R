@@ -63,9 +63,6 @@ tidy.SingleCellExperiment <- function(object) {
 #'
 #' @return A `tbl` containing the information.for the specified transcripts
 #'
-#'
-#'
-#'
 #' @examples
 #' 
 #' tidySCE::pbmc_small %>% 
