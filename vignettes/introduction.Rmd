@@ -56,7 +56,7 @@ BiocManager::install("tidySCE")
 
 Load libraries used in this vignette.
 
-```{r}
+```{r message=FALSE}
 # Bioconductor single-cell packages
 library(scater)
 library(scran)
@@ -273,7 +273,7 @@ pbmc_small_UMAP %>%
     )
 ```
 
-![screenshot plotly](man/figures/plotly.png)
+![screenshot plotly](../man/figures/plotly.png)
 
 ## Cell type prediction
 
@@ -362,7 +362,7 @@ pbmc_small_nested
 
 Now we can independently (i) find variable features, (ii) reduce dimensions, and (iii) cluster using both tidyverse and SingleCellExperiment seamlessly.
 
-```{r}
+```{r warning=FALSE}
 pbmc_small_nested_reanalysed <-
     pbmc_small_nested %>%
     mutate(data=map(
