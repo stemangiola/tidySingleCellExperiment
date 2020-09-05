@@ -13,7 +13,7 @@
 #' columns.
 #'
 #' Unlike other dplyr verbs, `arrange()` largely ignores grouping; you
-#' need to explicit mention grouping variables (or use  `by_group = TRUE`)
+#' need to explicit mention grouping variables (or use  `by_group=TRUE`)
 #' in order to group by them, and functions of variables are evaluated
 #' once per data frame, not once per group.
 #'
@@ -46,14 +46,17 @@
 #'   more details.
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Variables, or functions or
 #'   variables. Use [desc()] to sort a variable in descending order.
-#' @param .by_group If TRUE, will sort first by grouping variable. Applies to grouped data frames only.
+#' @param .by_group If TRUE, will sort first by grouping variable. Applies to 
+#'   grouped data frames only.
 #'
 #' @family single table verbs
 #' @examples
-#' `%>%` = magrittr::`%>%`
-#' pbmc_small %>% tidy %>% arrange(nFeature_RNA)
-arrange <- function(.data, ..., .by_group = FALSE) {
-  UseMethod("arrange")
+#' `%>%` <- magrittr::`%>%`
+#' pbmc_small %>%
+#'     tidy() %>%
+#'     arrange(nFeature_RNA)
+arrange <- function(.data, ..., .by_group=FALSE) {
+    UseMethod("arrange")
 }
 
 #' @param .by_group If `TRUE`, will sort first by grouping variable. Applies to
@@ -63,25 +66,21 @@ arrange <- function(.data, ..., .by_group = FALSE) {
 #'
 
 #' @inheritParams arrange
-arrange.default <- function(.data, ..., .by_group = FALSE) {
-
-  dplyr::arrange(.data, ..., .by_group = .by_group)
-
+arrange.default <- function(.data, ..., .by_group=FALSE) {
+    dplyr::arrange(.data, ..., .by_group=.by_group)
 }
 
 #' @importFrom tibble as_tibble
 #'
 #' @export
 #' @inheritParams arrange
-arrange.tidySCE <- function(.data, ..., .by_group = FALSE) {
+arrange.tidySCE <- function(.data, ..., .by_group=FALSE) {
+    new_metadata <-
+        .data %>%
+        as_tibble() %>%
+        dplyr::arrange(..., .by_group=.by_group)
 
-  new_metadata =
-    .data %>%
-    as_tibble() %>%
-    dplyr::arrange(  ..., .by_group = .by_group  )
-
-  .data[,new_metadata$cell]
-
+    .data[, new_metadata$cell]
 }
 
 
@@ -114,18 +113,19 @@ arrange.tidySCE <- function(.data, ..., .by_group = FALSE) {
 #'   list of data frames is supplied, the labels are taken from the
 #'   names of the list. If no names are found a numeric sequence is
 #'   used instead.
-#' @param add.cell.ids from SingleCellExperiment 3.0 A character vector of length(x = c(x, y)). Appends the corresponding values to the start of each objects' cell names.
+#' @param add.cell.ids from SingleCellExperiment 3.0 A character vector of 
+#'   length(x=c(x, y)). Appends the corresponding values to the start of each 
+#'   objects' cell names.
 #'
 #' @return `bind_rows()` and `bind_cols()` return the same type as
 #'   the first input, either a data frame, `tbl_df`, or `grouped_df`.
 #' @examples
-#' `%>%` = magrittr::`%>%`
-#' tt = pbmc_small %>% tidy
-#' bind_rows(    tt, tt  )
+#' `%>%` <- magrittr::`%>%`
+#' tt <- pbmc_small %>% tidy()
+#' bind_rows(tt, tt)
 #'
-#' tt_bind = tt %>% select(nCount_RNA ,nFeature_RNA)
+#' tt_bind <- tt %>% select(nCount_RNA, nFeature_RNA)
 #' tt %>% bind_cols(tt_bind)
-#'
 #' @name bind
 NULL
 
@@ -136,14 +136,13 @@ NULL
 #'
 #' @export
 #'
-bind_rows <- function(..., .id = NULL,  add.cell.ids = NULL) {
-  UseMethod("bind_rows")
+bind_rows <- function(..., .id=NULL, add.cell.ids=NULL) {
+    UseMethod("bind_rows")
 }
 
 #' @export
-bind_rows.default <-  function(..., .id = NULL,  add.cell.ids = NULL)
-{
-  dplyr::bind_rows(..., .id = .id)
+bind_rows.default <- function(..., .id=NULL, add.cell.ids=NULL) {
+    dplyr::bind_rows(..., .id=.id)
 }
 
 #' @importFrom rlang dots_values
@@ -152,19 +151,15 @@ bind_rows.default <-  function(..., .id = NULL,  add.cell.ids = NULL)
 #'
 #' @export
 #'
-bind_rows.tidySCE <- function(..., .id = NULL,  add.cell.ids = NULL)
-{
+bind_rows.tidySCE <- function(..., .id=NULL, add.cell.ids=NULL) {
+    tts <- flatten_if(dots_values(...), is_spliced)
 
+    new_obj <- cbind(tts[[1]], tts[[2]]) %>% tidy()
 
+    # If duplicated cell names
+    colnames(new_obj) <- make.unique(colnames(new_obj), sep="_")
 
-  tts = flatten_if(dots_values(...), is_spliced)
-
-  new_obj = cbind( tts[[1]] ,  tts[[2]] ) %>% tidy
-
-  # If duplicated cell names
-  colnames(new_obj) = make.unique(colnames(new_obj), sep="_")
-
-  new_obj
+    new_obj
 }
 
 
@@ -173,14 +168,13 @@ bind_rows.tidySCE <- function(..., .id = NULL,  add.cell.ids = NULL)
 #' @inheritParams bind
 #'
 #' @rdname dplyr-methods
-bind_cols <- function(..., .id = NULL) {
-  UseMethod("bind_cols")
+bind_cols <- function(..., .id=NULL) {
+    UseMethod("bind_cols")
 }
 
 #' @export
-bind_cols.default <-  function(..., .id = NULL)
-{
-  dplyr::bind_cols(..., .id = .id)
+bind_cols.default <- function(..., .id=NULL) {
+    dplyr::bind_cols(..., .id=.id)
 }
 
 #' @importFrom rlang dots_values
@@ -189,15 +183,13 @@ bind_cols.default <-  function(..., .id = NULL)
 #'
 #' @export
 #'
-bind_cols.tidySCE <- function(..., .id = NULL)
-{
+bind_cols.tidySCE <- function(..., .id=NULL) {
+    tts <- tts <- flatten_if(dots_values(...), is_spliced)
 
-  tts = 	tts = flatten_if(dots_values(...), is_spliced)
+    tts[[1]]@colData <- dplyr::bind_cols(tts[[1]]@colData %>% as.data.frame(), 
+                                         tts[[2]], .id=.id) %>% DataFrame()
 
-  tts[[1]]@colData = dplyr::bind_cols( tts[[1]]@colData %>% as.data.frame, tts[[2]], .id = .id) %>% DataFrame()
-
-  tts[[1]]
-
+    tts[[1]]
 }
 
 
@@ -206,35 +198,35 @@ bind_cols.tidySCE <- function(..., .id = NULL)
 #'
 #' @param .data A tbl. (See dplyr)
 #' @param ... Data frames to combine (See dplyr)
-#' @param .keep_all If TRUE, keep all variables in .data. If a combination of ... is not distinct, this keeps the first row of values. (See dplyr)
+#' @param .keep_all If TRUE, keep all variables in .data. If a combination 
+#'   of ... is not distinct, this keeps the first row of values. (See dplyr)
 #'
 #' @return A tidySCE object
 #'
 #' @examples
 #'
-#' `%>%` = magrittr::`%>%`
-#' pbmc_small %>% tidy %>% distinct(groups)
-#'
+#' `%>%` <- magrittr::`%>%`
+#' pbmc_small %>%
+#'     tidy() %>%
+#'     distinct(groups)
 #' @export
-distinct <- function (.data, ..., .keep_all = FALSE)  {
-  UseMethod("distinct")
+distinct <- function(.data, ..., .keep_all=FALSE) {
+    UseMethod("distinct")
 }
 
 #' @export
-distinct.default <-  function (.data, ..., .keep_all = FALSE)
-{
-  dplyr::distinct(.data, ..., .keep_all = FALSE)
+distinct.default <- function(.data, ..., .keep_all=FALSE) {
+    dplyr::distinct(.data, ..., .keep_all=FALSE)
 }
 
 #' @export
-distinct.tidySCE <- function (.data, ..., .keep_all = FALSE)
-{
-  message("tidySCE says: A data frame is returned for independent data analysis.")
+distinct.tidySCE <- function(.data, ..., .keep_all=FALSE) {
+    message("tidySCE says: A data frame is returned for 
+            independent data analysis.")
 
-  .data %>%
-    as_tibble() %>%
-    dplyr::distinct(..., .keep_all = .keep_all)
-
+    .data %>%
+        as_tibble() %>%
+        dplyr::distinct(..., .keep_all=.keep_all)
 }
 
 
@@ -292,31 +284,31 @@ distinct.tidySCE <- function (.data, ..., .keep_all = FALSE)
 #' @export
 #' @examples
 #'
-#' `%>%` = magrittr::`%>%`
-#' pbmc_small %>% tidy %>% filter(groups == "g1")
+#' `%>%` <- magrittr::`%>%`
+#' pbmc_small %>%
+#'     tidy() %>%
+#'     filter(groups == "g1")
 #'
 #' # Learn more in ?dplyr_tidy_eval
-
 #' @export
-filter <- function (.data, ..., .preserve = FALSE)  {
-  UseMethod("filter")
+filter <- function(.data, ..., .preserve=FALSE) {
+    UseMethod("filter")
 }
 
 #' @export
-filter.default <-  function (.data, ..., .preserve = FALSE)
-{
-  dplyr::filter(.data, ..., .preserve = .preserve)
+filter.default <- function(.data, ..., .preserve=FALSE) {
+    dplyr::filter(.data, ..., .preserve=.preserve)
 }
 
 #' @export
-filter.tidySCE <- function (.data, ..., .preserve = FALSE)
-{
-  new_meta = .data %>% as_tibble() %>% dplyr::filter( ..., .preserve = .preserve) # %>% as_meta_data(.data)
-  new_obj = .data[,new_meta$cell]
-  # new_obj@colData = new_meta
+filter.tidySCE <- function(.data, ..., .preserve=FALSE) {
+    new_meta <- .data %>%
+        as_tibble() %>%
+        dplyr::filter(..., .preserve=.preserve) # %>% as_meta_data(.data)
+    new_obj <- .data[, new_meta$cell]
+    # new_obj@colData=new_meta
 
-  new_obj
-
+    new_obj
 }
 
 
@@ -335,16 +327,16 @@ filter.tidySCE <- function (.data, ..., .preserve = FALSE)
 #'   In `ungroup()`, variables to remove from the grouping.
 #' @param .add When `FALSE`, the default, `group_by()` will
 #'   override existing groups. To add to the existing groups, use
-#'   `.add = TRUE`.
+#'   `.add=TRUE`.
 #'
 #'   This argument was previously called `add`, but that prevented
 #'   creating a new grouping variable called `add`, and conflicts with
 #'   our naming conventions.
-#' @param .drop When `.drop = TRUE`, empty groups are dropped. See [group_by_drop_default()] for
-#'   what the default value is for this argument.
-#' @return A [grouped data frame][grouped_df()], unless the combination of `...` and `add`
-#'   yields a non empty set of grouping columns, a regular (ungrouped) data frame
-#'   otherwise.
+#' @param .drop When `.drop=TRUE`, empty groups are dropped. See 
+#'   [group_by_drop_default()] for what the default value is for this argument.
+#' @return A [grouped data frame][grouped_df()], unless the combination of 
+#'   `...` and `add` yields a non empty set of grouping columns, a 
+#'   regular (ungrouped) data frame otherwise.
 #' @section Methods:
 #' These function are **generic**s, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
@@ -354,31 +346,27 @@ filter.tidySCE <- function (.data, ..., .preserve = FALSE)
 #'
 #' @export
 #' @examples
-#' `%>%` = magrittr::`%>%`
-#' pbmc_small %>% tidy %>% group_by(groups)
-#'
-
-
+#' `%>%` <- magrittr::`%>%`
+#' pbmc_small %>%
+#'     tidy() %>%
+#'     group_by(groups)
 #' @export
-group_by <- function (.data, ..., .add = FALSE, .drop = group_by_drop_default(.data))  {
-  UseMethod("group_by")
+group_by <- function(.data, ..., .add=FALSE, .drop=group_by_drop_default(.data)) {
+    UseMethod("group_by")
 }
 
 #' @export
-group_by.default <-  function (.data, ..., .add = FALSE, .drop = group_by_drop_default(.data))
-{
-  dplyr::group_by(.data, ...,  .drop = .drop)
+group_by.default <- function(.data, ..., .add=FALSE, .drop=group_by_drop_default(.data)) {
+    dplyr::group_by(.data, ..., .drop=.drop)
 }
 
 #' @export
-group_by.tidySCE <- function (.data, ..., .add = FALSE, .drop = group_by_drop_default(.data))
-{
-  message("tidySCE says: A data frame is returned for independent data analysis.")
+group_by.tidySCE <- function(.data, ..., .add=FALSE, .drop=group_by_drop_default(.data)) {
+    message("tidySCE says: A data frame is returned for independent data analysis.")
 
-  .data %>%
-    as_tibble() %>%
-    dplyr::group_by( ..., .add = .add, .drop = .drop)
-
+    .data %>%
+        as_tibble() %>%
+        dplyr::group_by(..., .add=.add, .drop=.drop)
 }
 
 
@@ -445,31 +433,28 @@ group_by.tidySCE <- function (.data, ..., .add = FALSE, .drop = group_by_drop_de
 #'
 #' The following methods are currently available in loaded packages:
 #' @examples
-#' `%>%` = magrittr::`%>%`
-#' pbmc_small %>% tidy %>% summarise(mean(nCount_RNA))
-#'
-
+#' `%>%` <- magrittr::`%>%`
+#' pbmc_small %>%
+#'     tidy() %>%
+#'     summarise(mean(nCount_RNA))
 #' @export
-summarise <- function (.data, ...)  {
-  UseMethod("summarise")
+summarise <- function(.data, ...) {
+    UseMethod("summarise")
 }
 
 #' @export
-summarise.default <-  function (.data, ...)
-{
-  dplyr::summarise(.data, ...)
+summarise.default <- function(.data, ...) {
+    dplyr::summarise(.data, ...)
 }
 
 #' @export
-summarise.tidySCE <- function (.data, ...)
-{
+summarise.tidySCE <- function(.data, ...) {
+    message("tidySCE says: A data frame is returned for 
+            independent data analysis.")
 
-  message("tidySCE says: A data frame is returned for independent data analysis.")
-
-  .data %>%
-    as_tibble() %>%
-    dplyr::summarise( ...)
-
+    .data %>%
+        as_tibble() %>%
+        dplyr::summarise(...)
 }
 
 
@@ -550,19 +535,18 @@ summarise.tidySCE <- function (.data, ...)
 #' Methods available in currently loaded packages:
 #'
 #' @examples
-#' `%>%` = magrittr::`%>%`
-#' pbmc_small %>% tidy %>% mutate(nFeature_RNA = 1)
-#'
-
+#' `%>%` <- magrittr::`%>%`
+#' pbmc_small %>%
+#'     tidy() %>%
+#'     mutate(nFeature_RNA=1)
 #' @export
 mutate <- function(.data, ...) {
-  UseMethod("mutate")
+    UseMethod("mutate")
 }
 
 #' @export
-mutate.default <-  function(.data, ...)
-{
-  dplyr::mutate(.data, ...)
+mutate.default <- function(.data, ...) {
+    dplyr::mutate(.data, ...)
 }
 
 
@@ -570,28 +554,28 @@ mutate.default <-  function(.data, ...)
 #' @importFrom rlang enquos
 #'
 #' @export
-mutate.tidySCE <- function(.data, ...)
-{
+mutate.tidySCE <- function(.data, ...) {
 
-  # Check that we are not modifying a key column
-  cols = enquos(...) %>% names
-  if(intersect(cols, get_special_columns(.data) %>% c(get_needed_columns())) %>% length %>% gt(0))
-    stop(sprintf("tidySCE says: you are trying to mutate a column that is view only %s (it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data)  %>% c(get_needed_columns()) %>% paste(collapse=", ")))
+    # Check that we are not modifying a key column
+    cols <- enquos(...) %>% names()
+    if (intersect(cols, get_special_columns(.data) %>% c(get_needed_columns())) %>% length() %>% gt(0)) {
+        stop(sprintf("tidySCE says: you are trying to mutate a column that is view only %s (it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% c(get_needed_columns()) %>% paste(collapse=", ")))
+    }
 
-  .data@colData =
-    .data %>%
-    as_tibble %>%
-    dplyr::mutate( ...)  %>%
-    as_meta_data(.data)
+    .data@colData <-
+        .data %>%
+        as_tibble() %>%
+        dplyr::mutate(...) %>%
+        as_meta_data(.data)
 
-  .data
+    .data
 }
 
 
 
 #' Rename columns
 #'
-#' Rename individual variables using `new_name = old_name` syntax.
+#' Rename individual variables using `new_name=old_name` syntax.
 #'
 #' @section Scoped selection and renaming:
 #'
@@ -599,7 +583,7 @@ mutate.tidySCE <- function(.data, ...)
 #' to renaming a set of variables with a function.
 #'
 #' @inheritParams arrange
-#' @param ... <[`tidy-select`][dplyr_tidy_select]> Use `new_name = old_name`
+#' @param ... <[`tidy-select`][dplyr_tidy_select]> Use `new_name=old_name`
 #'   to rename selected variables.
 #' @return
 #' An object of the same type as `.data`.
@@ -616,34 +600,32 @@ mutate.tidySCE <- function(.data, ...)
 #' @family single table verbs
 #' @export
 #' @examples
-#' `%>%` = magrittr::`%>%`
-#' pbmc_small %>% tidy %>% rename(s_score = nFeature_RNA)
-#'
+#' `%>%` <- magrittr::`%>%`
+#' pbmc_small %>%
+#'     tidy() %>%
+#'     rename(s_score=nFeature_RNA)
 #' @export
 rename <- function(.data, ...) {
-  UseMethod("rename")
+    UseMethod("rename")
 }
 
 #' @export
-rename.default <-  function(.data, ...)
-{
-  dplyr::rename(.data, ...)
+rename.default <- function(.data, ...) {
+    dplyr::rename(.data, ...)
 }
 
 #' @export
-rename.tidySCE <- function(.data, ...)
-{
+rename.tidySCE <- function(.data, ...) {
 
-  # Check that we are not modifying a key column
-  cols = tidyselect::eval_select(expr(c(...)), .data@colData %>% as.data.frame)
-  if(intersect(cols %>% names, get_special_columns(.data) %>% c(get_needed_columns())) %>% length %>% gt(0))
-    stop(sprintf("tidySCE says: you are trying to rename a column that is view only %s (it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% c(get_needed_columns()) %>% paste(collapse=", ")))
+    # Check that we are not modifying a key column
+    cols <- tidyselect::eval_select(expr(c(...)), .data@colData %>% as.data.frame())
+    if (intersect(cols %>% names(), get_special_columns(.data) %>% c(get_needed_columns())) %>% length() %>% gt(0)) {
+        stop(sprintf("tidySCE says: you are trying to rename a column that is view only %s (it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% c(get_needed_columns()) %>% paste(collapse=", ")))
+    }
 
-  .data@colData = dplyr::rename( .data@colData %>% as.data.frame,  ...) %>%  DataFrame()
+    .data@colData <- dplyr::rename(.data@colData %>% as.data.frame(), ...) %>% DataFrame()
 
-  .data
-
-
+    .data
 }
 
 
@@ -671,29 +653,24 @@ rename.tidySCE <- function(.data, ...)
 #'
 #' @export
 #' @examples
-#' `%>%` = magrittr::`%>%`
-#'
-
+#' `%>%` <- magrittr::`%>%`
 #' @export
 rowwise <- function(.data) {
-  UseMethod("rowwise")
+    UseMethod("rowwise")
 }
 
 #' @export
-rowwise.default <-  function(.data)
-{
-  dplyr::rowwise(.data)
+rowwise.default <- function(.data) {
+    dplyr::rowwise(.data)
 }
 
 #' @export
-rowwise.tidySCE <- function(.data)
-{
-  message("tidySCE says: A data frame is returned for independent data analysis.")
+rowwise.tidySCE <- function(.data) {
+    message("tidySCE says: A data frame is returned for independent data analysis.")
 
-  .data %>%
-    as_tibble() %>%
-    dplyr::rowwise()
-
+    .data %>%
+        as_tibble() %>%
+        dplyr::rowwise()
 }
 
 
@@ -704,8 +681,11 @@ rowwise.tidySCE <- function(.data)
 #' @param x tbls to join. (See dplyr)
 #' @param y tbls to join. (See dplyr)
 #' @param by A character vector of variables to join by. (See dplyr)
-#' @param copy If x and y are not from the same data source, and copy is TRUE, then y will be copied into the same src as x. (See dplyr)
-#' @param suffix If there are non-joined duplicate variables in x and y, these suffixes will be added to the output to disambiguate them. Should be a character vector of length 2. (See dplyr)
+#' @param copy If x and y are not from the same data source, and copy is TRUE, 
+#'   then y will be copied into the same src as x. (See dplyr)
+#' @param suffix If there are non-joined duplicate variables in x and y, these 
+#'   suffixes will be added to the output to disambiguate them. Should be a 
+#'   character vector of length 2. (See dplyr)
 #' @param ... Data frames to combine (See dplyr)
 #'
 #' @return A tidySCE object
@@ -713,46 +693,43 @@ rowwise.tidySCE <- function(.data)
 #' @export
 #'
 #' @examples
-#' `%>%` = magrittr::`%>%`
+#' `%>%` <- magrittr::`%>%`
 #'
-#' tt = pbmc_small %>% tidy
-#' tt %>% left_join(tt %>% distinct(groups) %>% mutate(new_column = 1:2))
-#'
-left_join <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),		 ...)  {
-  UseMethod("left_join")
+#' tt <- pbmc_small %>% tidy()
+#' tt %>% left_join(tt %>% distinct(groups) %>% mutate(new_column=1:2))
+left_join <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), ...) {
+    UseMethod("left_join")
 }
 
 #' @export
-left_join.default <-  function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),
-                                ...)
-{
-  dplyr::left_join(x, y, by = by, copy = copy, suffix = suffix, ...)
+left_join.default <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
+    ...) {
+    dplyr::left_join(x, y, by=by, copy=copy, suffix=suffix, ...)
 }
 
 #' @export
-left_join.tidySCE <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),
-                                ...)
-{
+left_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
+    ...) {
+    x %>%
+        as_tibble() %>%
+        dplyr::left_join(y, by=by, copy=copy, suffix=suffix, ...) %>%
+        when(
 
-  x %>%
-    as_tibble() %>%
-    dplyr::left_join( y, by = by, copy = copy, suffix = suffix, ...) %>%
+            # If duplicated cells returns tibble
+            dplyr::count(., cell) %>%
+                filter(n > 1) %>%
+                nrow() %>%
+                gt(0) ~ {
+                message("tidySCE says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
+                (.)
+            },
 
-    when(
-
-      # If duplicated cells returns tibble
-      dplyr::count(., cell) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
-        message("tidySCE says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
-        (.)
-      },
-
-      # Otherwise return updated tidySCE
-      ~ {
-        x@colData = (.) %>% as_meta_data(x)
-        x
-      }
-    )
-
+            # Otherwise return updated tidySCE
+            ~ {
+                x@colData <- (.) %>% as_meta_data(x)
+                x
+            }
+        )
 }
 
 #' Inner join datasets
@@ -769,44 +746,43 @@ left_join.tidySCE <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", "
 #' @return A tidySCE object
 #'
 #' @examples
-#' `%>%` = magrittr::`%>%`
+#' `%>%` <- magrittr::`%>%`
 #'
-#' tt = pbmc_small %>% tidy
-#' tt %>% inner_join(tt %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1))
+#' tt <- pbmc_small %>% tidy()
+#' tt %>% inner_join(tt %>% distinct(groups) %>% mutate(new_column=1:2) %>% slice(1))
 #' @export
-inner_join <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),		 ...)  {
-  UseMethod("inner_join")
+inner_join <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), ...) {
+    UseMethod("inner_join")
 }
 
 #' @export
-inner_join.default <-  function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),				 ...)
-{
-  dplyr::inner_join(x, y, by = by, copy = copy, suffix = suffix, ...)
+inner_join.default <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), ...) {
+    dplyr::inner_join(x, y, by=by, copy=copy, suffix=suffix, ...)
 }
 
 #' @export
-inner_join.tidySCE <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),		 ...)
-{
-  x %>%
-    as_tibble() %>%
-    dplyr::inner_join( y, by = by, copy = copy, suffix = suffix, ...)  %>%
+inner_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), ...) {
+    x %>%
+        as_tibble() %>%
+        dplyr::inner_join(y, by=by, copy=copy, suffix=suffix, ...) %>%
+        when(
 
-    when(
+            # If duplicated cells returns tibble
+            count(., cell) %>%
+                filter(n > 1) %>%
+                nrow() %>%
+                gt(0) ~ {
+                message("tidySCE says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
+                (.)
+            },
 
-      # If duplicated cells returns tibble
-      count(., cell) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
-        message("tidySCE says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
-        (.)
-      },
-
-      # Otherwise return updated tidySCE
-      ~ {
-        new_obj = x[,.$cell]
-        new_obj@colData = (.) %>% as_meta_data(new_obj)
-        new_obj
-      }
-    )
-
+            # Otherwise return updated tidySCE
+            ~ {
+                new_obj <- x[, .$cell]
+                new_obj@colData <- (.) %>% as_meta_data(new_obj)
+                new_obj
+            }
+        )
 }
 
 #' Right join datasets
@@ -816,55 +792,55 @@ inner_join.tidySCE <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", 
 #' @param x tbls to join. (See dplyr)
 #' @param y tbls to join. (See dplyr)
 #' @param by A character vector of variables to join by. (See dplyr)
-#' @param copy If x and y are not from the same data source, and copy is TRUE, then y will be copied into the same src as x. (See dplyr)
-#' @param suffix If there are non-joined duplicate variables in x and y, these suffixes will be added to the output to disambiguate them. Should be a character vector of length 2. (See dplyr)
+#' @param copy If x and y are not from the same data source, and copy is TRUE, 
+#'   then y will be copied into the same src as x. (See dplyr)
+#' @param suffix If there are non-joined duplicate variables in x and y, these 
+#'   suffixes will be added to the output to disambiguate them. Should be a 
+#'   character vector of length 2. (See dplyr)
 #' @param ... Data frames to combine (See dplyr)
 #'
 #' @return A tidySCE object
 #'
 #' @examples
-#' `%>%` = magrittr::`%>%`
+#' `%>%` <- magrittr::`%>%`
 #'
-#' tt = pbmc_small %>% tidy
-#' tt %>% right_join(tt %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1))
-#'
+#' tt <- pbmc_small %>% tidy()
+#' tt %>% right_join(tt %>% distinct(groups) %>% mutate(new_column=1:2) %>% slice(1))
 #' @export
-right_join <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),		 ...)  {
-  UseMethod("right_join")
+right_join <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), ...) {
+    UseMethod("right_join")
 }
 
 #' @export
-right_join.default <-  function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),
-                                 ...)
-{
-  dplyr::right_join(x, y, by = by, copy = copy, suffix = suffix, ...)
+right_join.default <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
+    ...) {
+    dplyr::right_join(x, y, by=by, copy=copy, suffix=suffix, ...)
 }
 
 #' @export
-right_join.tidySCE <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),
-                                 ...)
-{
+right_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
+    ...) {
+    x %>%
+        as_tibble() %>%
+        dplyr::right_join(y, by=by, copy=copy, suffix=suffix, ...) %>%
+        when(
 
-  x %>%
-    as_tibble() %>%
-    dplyr::right_join( y, by = by, copy = copy, suffix = suffix, ...) %>%
+            # If duplicated cells returns tibble
+            count(., cell) %>%
+                filter(n > 1) %>%
+                nrow() %>%
+                gt(0) ~ {
+                message("tidySCE says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
+                (.)
+            },
 
-    when(
-
-      # If duplicated cells returns tibble
-      count(., cell) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
-        message("tidySCE says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
-        (.)
-      },
-
-      # Otherwise return updated tidySCE
-      ~ {
-        new_obj = x[,.$cell]
-        new_obj@colData = (.) %>% as_meta_data(new_obj)
-        new_obj
-      }
-    )
-
+            # Otherwise return updated tidySCE
+            ~ {
+                new_obj <- x[, .$cell]
+                new_obj@colData <- (.) %>% as_meta_data(new_obj)
+                new_obj
+            }
+        )
 }
 
 
@@ -875,55 +851,55 @@ right_join.tidySCE <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", 
 #' @param x tbls to join. (See dplyr)
 #' @param y tbls to join. (See dplyr)
 #' @param by A character vector of variables to join by. (See dplyr)
-#' @param copy If x and y are not from the same data source, and copy is TRUE, then y will be copied into the same src as x. (See dplyr)
-#' @param suffix If there are non-joined duplicate variables in x and y, these suffixes will be added to the output to disambiguate them. Should be a character vector of length 2. (See dplyr)
+#' @param copy If x and y are not from the same data source, and copy is TRUE, 
+#'   then y will be copied into the same src as x. (See dplyr)
+#' @param suffix If there are non-joined duplicate variables in x and y, these 
+#'   suffixes will be added to the output to disambiguate them. Should be a 
+#'   character vector of length 2. (See dplyr)
 #' @param ... Data frames to combine (See dplyr)
 #'
 #' @return A tidySCE object
 #'
 #' @examples
-#' `%>%` = magrittr::`%>%`
+#' `%>%` <- magrittr::`%>%`
 #'
-#' tt = pbmc_small %>% tidy
-#' tt %>% full_join(tibble::tibble(groups = "g1", other=1:4))
-#'
+#' tt <- pbmc_small %>% tidy()
+#' tt %>% full_join(tibble::tibble(groups="g1", other=1:4))
 #' @export
-full_join <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),		 ...)  {
-  UseMethod("full_join")
+full_join <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), ...) {
+    UseMethod("full_join")
 }
 
 #' @export
-full_join.default <-  function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),
-                                ...)
-{
-  dplyr::full_join(x, y, by = by, copy = copy, suffix = suffix, ...)
+full_join.default <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
+    ...) {
+    dplyr::full_join(x, y, by=by, copy=copy, suffix=suffix, ...)
 }
 
 #' @export
-full_join.tidySCE <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),
-                                ...)
-{
+full_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
+    ...) {
+    x %>%
+        as_tibble() %>%
+        dplyr::full_join(y, by=by, copy=copy, suffix=suffix, ...) %>%
+        when(
 
- x %>%
-    as_tibble() %>%
-    dplyr::full_join( y, by = by, copy = copy, suffix = suffix, ...)  %>%
+            # If duplicated cells returns tibble
+            count(., cell) %>%
+                filter(n > 1) %>%
+                nrow() %>%
+                gt(0) ~ {
+                message("tidySCE says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
+                (.)
+            },
 
-    when(
-
-      # If duplicated cells returns tibble
-      count(., cell) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
-        message("tidySCE says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
-        (.)
-      },
-
-      # Otherwise return updated tidySCE
-      ~ {
-        new_obj = x[,.$cell]
-        new_obj@colData = (.) %>% as_meta_data(x)
-        new_obj
-      }
-    )
-
+            # Otherwise return updated tidySCE
+            ~ {
+                new_obj <- x[, .$cell]
+                new_obj@colData <- (.) %>% as_meta_data(x)
+                new_obj
+            }
+        )
 }
 
 #' Subset rows using their positions
@@ -939,7 +915,7 @@ full_join.tidySCE <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", "
 #'   of a variable.
 #'
 #' If `.data` is a [grouped_df], the operation will be performed on each group,
-#' so that (e.g.) `slice_head(df, n = 5)` will select the first five rows in
+#' so that (e.g.) `slice_head(df, n=5)` will select the first five rows in
 #' each group.
 #'
 #' @details
@@ -987,27 +963,25 @@ full_join.tidySCE <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", "
 #' @export
 #' @examples
 #'
-#' `%>%` = magrittr::`%>%`
-#' pbmc_small %>% tidy %>% slice(1)
-slice <- function(.data, ..., .preserve = FALSE) {
-  UseMethod("slice")
+#' `%>%` <- magrittr::`%>%`
+#' pbmc_small %>%
+#'     tidy() %>%
+#'     slice(1)
+slice <- function(.data, ..., .preserve=FALSE) {
+    UseMethod("slice")
 }
 #' @export
-slice.default <-  function (.data, ..., .preserve = FALSE)
-{
-  dplyr::slice(.data, ..., .preserve = .preserve)
+slice.default <- function(.data, ..., .preserve=FALSE) {
+    dplyr::slice(.data, ..., .preserve=.preserve)
 }
 
 #' @export
-slice.tidySCE <- function (.data, ..., .preserve = FALSE)
-{
+slice.tidySCE <- function(.data, ..., .preserve=FALSE) {
+    new_meta <- dplyr::slice(.data@colData %>% as.data.frame(), ..., .preserve=.preserve)
+    new_obj <- .data[, rownames(new_meta)]
+    # new_obj@colData=new_meta
 
-  new_meta = dplyr::slice(.data@colData %>% as.data.frame, ..., .preserve = .preserve)
-  new_obj = .data[,rownames(new_meta)]
-  #new_obj@colData = new_meta
-
-  new_obj
-
+    new_obj
 }
 
 #' Subset columns using their names and types
@@ -1023,7 +997,7 @@ slice.tidySCE <- function (.data, ..., .preserve = FALSE)
 #'
 #' ## Overview of selection features
 #'
-#' ```{r, child = "man/rmd/overview.Rmd"}
+#' ```{r, child="man/rmd/overview.Rmd"}
 #' ```
 #'
 #' @inheritParams arrange
@@ -1037,7 +1011,7 @@ slice.tidySCE <- function (.data, ..., .preserve = FALSE)
 #'
 #' * Rows are not affected.
 #' * Output columns are a subset of input columns, potentially with a different
-#'   order. Columns will be renamed if `new_name = old_name` form is used.
+#'   order. Columns will be renamed if `new_name=old_name` form is used.
 #' * Data frame attributes are preserved.
 #' * Groups are maintained; you can't select off grouping variables.
 #'
@@ -1051,43 +1025,42 @@ slice.tidySCE <- function (.data, ..., .preserve = FALSE)
 #'
 #' @examples
 #'
-#' `%>%` = magrittr::`%>%`
-#' pbmc_small %>% tidy %>% select(cell, orig.ident )
-#'
+#' `%>%` <- magrittr::`%>%`
+#' pbmc_small %>%
+#'     tidy() %>%
+#'     select(cell, orig.ident)
 #' @family single table verbs
 #' @export
 select <- function(.data, ...) {
-  UseMethod("select")
+    UseMethod("select")
 }
 
 #' @export
-select.default <-  function (.data, ...)
-{
-  dplyr::select(.data, ...)
+select.default <- function(.data, ...) {
+    dplyr::select(.data, ...)
 }
 
 #' @export
-select.tidySCE <- function (.data, ...)
-{
+select.tidySCE <- function(.data, ...) {
+    .data %>%
+        as_tibble() %>%
+        select_helper(...) %>%
+        when(
 
-  .data %>%
-    as_tibble() %>%
-    select_helper(...) %>%
-    when(
+            # If key columns are missing
+            (get_needed_columns() %in% colnames(.)) %>%
+                all() %>%
+                `!`() ~ {
+                message("tidySCE says: Key columns are missing. A data frame is returned for independent data analysis.")
+                (.)
+            },
 
-      # If key columns are missing
-      (get_needed_columns() %in% colnames(.)) %>% all %>% `!` ~ {
-        message("tidySCE says: Key columns are missing. A data frame is returned for independent data analysis.")
-        (.)
-      },
-
-      # If valid SingleCellExperiment meta data
-      ~ {
-        .data@colData = (.) %>% as_meta_data(.data)
-        .data
-      }
-    )
-
+            # If valid SingleCellExperiment meta data
+            ~ {
+                .data@colData <- (.) %>% as_meta_data(.data)
+                .data
+            }
+        )
 }
 
 
@@ -1127,61 +1100,64 @@ select.tidySCE <- function (.data, ...)
 #' @param ... ignored
 #' @examples
 #'
-#' `%>%` = magrittr::`%>%`
-#' pbmc_small %>% tidy %>% sample_n(50)
-#' pbmc_small %>% tidy %>% sample_frac(0.1)
-#'
+#' `%>%` <- magrittr::`%>%`
+#' pbmc_small %>%
+#'     tidy() %>%
+#'     sample_n(50)
+#' pbmc_small %>%
+#'     tidy() %>%
+#'     sample_frac(0.1)
 #' @return A tidySCE object
 #'
 #' @export
-sample_n <- function(tbl, size, replace = FALSE, weight = NULL, .env = NULL, ...) {
-  UseMethod("sample_n")
+sample_n <- function(tbl, size, replace=FALSE, weight=NULL, .env=NULL, ...) {
+    UseMethod("sample_n")
 }
 
 #' @export
-sample_n.default <- function(tbl, size, replace = FALSE, weight = NULL,
-                             .env = parent.frame(), ...) {
-  tbl %>% sample_n(size, replace = replace, weight = weight, .env = .env, ...)
+sample_n.default <- function(tbl, size, replace=FALSE, weight=NULL,
+    .env=parent.frame(), ...) {
+    tbl %>% sample_n(size, replace=replace, weight=weight, .env=.env, ...)
 }
 
 #' @export
-sample_n.tidySCE <- function(tbl, size, replace = FALSE,
-                                weight = NULL, .env = NULL, ...) {
+sample_n.tidySCE <- function(tbl, size, replace=FALSE,
+    weight=NULL, .env=NULL, ...) {
+    lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
 
-  lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
+    new_meta <- tbl@colData %>%
+        as.data.frame() %>%
+        dplyr::sample_n(size, replace=replace, weight=weight, .env=.env, ...)
+    new_obj <- tbl[, rownames(new_meta)]
+    # new_obj@colData=new_meta %>% DataFrame()
 
-  new_meta = tbl@colData %>% as.data.frame %>% dplyr::sample_n( size, replace = replace, weight = weight, .env = .env, ...)
-  new_obj =  tbl[,rownames(new_meta)]
-  #new_obj@colData = new_meta %>% DataFrame()
-
-  new_obj
-
+    new_obj
 }
 
 #' @rdname sample_n
 #' @export
-sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env = NULL, ...) {
-  UseMethod("sample_frac")
+sample_frac <- function(tbl, size=1, replace=FALSE, weight=NULL, .env=NULL, ...) {
+    UseMethod("sample_frac")
 }
 
 #' @export
-sample_frac.default <- function(tbl, size, replace = FALSE, weight = NULL,
-                             .env = parent.frame(), ...) {
-  tbl %>% dplyr::sample_frac(size, replace = replace, weight = weight, .env = .env, ...)
+sample_frac.default <- function(tbl, size, replace=FALSE, weight=NULL,
+    .env=parent.frame(), ...) {
+    tbl %>% dplyr::sample_frac(size, replace=replace, weight=weight, .env=.env, ...)
 }
 
 #' @export
-sample_frac.tidySCE <- function(tbl, size = 1, replace = FALSE,
-                                   weight = NULL, .env = NULL, ...) {
+sample_frac.tidySCE <- function(tbl, size=1, replace=FALSE,
+    weight=NULL, .env=NULL, ...) {
+    lifecycle::signal_superseded("1.0.0", "sample_frac()", "slice_sample()")
 
-  lifecycle::signal_superseded("1.0.0", "sample_frac()", "slice_sample()")
+    new_meta <- tbl@colData %>%
+        as.data.frame() %>%
+        dplyr::sample_frac(size, replace=replace, weight=weight, .env=.env, ...)
+    new_obj <- tbl[, rownames(new_meta)]
+    # new_obj@colData=new_meta %>% DataFrame()
 
-  new_meta = tbl@colData %>% as.data.frame %>% dplyr::sample_frac( size, replace = replace, weight = weight, .env = .env, ...)
-  new_obj =  tbl[, rownames(new_meta)]
-  #new_obj@colData = new_meta %>% DataFrame()
-
-  new_obj
-
+    new_obj
 }
 
 
@@ -1190,10 +1166,10 @@ sample_frac.tidySCE <- function(tbl, size = 1, replace = FALSE,
 #' @description
 #' `count()` lets you quickly count the unique values of one or more variables:
 #' `df %>% count(a, b)` is roughly equivalent to
-#' `df %>% group_by(a, b) %>% summarise(n = n())`.
+#' `df %>% group_by(a, b) %>% summarise(n=n())`.
 #' `count()` is paired with `tally()`, a lower-level helper that is equivalent
-#' to `df %>% summarise(n = n())`. Supply `wt` to perform weighted counts,
-#' switching the summary from `n = n()` to `n = sum(wt)`.
+#' to `df %>% summarise(n=n())`. Supply `wt` to perform weighted counts,
+#' switching the summary from `n=n()` to `n=sum(wt)`.
 #'
 #' `add_count()` are `add_tally()` are equivalents to `count()` and `tally()`
 #' but use `mutate()` instead of `summarise()` so that they add a new column
@@ -1221,36 +1197,35 @@ sample_frac.tidySCE <- function(tbl, size = 1, replace = FALSE,
 #' @export
 #' @examples
 #'
-#' `%>%` = magrittr::`%>%`
-#' pbmc_small %>% tidy %>% count(groups)
-#'
-#'
-count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
-UseMethod("count")
+#' `%>%` <- magrittr::`%>%`
+#' pbmc_small %>%
+#'     tidy() %>%
+#'     count(groups)
+count <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by_drop_default(x)) {
+    UseMethod("count")
 }
 
 #' @export
-count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
-  if (!missing(...)) {
-    out <- dplyr::group_by(x, ..., .add = TRUE, .drop = .drop)
-  }
-  else {
-    out <- x
-  }
-  out <- dplyr::tally(out, wt = !!enquo(wt), sort = sort, name = name)
-  if (is.data.frame(x)) {
-    out <- dplyr::dplyr_reconstruct(out, x)
-  }
-  out}
+count.default <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by_drop_default(x)) {
+    if (!missing(...)) {
+        out <- dplyr::group_by(x, ..., .add=TRUE, .drop=.drop)
+    }
+    else {
+        out <- x
+    }
+    out <- dplyr::tally(out, wt=!!enquo(wt), sort=sort, name=name)
+    if (is.data.frame(x)) {
+        out <- dplyr::dplyr_reconstruct(out, x)
+    }
+    out
+}
 #' @export
-count.tidySCE <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
+count.tidySCE <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by_drop_default(x)) {
+    message("tidySCE says: A data frame is returned for independent data analysis.")
 
-  message("tidySCE says: A data frame is returned for independent data analysis.")
-
-  x %>%
-    as_tibble() %>%
-    dplyr::count(  ..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)
-
+    x %>%
+        as_tibble() %>%
+        dplyr::count(..., wt=!!enquo(wt), sort=sort, name=name, .drop=.drop)
 }
 
 #' Extract a single column
@@ -1275,29 +1250,26 @@ count.tidySCE <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = 
 #' @export
 #' @examples
 #'
-#' `%>%` = magrittr::`%>%`
-#' pbmc_small %>% tidy %>% pull(groups)
-#'
-pull <- function(.data, var = -1, name = NULL, ...) {
-  ellipsis::check_dots_used()
-  UseMethod("pull")
+#' `%>%` <- magrittr::`%>%`
+#' pbmc_small %>%
+#'     tidy() %>%
+#'     pull(groups)
+pull <- function(.data, var=-1, name=NULL, ...) {
+    ellipsis::check_dots_used()
+    UseMethod("pull")
 }
 #' @export
-pull.default <- function(.data, var = -1, name = NULL, ...) {
-  var = enquo(var)
-  name = enquo(name)
- .data %>% dplyr::pull( var = !!var, name = !!name, ...)
-  }
+pull.default <- function(.data, var=-1, name=NULL, ...) {
+    var <- enquo(var)
+    name <- enquo(name)
+    .data %>% dplyr::pull(var=!!var, name=!!name, ...)
+}
 #' @export
-pull.tidySCE <- function(.data, var = -1, name = NULL, ...) {
-  var = enquo(var)
-  name = enquo(name)
+pull.tidySCE <- function(.data, var=-1, name=NULL, ...) {
+    var <- enquo(var)
+    name <- enquo(name)
 
-  message("tidySCE says: A data frame is returned for independent data analysis.")
-
-  .data %>%
-    as_tibble() %>%
-    dplyr::pull( var = !!var, name = !!name, ...)
-
-
+    .data %>%
+        as_tibble() %>%
+        dplyr::pull(var=!!var, name=!!name, ...)
 }

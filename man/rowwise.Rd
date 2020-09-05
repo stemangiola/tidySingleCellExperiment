@@ -30,6 +30,5 @@ use \code{[[1]]}. This makes `summarise()` on a rowwise tbl
 effectively equivalent to [plyr::ldply()].
 }
 \examples{
-`\%>\%` = magrittr::`\%>\%`
-
+`\%>\%` <- magrittr::`\%>\%`
 }

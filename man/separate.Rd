@@ -44,7 +44,7 @@ Use `NA` to omit the variable in the output.}
 \item{remove}{If `TRUE`, remove input column from output data frame.}
 
 \item{convert}{If `TRUE`, will run [type.convert()] with
-  `as.is = TRUE` on new columns. This is useful if the component
+  `as.is=TRUE` on new columns. This is useful if the component
   columns are integer, numeric or logical.
 
   NB: this will cause string `"NA"`s to be converted to `NA`s.}
@@ -74,9 +74,10 @@ Given either a regular expression or a vector of character positions,
 }
 \examples{
 
- un = pbmc_small \%>\% tidy \%>\% unite("new_col", c(orig.ident, groups))
- un \%>\% separate(col = new_col, into= c("orig.ident", "groups"))
-
+un <- pbmc_small \%>\%
+    tidy() \%>\%
+    unite("new_col", c(orig.ident, groups))
+un \%>\% separate(col=new_col, into=c("orig.ident", "groups"))
 }
 \seealso{
 [unite()], the complement, [extract()] which uses regular

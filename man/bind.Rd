@@ -25,7 +25,9 @@
   names of the list. If no names are found a numeric sequence is
   used instead.}
 
-\item{add.cell.ids}{from SingleCellExperiment 3.0 A character vector of length(x = c(x, y)). Appends the corresponding values to the start of each objects' cell names.}
+\item{add.cell.ids}{from SingleCellExperiment 3.0 A character vector of 
+length(x=c(x, y)). Appends the corresponding values to the start of each 
+objects' cell names.}
 }
 \value{
 `bind_rows()` and `bind_cols()` return the same type as
@@ -41,11 +43,10 @@ The output of `bind_rows()` will contain a column if that column
 appears in any of the inputs.
 }
 \examples{
-`\%>\%` = magrittr::`\%>\%`
-tt = pbmc_small \%>\% tidy
-bind_rows(    tt, tt  )
+`\%>\%` <- magrittr::`\%>\%`
+tt <- pbmc_small \%>\% tidy()
+bind_rows(tt, tt)
 
-tt_bind = tt \%>\% select(nCount_RNA ,nFeature_RNA)
+tt_bind <- tt \%>\% select(nCount_RNA, nFeature_RNA)
 tt \%>\% bind_cols(tt_bind)
-
 }

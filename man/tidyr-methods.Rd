@@ -53,7 +53,7 @@ If you `unnest()` multiple columns, parallel entries must be of
 compatible sizes, i.e. they're either equal or length 1 (following the
 standard tidyverse recycling rules).}
 
-\item{...}{Name-variable pairs of the form new_col = c(col1, col2, col3) (See tidyr)}
+\item{...}{Name-variable pairs of the form new_col=c(col1, col2, col3) (See tidyr)}
 
 \item{keep_empty}{See tidyr::unnest}
 
@@ -84,11 +84,14 @@ nest
 \examples{
 
 library(dplyr)
-pbmc_small \%>\% tidy \%>\% nest(data = -groups) \%>\% unnest(data)
-
-
+pbmc_small \%>\%
+    tidy() \%>\%
+    nest(data=-groups) \%>\%
+    unnest(data)
 
 library(dplyr)
-pbmc_small \%>\% tidy \%>\% nest(data = -groups) \%>\% unnest(data)
-
+pbmc_small \%>\%
+    tidy() \%>\%
+    nest(data=-groups) \%>\%
+    unnest(data)
 }

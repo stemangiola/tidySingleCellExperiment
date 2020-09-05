@@ -11,7 +11,7 @@ rename(.data, ...)
 lazy data frame (e.g. from dbplyr or dtplyr). See *Methods*, below, for
 more details.}
 
-\item{...}{<[`tidy-select`][dplyr_tidy_select]> Use `new_name = old_name`
+\item{...}{<[`tidy-select`][dplyr_tidy_select]> Use `new_name=old_name`
 to rename selected variables.}
 }
 \value{
@@ -22,7 +22,7 @@ An object of the same type as `.data`.
 * Groups are updated to reflect new names.
 }
 \description{
-Rename individual variables using `new_name = old_name` syntax.
+Rename individual variables using `new_name=old_name` syntax.
 }
 \section{Scoped selection and renaming}{
 
@@ -41,9 +41,10 @@ The following methods are currently available in loaded packages:
 }
 
 \examples{
-`\%>\%` = magrittr::`\%>\%`
-pbmc_small \%>\% tidy \%>\% rename(s_score = nFeature_RNA)
-
+`\%>\%` <- magrittr::`\%>\%`
+pbmc_small \%>\%
+    tidy() \%>\%
+    rename(s_score=nFeature_RNA)
 }
 \seealso{
 Other single table verbs: 

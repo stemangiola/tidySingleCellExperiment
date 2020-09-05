@@ -43,10 +43,10 @@ group transiently, so the output has the same groups as the input.
 \description{
 `count()` lets you quickly count the unique values of one or more variables:
 `df %>% count(a, b)` is roughly equivalent to
-`df %>% group_by(a, b) %>% summarise(n = n())`.
+`df %>% group_by(a, b) %>% summarise(n=n())`.
 `count()` is paired with `tally()`, a lower-level helper that is equivalent
-to `df %>% summarise(n = n())`. Supply `wt` to perform weighted counts,
-switching the summary from `n = n()` to `n = sum(wt)`.
+to `df %>% summarise(n=n())`. Supply `wt` to perform weighted counts,
+switching the summary from `n=n()` to `n=sum(wt)`.
 
 `add_count()` are `add_tally()` are equivalents to `count()` and `tally()`
 but use `mutate()` instead of `summarise()` so that they add a new column
@@ -54,8 +54,8 @@ with group-wise counts.
 }
 \examples{
 
-`\%>\%` = magrittr::`\%>\%`
-pbmc_small \%>\% tidy \%>\% count(groups)
-
-
+`\%>\%` <- magrittr::`\%>\%`
+pbmc_small \%>\%
+    tidy() \%>\%
+    count(groups)
 }

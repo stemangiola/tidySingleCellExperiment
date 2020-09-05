@@ -8,9 +8,9 @@
 #' @export
 #' @importFrom magrittr %>%
 #' @usage lhs \%>\% rhs
-#' 
+#'
 #' @return void
 #' @examples
-#' 
+#'
 #' tidySCE::pbmc_small %>% tidy()
 NULL

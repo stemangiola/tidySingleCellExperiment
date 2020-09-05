@@ -72,8 +72,10 @@ The following methods are currently available in loaded packages:
 
 \examples{
 
-`\%>\%` = magrittr::`\%>\%`
-pbmc_small \%>\% tidy \%>\% filter(groups == "g1")
+`\%>\%` <- magrittr::`\%>\%`
+pbmc_small \%>\%
+    tidy() \%>\%
+    filter(groups == "g1")
 
 # Learn more in ?dplyr_tidy_eval
 }

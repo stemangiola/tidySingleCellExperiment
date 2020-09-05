@@ -1,7 +1,7 @@
 
 #' Create a new ggplot from a tidySCE object
 #'
-#' 
+#'
 #' `ggplot()` initializes a ggplot object. It can be used to
 #' declare the input data frame for a graphic and to specify the
 #' set of plot aesthetics intended to be common throughout all
@@ -26,7 +26,7 @@
 #' is often the case in complex graphics.
 #'
 #' @importFrom ggplot2 aes
-#' 
+#'
 #' @param .data Default dataset to use for plot. If not already a data.frame,
 #'   will be converted to one by [fortify()]. If not specified,
 #'   must be supplied in each layer added to the plot.
@@ -34,40 +34,35 @@
 #'   If not specified, must be supplied in each layer added to the plot.
 #' @param ... Other arguments passed on to methods. Not currently used.
 #' @param environment DEPRECATED. Used prior to tidy evaluation.
-#' 
+#'
 #' @return A ggplot
-#' 
+#'
 #' @export
 #' @examples
-#' 
+#'
 #' library(ggplot2)
-#' 
-#' tidySCE::pbmc_small %>% 
-#' tidy() %>% 
-#' tidySCE::ggplot(aes(groups, nCount_RNA)) + 
-#' geom_boxplot()
-
-ggplot <- function(.data = NULL, mapping = aes(), ..., environment = parent.frame()) {
-  UseMethod("ggplot")
+#'
+#' tidySCE::pbmc_small %>%
+#'     tidy() %>%
+#'     tidySCE::ggplot(aes(groups, nCount_RNA)) +
+#'     geom_boxplot()
+ggplot <- function(.data=NULL, mapping=aes(), ..., environment=parent.frame()) {
+    UseMethod("ggplot")
 }
 
 #' @export
-#' 
-ggplot.tbl_df <- function(.data = NULL, mapping = aes(), ..., environment = parent.frame()) {
-  
-  .data %>%
-    
-    # This is a trick to not loop the call
-    drop_class("tbl_df") %>%
-    ggplot2::ggplot( mapping = mapping, ..., environment = environment)
-  
-  
+#'
+ggplot.tbl_df <- function(.data=NULL, mapping=aes(), ..., environment=parent.frame()) {
+    .data %>%
+
+        # This is a trick to not loop the call
+        drop_class("tbl_df") %>%
+        ggplot2::ggplot(mapping=mapping, ..., environment=environment)
 }
 
 #' @export
-ggplot.tidySCE <- function(.data = NULL, mapping = aes(), ..., environment = parent.frame()) {
-  .data %>%
-    as_tibble() %>%
-    ggplot2::ggplot( mapping = mapping)
+ggplot.tidySCE <- function(.data=NULL, mapping=aes(), ..., environment=parent.frame()) {
+    .data %>%
+        as_tibble() %>%
+        ggplot2::ggplot(mapping=mapping)
 }
-
