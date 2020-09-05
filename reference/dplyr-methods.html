@@ -43,7 +43,7 @@
 <meta property="og:description" content="`arrange()` order the rows of a data frame rows by the values of selected
 columns.
 Unlike other dplyr verbs, `arrange()` largely ignores grouping; you
-need to explicit mention grouping variables (or use  `by_group = TRUE`)
+need to explicit mention grouping variables (or use  `by_group=TRUE`)
 in order to group by them, and functions of variables are evaluated
 once per data frame, not once per group." />
 
@@ -129,7 +129,7 @@ once per data frame, not once per group." />
     <p>`arrange()` order the rows of a data frame rows by the values of selected
 columns.</p>
 <p>Unlike other dplyr verbs, `arrange()` largely ignores grouping; you
-need to explicit mention grouping variables (or use  `by_group = TRUE`)
+need to explicit mention grouping variables (or use  `by_group=TRUE`)
 in order to group by them, and functions of variables are evaluated
 once per data frame, not once per group.</p>
     </div>
@@ -174,7 +174,9 @@ grouped data frames only.</p></td>
     </tr>
     <tr>
       <th>add.cell.ids</th>
-      <td><p>from SingleCellExperiment 3.0 A character vector of length(x = c(x, y)). Appends the corresponding values to the start of each objects' cell names.</p></td>
+      <td><p>from SingleCellExperiment 3.0 A character vector of 
+length(x=c(x, y)). Appends the corresponding values to the start of each 
+objects' cell names.</p></td>
     </tr>
     </table>
 
@@ -215,8 +217,10 @@ individual methods for extra arguments and differences in behaviour.</p>
 <code><a href='summarise.html'>summarise</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>`%&gt;%`</span> <span class='op'>=</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
-<span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='kw'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>arrange</span>(<span class='kw'>nFeature_RNA</span>)
+    <pre class="examples"><div class='input'><span class='kw'>`%&gt;%`</span> <span class='op'>&lt;-</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
+<span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='tidy.html'>tidy</a></span>() <span class='op'>%&gt;%</span>
+    <span class='fu'>arrange</span>(<span class='kw'>nFeature_RNA</span>)
 </div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 80 x 17</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 

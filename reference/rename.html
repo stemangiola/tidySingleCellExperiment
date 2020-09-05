@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Rename columns — rename" />
-<meta property="og:description" content="Rename individual variables using `new_name = old_name` syntax." />
+<meta property="og:description" content="Rename individual variables using `new_name=old_name` syntax." />
 
 
 
@@ -121,7 +121,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Rename individual variables using `new_name = old_name` syntax.</p>
+    <p>Rename individual variables using `new_name=old_name` syntax.</p>
     </div>
 
     <pre class="usage"><span class='fu'>rename</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>)</pre>
@@ -137,7 +137,7 @@ more details.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>&lt;[`tidy-select`][dplyr_tidy_select]&gt; Use `new_name = old_name`
+      <td><p>&lt;[`tidy-select`][dplyr_tidy_select]&gt; Use `new_name=old_name`
 to rename selected variables.</p></td>
     </tr>
     </table>
@@ -175,13 +175,14 @@ individual methods for extra arguments and differences in behaviour.</p>
 <code><a href='summarise.html'>summarise</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>`%&gt;%`</span> <span class='op'>=</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
-<span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='kw'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>rename</span>(s_score = <span class='kw'>nFeature_RNA</span>)
+    <pre class="examples"><div class='input'><span class='kw'>`%&gt;%`</span> <span class='op'>&lt;-</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
+<span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='tidy.html'>tidy</a></span>() <span class='op'>%&gt;%</span>
+    <span class='fu'>rename</span>(s_score=<span class='kw'>nFeature_RNA</span>)
 </div><div class='output co'>#&gt; <span class='warning'>Warning: `rename_()` is deprecated as of dplyr 0.7.0.</span>
 #&gt; <span class='warning'>Please use `rename()` instead.</span>
 #&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
-#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("rename_"): no applicable method for 'rename_' applied to an object of class "c('tidySCE', 'SingleCellExperiment', 'RangedSummarizedExperiment', 'SummarizedExperiment', 'RectangularData', 'Vector', 'Annotated', 'vector_OR_Vector')"</span></div><div class='input'>
-</div></span></pre>
+#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("rename_"): no applicable method for 'rename_' applied to an object of class "c('tidySCE', 'SingleCellExperiment', 'RangedSummarizedExperiment', 'SummarizedExperiment', 'RectangularData', 'Vector', 'Annotated', 'vector_OR_Vector')"</span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

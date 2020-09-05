@@ -45,7 +45,7 @@
 `df 
 `count()` is paired with `tally()`, a lower-level helper that is equivalent
 to `df 
-switching the summary from `n = n()` to `n = sum(wt)`.
+switching the summary from `n=n()` to `n=sum(wt)`.
 `add_count()` are `add_tally()` are equivalents to `count()` and `tally()`
 but use `mutate()` instead of `summarise()` so that they add a new column
 with group-wise counts." />
@@ -131,10 +131,10 @@ with group-wise counts." />
     <div class="ref-description">
     <p>`count()` lets you quickly count the unique values of one or more variables:
 `df <!-- %&gt;% count(a, b)` is roughly equivalent to -->
-`df <!-- %&gt;% group_by(a, b) %&gt;% summarise(n = n())`. -->
+`df <!-- %&gt;% group_by(a, b) %&gt;% summarise(n=n())`. -->
 `count()` is paired with `tally()`, a lower-level helper that is equivalent
-to `df <!-- %&gt;% summarise(n = n())`. Supply `wt` to perform weighted counts, -->
-switching the summary from `n = n()` to `n = sum(wt)`.</p>
+to `df <!-- %&gt;% summarise(n=n())`. Supply `wt` to perform weighted counts, -->
+switching the summary from `n=n()` to `n=sum(wt)`.</p>
 <p>`add_count()` are `add_tally()` are equivalents to `count()` and `tally()`
 but use `mutate()` instead of `summarise()` so that they add a new column
 with group-wise counts.</p>
@@ -193,15 +193,15 @@ group transiently, so the output has the same groups as the input.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>`%&gt;%`</span> <span class='op'>=</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
-<span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='kw'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>count</span>(<span class='kw'>groups</span>)
+<span class='kw'>`%&gt;%`</span> <span class='op'>&lt;-</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
+<span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='tidy.html'>tidy</a></span>() <span class='op'>%&gt;%</span>
+    <span class='fu'>count</span>(<span class='kw'>groups</span>)
 </div><div class='output co'>#&gt; <span class='message'>tidySCE says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 2 x 2</span><span>
 #&gt;   groups     n
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> g1        44
-#&gt; </span><span style='color: #555555;'>2</span><span> g2        36</div><div class='input'>
-
-</div></span></pre>
+#&gt; </span><span style='color: #555555;'>2</span><span> g2        36</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -48,7 +48,7 @@ helpers for common use cases:
 * `slice_min()` and `slice_max()` select rows with highest or lowest values
   of a variable.
 If `.data` is a [grouped_df], the operation will be performed on each group,
-so that (e.g.) `slice_head(df, n = 5)` will select the first five rows in
+so that (e.g.) `slice_head(df, n=5)` will select the first five rows in
 each group." />
 
 
@@ -138,7 +138,7 @@ helpers for common use cases:</p>
 * `slice_min()` and `slice_max()` select rows with highest or lowest values
   of a variable.</p>
 <p>If `.data` is a [grouped_df], the operation will be performed on each group,
-so that (e.g.) `slice_head(df, n = 5)` will select the first five rows in
+so that (e.g.) `slice_head(df, n=5)` will select the first five rows in
 each group.</p>
     </div>
 
@@ -218,8 +218,10 @@ individual methods for extra arguments and differences in behaviour.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>`%&gt;%`</span> <span class='op'>=</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
-<span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='kw'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span>(<span class='fl'>1</span>)
+<span class='kw'>`%&gt;%`</span> <span class='op'>&lt;-</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
+<span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='tidy.html'>tidy</a></span>() <span class='op'>%&gt;%</span>
+    <span class='fu'>slice</span>(<span class='fl'>1</span>)
 </div><div class='output co'>#&gt; <span class='warning'>Warning: `slice_()` is deprecated as of dplyr 0.7.0.</span>
 #&gt; <span class='warning'>Please use `slice()` instead.</span>
 #&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
