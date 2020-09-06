@@ -21,6 +21,7 @@ knitr::opts_chunk$set(
 )
 ```
 
+
 # Introduction
 
 tidySCE provides a bridge between Bioconductor single-cell packages [@amezquita2019orchestrating] and the tidyverse [@wickham2019welcome]. It creates an invisible layer that enables viewing the
@@ -275,7 +276,8 @@ pbmc_small_UMAP %>%
     )
 ```
 
-![plotly screenshot](../man/figures/plotly.png)
+
+#![plotly screenshot]("../man/figures/plotly.png")
 
 # Cell type prediction
 
