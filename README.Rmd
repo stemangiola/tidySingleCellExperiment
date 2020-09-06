@@ -61,7 +61,7 @@ BiocManager::install("tidySCE")
 
 From GitHub
 ```{r, eval=FALSE}
-devtools::install_github("tidySCE")
+devtools::install_github("stemangiola/tidySCE")
 ```
 
 

@@ -69,7 +69,7 @@ From Bioconductor (under submission)
 
 From GitHub
 
-    devtools::install_github("tidySCE")
+    devtools::install_github("stemangiola/tidySCE")
 
 Load libraries used in this vignette.
 
