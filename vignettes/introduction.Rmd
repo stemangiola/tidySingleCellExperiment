@@ -6,6 +6,7 @@ package: tidySCE
 output:
   BiocStyle::html_document:
     toc_float: true
+bibliography: tidySCE.bib
 vignette: >
   %\VignetteEngine{knitr::knitr}
   %\VignetteIndexEntry{Overview of the tidySCE package}
@@ -22,7 +23,7 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-tidySCE provides a bridge between Bioconductor single-cell packages and the tidyverse. It creates an invisible layer that enables viewing the
+tidySCE provides a bridge between Bioconductor single-cell packages [@amezquita2019orchestrating] and the tidyverse [@wickham2019welcome]. It creates an invisible layer that enables viewing the
 Bioconductor *SingleCellExperiment* object as a tidyverse tibble, and provides SingleCellExperiment-compatible *dplyr*, *tidyr*, *ggplot* and *plotly* functions. This allows users to get the best of both Bioconductor and tidyverse worlds.
 
 ## Functions/utilities available
@@ -176,7 +177,7 @@ pbmc_small_polished %>%
 
 # Preprocess the dataset
 
-We can also treat `pbmc_small_polished` as a *SingleCellExperiment* object and proceed with data processing with Bioconductor packages, such as *scran* and *scater*.
+We can also treat `pbmc_small_polished` as a *SingleCellExperiment* object and proceed with data processing with Bioconductor packages, such as *scran* [@lun2016pooling] and *scater* [@mccarthy2017scater].
 
 ```{r preprocess}
 # Identify variable genes with scran
@@ -231,7 +232,7 @@ pbmc_small_cluster %>%
     tidySCE::count(groups, label)
 ```
 
-We can identify and visualise cluster markers combining SingleCellExperiment and tidyverse functions.
+We can identify and visualise cluster markers combining SingleCellExperiment, tidyverse functions and tidyHeatmap [@mangiola2020tidyheatmap]
 
 ```{r}
 # Identify top 10 markers per cluster
@@ -278,7 +279,7 @@ pbmc_small_UMAP %>%
 
 # Cell type prediction
 
-We can infer cell type identities using *SingleR* and manipulate the output using tidyverse.
+We can infer cell type identities using *SingleR* [@aran2019reference] and manipulate the output using tidyverse.
 
 ```{r}
 # Get cell type reference data
@@ -411,7 +412,7 @@ pbmc_small_nested_reanalysed %>%
     my_theme
 ```
 
-We can perform a large number of functional analyses on data subsets. For example, we can identify intra-sample cell-cell interactions, and then compare whether interactions are stronger or weaker across conditions. In this small dataset we have just two samples (one for each condition) but you can imagine how you can use tidyverse on the output to perform t-tests and visualisation.
+We can perform a large number of functional analyses on data subsets. For example, we can identify intra-sample cell-cell interactions using *SingleCellSignalR* [@cabello2020singlecellsignalr], and then compare whether interactions are stronger or weaker across conditions. The code below demonstrates how this analysis could be performed. It won't work with this small example dataset as we have just two samples (one for each condition). But some example output is shown below and you can imagine how you can use tidyverse on the output to perform t-tests and visualisation.
 
 ```{r, eval=FALSE}
 pbmc_small_nested_interactions <-
@@ -455,3 +456,5 @@ tidySCE::pbmc_small_nested_interactions
 ```{r}
 sessionInfo()
 ```
+
+# References
