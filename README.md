@@ -8,20 +8,22 @@ tidySCE - part of tidytranscriptomics
 status](https://github.com/stemangiola/tidySCE/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/stemangiola/tidySCE/actions)
 <!-- badges: end -->
 
-**Brings SingleCellExperiment to the tidyverse\!**
+**Brings SingleCellExperiment to the tidyverse!**
 
-website:
-[stemangiola.github.io/tidySCE/](https://stemangiola.github.io/tidySCE/)
+Website:
+[tidySCE](https://stemangiola.github.io/tidySCE/articles/introduction.html)
 
-Please have a look also to
+Please also have a look at
 
-  - [tidybulk](https://stemangiola.github.io/tidybulk/) for tidy
-    high-level data analysis and manipulation
-  - [nanny](https://github.com/stemangiola/nanny) for tidy high-level
+-   [tidyseurat](https://stemangiola.github.io/tidyseurat/) for tidy
+    manipulation of Seurat objects
+-   [tidybulk](https://stemangiola.github.io/tidybulk/) for tidy bulk
+    RNA-seq data analysis
+-   [nanny](https://github.com/stemangiola/nanny) for tidy high-level
     data analysis and manipulation
-  - [tidygate](https://github.com/stemangiola/tidygate) for adding
+-   [tidygate](https://github.com/stemangiola/tidygate) for adding
     custom gate information to your tibble
-  - [tidyHeatmap](https://stemangiola.github.io/tidyHeatmap/) for
+-   [tidyHeatmap](https://stemangiola.github.io/tidyHeatmap/) for
     heatmaps produced with tidy principles
 
 <!---
@@ -30,54 +32,79 @@ Please have a look also to
 
 -->
 
-## Functions/utilities available
+Introduction
+------------
+
+tidySCE provides a bridge between Bioconductor single-cell packages and
+the tidyverse. It creates an invisible layer that enables viewing the
+Bioconductor *SingleCellExperiment* object as a tidyverse tibble, and
+provides SingleCellExperiment-compatible *dplyr*, *tidyr*, *ggplot* and
+*plotly* functions. This allows users to get the best of both
+Bioconductor and tidyverse worlds.
+
+Functions/utilities available
+-----------------------------
 
 | SingleCellExperiment-compatible Functions | Description                                                       |
-| ----------------------------------------- | ----------------------------------------------------------------- |
+|-------------------------------------------|-------------------------------------------------------------------|
 | `all`                                     | After all `tidySCE` is a SingleCellExperiment object, just better |
 
-| tidyverse Packages | Description                          |
-| ------------------ | ------------------------------------ |
-| `dplyr`            | All `dplyr` APIs like for any tibble |
-| `tidyr`            | All `tidyr` APIs like for any tibble |
-| `ggplot2`          | `ggplot` like for any tibble         |
-| `plotly`           | `plot_ly` like for any tibble        |
+| tidyverse Packages | Description                                          |
+|--------------------|------------------------------------------------------|
+| `dplyr`            | All `dplyr` functions (e.g. `tidySCE::select`)       |
+| `tidyr`            | All `tidyr` functions (e.g. `tidySCE::pivot_longer`) |
+| `ggplot2`          | `ggplot` (`tidySCE::ggplot`)                         |
+| `plotly`           | `plot_ly` (`tidySCE::plot_ly`)                       |
 
-| Utilities          | Description                                                      |
-| ------------------ | ---------------------------------------------------------------- |
-| `tidy`             | Add `tidySCE` invisible layer over a SingleCellExperiment object |
-| `as_tibble`        | Convert cell-wise information to a `tbl_df`                      |
-| `join_transcripts` | Add transcript-wise information, returns a `tbl_df`              |
+| Utilities          | Description                                                                      |
+|--------------------|----------------------------------------------------------------------------------|
+| `tidy`             | Add `tidySCE` invisible layer over a SingleCellExperiment object                 |
+| `as_tibble`        | Convert cell-wise information to a `tbl_df`                                      |
+| `join_transcripts` | Add transcript-wise information, returns a `tbl_df`                              |
+| `extract`          | Extract a character column into multiple columns using regular expression groups |
 
-## Installation
+Installation
+------------
 
-From CRAN (in submission)
+From Bioconductor (under submission)
 
-``` r
-install.packages("tidySCE")
-```
+    if (!requireNamespace("BiocManager", quietly=TRUE))
+        install.packages("BiocManager")
+
+    BiocManager::install("tidySCE")
 
 From Github
 
-``` r
-devtools::install_github("stemangiola/tidySCE")
-```
+    devtools::install_github("stemangiola/tidySCE")
 
-## Create `tidySCE`, the best of both worlds\!
+Load libraries used in this vignette.
 
-This is a SingleCellExperiment object but it is evaluated as tibble. So
-it is fully compatible both with SingleCellExperiment and tidyverse
-APIs.
+    # Bioconductor single-cell packages
+    library(scater)
+    library(scran)
+    library(SingleR)
+    library(SingleCellSignalR)
 
-``` r
-pbmc_small_tidy = tidySCE::pbmc_small %>% tidy()
-```
+    # Tidyverse-compatible packages
+    library(dplyr)
+    library(ggplot2)
+    library(purrr)
+    library(tidyHeatmap)
+
+    # Both
+    library(tidySCE)
+
+Create `tidySCE`, the best of both worlds!
+------------------------------------------
+
+This is a *SingleCellExperiment* object but it is evaluated as a tibble.
+So it is compatible both with SingleCellExperiment and tidyverse.
+
+    pbmc_small_tidy <- tidySCE::pbmc_small %>% tidy()
 
 **It looks like a tibble**
 
-``` r
-pbmc_small_tidy
-```
+    pbmc_small_tidy
 
     ## # A tibble: 80 x 17
     ##    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
@@ -98,28 +125,37 @@ pbmc_small_tidy
 
 **But it is a SingleCellExperiment object after all**
 
-``` r
-pbmc_small_tidy@assays
-```
+    pbmc_small_tidy@assays
 
     ## An object of class "SimpleAssays"
     ## Slot "data":
     ## List of length 2
     ## names(2): counts logcounts
 
-## Annotation polishing using tidyverse
+Annotation polishing using tidyverse
+------------------------------------
 
 We may have a column that contains the directory each run was taken
-from. We may want to extract the run/sample name out of it.
+from, such as the “file” column in `pbmc_small_tidy`.
 
-``` r
-pbmc_small_polished =
-  pbmc_small_tidy %>%
-  extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove = F) 
+    pbmc_small_tidy$file[1:5]
 
-pbmc_small_polished %>%
-  select(sample, everything())
-```
+    ## [1] "../data/sample2/outs/filtered_feature_bc_matrix/"
+    ## [2] "../data/sample1/outs/filtered_feature_bc_matrix/"
+    ## [3] "../data/sample2/outs/filtered_feature_bc_matrix/"
+    ## [4] "../data/sample2/outs/filtered_feature_bc_matrix/"
+    ## [5] "../data/sample2/outs/filtered_feature_bc_matrix/"
+
+We may want to extract the run/sample name out of it into a separate
+column. `extract` can be used to convert a character column into
+multiple columns using regular expression groups.
+
+    pbmc_small_polished <-
+        pbmc_small_tidy %>%
+        extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove=FALSE)
+
+    pbmc_small_polished %>%
+        select(sample, everything())
 
     ## # A tibble: 80 x 18
     ##    cell  sample orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
@@ -138,65 +174,97 @@ pbmc_small_polished %>%
     ## #   RNA_snn_res.1 <fct>, file <chr>, ident <fct>, PC_1 <dbl>, PC_2 <dbl>,
     ## #   PC_3 <dbl>, PC_4 <dbl>, PC_5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>
 
-## Preliminary plots
+Preliminary plots
+-----------------
 
-We can treat `pbmc_small_polished` effectively as a normal tibble for
-plotting.
+Set colours and theme for plots.
 
-Here we plot number of transcripts per cell
+    # use colourblind-friendly colours
+    friendly_cols <- dittoSeq::dittoColors()
 
-``` r
-pbmc_small_polished %>%
-  tidySCE::ggplot(aes(nFeature_RNA, fill=groups)) + 
-  geom_histogram() +
-  my_theme
-```
+    # set theme
+    my_theme <-
+        list(
+            scale_fill_manual(values=friendly_cols),
+            scale_color_manual(values=friendly_cols),
+            theme_bw() +
+                theme(
+                    panel.border=element_blank(),
+                    axis.line=element_line(),
+                    panel.grid.major=element_line(size=0.2),
+                    panel.grid.minor=element_line(size=0.1),
+                    text=element_text(size=12),
+                    legend.position="bottom",
+                    aspect.ratio=1,
+                    strip.background=element_blank(),
+                    axis.title.x=element_text(margin=margin(t=10, r=10, b=10, l=10)),
+                    axis.title.y=element_text(margin=margin(t=10, r=10, b=10, l=10))
+                )
+        )
+
+We can treat `pbmc_small_polished` as a tibble for plotting.
+
+Here we plot number of transcripts per cell.
+
+    pbmc_small_polished %>%
+        tidySCE::ggplot(aes(nFeature_RNA, fill=groups)) +
+        geom_histogram() +
+        my_theme
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
 ![](man/figures/plot1-1.png)<!-- -->
 
-Here we plot total transcriptional material per cell
+Here we plot total transcripts per cell.
 
-``` r
-pbmc_small_polished %>%
-  tidySCE::ggplot(aes(groups, nCount_RNA, fill=groups)) + 
-  geom_boxplot(outlier.shape = NA) +
-  geom_jitter(width = 0.1) +
-  my_theme
-```
+    pbmc_small_polished %>%
+        tidySCE::ggplot(aes(groups, nCount_RNA, fill=groups)) +
+        geom_boxplot(outlier.shape=NA) +
+        geom_jitter(width=0.1) +
+        my_theme
 
 ![](man/figures/plot2-1.png)<!-- -->
 
-Here we plot abundance of two transcripts for each group
+Here we plot abundance of two transcripts for each group.
 
-``` r
-pbmc_small_polished %>% 
-  join_transcripts(transcripts = c("HLA-DRA" ,     "LYZ" )) %>%
-  ggplot(aes(groups, abundance_counts + 1, fill=groups)) + 
-  geom_boxplot(outlier.shape = NA) + 
-  geom_jitter(aes(size=nCount_RNA), alpha=0.5, width = 0.2) + 
-  scale_y_log10() + 
-  my_theme
-```
+    pbmc_small_polished %>%
+        join_transcripts(transcripts=c("HLA-DRA", "LYZ")) %>%
+        ggplot(aes(groups, abundance_counts + 1, fill=groups)) +
+        geom_boxplot(outlier.shape=NA) +
+        geom_jitter(aes(size=nCount_RNA), alpha=0.5, width=0.2) +
+        scale_y_log10() +
+        my_theme
 
-![](man/figures/unnamed-chunk-9-1.png)<!-- -->
+    ## tidySCE says: A data frame is returned for independent data analysis.
 
-## Preprocess the dataset
+![](man/figures/unnamed-chunk-11-1.png)<!-- -->
 
-Also you can treat the object as SingleCellExperiment object and proceed
-with data processing.
+Preprocess the dataset
+----------------------
 
-``` r
-variable_gens = 
-  pbmc_small_polished %>%
-  modelGeneVar() %>%
-  getTopHVGs(prop=0.1)
+We can also treat `pbmc_small_polished` as a SingleCellExperiment object
+and proceed with data processing with Bioconductor packages, such as
+*scran* and *scater*.
 
-pbmc_small_pca = 
-  pbmc_small_polished %>% 
-  runPCA(   subset_row = variable_gens  )
+    # identify variable genes with scran
+    variable_genes <-
+        pbmc_small_polished %>%
+        modelGeneVar() %>%
+        getTopHVGs(prop=0.1)
 
-pbmc_small_pca
-```
+    # perform PCA with scater
+    pbmc_small_pca <-
+        pbmc_small_polished %>%
+        runPCA(subset_row=variable_genes)
+
+    ## Warning in check_numbers(k = k, nu = nu, nv = nv, limit = min(dim(x)) - : more
+    ## singular values/vectors requested than available
+
+    ## Warning in (function (A, nv = 5, nu = nv, maxit = 1000, work = nv + 7, reorth =
+    ## TRUE, : You're computing too large a percentage of total singular values, use a
+    ## standard svd instead.
+
+    pbmc_small_pca
 
     ## # A tibble: 80 x 18
     ##    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
@@ -215,36 +283,42 @@ pbmc_small_pca
     ## #   sample <chr>, ident <fct>, PC1 <dbl>, PC2 <dbl>, PC3 <dbl>, PC4 <dbl>,
     ## #   PC5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>
 
-If a tool is not included in the tidySCE collection, we can use
-`as_tibble` to permanently convert `tidySCE` into tibble
+If a tidyverse-compatible package is not included in the tidySCE
+collection, we can use `as_tibble` to permanently convert `tidySCE` into
+a tibble.
 
-``` r
-pbmc_small_pca %>%
-  as_tibble %>%
-  select(contains("PC"), everything()) %>%
-      GGally::ggpairs(columns = 1:5, ggplot2::aes(colour=groups))
-```
+    # create pairs plot with GGally
+    pbmc_small_pca %>%
+        as_tibble() %>%
+        select(contains("PC"), everything()) %>%
+        GGally::ggpairs(columns=1:5, ggplot2::aes(colour=groups)) +
+        my_theme
+
+    ## Registered S3 method overwritten by 'GGally':
+    ##   method from   
+    ##   +.gg   ggplot2
 
 ![](man/figures/pc_plot-1.png)<!-- -->
 
-## Identify clusters
+Identify clusters
+-----------------
 
-We proceed with cluster identification
+We can proceed with cluster identification with *scran*.
 
-``` r
-pbmc_small_cluster = pbmc_small_pca
+    pbmc_small_cluster <- pbmc_small_pca
 
+    # Assigning to the 'colLabels' of the SummarizedExperiment object
+    colLabels(pbmc_small_cluster) <-
+        pbmc_small_pca %>%
+        buildSNNGraph(use.dimred="PCA") %>%
+        igraph::cluster_walktrap() %$%
+        membership %>%
+        as.factor()
 
-# Assigning to the 'colLabels' of the 'sce'.
-colLabels(pbmc_small_cluster) =
-  pbmc_small_pca %>%
-  buildSNNGraph(use.dimred="PCA") %>%
-  igraph::cluster_walktrap() %$%
-  membership %>%
-  as.factor
+    ## Warning in (function (to_check, X, clust_centers, clust_info, dtype, nn, :
+    ## detected tied distances to neighbors, see ?'BiocNeighbors-ties'
 
-pbmc_small_cluster %>% select(label, everything())
-```
+    pbmc_small_cluster %>% select(label, everything())
 
     ## # A tibble: 80 x 19
     ##    cell  label orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
@@ -263,13 +337,12 @@ pbmc_small_cluster %>% select(label, everything())
     ## #   RNA_snn_res.1 <fct>, file <chr>, sample <chr>, ident <fct>, PC1 <dbl>,
     ## #   PC2 <dbl>, PC3 <dbl>, PC4 <dbl>, PC5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>
 
-Now we can interrogate the object as if it was a regular tibble data
-frame
+And interrogate the output as if it was a regular tibble.
 
-``` r
-pbmc_small_cluster %>%
-  tidySCE::count(groups, label)
-```
+    pbmc_small_cluster %>%
+        tidySCE::count(groups, label)
+
+    ## tidySCE says: A data frame is returned for independent data analysis.
 
     ## # A tibble: 8 x 3
     ##   groups label     n
@@ -283,79 +356,76 @@ pbmc_small_cluster %>%
     ## 7 g2     3        10
     ## 8 g2     4         5
 
-We can identify cluster markers using SingleCellExperiment
+We can identify and visualise cluster markers combining
+SingleCellExperiment and tidyverse functions.
 
-``` r
-# Identify markers
-marker_genes = 
-  pbmc_small_cluster %>%
-  findMarkers(groups=pbmc_small_cluster$label) %>% 
-  as.list %>% 
-  map(~ .x %>% head(10) %>% rownames) %>% 
-  unlist
+    # Identify markers
+    marker_genes <-
+        pbmc_small_cluster %>%
+        findMarkers(groups=pbmc_small_cluster$label) %>%
+        as.list() %>%
+        map(~ .x %>%
+            head(10) %>%
+            rownames()) %>%
+        unlist()
 
-# Plot heatmap
-pbmc_small_cluster %>%
-  join_transcripts(transcripts = marker_genes) %>% 
-  group_by(label) %>% 
-  heatmap(transcript, cell, abundance_counts, .scale = "column")
-```
+    # Plot heatmap
+    pbmc_small_cluster %>%
+        join_transcripts(transcripts=marker_genes) %>%
+        group_by(label) %>%
+        heatmap(transcript, cell, abundance_counts, .scale="column")
 
-![](man/figures/unnamed-chunk-10-1.png)<!-- -->
+    ## tidySCE says: A data frame is returned for independent data analysis.
 
-## Reduce dimensions
+![](man/figures/unnamed-chunk-12-1.png)<!-- -->
 
-We can calculate the first 3 UMAP dimensions using SingleCellExperiment
-framework
+Reduce dimensions
+-----------------
 
-``` r
-pbmc_small_UMAP = 
-  pbmc_small_cluster %>%
-  runUMAP(ncomponents = 3)
-```
+We can calculate the first 3 UMAP dimensions using the
+SingleCellExperiment framework and *scater*.
 
-and we can plot them using 3D plot using plotly
+    pbmc_small_UMAP <-
+        pbmc_small_cluster %>%
+        runUMAP(ncomponents=3)
 
-``` r
-pbmc_small_UMAP %>%
-    plot_ly(
-        x = ~`UMAP_1`,
-        y = ~`UMAP_2`, 
-        z = ~`UMAP_3`,
-        color = ~ label
-    ) 
-```
+And we can plot the result in 3D using plotly.
+
+    pbmc_small_UMAP %>%
+        plot_ly(
+            x=~`UMAP1`,
+            y=~`UMAP2`,
+            z=~`UMAP3`,
+            color=~label,
+            colors=friendly_cols[1:4]
+        )
 
 ![screenshot plotly](man/figures/plotly.png)
 
-## Cell type prediction
+Cell type prediction
+--------------------
 
-We can infer cell type identities using singleR
+We can infer cell type identities using *SingleR*.
 
-``` r
-blueprint = SingleR::BlueprintEncodeData()
+    blueprint <- celldex::BlueprintEncodeData()
 
-cell_type_df = 
-  pbmc_small_UMAP@assays@data$logcounts %>%
-  Matrix::Matrix(sparse = TRUE) %>%
-   SingleR::SingleR(
-       ref = blueprint ,
-       labels = blueprint$label.main,
-       method = "single"
-   ) %>%
-  as.data.frame() %>%
-  as_tibble(rownames="cell") %>% 
-  select(cell, first.labels)
-```
+    cell_type_df <-
+        pbmc_small_UMAP@assays@data$logcounts %>%
+        Matrix::Matrix(sparse=TRUE) %>%
+        SingleR(
+            ref=blueprint,
+            labels=blueprint$label.main
+        ) %>%
+        as.data.frame() %>%
+        as_tibble(rownames="cell") %>%
+        select(cell, first.labels)
 
-``` r
-pbmc_small_cell_type =
-  pbmc_small_UMAP %>%
-  left_join(cell_type_df, by="cell")
+    pbmc_small_cell_type <-
+        pbmc_small_UMAP %>%
+        left_join(cell_type_df, by="cell")
 
-pbmc_small_cell_type %>%
-  tidySCE::select(cell, first.labels, everything())
-```
+    pbmc_small_cell_type %>%
+        tidySCE::select(cell, first.labels, everything())
 
     ## # A tibble: 80 x 23
     ##    cell  first.labels orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8
@@ -378,10 +448,10 @@ pbmc_small_cell_type %>%
 We can easily summarise the results. For example, see how cell type
 classification overlaps with cluster classification.
 
-``` r
-pbmc_small_cell_type %>%
-  count(label, first.labels)
-```
+    pbmc_small_cell_type %>%
+        count(label, first.labels)
+
+    ## tidySCE says: A data frame is returned for independent data analysis.
 
     ## # A tibble: 11 x 3
     ##    label first.labels     n
@@ -398,170 +468,163 @@ pbmc_small_cell_type %>%
     ## 10 3     Monocytes       23
     ## 11 4     Erythrocytes     9
 
-We can easily reshape the data for building information-rish faceted
-plots
+We can easily reshape the data for building information-rich faceted
+plots.
 
-``` r
-pbmc_small_cell_type %>%
-  
-  # Reshaping
-  pivot_longer(
-    cols=c(label, first.labels), 
-    names_to = "classifier", values_to = "label"
-  ) %>%
-  
-  # Plotting
-  ggplot(aes(UMAP1, UMAP2, color=label)) +
-  geom_point() +
-  facet_wrap(~classifier) +
-  my_theme
-```
+    pbmc_small_cell_type %>%
 
-![](man/figures/unnamed-chunk-14-1.png)<!-- -->
+        # Reshaping
+        pivot_longer(
+            cols=c(label, first.labels),
+            names_to="classifier", values_to="label"
+        ) %>%
+
+        # Plotting
+        ggplot(aes(UMAP1, UMAP2, color=label)) +
+        geom_point() +
+        facet_wrap(~classifier) +
+        my_theme
+
+    ## tidySCE says: A data frame is returned for independent data analysis.
+
+![](man/figures/unnamed-chunk-16-1.png)<!-- -->
 
 We can easily plot gene correlation per cell category, adding
-multi-layer annotations
+multi-layer annotations.
 
-``` r
-pbmc_small_cell_type %>% 
-  
-  # Add mitochondrial abundance
-  mutate(mitochondrial = rnorm(n())) %>%
-  
-  # Plot correlation
-  join_transcripts(transcripts = c("CST3" ,     "LYZ" ), shape = "wide") %>%
-  ggplot(aes(CST3 +1, LYZ + 1, color=groups, size=mitochondrial)) +
-  geom_point() + 
-  facet_wrap(~first.labels, scales = "free") +
-  scale_x_log10() +
-  scale_y_log10() +
-  my_theme
-```
+    pbmc_small_cell_type %>%
 
-![](man/figures/unnamed-chunk-15-1.png)<!-- -->
+        # Add mitochondrial abundance
+        mutate(mitochondrial=rnorm(n())) %>%
 
-## Nested analyses
+        # Plot correlation
+        join_transcripts(transcripts=c("CST3", "LYZ"), shape="wide") %>%
+        ggplot(aes(CST3 + 1, LYZ + 1, color=groups, size=mitochondrial)) +
+        geom_point() +
+        facet_wrap(~first.labels, scales="free") +
+        scale_x_log10() +
+        scale_y_log10() +
+        my_theme
+
+    ## tidySCE says: A data frame is returned for independent data analysis.
+
+![](man/figures/unnamed-chunk-17-1.png)<!-- -->
+
+Nested analyses
+---------------
 
 A powerful tool we can use with tidySCE is `nest`. We can easily perform
 independent analyses on subsets of the dataset. First we classify cell
-types in lymphoid and myeloid; then, nest based on the new
-classification
+types in lymphoid and myeloid, and then nest based on the new
+classification.
 
-``` r
-pbmc_small_nested = 
-  pbmc_small_cell_type %>%
-  filter(first.labels != "Erythrocytes") %>%
-  mutate(cell_class = if_else(`first.labels` %in% c("Macrophages", "Monocytes"), "myeloid", "lmphoid")) %>%
-  nest(data = -cell_class)
+    pbmc_small_nested <-
+        pbmc_small_cell_type %>%
+        filter(first.labels != "Erythrocytes") %>%
+        mutate(cell_class=if_else(`first.labels` %in% c("Macrophages", "Monocytes"), "myeloid", "lymphoid")) %>%
+        nest(data=-cell_class)
 
-pbmc_small_nested
-```
+    pbmc_small_nested
 
     ## # A tibble: 2 x 2
     ##   cell_class data     
     ##   <chr>      <list>   
-    ## 1 lmphoid    <tidySCE>
+    ## 1 lymphoid   <tidySCE>
     ## 2 myeloid    <tidySCE>
 
 Now we can independently (i) find variable features, (ii) reduce
-dimensions, and (iii) cluster. Using both tidyverse and
-SingleCellExperiment seamlessy
+dimensions, and (iii) cluster using both tidyverse and
+SingleCellExperiment seamlessly.
 
-``` r
-pbmc_small_nested_reanalysed = 
-  pbmc_small_nested %>%
-  mutate(data = map(
-    data, ~ {
-      
-      .x = runPCA(.x, subset_row = variable_gens )
-      
-      variable_gens = 
-        .x %>%
-        modelGeneVar() %>%
-        getTopHVGs(prop=0.3)
-      
-      colLabels(.x) =
-        .x %>%
-        buildSNNGraph(use.dimred="PCA") %>%
-        igraph::cluster_walktrap() %$%
-        membership %>%
-        as.factor
-      
-      .x %>% runUMAP(ncomponents = 3)
-      
-    }
-  )) 
+    pbmc_small_nested_reanalysed <-
+        pbmc_small_nested %>%
+        mutate(data=map(
+            data, ~ {
+                .x <- runPCA(.x, subset_row=variable_genes)
 
-pbmc_small_nested_reanalysed
-```
+                variable_genes <-
+                    .x %>%
+                    modelGeneVar() %>%
+                    getTopHVGs(prop=0.3)
+
+                colLabels(.x) <-
+                    .x %>%
+                    buildSNNGraph(use.dimred="PCA") %>%
+                    igraph::cluster_walktrap() %$%
+                    membership %>%
+                    as.factor()
+
+                .x %>% runUMAP(ncomponents=3)
+            }
+        ))
+
+    pbmc_small_nested_reanalysed
 
     ## # A tibble: 2 x 2
     ##   cell_class data     
     ##   <chr>      <list>   
-    ## 1 lmphoid    <tidySCE>
+    ## 1 lymphoid   <tidySCE>
     ## 2 myeloid    <tidySCE>
 
-Now we can unnest and plot the new clasification
+Now we can unnest and plot the new classification.
 
-``` r
-pbmc_small_nested_reanalysed %>%
-  
-  # Convert to tibble otherwise SingleCellExperiment drops reduced dimensions when unifying data sets.
-  mutate(data = map(data, ~ .x %>% as_tibble)) %>%
-  unnest(data) %>%
+    pbmc_small_nested_reanalysed %>%
 
-  # Define unique clusters
-  unite("cluster", c(cell_class, label), remove=FALSE) %>%
-  
-  # Plotting
-  ggplot(aes(UMAP1, UMAP2, color=cluster)) +
-  geom_point() +
-  facet_wrap(~cell_class) +
-  my_theme
-```
+        # Convert to tibble otherwise SingleCellExperiment drops reduced dimensions when unifying data sets.
+        mutate(data=map(data, ~ .x %>% as_tibble())) %>%
+        unnest(data) %>%
 
-![](man/figures/unnamed-chunk-18-1.png)<!-- -->
+        # Define unique clusters
+        unite("cluster", c(cell_class, label), remove=FALSE) %>%
+
+        # Plotting
+        ggplot(aes(UMAP1, UMAP2, color=cluster)) +
+        geom_point() +
+        facet_wrap(~cell_class) +
+        my_theme
+
+![](man/figures/unnamed-chunk-20-1.png)<!-- -->
 
 We can perform a large number of functional analyses on data subsets.
-For example intra-sample cell-cell interactions, for then
-comparing/testing whether interactions have strenghten/weaken across
-conditions. In this small dataset we have just two sample (one for
-condition) but you can imagine how you can use tidyverse to perform
-t-tests and visualisation.
+For example, we can identify intra-sample cell-cell interactions, and
+then compare whether interactions are stronger or weaker across
+conditions. In this small dataset we have just two samples (one for each
+condition) but you can imagine how you can use tidyverse on the output
+to perform t-tests and visualisation.
 
-``` r
-pbmc_small_nested_interactions = 
-  pbmc_small_nested_reanalysed %>%
-  
-  # Unnest based on cell category
-  unnest(data) %>%
-  
-  # Create unambiguous clusters
-  mutate(integrated_clusters = first.labels %>% as.factor %>% as.integer) %>%
+    pbmc_small_nested_interactions <-
+        pbmc_small_nested_reanalysed %>%
 
-  # Nest based on sample
-    tidySCE::nest(data = -sample) %>%
-    tidySCE::mutate(interactions = map(data, ~ {
-        
-        # Produce variables. Yuck!
-        cluster = .x@colData$integrated_clusters
-        data = data.frame(.x@assays@data %>% as.list %>% .[[1]] %>% as.matrix)
+        # Unnest based on cell category
+        unnest(data) %>%
 
-        # Ligand/Receptor analysis using SingleCellSignalR
-        data %>%
-            cell_signaling(genes=rownames(data),cluster=cluster) %>%
-            inter_network(data = data, signal = ., genes = rownames(data), cluster = cluster) %$%
-            `individual-networks` %>% 
-            map_dfr(~bind_rows(as_tibble(.x))) 
-    })) 
+        # Create unambiguous clusters
+        mutate(integrated_clusters=first.labels %>% as.factor() %>% as.integer()) %>%
 
-pbmc_small_nested_interactions %>%
-  select(-data) %>%
-  unnest(interactions)
-```
+        # Nest based on sample
+        tidySCE::nest(data=-sample) %>%
+        tidySCE::mutate(interactions=map(data, ~ {
+
+            # Produce variables. Yuck!
+            cluster <- .x@colData$integrated_clusters
+            data <- data.frame(.x@assays@data %>% as.list() %>% .[[1]] %>% as.matrix())
+
+            # Ligand/Receptor analysis using SingleCellSignalR
+            data %>%
+                cell_signaling(genes=rownames(data), cluster=cluster) %>%
+                inter_network(data=data, signal=., genes=rownames(data), cluster=cluster) %$%
+                `individual-networks` %>%
+                map_dfr(~ bind_rows(as_tibble(.x)))
+        }))
+
+    pbmc_small_nested_interactions %>%
+        select(-data) %>%
+        unnest(interactions)
 
 If the data set was not so small, and interactions could be identified,
 you would see something as below.
+
+    tidySCE::pbmc_small_nested_interactions
 
     ## # A tibble: 100 x 9
     ##    sample ligand receptor ligand.name receptor.name origin destination
@@ -578,3 +641,89 @@ you would see something as below.
     ## 10 sampl… clust… cluster… CALM1       VIPR1         clust… cluster 3  
     ## # … with 90 more rows, and 2 more variables: interaction.type <chr>,
     ## #   LRscore <dbl>
+
+Session Info
+============
+
+    sessionInfo()
+
+    ## R version 4.0.2 (2020-06-22)
+    ## Platform: x86_64-apple-darwin17.0 (64-bit)
+    ## Running under: macOS Mojave 10.14.6
+    ## 
+    ## Matrix products: default
+    ## BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
+    ## LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
+    ## 
+    ## locale:
+    ## [1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
+    ## 
+    ## attached base packages:
+    ## [1] parallel  stats4    stats     graphics  grDevices utils     datasets 
+    ## [8] methods   base     
+    ## 
+    ## other attached packages:
+    ##  [1] tidySCE_0.99.0              tidyHeatmap_1.1.4          
+    ##  [3] purrr_0.3.4                 dplyr_1.0.1                
+    ##  [5] SingleCellSignalR_1.1.0     SingleR_1.3.8              
+    ##  [7] scran_1.17.16               scater_1.17.4              
+    ##  [9] ggplot2_3.3.2               SingleCellExperiment_1.11.6
+    ## [11] SummarizedExperiment_1.19.6 DelayedArray_0.15.6        
+    ## [13] matrixStats_0.56.0          Matrix_1.2-18              
+    ## [15] Biobase_2.49.0              GenomicRanges_1.41.5       
+    ## [17] GenomeInfoDb_1.25.8         IRanges_2.23.10            
+    ## [19] S4Vectors_0.27.12           BiocGenerics_0.35.4        
+    ## 
+    ## loaded via a namespace (and not attached):
+    ##   [1] Rtsne_0.15                ggbeeswarm_0.6.0         
+    ##   [3] colorspace_1.4-1          rjson_0.2.20             
+    ##   [5] ggridges_0.5.2            ellipsis_0.3.1           
+    ##   [7] circlize_0.4.10           scuttle_0.99.12          
+    ##   [9] bluster_0.99.1            XVector_0.29.3           
+    ##  [11] GlobalOptions_0.1.2       BiocNeighbors_1.7.0      
+    ##  [13] clue_0.3-57               farver_2.0.3             
+    ##  [15] ggrepel_0.8.2             RSpectra_0.16-0          
+    ##  [17] fansi_0.4.1               codetools_0.2-16         
+    ##  [19] splines_4.0.2             knitr_1.29               
+    ##  [21] cluster_2.1.0             png_0.1-7                
+    ##  [23] uwot_0.1.8                pheatmap_1.0.12          
+    ##  [25] BiocManager_1.30.10       compiler_4.0.2           
+    ##  [27] dqrng_0.2.1               assertthat_0.2.1         
+    ##  [29] limma_3.45.8              cli_2.0.2                
+    ##  [31] BiocSingular_1.5.0        htmltools_0.5.0          
+    ##  [33] tools_4.0.2               rsvd_1.0.3               
+    ##  [35] igraph_1.2.5              gtable_0.3.0             
+    ##  [37] glue_1.4.1                GenomeInfoDbData_1.2.3   
+    ##  [39] Rcpp_1.0.5                vctrs_0.3.2              
+    ##  [41] multtest_2.45.0           gdata_2.18.0             
+    ##  [43] iterators_1.0.12          DelayedMatrixStats_1.11.1
+    ##  [45] xfun_0.16                 stringr_1.4.0            
+    ##  [47] lifecycle_0.2.0           irlba_2.3.3              
+    ##  [49] gtools_3.8.2              statmod_1.4.34           
+    ##  [51] edgeR_3.31.4              zlibbioc_1.35.0          
+    ##  [53] MASS_7.3-51.6             scales_1.1.1             
+    ##  [55] RColorBrewer_1.1-2        ComplexHeatmap_2.5.3     
+    ##  [57] yaml_2.2.1                gridExtra_2.3            
+    ##  [59] reshape_0.8.8             stringi_1.4.6            
+    ##  [61] foreach_1.5.0             caTools_1.18.0           
+    ##  [63] BiocParallel_1.23.2       shape_1.4.4              
+    ##  [65] rlang_0.4.7               pkgconfig_2.0.3          
+    ##  [67] bitops_1.0-6              pracma_2.2.9             
+    ##  [69] evaluate_0.14             lattice_0.20-41          
+    ##  [71] labeling_0.3              cowplot_1.0.0            
+    ##  [73] tidyselect_1.1.0          GGally_2.0.0             
+    ##  [75] RcppAnnoy_0.0.16          plyr_1.8.6               
+    ##  [77] magrittr_1.5              R6_2.4.1                 
+    ##  [79] gplots_3.0.4              generics_0.0.2           
+    ##  [81] pillar_1.4.6              withr_2.2.0              
+    ##  [83] survival_3.2-3            RCurl_1.98-1.2           
+    ##  [85] tibble_3.0.3              crayon_1.3.4             
+    ##  [87] KernSmooth_2.23-17        utf8_1.1.4               
+    ##  [89] dittoSeq_1.1.7            rmarkdown_2.3            
+    ##  [91] viridis_0.5.1             GetoptLong_1.0.2         
+    ##  [93] locfit_1.5-9.4            grid_4.0.2               
+    ##  [95] data.table_1.13.0         FNN_1.1.3                
+    ##  [97] SIMLR_1.15.0              digest_0.6.25            
+    ##  [99] tidyr_1.1.1               munsell_0.5.0            
+    ## [101] beeswarm_0.2.3            viridisLite_0.3.0        
+    ## [103] vipor_0.4.5

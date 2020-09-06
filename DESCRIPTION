@@ -32,14 +32,17 @@ Suggests:
     BiocStyle,
     testthat,
     knitr,
-    GGally,
     markdown,
     SingleCellSignalR,
+    SingleR,
     scater,
     scran,
     tidyHeatmap,
     igraph,
+    GGally,
+    Matrix,
     uwot,
+    celldex,
     dittoSeq
 VignetteBuilder: 
     knitr
