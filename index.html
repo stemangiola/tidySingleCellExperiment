@@ -96,15 +96,11 @@
 <li>
 <a href="https://stemangiola.github.io/tidyHeatmap/">tidyHeatmap</a> for heatmaps produced with tidy principles</li>
 </ul>
-<!---
-
-[![Build Status](https://travis-ci.org/stemangiola/tidySCE.svg?branch=master)](https://travis-ci.org/stemangiola/tidySCE) [![Coverage Status](https://coveralls.io/repos/github/stemangiola/tidySCE/badge.svg?branch=master)](https://coveralls.io/github/stemangiola/tidySCE?branch=master)
-
---><div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>tidySCE provides a bridge between Bioconductor single-cell packages and the tidyverse. It creates an invisible layer that enables viewing the Bioconductor <em>SingleCellExperiment</em> object as a tidyverse tibble, and provides SingleCellExperiment-compatible <em>dplyr</em>, <em>tidyr</em>, <em>ggplot</em> and <em>plotly</em> functions. This allows users to get the best of both Bioconductor and tidyverse worlds.</p>
 </div>
+<div id="introduction" class="section level1">
+<h1 class="hasAnchor">
+<a href="#introduction" class="anchor"></a>Introduction</h1>
+<p>tidySCE provides a bridge between Bioconductor single-cell packages <br><span class="math display">@<em>a</em><em>m</em><em>e</em><em>z</em><em>q</em><em>u</em><em>i</em><em>t</em><em>a</em>2019<em>o</em><em>r</em><em>c</em><em>h</em><em>e</em><em>s</em><em>t</em><em>r</em><em>a</em><em>t</em><em>i</em><em>n</em><em>g</em></span><br> and the tidyverse <br><span class="math display">@<em>w</em><em>i</em><em>c</em><em>k</em><em>h</em><em>a</em><em>m</em>2019<em>w</em><em>e</em><em>l</em><em>c</em><em>o</em><em>m</em><em>e</em></span><br>. It creates an invisible layer that enables viewing the Bioconductor <em>SingleCellExperiment</em> object as a tidyverse tibble, and provides SingleCellExperiment-compatible <em>dplyr</em>, <em>tidyr</em>, <em>ggplot</em> and <em>plotly</em> functions. This allows users to get the best of both Bioconductor and tidyverse worlds.</p>
 <div id="functionsutilities-available" class="section level2">
 <h2 class="hasAnchor">
 <a href="#functionsutilities-available" class="anchor"></a>Functions/utilities available</h2>
@@ -126,11 +122,11 @@
 <tbody>
 <tr class="odd">
 <td><code>dplyr</code></td>
-<td>All <code>dplyr</code> functions (e.g. <code><a href="reference/select.html">tidySCE::select</a></code>)</td>
+<td>All <code>dplyr</code> tibble functions (e.g. <code><a href="reference/select.html">tidySCE::select</a></code>)</td>
 </tr>
 <tr class="even">
 <td><code>tidyr</code></td>
-<td>All <code>tidyr</code> functions (e.g. <code><a href="reference/pivot_longer.html">tidySCE::pivot_longer</a></code>)</td>
+<td>All <code>tidyr</code> tibble functions (e.g. <code><a href="reference/pivot_longer.html">tidySCE::pivot_longer</a></code>)</td>
 </tr>
 <tr class="odd">
 <td><code>ggplot2</code></td>
@@ -145,10 +141,6 @@
 </tbody>
 </table>
 <table class="table">
-<colgroup>
-<col width="19%">
-<col width="80%">
-</colgroup>
 <thead><tr class="header">
 <th>Utilities</th>
 <th>Description</th>
@@ -168,10 +160,6 @@
 <td>Add transcript-wise information, returns a <code>tbl_df</code>
 </td>
 </tr>
-<tr class="even">
-<td><code>extract</code></td>
-<td>Extract a character column into multiple columns using regular expression groups</td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -183,7 +171,7 @@
 <span id="cb1-2"><a href="#cb1-2"></a>    <span class="kw">install.packages</span>(<span class="st">"BiocManager"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3"></a></span>
 <span id="cb1-4"><a href="#cb1-4"></a>BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="st">"tidySCE"</span>)</span></code></pre></div>
-<p>From Github</p>
+<p>From GitHub</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"stemangiola/tidySCE"</span>)</span></code></pre></div>
 <p>Load libraries used in this vignette.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Bioconductor single-cell packages</span></span>
@@ -193,17 +181,17 @@
 <span id="cb3-5"><a href="#cb3-5"></a><span class="kw">library</span>(SingleCellSignalR)</span>
 <span id="cb3-6"><a href="#cb3-6"></a></span>
 <span id="cb3-7"><a href="#cb3-7"></a><span class="co"># Tidyverse-compatible packages</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb3-10"><a href="#cb3-10"></a><span class="kw">library</span>(purrr)</span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="kw">library</span>(tidyHeatmap)</span>
-<span id="cb3-12"><a href="#cb3-12"></a></span>
-<span id="cb3-13"><a href="#cb3-13"></a><span class="co"># Both</span></span>
-<span id="cb3-14"><a href="#cb3-14"></a><span class="kw">library</span>(tidySCE)</span></code></pre></div>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="kw">library</span>(purrr)</span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="kw">library</span>(tidyHeatmap)</span>
+<span id="cb3-11"><a href="#cb3-11"></a></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="co"># Both</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="kw">library</span>(tidySCE)</span></code></pre></div>
 </div>
-<div id="create-tidysce-the-best-of-both-worlds" class="section level2">
-<h2 class="hasAnchor">
-<a href="#create-tidysce-the-best-of-both-worlds" class="anchor"></a>Create <code>tidySCE</code>, the best of both worlds!</h2>
+</div>
+<div id="create-tidysce-the-best-of-both-worlds" class="section level1">
+<h1 class="hasAnchor">
+<a href="#create-tidysce-the-best-of-both-worlds" class="anchor"></a>Create <code>tidySCE</code>, the best of both worlds!</h1>
 <p>This is a <em>SingleCellExperiment</em> object but it is evaluated as a tibble. So it is compatible both with SingleCellExperiment and tidyverse.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>pbmc_small_tidy &lt;-<span class="st"> </span>tidySCE<span class="op">::</span>pbmc_small <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tidy</span>()</span></code></pre></div>
 <p><strong>It looks like a tibble</strong></p>
@@ -233,9 +221,9 @@
 <span id="cb6-5"><a href="#cb6-5"></a><span class="co">## List of length 2</span></span>
 <span id="cb6-6"><a href="#cb6-6"></a><span class="co">## names(2): counts logcounts</span></span></code></pre></div>
 </div>
-<div id="annotation-polishing-using-tidyverse" class="section level2">
-<h2 class="hasAnchor">
-<a href="#annotation-polishing-using-tidyverse" class="anchor"></a>Annotation polishing using tidyverse</h2>
+<div id="annotation-polishing" class="section level1">
+<h1 class="hasAnchor">
+<a href="#annotation-polishing" class="anchor"></a>Annotation polishing</h1>
 <p>We may have a column that contains the directory each run was taken from, such as the “file” column in <code>pbmc_small_tidy</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>pbmc_small_tidy<span class="op">$</span>file[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</span>
 <span id="cb7-2"><a href="#cb7-2"></a></span>
@@ -244,39 +232,41 @@
 <span id="cb7-5"><a href="#cb7-5"></a><span class="co">## [3] "../data/sample2/outs/filtered_feature_bc_matrix/"</span></span>
 <span id="cb7-6"><a href="#cb7-6"></a><span class="co">## [4] "../data/sample2/outs/filtered_feature_bc_matrix/"</span></span>
 <span id="cb7-7"><a href="#cb7-7"></a><span class="co">## [5] "../data/sample2/outs/filtered_feature_bc_matrix/"</span></span></code></pre></div>
-<p>We may want to extract the run/sample name out of it into a separate column. <code>extract</code> can be used to convert a character column into multiple columns using regular expression groups.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>pbmc_small_polished &lt;-</span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="st">    </span>pbmc_small_tidy <span class="op">%&gt;%</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="st">    </span><span class="kw">extract</span>(file, <span class="st">"sample"</span>, <span class="st">"../data/([a-z0-9]+)/outs.+"</span>, <span class="dt">remove=</span><span class="ot">FALSE</span>)</span>
-<span id="cb8-4"><a href="#cb8-4"></a></span>
-<span id="cb8-5"><a href="#cb8-5"></a>pbmc_small_polished <span class="op">%&gt;%</span></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="st">    </span><span class="kw">select</span>(sample, <span class="kw">everything</span>())</span>
-<span id="cb8-7"><a href="#cb8-7"></a></span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="co">## # A tibble: 80 x 18</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a><span class="co">##    cell  sample orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents</span></span>
-<span id="cb8-10"><a href="#cb8-10"></a><span class="co">##    &lt;chr&gt; &lt;chr&gt;  &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;        </span></span>
-<span id="cb8-11"><a href="#cb8-11"></a><span class="co">##  1 ATGC… sampl… SeuratPro…         70           47 0               A            </span></span>
-<span id="cb8-12"><a href="#cb8-12"></a><span class="co">##  2 CATG… sampl… SeuratPro…         85           52 0               A            </span></span>
-<span id="cb8-13"><a href="#cb8-13"></a><span class="co">##  3 GAAC… sampl… SeuratPro…         87           50 1               B            </span></span>
-<span id="cb8-14"><a href="#cb8-14"></a><span class="co">##  4 TGAC… sampl… SeuratPro…        127           56 0               A            </span></span>
-<span id="cb8-15"><a href="#cb8-15"></a><span class="co">##  5 AGTC… sampl… SeuratPro…        173           53 0               A            </span></span>
-<span id="cb8-16"><a href="#cb8-16"></a><span class="co">##  6 TCTG… sampl… SeuratPro…         70           48 0               A            </span></span>
-<span id="cb8-17"><a href="#cb8-17"></a><span class="co">##  7 TGGT… sampl… SeuratPro…         64           36 0               A            </span></span>
-<span id="cb8-18"><a href="#cb8-18"></a><span class="co">##  8 GCAG… sampl… SeuratPro…         72           45 0               A            </span></span>
-<span id="cb8-19"><a href="#cb8-19"></a><span class="co">##  9 GATA… sampl… SeuratPro…         52           36 0               A            </span></span>
-<span id="cb8-20"><a href="#cb8-20"></a><span class="co">## 10 AATG… sampl… SeuratPro…        100           41 0               A            </span></span>
-<span id="cb8-21"><a href="#cb8-21"></a><span class="co">## # … with 70 more rows, and 11 more variables: groups &lt;chr&gt;,</span></span>
-<span id="cb8-22"><a href="#cb8-22"></a><span class="co">## #   RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, ident &lt;fct&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;,</span></span>
-<span id="cb8-23"><a href="#cb8-23"></a><span class="co">## #   PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span></code></pre></div>
+<p>We may want to extract the run/sample name out of it into a separate column. Tidyverse <code>extract</code> can be used to convert a character column into multiple columns using regular expression groups.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Create sample column</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>pbmc_small_polished &lt;-</span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="st">    </span>pbmc_small_tidy <span class="op">%&gt;%</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="st">    </span><span class="kw">extract</span>(file, <span class="st">"sample"</span>, <span class="st">"../data/([a-z0-9]+)/outs.+"</span>, <span class="dt">remove=</span><span class="ot">FALSE</span>)</span>
+<span id="cb8-5"><a href="#cb8-5"></a></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="co"># Reorder to have sample column up front</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a>pbmc_small_polished <span class="op">%&gt;%</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="st">    </span><span class="kw">select</span>(sample, <span class="kw">everything</span>())</span>
+<span id="cb8-9"><a href="#cb8-9"></a></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="co">## # A tibble: 80 x 18</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a><span class="co">##    cell  sample orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents</span></span>
+<span id="cb8-12"><a href="#cb8-12"></a><span class="co">##    &lt;chr&gt; &lt;chr&gt;  &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;        </span></span>
+<span id="cb8-13"><a href="#cb8-13"></a><span class="co">##  1 ATGC… sampl… SeuratPro…         70           47 0               A            </span></span>
+<span id="cb8-14"><a href="#cb8-14"></a><span class="co">##  2 CATG… sampl… SeuratPro…         85           52 0               A            </span></span>
+<span id="cb8-15"><a href="#cb8-15"></a><span class="co">##  3 GAAC… sampl… SeuratPro…         87           50 1               B            </span></span>
+<span id="cb8-16"><a href="#cb8-16"></a><span class="co">##  4 TGAC… sampl… SeuratPro…        127           56 0               A            </span></span>
+<span id="cb8-17"><a href="#cb8-17"></a><span class="co">##  5 AGTC… sampl… SeuratPro…        173           53 0               A            </span></span>
+<span id="cb8-18"><a href="#cb8-18"></a><span class="co">##  6 TCTG… sampl… SeuratPro…         70           48 0               A            </span></span>
+<span id="cb8-19"><a href="#cb8-19"></a><span class="co">##  7 TGGT… sampl… SeuratPro…         64           36 0               A            </span></span>
+<span id="cb8-20"><a href="#cb8-20"></a><span class="co">##  8 GCAG… sampl… SeuratPro…         72           45 0               A            </span></span>
+<span id="cb8-21"><a href="#cb8-21"></a><span class="co">##  9 GATA… sampl… SeuratPro…         52           36 0               A            </span></span>
+<span id="cb8-22"><a href="#cb8-22"></a><span class="co">## 10 AATG… sampl… SeuratPro…        100           41 0               A            </span></span>
+<span id="cb8-23"><a href="#cb8-23"></a><span class="co">## # … with 70 more rows, and 11 more variables: groups &lt;chr&gt;,</span></span>
+<span id="cb8-24"><a href="#cb8-24"></a><span class="co">## #   RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, ident &lt;fct&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;,</span></span>
+<span id="cb8-25"><a href="#cb8-25"></a><span class="co">## #   PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span></code></pre></div>
 </div>
-<div id="preliminary-plots" class="section level2">
-<h2 class="hasAnchor">
-<a href="#preliminary-plots" class="anchor"></a>Preliminary plots</h2>
+<div id="preliminary-plots" class="section level1">
+<h1 class="hasAnchor">
+<a href="#preliminary-plots" class="anchor"></a>Preliminary plots</h1>
 <p>Set colours and theme for plots.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># use colourblind-friendly colours</span></span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># Use colourblind-friendly colours</span></span>
 <span id="cb9-2"><a href="#cb9-2"></a>friendly_cols &lt;-<span class="st"> </span>dittoSeq<span class="op">::</span><span class="kw">dittoColors</span>()</span>
 <span id="cb9-3"><a href="#cb9-3"></a></span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="co"># set theme</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="co"># Set theme</span></span>
 <span id="cb9-5"><a href="#cb9-5"></a>my_theme &lt;-</span>
 <span id="cb9-6"><a href="#cb9-6"></a><span class="st">    </span><span class="kw">list</span>(</span>
 <span id="cb9-7"><a href="#cb9-7"></a>        <span class="kw">scale_fill_manual</span>(<span class="dt">values=</span>friendly_cols),</span>
@@ -323,17 +313,17 @@
 <span id="cb12-9"><a href="#cb12-9"></a><span class="co">## tidySCE says: A data frame is returned for independent data analysis.</span></span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-11-1.png"><!-- --></p>
 </div>
-<div id="preprocess-the-dataset" class="section level2">
-<h2 class="hasAnchor">
-<a href="#preprocess-the-dataset" class="anchor"></a>Preprocess the dataset</h2>
-<p>We can also treat <code>pbmc_small_polished</code> as a SingleCellExperiment object and proceed with data processing with Bioconductor packages, such as <em>scran</em> and <em>scater</em>.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># identify variable genes with scran</span></span>
+<div id="preprocess-the-dataset" class="section level1">
+<h1 class="hasAnchor">
+<a href="#preprocess-the-dataset" class="anchor"></a>Preprocess the dataset</h1>
+<p>We can also treat <code>pbmc_small_polished</code> as a <em>SingleCellExperiment</em> object and proceed with data processing with Bioconductor packages, such as <em>scran</em> <br><span class="math display">@<em>l</em><em>u</em><em>n</em>2016<em>p</em><em>o</em><em>o</em><em>l</em><em>i</em><em>n</em><em>g</em></span><br> and <em>scater</em> <br><span class="math display">@<em>m</em><em>c</em><em>c</em><em>a</em><em>r</em><em>t</em><em>h</em><em>y</em>2017<em>s</em><em>c</em><em>a</em><em>t</em><em>e</em><em>r</em></span><br>.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># Identify variable genes with scran</span></span>
 <span id="cb13-2"><a href="#cb13-2"></a>variable_genes &lt;-</span>
 <span id="cb13-3"><a href="#cb13-3"></a><span class="st">    </span>pbmc_small_polished <span class="op">%&gt;%</span></span>
 <span id="cb13-4"><a href="#cb13-4"></a><span class="st">    </span><span class="kw">modelGeneVar</span>() <span class="op">%&gt;%</span></span>
 <span id="cb13-5"><a href="#cb13-5"></a><span class="st">    </span><span class="kw">getTopHVGs</span>(<span class="dt">prop=</span><span class="fl">0.1</span>)</span>
 <span id="cb13-6"><a href="#cb13-6"></a></span>
-<span id="cb13-7"><a href="#cb13-7"></a><span class="co"># perform PCA with scater</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a><span class="co"># Perform PCA with scater</span></span>
 <span id="cb13-8"><a href="#cb13-8"></a>pbmc_small_pca &lt;-</span>
 <span id="cb13-9"><a href="#cb13-9"></a><span class="st">    </span>pbmc_small_polished <span class="op">%&gt;%</span></span>
 <span id="cb13-10"><a href="#cb13-10"></a><span class="st">    </span><span class="kw">runPCA</span>(<span class="dt">subset_row=</span>variable_genes)</span>
@@ -364,7 +354,7 @@
 <span id="cb13-35"><a href="#cb13-35"></a><span class="co">## #   sample &lt;chr&gt;, ident &lt;fct&gt;, PC1 &lt;dbl&gt;, PC2 &lt;dbl&gt;, PC3 &lt;dbl&gt;, PC4 &lt;dbl&gt;,</span></span>
 <span id="cb13-36"><a href="#cb13-36"></a><span class="co">## #   PC5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span></code></pre></div>
 <p>If a tidyverse-compatible package is not included in the tidySCE collection, we can use <code>as_tibble</code> to permanently convert <code>tidySCE</code> into a tibble.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># create pairs plot with GGally</span></span>
+<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># Create pairs plot with GGally</span></span>
 <span id="cb14-2"><a href="#cb14-2"></a>pbmc_small_pca <span class="op">%&gt;%</span></span>
 <span id="cb14-3"><a href="#cb14-3"></a><span class="st">    </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span></span>
 <span id="cb14-4"><a href="#cb14-4"></a><span class="st">    </span><span class="kw">select</span>(<span class="kw">contains</span>(<span class="st">"PC"</span>), <span class="kw">everything</span>()) <span class="op">%&gt;%</span></span>
@@ -376,13 +366,13 @@
 <span id="cb14-10"><a href="#cb14-10"></a><span class="co">##   +.gg   ggplot2</span></span></code></pre></div>
 <p><img src="reference/figures/pc_plot-1.png"><!-- --></p>
 </div>
-<div id="identify-clusters" class="section level2">
-<h2 class="hasAnchor">
-<a href="#identify-clusters" class="anchor"></a>Identify clusters</h2>
+<div id="identify-clusters" class="section level1">
+<h1 class="hasAnchor">
+<a href="#identify-clusters" class="anchor"></a>Identify clusters</h1>
 <p>We can proceed with cluster identification with <em>scran</em>.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>pbmc_small_cluster &lt;-<span class="st"> </span>pbmc_small_pca</span>
 <span id="cb15-2"><a href="#cb15-2"></a></span>
-<span id="cb15-3"><a href="#cb15-3"></a><span class="co"># Assigning to the 'colLabels' of the SummarizedExperiment object</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="co"># Assign clusters to the 'colLabels' of the SummarizedExperiment object</span></span>
 <span id="cb15-4"><a href="#cb15-4"></a><span class="kw">colLabels</span>(pbmc_small_cluster) &lt;-</span>
 <span id="cb15-5"><a href="#cb15-5"></a><span class="st">    </span>pbmc_small_pca <span class="op">%&gt;%</span></span>
 <span id="cb15-6"><a href="#cb15-6"></a><span class="st">    </span><span class="kw">buildSNNGraph</span>(<span class="dt">use.dimred=</span><span class="st">"PCA"</span>) <span class="op">%&gt;%</span></span>
@@ -393,43 +383,45 @@
 <span id="cb15-11"><a href="#cb15-11"></a><span class="co">## Warning in (function (to_check, X, clust_centers, clust_info, dtype, nn, :</span></span>
 <span id="cb15-12"><a href="#cb15-12"></a><span class="co">## detected tied distances to neighbors, see ?'BiocNeighbors-ties'</span></span>
 <span id="cb15-13"><a href="#cb15-13"></a></span>
-<span id="cb15-14"><a href="#cb15-14"></a>pbmc_small_cluster <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(label, <span class="kw">everything</span>())</span>
-<span id="cb15-15"><a href="#cb15-15"></a></span>
-<span id="cb15-16"><a href="#cb15-16"></a><span class="co">## # A tibble: 80 x 19</span></span>
-<span id="cb15-17"><a href="#cb15-17"></a><span class="co">##    cell  label orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents</span></span>
-<span id="cb15-18"><a href="#cb15-18"></a><span class="co">##    &lt;chr&gt; &lt;fct&gt; &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;        </span></span>
-<span id="cb15-19"><a href="#cb15-19"></a><span class="co">##  1 ATGC… 2     SeuratPro…         70           47 0               A            </span></span>
-<span id="cb15-20"><a href="#cb15-20"></a><span class="co">##  2 CATG… 2     SeuratPro…         85           52 0               A            </span></span>
-<span id="cb15-21"><a href="#cb15-21"></a><span class="co">##  3 GAAC… 2     SeuratPro…         87           50 1               B            </span></span>
-<span id="cb15-22"><a href="#cb15-22"></a><span class="co">##  4 TGAC… 1     SeuratPro…        127           56 0               A            </span></span>
-<span id="cb15-23"><a href="#cb15-23"></a><span class="co">##  5 AGTC… 2     SeuratPro…        173           53 0               A            </span></span>
-<span id="cb15-24"><a href="#cb15-24"></a><span class="co">##  6 TCTG… 2     SeuratPro…         70           48 0               A            </span></span>
-<span id="cb15-25"><a href="#cb15-25"></a><span class="co">##  7 TGGT… 1     SeuratPro…         64           36 0               A            </span></span>
-<span id="cb15-26"><a href="#cb15-26"></a><span class="co">##  8 GCAG… 2     SeuratPro…         72           45 0               A            </span></span>
-<span id="cb15-27"><a href="#cb15-27"></a><span class="co">##  9 GATA… 2     SeuratPro…         52           36 0               A            </span></span>
-<span id="cb15-28"><a href="#cb15-28"></a><span class="co">## 10 AATG… 2     SeuratPro…        100           41 0               A            </span></span>
-<span id="cb15-29"><a href="#cb15-29"></a><span class="co">## # … with 70 more rows, and 12 more variables: groups &lt;chr&gt;,</span></span>
-<span id="cb15-30"><a href="#cb15-30"></a><span class="co">## #   RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, sample &lt;chr&gt;, ident &lt;fct&gt;, PC1 &lt;dbl&gt;,</span></span>
-<span id="cb15-31"><a href="#cb15-31"></a><span class="co">## #   PC2 &lt;dbl&gt;, PC3 &lt;dbl&gt;, PC4 &lt;dbl&gt;, PC5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span></code></pre></div>
+<span id="cb15-14"><a href="#cb15-14"></a><span class="co"># Reorder columns</span></span>
+<span id="cb15-15"><a href="#cb15-15"></a>pbmc_small_cluster <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(label, <span class="kw">everything</span>())</span>
+<span id="cb15-16"><a href="#cb15-16"></a></span>
+<span id="cb15-17"><a href="#cb15-17"></a><span class="co">## # A tibble: 80 x 19</span></span>
+<span id="cb15-18"><a href="#cb15-18"></a><span class="co">##    cell  label orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents</span></span>
+<span id="cb15-19"><a href="#cb15-19"></a><span class="co">##    &lt;chr&gt; &lt;fct&gt; &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;        </span></span>
+<span id="cb15-20"><a href="#cb15-20"></a><span class="co">##  1 ATGC… 2     SeuratPro…         70           47 0               A            </span></span>
+<span id="cb15-21"><a href="#cb15-21"></a><span class="co">##  2 CATG… 2     SeuratPro…         85           52 0               A            </span></span>
+<span id="cb15-22"><a href="#cb15-22"></a><span class="co">##  3 GAAC… 2     SeuratPro…         87           50 1               B            </span></span>
+<span id="cb15-23"><a href="#cb15-23"></a><span class="co">##  4 TGAC… 1     SeuratPro…        127           56 0               A            </span></span>
+<span id="cb15-24"><a href="#cb15-24"></a><span class="co">##  5 AGTC… 2     SeuratPro…        173           53 0               A            </span></span>
+<span id="cb15-25"><a href="#cb15-25"></a><span class="co">##  6 TCTG… 2     SeuratPro…         70           48 0               A            </span></span>
+<span id="cb15-26"><a href="#cb15-26"></a><span class="co">##  7 TGGT… 1     SeuratPro…         64           36 0               A            </span></span>
+<span id="cb15-27"><a href="#cb15-27"></a><span class="co">##  8 GCAG… 2     SeuratPro…         72           45 0               A            </span></span>
+<span id="cb15-28"><a href="#cb15-28"></a><span class="co">##  9 GATA… 2     SeuratPro…         52           36 0               A            </span></span>
+<span id="cb15-29"><a href="#cb15-29"></a><span class="co">## 10 AATG… 2     SeuratPro…        100           41 0               A            </span></span>
+<span id="cb15-30"><a href="#cb15-30"></a><span class="co">## # … with 70 more rows, and 12 more variables: groups &lt;chr&gt;,</span></span>
+<span id="cb15-31"><a href="#cb15-31"></a><span class="co">## #   RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, sample &lt;chr&gt;, ident &lt;fct&gt;, PC1 &lt;dbl&gt;,</span></span>
+<span id="cb15-32"><a href="#cb15-32"></a><span class="co">## #   PC2 &lt;dbl&gt;, PC3 &lt;dbl&gt;, PC4 &lt;dbl&gt;, PC5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span></code></pre></div>
 <p>And interrogate the output as if it was a regular tibble.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>pbmc_small_cluster <span class="op">%&gt;%</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="st">    </span>tidySCE<span class="op">::</span><span class="kw">count</span>(groups, label)</span>
-<span id="cb16-3"><a href="#cb16-3"></a></span>
-<span id="cb16-4"><a href="#cb16-4"></a><span class="co">## tidySCE says: A data frame is returned for independent data analysis.</span></span>
-<span id="cb16-5"><a href="#cb16-5"></a></span>
-<span id="cb16-6"><a href="#cb16-6"></a><span class="co">## # A tibble: 8 x 3</span></span>
-<span id="cb16-7"><a href="#cb16-7"></a><span class="co">##   groups label     n</span></span>
-<span id="cb16-8"><a href="#cb16-8"></a><span class="co">##   &lt;chr&gt;  &lt;fct&gt; &lt;int&gt;</span></span>
-<span id="cb16-9"><a href="#cb16-9"></a><span class="co">## 1 g1     1        12</span></span>
-<span id="cb16-10"><a href="#cb16-10"></a><span class="co">## 2 g1     2        14</span></span>
-<span id="cb16-11"><a href="#cb16-11"></a><span class="co">## 3 g1     3        14</span></span>
-<span id="cb16-12"><a href="#cb16-12"></a><span class="co">## 4 g1     4         4</span></span>
-<span id="cb16-13"><a href="#cb16-13"></a><span class="co">## 5 g2     1        10</span></span>
-<span id="cb16-14"><a href="#cb16-14"></a><span class="co">## 6 g2     2        11</span></span>
-<span id="cb16-15"><a href="#cb16-15"></a><span class="co">## 7 g2     3        10</span></span>
-<span id="cb16-16"><a href="#cb16-16"></a><span class="co">## 8 g2     4         5</span></span></code></pre></div>
-<p>We can identify and visualise cluster markers combining SingleCellExperiment and tidyverse functions.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># Identify markers</span></span>
+<div class="sourceCode" id="cb16"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># Count number of cells for each cluster per group</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a>pbmc_small_cluster <span class="op">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="st">    </span>tidySCE<span class="op">::</span><span class="kw">count</span>(groups, label)</span>
+<span id="cb16-4"><a href="#cb16-4"></a></span>
+<span id="cb16-5"><a href="#cb16-5"></a><span class="co">## tidySCE says: A data frame is returned for independent data analysis.</span></span>
+<span id="cb16-6"><a href="#cb16-6"></a></span>
+<span id="cb16-7"><a href="#cb16-7"></a><span class="co">## # A tibble: 8 x 3</span></span>
+<span id="cb16-8"><a href="#cb16-8"></a><span class="co">##   groups label     n</span></span>
+<span id="cb16-9"><a href="#cb16-9"></a><span class="co">##   &lt;chr&gt;  &lt;fct&gt; &lt;int&gt;</span></span>
+<span id="cb16-10"><a href="#cb16-10"></a><span class="co">## 1 g1     1        12</span></span>
+<span id="cb16-11"><a href="#cb16-11"></a><span class="co">## 2 g1     2        14</span></span>
+<span id="cb16-12"><a href="#cb16-12"></a><span class="co">## 3 g1     3        14</span></span>
+<span id="cb16-13"><a href="#cb16-13"></a><span class="co">## 4 g1     4         4</span></span>
+<span id="cb16-14"><a href="#cb16-14"></a><span class="co">## 5 g2     1        10</span></span>
+<span id="cb16-15"><a href="#cb16-15"></a><span class="co">## 6 g2     2        11</span></span>
+<span id="cb16-16"><a href="#cb16-16"></a><span class="co">## 7 g2     3        10</span></span>
+<span id="cb16-17"><a href="#cb16-17"></a><span class="co">## 8 g2     4         5</span></span></code></pre></div>
+<p>We can identify and visualise cluster markers combining SingleCellExperiment, tidyverse functions and tidyHeatmap <br><span class="math display">@<em>m</em><em>a</em><em>n</em><em>g</em><em>i</em><em>o</em><em>l</em><em>a</em>2020<em>t</em><em>i</em><em>d</em><em>y</em><em>h</em><em>e</em><em>a</em><em>t</em><em>m</em><em>a</em><em>p</em></span><br></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># Identify top 10 markers per cluster</span></span>
 <span id="cb17-2"><a href="#cb17-2"></a>marker_genes &lt;-</span>
 <span id="cb17-3"><a href="#cb17-3"></a><span class="st">    </span>pbmc_small_cluster <span class="op">%&gt;%</span></span>
 <span id="cb17-4"><a href="#cb17-4"></a><span class="st">    </span><span class="kw">findMarkers</span>(<span class="dt">groups=</span>pbmc_small_cluster<span class="op">$</span>label) <span class="op">%&gt;%</span></span>
@@ -448,9 +440,9 @@
 <span id="cb17-17"><a href="#cb17-17"></a><span class="co">## tidySCE says: A data frame is returned for independent data analysis.</span></span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-12-1.png"><!-- --></p>
 </div>
-<div id="reduce-dimensions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#reduce-dimensions" class="anchor"></a>Reduce dimensions</h2>
+<div id="reduce-dimensions" class="section level1">
+<h1 class="hasAnchor">
+<a href="#reduce-dimensions" class="anchor"></a>Reduce dimensions</h1>
 <p>We can calculate the first 3 UMAP dimensions using the SingleCellExperiment framework and <em>scater</em>.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>pbmc_small_UMAP &lt;-</span>
 <span id="cb18-2"><a href="#cb18-2"></a><span class="st">    </span>pbmc_small_cluster <span class="op">%&gt;%</span></span>
@@ -464,91 +456,103 @@
 <span id="cb19-6"><a href="#cb19-6"></a>        <span class="dt">color=</span><span class="op">~</span>label,</span>
 <span id="cb19-7"><a href="#cb19-7"></a>        <span class="dt">colors=</span>friendly_cols[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]</span>
 <span id="cb19-8"><a href="#cb19-8"></a>    )</span></code></pre></div>
-<p><img src="reference/figures/plotly.png" alt="screenshot plotly"></p>
 </div>
-<div id="cell-type-prediction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#cell-type-prediction" class="anchor"></a>Cell type prediction</h2>
-<p>We can infer cell type identities using <em>SingleR</em>.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>blueprint &lt;-<span class="st"> </span>celldex<span class="op">::</span><span class="kw">BlueprintEncodeData</span>()</span>
-<span id="cb20-2"><a href="#cb20-2"></a></span>
-<span id="cb20-3"><a href="#cb20-3"></a>cell_type_df &lt;-</span>
-<span id="cb20-4"><a href="#cb20-4"></a><span class="st">    </span>pbmc_small_UMAP<span class="op">@</span>assays<span class="op">@</span>data<span class="op">$</span>logcounts <span class="op">%&gt;%</span></span>
-<span id="cb20-5"><a href="#cb20-5"></a><span class="st">    </span>Matrix<span class="op">::</span><span class="kw">Matrix</span>(<span class="dt">sparse=</span><span class="ot">TRUE</span>) <span class="op">%&gt;%</span></span>
-<span id="cb20-6"><a href="#cb20-6"></a><span class="st">    </span><span class="kw">SingleR</span>(</span>
-<span id="cb20-7"><a href="#cb20-7"></a>        <span class="dt">ref=</span>blueprint,</span>
-<span id="cb20-8"><a href="#cb20-8"></a>        <span class="dt">labels=</span>blueprint<span class="op">$</span>label.main</span>
-<span id="cb20-9"><a href="#cb20-9"></a>    ) <span class="op">%&gt;%</span></span>
-<span id="cb20-10"><a href="#cb20-10"></a><span class="st">    </span><span class="kw">as.data.frame</span>() <span class="op">%&gt;%</span></span>
-<span id="cb20-11"><a href="#cb20-11"></a><span class="st">    </span><span class="kw">as_tibble</span>(<span class="dt">rownames=</span><span class="st">"cell"</span>) <span class="op">%&gt;%</span></span>
-<span id="cb20-12"><a href="#cb20-12"></a><span class="st">    </span><span class="kw">select</span>(cell, first.labels)</span>
+<div id="cell-type-prediction" class="section level1">
+<h1 class="hasAnchor">
+<a href="#cell-type-prediction" class="anchor"></a>Cell type prediction</h1>
+<p>We can infer cell type identities using <em>SingleR</em> <br><span class="math display">@<em>a</em><em>r</em><em>a</em><em>n</em>2019<em>r</em><em>e</em><em>f</em><em>e</em><em>r</em><em>e</em><em>n</em><em>c</em><em>e</em></span><br> and manipulate the output using tidyverse.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="co"># Get cell type reference data</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a>blueprint &lt;-<span class="st"> </span>celldex<span class="op">::</span><span class="kw">BlueprintEncodeData</span>()</span>
+<span id="cb20-3"><a href="#cb20-3"></a></span>
+<span id="cb20-4"><a href="#cb20-4"></a><span class="co">## snapshotDate(): 2020-09-04</span></span>
+<span id="cb20-5"><a href="#cb20-5"></a></span>
+<span id="cb20-6"><a href="#cb20-6"></a><span class="co">## see ?celldex and browseVignettes('celldex') for documentation</span></span>
+<span id="cb20-7"><a href="#cb20-7"></a></span>
+<span id="cb20-8"><a href="#cb20-8"></a><span class="co">## loading from cache</span></span>
+<span id="cb20-9"><a href="#cb20-9"></a></span>
+<span id="cb20-10"><a href="#cb20-10"></a><span class="co">## see ?celldex and browseVignettes('celldex') for documentation</span></span>
+<span id="cb20-11"><a href="#cb20-11"></a></span>
+<span id="cb20-12"><a href="#cb20-12"></a><span class="co">## loading from cache</span></span>
 <span id="cb20-13"><a href="#cb20-13"></a></span>
-<span id="cb20-14"><a href="#cb20-14"></a>pbmc_small_cell_type &lt;-</span>
-<span id="cb20-15"><a href="#cb20-15"></a><span class="st">    </span>pbmc_small_UMAP <span class="op">%&gt;%</span></span>
-<span id="cb20-16"><a href="#cb20-16"></a><span class="st">    </span><span class="kw">left_join</span>(cell_type_df, <span class="dt">by=</span><span class="st">"cell"</span>)</span>
-<span id="cb20-17"><a href="#cb20-17"></a></span>
-<span id="cb20-18"><a href="#cb20-18"></a>pbmc_small_cell_type <span class="op">%&gt;%</span></span>
-<span id="cb20-19"><a href="#cb20-19"></a><span class="st">    </span>tidySCE<span class="op">::</span><span class="kw">select</span>(cell, first.labels, <span class="kw">everything</span>())</span>
-<span id="cb20-20"><a href="#cb20-20"></a></span>
-<span id="cb20-21"><a href="#cb20-21"></a><span class="co">## # A tibble: 80 x 23</span></span>
-<span id="cb20-22"><a href="#cb20-22"></a><span class="co">##    cell  first.labels orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8</span></span>
-<span id="cb20-23"><a href="#cb20-23"></a><span class="co">##    &lt;chr&gt; &lt;chr&gt;        &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;          </span></span>
-<span id="cb20-24"><a href="#cb20-24"></a><span class="co">##  1 ATGC… CD4+ T-cells SeuratPro…         70           47 0              </span></span>
-<span id="cb20-25"><a href="#cb20-25"></a><span class="co">##  2 CATG… CD8+ T-cells SeuratPro…         85           52 0              </span></span>
-<span id="cb20-26"><a href="#cb20-26"></a><span class="co">##  3 GAAC… CD8+ T-cells SeuratPro…         87           50 1              </span></span>
-<span id="cb20-27"><a href="#cb20-27"></a><span class="co">##  4 TGAC… CD4+ T-cells SeuratPro…        127           56 0              </span></span>
-<span id="cb20-28"><a href="#cb20-28"></a><span class="co">##  5 AGTC… CD4+ T-cells SeuratPro…        173           53 0              </span></span>
-<span id="cb20-29"><a href="#cb20-29"></a><span class="co">##  6 TCTG… CD4+ T-cells SeuratPro…         70           48 0              </span></span>
-<span id="cb20-30"><a href="#cb20-30"></a><span class="co">##  7 TGGT… CD4+ T-cells SeuratPro…         64           36 0              </span></span>
-<span id="cb20-31"><a href="#cb20-31"></a><span class="co">##  8 GCAG… CD4+ T-cells SeuratPro…         72           45 0              </span></span>
-<span id="cb20-32"><a href="#cb20-32"></a><span class="co">##  9 GATA… CD4+ T-cells SeuratPro…         52           36 0              </span></span>
-<span id="cb20-33"><a href="#cb20-33"></a><span class="co">## 10 AATG… CD4+ T-cells SeuratPro…        100           41 0              </span></span>
-<span id="cb20-34"><a href="#cb20-34"></a><span class="co">## # … with 70 more rows, and 17 more variables: letter.idents &lt;fct&gt;,</span></span>
-<span id="cb20-35"><a href="#cb20-35"></a><span class="co">## #   groups &lt;chr&gt;, RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, sample &lt;chr&gt;, ident &lt;fct&gt;,</span></span>
-<span id="cb20-36"><a href="#cb20-36"></a><span class="co">## #   label &lt;fct&gt;, PC1 &lt;dbl&gt;, PC2 &lt;dbl&gt;, PC3 &lt;dbl&gt;, PC4 &lt;dbl&gt;, PC5 &lt;dbl&gt;,</span></span>
-<span id="cb20-37"><a href="#cb20-37"></a><span class="co">## #   tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;, UMAP1 &lt;dbl&gt;, UMAP2 &lt;dbl&gt;, UMAP3 &lt;dbl&gt;</span></span></code></pre></div>
-<p>We can easily summarise the results. For example, see how cell type classification overlaps with cluster classification.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>pbmc_small_cell_type <span class="op">%&gt;%</span></span>
-<span id="cb21-2"><a href="#cb21-2"></a><span class="st">    </span><span class="kw">count</span>(label, first.labels)</span>
-<span id="cb21-3"><a href="#cb21-3"></a></span>
-<span id="cb21-4"><a href="#cb21-4"></a><span class="co">## tidySCE says: A data frame is returned for independent data analysis.</span></span>
-<span id="cb21-5"><a href="#cb21-5"></a></span>
-<span id="cb21-6"><a href="#cb21-6"></a><span class="co">## # A tibble: 11 x 3</span></span>
-<span id="cb21-7"><a href="#cb21-7"></a><span class="co">##    label first.labels     n</span></span>
-<span id="cb21-8"><a href="#cb21-8"></a><span class="co">##    &lt;fct&gt; &lt;chr&gt;        &lt;int&gt;</span></span>
-<span id="cb21-9"><a href="#cb21-9"></a><span class="co">##  1 1     CD4+ T-cells     2</span></span>
-<span id="cb21-10"><a href="#cb21-10"></a><span class="co">##  2 1     CD8+ T-cells     8</span></span>
-<span id="cb21-11"><a href="#cb21-11"></a><span class="co">##  3 1     NK cells        12</span></span>
-<span id="cb21-12"><a href="#cb21-12"></a><span class="co">##  4 2     B-cells         10</span></span>
-<span id="cb21-13"><a href="#cb21-13"></a><span class="co">##  5 2     CD4+ T-cells     6</span></span>
-<span id="cb21-14"><a href="#cb21-14"></a><span class="co">##  6 2     CD8+ T-cells     2</span></span>
-<span id="cb21-15"><a href="#cb21-15"></a><span class="co">##  7 2     Macrophages      1</span></span>
-<span id="cb21-16"><a href="#cb21-16"></a><span class="co">##  8 2     Monocytes        6</span></span>
-<span id="cb21-17"><a href="#cb21-17"></a><span class="co">##  9 3     Macrophages      1</span></span>
-<span id="cb21-18"><a href="#cb21-18"></a><span class="co">## 10 3     Monocytes       23</span></span>
-<span id="cb21-19"><a href="#cb21-19"></a><span class="co">## 11 4     Erythrocytes     9</span></span></code></pre></div>
+<span id="cb20-14"><a href="#cb20-14"></a><span class="co"># Infer cell identities</span></span>
+<span id="cb20-15"><a href="#cb20-15"></a>cell_type_df &lt;-</span>
+<span id="cb20-16"><a href="#cb20-16"></a><span class="st">    </span>pbmc_small_UMAP<span class="op">@</span>assays<span class="op">@</span>data<span class="op">$</span>logcounts <span class="op">%&gt;%</span></span>
+<span id="cb20-17"><a href="#cb20-17"></a><span class="st">    </span>Matrix<span class="op">::</span><span class="kw">Matrix</span>(<span class="dt">sparse=</span><span class="ot">TRUE</span>) <span class="op">%&gt;%</span></span>
+<span id="cb20-18"><a href="#cb20-18"></a><span class="st">    </span><span class="kw">SingleR</span>(</span>
+<span id="cb20-19"><a href="#cb20-19"></a>        <span class="dt">ref=</span>blueprint,</span>
+<span id="cb20-20"><a href="#cb20-20"></a>        <span class="dt">labels=</span>blueprint<span class="op">$</span>label.main</span>
+<span id="cb20-21"><a href="#cb20-21"></a>    ) <span class="op">%&gt;%</span></span>
+<span id="cb20-22"><a href="#cb20-22"></a><span class="st">    </span><span class="kw">as.data.frame</span>() <span class="op">%&gt;%</span></span>
+<span id="cb20-23"><a href="#cb20-23"></a><span class="st">    </span><span class="kw">as_tibble</span>(<span class="dt">rownames=</span><span class="st">"cell"</span>) <span class="op">%&gt;%</span></span>
+<span id="cb20-24"><a href="#cb20-24"></a><span class="st">    </span><span class="kw">select</span>(cell, first.labels)</span>
+<span id="cb20-25"><a href="#cb20-25"></a></span>
+<span id="cb20-26"><a href="#cb20-26"></a><span class="co"># Join UMAP and cell type info</span></span>
+<span id="cb20-27"><a href="#cb20-27"></a>pbmc_small_cell_type &lt;-</span>
+<span id="cb20-28"><a href="#cb20-28"></a><span class="st">    </span>pbmc_small_UMAP <span class="op">%&gt;%</span></span>
+<span id="cb20-29"><a href="#cb20-29"></a><span class="st">    </span><span class="kw">left_join</span>(cell_type_df, <span class="dt">by=</span><span class="st">"cell"</span>)</span>
+<span id="cb20-30"><a href="#cb20-30"></a></span>
+<span id="cb20-31"><a href="#cb20-31"></a><span class="co"># Reorder columns</span></span>
+<span id="cb20-32"><a href="#cb20-32"></a>pbmc_small_cell_type <span class="op">%&gt;%</span></span>
+<span id="cb20-33"><a href="#cb20-33"></a><span class="st">    </span>tidySCE<span class="op">::</span><span class="kw">select</span>(cell, first.labels, <span class="kw">everything</span>())</span>
+<span id="cb20-34"><a href="#cb20-34"></a></span>
+<span id="cb20-35"><a href="#cb20-35"></a><span class="co">## # A tibble: 80 x 23</span></span>
+<span id="cb20-36"><a href="#cb20-36"></a><span class="co">##    cell  first.labels orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8</span></span>
+<span id="cb20-37"><a href="#cb20-37"></a><span class="co">##    &lt;chr&gt; &lt;chr&gt;        &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;          </span></span>
+<span id="cb20-38"><a href="#cb20-38"></a><span class="co">##  1 ATGC… CD4+ T-cells SeuratPro…         70           47 0              </span></span>
+<span id="cb20-39"><a href="#cb20-39"></a><span class="co">##  2 CATG… CD8+ T-cells SeuratPro…         85           52 0              </span></span>
+<span id="cb20-40"><a href="#cb20-40"></a><span class="co">##  3 GAAC… CD8+ T-cells SeuratPro…         87           50 1              </span></span>
+<span id="cb20-41"><a href="#cb20-41"></a><span class="co">##  4 TGAC… CD4+ T-cells SeuratPro…        127           56 0              </span></span>
+<span id="cb20-42"><a href="#cb20-42"></a><span class="co">##  5 AGTC… CD4+ T-cells SeuratPro…        173           53 0              </span></span>
+<span id="cb20-43"><a href="#cb20-43"></a><span class="co">##  6 TCTG… CD4+ T-cells SeuratPro…         70           48 0              </span></span>
+<span id="cb20-44"><a href="#cb20-44"></a><span class="co">##  7 TGGT… CD4+ T-cells SeuratPro…         64           36 0              </span></span>
+<span id="cb20-45"><a href="#cb20-45"></a><span class="co">##  8 GCAG… CD4+ T-cells SeuratPro…         72           45 0              </span></span>
+<span id="cb20-46"><a href="#cb20-46"></a><span class="co">##  9 GATA… CD8+ T-cells SeuratPro…         52           36 0              </span></span>
+<span id="cb20-47"><a href="#cb20-47"></a><span class="co">## 10 AATG… CD4+ T-cells SeuratPro…        100           41 0              </span></span>
+<span id="cb20-48"><a href="#cb20-48"></a><span class="co">## # … with 70 more rows, and 17 more variables: letter.idents &lt;fct&gt;,</span></span>
+<span id="cb20-49"><a href="#cb20-49"></a><span class="co">## #   groups &lt;chr&gt;, RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, sample &lt;chr&gt;, ident &lt;fct&gt;,</span></span>
+<span id="cb20-50"><a href="#cb20-50"></a><span class="co">## #   label &lt;fct&gt;, PC1 &lt;dbl&gt;, PC2 &lt;dbl&gt;, PC3 &lt;dbl&gt;, PC4 &lt;dbl&gt;, PC5 &lt;dbl&gt;,</span></span>
+<span id="cb20-51"><a href="#cb20-51"></a><span class="co">## #   tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;, UMAP1 &lt;dbl&gt;, UMAP2 &lt;dbl&gt;, UMAP3 &lt;dbl&gt;</span></span></code></pre></div>
+<p>We can easily summarise the results. For example, we can see how cell type classification overlaps with cluster classification.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="co"># Count number of cells for each cell type per cluster</span></span>
+<span id="cb21-2"><a href="#cb21-2"></a>pbmc_small_cell_type <span class="op">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3"></a><span class="st">    </span><span class="kw">count</span>(label, first.labels)</span>
+<span id="cb21-4"><a href="#cb21-4"></a></span>
+<span id="cb21-5"><a href="#cb21-5"></a><span class="co">## tidySCE says: A data frame is returned for independent data analysis.</span></span>
+<span id="cb21-6"><a href="#cb21-6"></a></span>
+<span id="cb21-7"><a href="#cb21-7"></a><span class="co">## # A tibble: 9 x 3</span></span>
+<span id="cb21-8"><a href="#cb21-8"></a><span class="co">##   label first.labels     n</span></span>
+<span id="cb21-9"><a href="#cb21-9"></a><span class="co">##   &lt;fct&gt; &lt;chr&gt;        &lt;int&gt;</span></span>
+<span id="cb21-10"><a href="#cb21-10"></a><span class="co">## 1 1     CD4+ T-cells     2</span></span>
+<span id="cb21-11"><a href="#cb21-11"></a><span class="co">## 2 1     CD8+ T-cells     8</span></span>
+<span id="cb21-12"><a href="#cb21-12"></a><span class="co">## 3 1     NK cells        12</span></span>
+<span id="cb21-13"><a href="#cb21-13"></a><span class="co">## 4 2     B-cells         10</span></span>
+<span id="cb21-14"><a href="#cb21-14"></a><span class="co">## 5 2     CD4+ T-cells     5</span></span>
+<span id="cb21-15"><a href="#cb21-15"></a><span class="co">## 6 2     CD8+ T-cells     3</span></span>
+<span id="cb21-16"><a href="#cb21-16"></a><span class="co">## 7 2     Monocytes        7</span></span>
+<span id="cb21-17"><a href="#cb21-17"></a><span class="co">## 8 3     Monocytes       24</span></span>
+<span id="cb21-18"><a href="#cb21-18"></a><span class="co">## 9 4     Erythrocytes     9</span></span></code></pre></div>
 <p>We can easily reshape the data for building information-rich faceted plots.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>pbmc_small_cell_type <span class="op">%&gt;%</span></span>
 <span id="cb22-2"><a href="#cb22-2"></a></span>
-<span id="cb22-3"><a href="#cb22-3"></a><span class="st">    </span><span class="co"># Reshaping</span></span>
+<span id="cb22-3"><a href="#cb22-3"></a><span class="st">    </span><span class="co"># Reshape and add classifier column</span></span>
 <span id="cb22-4"><a href="#cb22-4"></a><span class="st">    </span><span class="kw">pivot_longer</span>(</span>
 <span id="cb22-5"><a href="#cb22-5"></a>        <span class="dt">cols=</span><span class="kw">c</span>(label, first.labels),</span>
 <span id="cb22-6"><a href="#cb22-6"></a>        <span class="dt">names_to=</span><span class="st">"classifier"</span>, <span class="dt">values_to=</span><span class="st">"label"</span></span>
 <span id="cb22-7"><a href="#cb22-7"></a>    ) <span class="op">%&gt;%</span></span>
 <span id="cb22-8"><a href="#cb22-8"></a></span>
-<span id="cb22-9"><a href="#cb22-9"></a><span class="st">    </span><span class="co"># Plotting</span></span>
+<span id="cb22-9"><a href="#cb22-9"></a><span class="st">    </span><span class="co"># UMAP plots for cell type and cluster</span></span>
 <span id="cb22-10"><a href="#cb22-10"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(UMAP1, UMAP2, <span class="dt">color=</span>label)) <span class="op">+</span></span>
 <span id="cb22-11"><a href="#cb22-11"></a><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
 <span id="cb22-12"><a href="#cb22-12"></a><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span>classifier) <span class="op">+</span></span>
 <span id="cb22-13"><a href="#cb22-13"></a><span class="st">    </span>my_theme</span>
 <span id="cb22-14"><a href="#cb22-14"></a></span>
 <span id="cb22-15"><a href="#cb22-15"></a><span class="co">## tidySCE says: A data frame is returned for independent data analysis.</span></span></code></pre></div>
-<p><img src="reference/figures/unnamed-chunk-16-1.png"><!-- --></p>
+<p><img src="reference/figures/unnamed-chunk-15-1.png"><!-- --></p>
 <p>We can easily plot gene correlation per cell category, adding multi-layer annotations.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>pbmc_small_cell_type <span class="op">%&gt;%</span></span>
 <span id="cb23-2"><a href="#cb23-2"></a></span>
-<span id="cb23-3"><a href="#cb23-3"></a><span class="st">    </span><span class="co"># Add mitochondrial abundance</span></span>
-<span id="cb23-4"><a href="#cb23-4"></a><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">mitochondrial=</span><span class="kw">rnorm</span>(<span class="kw">n</span>())) <span class="op">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3"></a><span class="st">    </span><span class="co"># Add some mitochondrial abundance values</span></span>
+<span id="cb23-4"><a href="#cb23-4"></a><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">mitochondrial=</span><span class="kw">rnorm</span>(dplyr<span class="op">::</span><span class="kw">n</span>())) <span class="op">%&gt;%</span></span>
 <span id="cb23-5"><a href="#cb23-5"></a></span>
 <span id="cb23-6"><a href="#cb23-6"></a><span class="st">    </span><span class="co"># Plot correlation</span></span>
 <span id="cb23-7"><a href="#cb23-7"></a><span class="st">    </span><span class="kw">join_transcripts</span>(<span class="dt">transcripts=</span><span class="kw">c</span>(<span class="st">"CST3"</span>, <span class="st">"LYZ"</span>), <span class="dt">shape=</span><span class="st">"wide"</span>) <span class="op">%&gt;%</span></span>
@@ -560,16 +564,16 @@
 <span id="cb23-13"><a href="#cb23-13"></a><span class="st">    </span>my_theme</span>
 <span id="cb23-14"><a href="#cb23-14"></a></span>
 <span id="cb23-15"><a href="#cb23-15"></a><span class="co">## tidySCE says: A data frame is returned for independent data analysis.</span></span></code></pre></div>
-<p><img src="reference/figures/unnamed-chunk-17-1.png"><!-- --></p>
+<p><img src="reference/figures/unnamed-chunk-16-1.png"><!-- --></p>
 </div>
-<div id="nested-analyses" class="section level2">
-<h2 class="hasAnchor">
-<a href="#nested-analyses" class="anchor"></a>Nested analyses</h2>
-<p>A powerful tool we can use with tidySCE is <code>nest</code>. We can easily perform independent analyses on subsets of the dataset. First we classify cell types in lymphoid and myeloid, and then nest based on the new classification.</p>
+<div id="nested-analyses" class="section level1">
+<h1 class="hasAnchor">
+<a href="#nested-analyses" class="anchor"></a>Nested analyses</h1>
+<p>A powerful tool we can use with tidySCE is tidyverse <code>nest</code>. We can easily perform independent analyses on subsets of the dataset. First we classify cell types into lymphoid and myeloid, and then nest based on the new classification.</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>pbmc_small_nested &lt;-</span>
 <span id="cb24-2"><a href="#cb24-2"></a><span class="st">    </span>pbmc_small_cell_type <span class="op">%&gt;%</span></span>
 <span id="cb24-3"><a href="#cb24-3"></a><span class="st">    </span><span class="kw">filter</span>(first.labels <span class="op">!=</span><span class="st"> "Erythrocytes"</span>) <span class="op">%&gt;%</span></span>
-<span id="cb24-4"><a href="#cb24-4"></a><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">cell_class=</span><span class="kw">if_else</span>(<span class="st">`</span><span class="dt">first.labels</span><span class="st">`</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">"Macrophages"</span>, <span class="st">"Monocytes"</span>), <span class="st">"myeloid"</span>, <span class="st">"lymphoid"</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb24-4"><a href="#cb24-4"></a><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">cell_class=</span>dplyr<span class="op">::</span><span class="kw">if_else</span>(<span class="st">`</span><span class="dt">first.labels</span><span class="st">`</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">"Macrophages"</span>, <span class="st">"Monocytes"</span>), <span class="st">"myeloid"</span>, <span class="st">"lymphoid"</span>)) <span class="op">%&gt;%</span></span>
 <span id="cb24-5"><a href="#cb24-5"></a><span class="st">    </span><span class="kw">nest</span>(<span class="dt">data=</span><span class="op">-</span>cell_class)</span>
 <span id="cb24-6"><a href="#cb24-6"></a></span>
 <span id="cb24-7"><a href="#cb24-7"></a>pbmc_small_nested</span>
@@ -579,7 +583,7 @@
 <span id="cb24-11"><a href="#cb24-11"></a><span class="co">##   &lt;chr&gt;      &lt;list&gt;   </span></span>
 <span id="cb24-12"><a href="#cb24-12"></a><span class="co">## 1 lymphoid   &lt;tidySCE&gt;</span></span>
 <span id="cb24-13"><a href="#cb24-13"></a><span class="co">## 2 myeloid    &lt;tidySCE&gt;</span></span></code></pre></div>
-<p>Now we can independently (i) find variable features, (ii) reduce dimensions, and (iii) cluster using both tidyverse and SingleCellExperiment seamlessly.</p>
+<p>Now we can independently for the lymphoid and myeloid subsets (i) find variable features, (ii) reduce dimensions, and (iii) cluster using both tidyverse and SingleCellExperiment seamlessly.</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>pbmc_small_nested_reanalysed &lt;-</span>
 <span id="cb25-2"><a href="#cb25-2"></a><span class="st">    </span>pbmc_small_nested <span class="op">%&gt;%</span></span>
 <span id="cb25-3"><a href="#cb25-3"></a><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">data=</span><span class="kw">map</span>(</span>
@@ -609,7 +613,7 @@
 <span id="cb25-27"><a href="#cb25-27"></a><span class="co">##   &lt;chr&gt;      &lt;list&gt;   </span></span>
 <span id="cb25-28"><a href="#cb25-28"></a><span class="co">## 1 lymphoid   &lt;tidySCE&gt;</span></span>
 <span id="cb25-29"><a href="#cb25-29"></a><span class="co">## 2 myeloid    &lt;tidySCE&gt;</span></span></code></pre></div>
-<p>Now we can unnest and plot the new classification.</p>
+<p>We can then unnest and plot the new classification.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>pbmc_small_nested_reanalysed <span class="op">%&gt;%</span></span>
 <span id="cb26-2"><a href="#cb26-2"></a></span>
 <span id="cb26-3"><a href="#cb26-3"></a><span class="st">    </span><span class="co"># Convert to tibble otherwise SingleCellExperiment drops reduced dimensions when unifying data sets.</span></span>
@@ -624,8 +628,8 @@
 <span id="cb26-12"><a href="#cb26-12"></a><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
 <span id="cb26-13"><a href="#cb26-13"></a><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span>cell_class) <span class="op">+</span></span>
 <span id="cb26-14"><a href="#cb26-14"></a><span class="st">    </span>my_theme</span></code></pre></div>
-<p><img src="reference/figures/unnamed-chunk-20-1.png"><!-- --></p>
-<p>We can perform a large number of functional analyses on data subsets. For example, we can identify intra-sample cell-cell interactions, and then compare whether interactions are stronger or weaker across conditions. In this small dataset we have just two samples (one for each condition) but you can imagine how you can use tidyverse on the output to perform t-tests and visualisation.</p>
+<p><img src="reference/figures/unnamed-chunk-19-1.png"><!-- --></p>
+<p>We can perform a large number of functional analyses on data subsets. For example, we can identify intra-sample cell-cell interactions using <em>SingleCellSignalR</em> <br><span class="math display">@<em>c</em><em>a</em><em>b</em><em>e</em><em>l</em><em>l</em><em>o</em>2020<em>s</em><em>i</em><em>n</em><em>g</em><em>l</em><em>e</em><em>c</em><em>e</em><em>l</em><em>l</em><em>s</em><em>i</em><em>g</em><em>n</em><em>a</em><em>l</em><em>r</em></span><br>, and then compare whether interactions are stronger or weaker across conditions. The code below demonstrates how this analysis could be performed. It won’t work with this small example dataset as we have just two samples (one for each condition). But some example output is shown below and you can imagine how you can use tidyverse on the output to perform t-tests and visualisation.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>pbmc_small_nested_interactions &lt;-</span>
 <span id="cb27-2"><a href="#cb27-2"></a><span class="st">    </span>pbmc_small_nested_reanalysed <span class="op">%&gt;%</span></span>
 <span id="cb27-3"><a href="#cb27-3"></a></span>
@@ -654,7 +658,7 @@
 <span id="cb27-26"><a href="#cb27-26"></a>pbmc_small_nested_interactions <span class="op">%&gt;%</span></span>
 <span id="cb27-27"><a href="#cb27-27"></a><span class="st">    </span><span class="kw">select</span>(<span class="op">-</span>data) <span class="op">%&gt;%</span></span>
 <span id="cb27-28"><a href="#cb27-28"></a><span class="st">    </span><span class="kw">unnest</span>(interactions)</span></code></pre></div>
-<p>If the data set was not so small, and interactions could be identified, you would see something as below.</p>
+<p>If the dataset was not so small, and interactions could be identified, you would see something like below.</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>tidySCE<span class="op">::</span>pbmc_small_nested_interactions</span>
 <span id="cb28-2"><a href="#cb28-2"></a></span>
 <span id="cb28-3"><a href="#cb28-3"></a><span class="co">## # A tibble: 100 x 9</span></span>
@@ -672,93 +676,6 @@
 <span id="cb28-15"><a href="#cb28-15"></a><span class="co">## 10 sampl… clust… cluster… CALM1       VIPR1         clust… cluster 3  </span></span>
 <span id="cb28-16"><a href="#cb28-16"></a><span class="co">## # … with 90 more rows, and 2 more variables: interaction.type &lt;chr&gt;,</span></span>
 <span id="cb28-17"><a href="#cb28-17"></a><span class="co">## #   LRscore &lt;dbl&gt;</span></span></code></pre></div>
-</div>
-</div>
-<div id="session-info" class="section level1">
-<h1 class="hasAnchor">
-<a href="#session-info" class="anchor"></a>Session Info</h1>
-<div class="sourceCode" id="cb29"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw">sessionInfo</span>()</span>
-<span id="cb29-2"><a href="#cb29-2"></a></span>
-<span id="cb29-3"><a href="#cb29-3"></a><span class="co">## R version 4.0.2 (2020-06-22)</span></span>
-<span id="cb29-4"><a href="#cb29-4"></a><span class="co">## Platform: x86_64-apple-darwin17.0 (64-bit)</span></span>
-<span id="cb29-5"><a href="#cb29-5"></a><span class="co">## Running under: macOS Mojave 10.14.6</span></span>
-<span id="cb29-6"><a href="#cb29-6"></a><span class="co">## </span></span>
-<span id="cb29-7"><a href="#cb29-7"></a><span class="co">## Matrix products: default</span></span>
-<span id="cb29-8"><a href="#cb29-8"></a><span class="co">## BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib</span></span>
-<span id="cb29-9"><a href="#cb29-9"></a><span class="co">## LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib</span></span>
-<span id="cb29-10"><a href="#cb29-10"></a><span class="co">## </span></span>
-<span id="cb29-11"><a href="#cb29-11"></a><span class="co">## locale:</span></span>
-<span id="cb29-12"><a href="#cb29-12"></a><span class="co">## [1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8</span></span>
-<span id="cb29-13"><a href="#cb29-13"></a><span class="co">## </span></span>
-<span id="cb29-14"><a href="#cb29-14"></a><span class="co">## attached base packages:</span></span>
-<span id="cb29-15"><a href="#cb29-15"></a><span class="co">## [1] parallel  stats4    stats     graphics  grDevices utils     datasets </span></span>
-<span id="cb29-16"><a href="#cb29-16"></a><span class="co">## [8] methods   base     </span></span>
-<span id="cb29-17"><a href="#cb29-17"></a><span class="co">## </span></span>
-<span id="cb29-18"><a href="#cb29-18"></a><span class="co">## other attached packages:</span></span>
-<span id="cb29-19"><a href="#cb29-19"></a><span class="co">##  [1] tidySCE_0.99.0              tidyHeatmap_1.1.4          </span></span>
-<span id="cb29-20"><a href="#cb29-20"></a><span class="co">##  [3] purrr_0.3.4                 dplyr_1.0.1                </span></span>
-<span id="cb29-21"><a href="#cb29-21"></a><span class="co">##  [5] SingleCellSignalR_1.1.0     SingleR_1.3.8              </span></span>
-<span id="cb29-22"><a href="#cb29-22"></a><span class="co">##  [7] scran_1.17.16               scater_1.17.4              </span></span>
-<span id="cb29-23"><a href="#cb29-23"></a><span class="co">##  [9] ggplot2_3.3.2               SingleCellExperiment_1.11.6</span></span>
-<span id="cb29-24"><a href="#cb29-24"></a><span class="co">## [11] SummarizedExperiment_1.19.6 DelayedArray_0.15.6        </span></span>
-<span id="cb29-25"><a href="#cb29-25"></a><span class="co">## [13] matrixStats_0.56.0          Matrix_1.2-18              </span></span>
-<span id="cb29-26"><a href="#cb29-26"></a><span class="co">## [15] Biobase_2.49.0              GenomicRanges_1.41.5       </span></span>
-<span id="cb29-27"><a href="#cb29-27"></a><span class="co">## [17] GenomeInfoDb_1.25.8         IRanges_2.23.10            </span></span>
-<span id="cb29-28"><a href="#cb29-28"></a><span class="co">## [19] S4Vectors_0.27.12           BiocGenerics_0.35.4        </span></span>
-<span id="cb29-29"><a href="#cb29-29"></a><span class="co">## </span></span>
-<span id="cb29-30"><a href="#cb29-30"></a><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span id="cb29-31"><a href="#cb29-31"></a><span class="co">##   [1] Rtsne_0.15                ggbeeswarm_0.6.0         </span></span>
-<span id="cb29-32"><a href="#cb29-32"></a><span class="co">##   [3] colorspace_1.4-1          rjson_0.2.20             </span></span>
-<span id="cb29-33"><a href="#cb29-33"></a><span class="co">##   [5] ggridges_0.5.2            ellipsis_0.3.1           </span></span>
-<span id="cb29-34"><a href="#cb29-34"></a><span class="co">##   [7] circlize_0.4.10           scuttle_0.99.12          </span></span>
-<span id="cb29-35"><a href="#cb29-35"></a><span class="co">##   [9] bluster_0.99.1            XVector_0.29.3           </span></span>
-<span id="cb29-36"><a href="#cb29-36"></a><span class="co">##  [11] GlobalOptions_0.1.2       BiocNeighbors_1.7.0      </span></span>
-<span id="cb29-37"><a href="#cb29-37"></a><span class="co">##  [13] clue_0.3-57               farver_2.0.3             </span></span>
-<span id="cb29-38"><a href="#cb29-38"></a><span class="co">##  [15] ggrepel_0.8.2             RSpectra_0.16-0          </span></span>
-<span id="cb29-39"><a href="#cb29-39"></a><span class="co">##  [17] fansi_0.4.1               codetools_0.2-16         </span></span>
-<span id="cb29-40"><a href="#cb29-40"></a><span class="co">##  [19] splines_4.0.2             knitr_1.29               </span></span>
-<span id="cb29-41"><a href="#cb29-41"></a><span class="co">##  [21] cluster_2.1.0             png_0.1-7                </span></span>
-<span id="cb29-42"><a href="#cb29-42"></a><span class="co">##  [23] uwot_0.1.8                pheatmap_1.0.12          </span></span>
-<span id="cb29-43"><a href="#cb29-43"></a><span class="co">##  [25] BiocManager_1.30.10       compiler_4.0.2           </span></span>
-<span id="cb29-44"><a href="#cb29-44"></a><span class="co">##  [27] dqrng_0.2.1               assertthat_0.2.1         </span></span>
-<span id="cb29-45"><a href="#cb29-45"></a><span class="co">##  [29] limma_3.45.8              cli_2.0.2                </span></span>
-<span id="cb29-46"><a href="#cb29-46"></a><span class="co">##  [31] BiocSingular_1.5.0        htmltools_0.5.0          </span></span>
-<span id="cb29-47"><a href="#cb29-47"></a><span class="co">##  [33] tools_4.0.2               rsvd_1.0.3               </span></span>
-<span id="cb29-48"><a href="#cb29-48"></a><span class="co">##  [35] igraph_1.2.5              gtable_0.3.0             </span></span>
-<span id="cb29-49"><a href="#cb29-49"></a><span class="co">##  [37] glue_1.4.1                GenomeInfoDbData_1.2.3   </span></span>
-<span id="cb29-50"><a href="#cb29-50"></a><span class="co">##  [39] Rcpp_1.0.5                vctrs_0.3.2              </span></span>
-<span id="cb29-51"><a href="#cb29-51"></a><span class="co">##  [41] multtest_2.45.0           gdata_2.18.0             </span></span>
-<span id="cb29-52"><a href="#cb29-52"></a><span class="co">##  [43] iterators_1.0.12          DelayedMatrixStats_1.11.1</span></span>
-<span id="cb29-53"><a href="#cb29-53"></a><span class="co">##  [45] xfun_0.16                 stringr_1.4.0            </span></span>
-<span id="cb29-54"><a href="#cb29-54"></a><span class="co">##  [47] lifecycle_0.2.0           irlba_2.3.3              </span></span>
-<span id="cb29-55"><a href="#cb29-55"></a><span class="co">##  [49] gtools_3.8.2              statmod_1.4.34           </span></span>
-<span id="cb29-56"><a href="#cb29-56"></a><span class="co">##  [51] edgeR_3.31.4              zlibbioc_1.35.0          </span></span>
-<span id="cb29-57"><a href="#cb29-57"></a><span class="co">##  [53] MASS_7.3-51.6             scales_1.1.1             </span></span>
-<span id="cb29-58"><a href="#cb29-58"></a><span class="co">##  [55] RColorBrewer_1.1-2        ComplexHeatmap_2.5.3     </span></span>
-<span id="cb29-59"><a href="#cb29-59"></a><span class="co">##  [57] yaml_2.2.1                gridExtra_2.3            </span></span>
-<span id="cb29-60"><a href="#cb29-60"></a><span class="co">##  [59] reshape_0.8.8             stringi_1.4.6            </span></span>
-<span id="cb29-61"><a href="#cb29-61"></a><span class="co">##  [61] foreach_1.5.0             caTools_1.18.0           </span></span>
-<span id="cb29-62"><a href="#cb29-62"></a><span class="co">##  [63] BiocParallel_1.23.2       shape_1.4.4              </span></span>
-<span id="cb29-63"><a href="#cb29-63"></a><span class="co">##  [65] rlang_0.4.7               pkgconfig_2.0.3          </span></span>
-<span id="cb29-64"><a href="#cb29-64"></a><span class="co">##  [67] bitops_1.0-6              pracma_2.2.9             </span></span>
-<span id="cb29-65"><a href="#cb29-65"></a><span class="co">##  [69] evaluate_0.14             lattice_0.20-41          </span></span>
-<span id="cb29-66"><a href="#cb29-66"></a><span class="co">##  [71] labeling_0.3              cowplot_1.0.0            </span></span>
-<span id="cb29-67"><a href="#cb29-67"></a><span class="co">##  [73] tidyselect_1.1.0          GGally_2.0.0             </span></span>
-<span id="cb29-68"><a href="#cb29-68"></a><span class="co">##  [75] RcppAnnoy_0.0.16          plyr_1.8.6               </span></span>
-<span id="cb29-69"><a href="#cb29-69"></a><span class="co">##  [77] magrittr_1.5              R6_2.4.1                 </span></span>
-<span id="cb29-70"><a href="#cb29-70"></a><span class="co">##  [79] gplots_3.0.4              generics_0.0.2           </span></span>
-<span id="cb29-71"><a href="#cb29-71"></a><span class="co">##  [81] pillar_1.4.6              withr_2.2.0              </span></span>
-<span id="cb29-72"><a href="#cb29-72"></a><span class="co">##  [83] survival_3.2-3            RCurl_1.98-1.2           </span></span>
-<span id="cb29-73"><a href="#cb29-73"></a><span class="co">##  [85] tibble_3.0.3              crayon_1.3.4             </span></span>
-<span id="cb29-74"><a href="#cb29-74"></a><span class="co">##  [87] KernSmooth_2.23-17        utf8_1.1.4               </span></span>
-<span id="cb29-75"><a href="#cb29-75"></a><span class="co">##  [89] dittoSeq_1.1.7            rmarkdown_2.3            </span></span>
-<span id="cb29-76"><a href="#cb29-76"></a><span class="co">##  [91] viridis_0.5.1             GetoptLong_1.0.2         </span></span>
-<span id="cb29-77"><a href="#cb29-77"></a><span class="co">##  [93] locfit_1.5-9.4            grid_4.0.2               </span></span>
-<span id="cb29-78"><a href="#cb29-78"></a><span class="co">##  [95] data.table_1.13.0         FNN_1.1.3                </span></span>
-<span id="cb29-79"><a href="#cb29-79"></a><span class="co">##  [97] SIMLR_1.15.0              digest_0.6.25            </span></span>
-<span id="cb29-80"><a href="#cb29-80"></a><span class="co">##  [99] tidyr_1.1.1               munsell_0.5.0            </span></span>
-<span id="cb29-81"><a href="#cb29-81"></a><span class="co">## [101] beeswarm_0.2.3            viridisLite_0.3.0        </span></span>
-<span id="cb29-82"><a href="#cb29-82"></a><span class="co">## [103] vipor_0.4.5</span></span></code></pre></div>
 </div>
 
   </div>
