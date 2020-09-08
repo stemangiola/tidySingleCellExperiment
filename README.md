@@ -398,6 +398,8 @@ And we can plot the result in 3D using plotly.
             colors=friendly_cols[1:4]
         )
 
+![plotly screenshot](man/figures/plotly.png)
+
 Cell type prediction
 ====================
 
