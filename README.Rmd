@@ -286,6 +286,8 @@ pbmc_small_UMAP %>%
     )
 ```
 
+![plotly screenshot](man/figures/plotly.png)
+
 # Cell type prediction
 
 We can infer cell type identities using *SingleR* [@aran2019reference] and manipulate the output using tidyverse.

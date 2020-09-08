@@ -277,7 +277,7 @@ pbmc_small_UMAP %>%
 ```
 
 
-#![plotly screenshot]("../man/figures/plotly.png")
+![plotly screenshot](../man/figures/plotly.png)
 
 # Cell type prediction
 
