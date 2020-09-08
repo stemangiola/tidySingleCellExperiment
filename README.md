@@ -67,11 +67,12 @@ From Bioconductor (under submission)
 
     BiocManager::install("tidySCE")
 
-From GitHub
+From GitHub (development version)
 
+    # install.packages('devtools')
     devtools::install_github("stemangiola/tidySCE")
 
-Load libraries used in this vignette.
+Load libraries used in these examples.
 
     # Bioconductor single-cell packages
     library(scater)
@@ -232,7 +233,7 @@ Here we plot abundance of two transcripts for each group.
 
     ## tidySCE says: A data frame is returned for independent data analysis.
 
-![](man/figures/unnamed-chunk-11-1.png)<!-- -->
+![](man/figures/unnamed-chunk-13-1.png)<!-- -->
 
 Preprocess the dataset
 ======================
@@ -258,6 +259,10 @@ as *scran* \[@lun2016pooling\] and *scater* \[@mccarthy2017scater\].
     ## Warning in (function (A, nv = 5, nu = nv, maxit = 1000, work = nv + 7, reorth =
     ## TRUE, : You're computing too large a percentage of total singular values, use a
     ## standard svd instead.
+
+    ## Warning in (function (A, nv = 5, nu = nv, maxit = 1000, work = nv + 7, reorth
+    ## = TRUE, : did not converge--results might be invalid!; try increasing work or
+    ## maxit
 
     pbmc_small_pca
 
@@ -375,7 +380,7 @@ SingleCellExperiment, tidyverse functions and tidyHeatmap
 
     ## tidySCE says: A data frame is returned for independent data analysis.
 
-![](man/figures/unnamed-chunk-12-1.png)<!-- -->
+![](man/figures/unnamed-chunk-14-1.png)<!-- -->
 
 Reduce dimensions
 =================
@@ -499,7 +504,7 @@ plots.
 
     ## tidySCE says: A data frame is returned for independent data analysis.
 
-![](man/figures/unnamed-chunk-15-1.png)<!-- -->
+![](man/figures/unnamed-chunk-17-1.png)<!-- -->
 
 We can easily plot gene correlation per cell category, adding
 multi-layer annotations.
@@ -520,7 +525,7 @@ multi-layer annotations.
 
     ## tidySCE says: A data frame is returned for independent data analysis.
 
-![](man/figures/unnamed-chunk-16-1.png)<!-- -->
+![](man/figures/unnamed-chunk-18-1.png)<!-- -->
 
 Nested analyses
 ===============
@@ -595,7 +600,7 @@ We can then unnest and plot the new classification.
         facet_wrap(~cell_class) +
         my_theme
 
-![](man/figures/unnamed-chunk-19-1.png)<!-- -->
+![](man/figures/unnamed-chunk-21-1.png)<!-- -->
 
 We can perform a large number of functional analyses on data subsets.
 For example, we can identify intra-sample cell-cell interactions using
