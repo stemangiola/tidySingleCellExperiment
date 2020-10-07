@@ -553,14 +553,34 @@ mutate.default <- function(.data, ...) {
 
 #' @importFrom dplyr mutate
 #' @importFrom rlang enquos
+#' @importFrom SummarizedExperiment colData
 #'
 #' @export
 mutate.tidySCE <- function(.data, ...) {
 
     # Check that we are not modifying a key column
     cols <- enquos(...) %>% names()
-    if (intersect(cols, get_special_columns(.data) %>% c(get_needed_columns())) %>% length() %>% gt(0)) {
-        stop(sprintf("tidySCE says: you are trying to mutate a column that is view only %s (it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% c(get_needed_columns()) %>% paste(collapse=", ")))
+
+    tst <-
+        intersect(
+            cols %>%
+                names(),
+            get_special_columns(.data) %>%
+                c(get_needed_columns())
+        ) %>%
+        length() %>%
+        gt(0)
+
+    if (tst) {
+        columns =
+            get_special_columns(.data) %>%
+            c(get_needed_columns()) %>%
+            paste(collapse=", ")
+        stop(
+            "tidySCE says: you are trying to rename a column that is view only",
+            columns,
+            "(it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one."
+        )
     }
 
     colData(.data) <-
@@ -616,6 +636,7 @@ rename.default <- function(.data, ...) {
 }
 
 #' @importFrom tidyselect eval_select
+#' @importFrom SummarizedExperiment colData
 #' @export
 rename.tidySCE <- function(.data, ...) {
 
@@ -633,8 +654,17 @@ rename.tidySCE <- function(.data, ...) {
         gt(0)
 
     if (tst) {
-        stop(sprintf("tidySCE says: you are trying to rename a column that is view only %s (it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% c(get_needed_columns()) %>% paste(collapse=", ")))
+        columns =
+            get_special_columns(.data) %>%
+            c(get_needed_columns()) %>%
+            paste(collapse=", ")
+        stop(
+            "tidySCE says: you are trying to rename a column that is view only",
+            columns,
+            "(it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one."
+        )
     }
+
 
     colData(.data) <- dplyr::rename(colData(.data) %>% as.data.frame(), ...) %>% DataFrame()
 
@@ -720,6 +750,7 @@ left_join.default <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     dplyr::left_join(x, y, by=by, copy=copy, suffix=suffix, ...)
 }
 
+#' @importFrom SummarizedExperiment colData
 #' @export
 left_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
@@ -773,6 +804,7 @@ inner_join.default <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), 
     dplyr::inner_join(x, y, by=by, copy=copy, suffix=suffix, ...)
 }
 
+#' @importFrom SummarizedExperiment colData
 #' @export
 inner_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), ...) {
     x %>%
@@ -830,6 +862,7 @@ right_join.default <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     dplyr::right_join(x, y, by=by, copy=copy, suffix=suffix, ...)
 }
 
+#' @importFrom SummarizedExperiment colData
 #' @export
 right_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
@@ -988,6 +1021,7 @@ slice.default <- function(.data, ..., .preserve=FALSE) {
     dplyr::slice(.data, ..., .preserve=.preserve)
 }
 
+#' @importFrom SummarizedExperiment colData
 #' @export
 slice.tidySCE <- function(.data, ..., .preserve=FALSE) {
     new_meta <- dplyr::slice(colData(.data) %>% as.data.frame(), ..., .preserve=.preserve)
@@ -1053,6 +1087,7 @@ select.default <- function(.data, ...) {
     dplyr::select(.data, ...)
 }
 
+#' @importFrom SummarizedExperiment colData
 #' @export
 select.tidySCE <- function(.data, ...) {
     .data %>%
@@ -1133,6 +1168,7 @@ sample_n.default <- function(tbl, size, replace=FALSE, weight=NULL,
     tbl %>% sample_n(size, replace=replace, weight=weight, .env=.env, ...)
 }
 
+#' @importFrom SummarizedExperiment colData
 #' @export
 sample_n.tidySCE <- function(tbl, size, replace=FALSE,
     weight=NULL, .env=NULL, ...) {
@@ -1159,6 +1195,7 @@ sample_frac.default <- function(tbl, size, replace=FALSE, weight=NULL,
     tbl %>% dplyr::sample_frac(size, replace=replace, weight=weight, .env=.env, ...)
 }
 
+#' @importFrom SummarizedExperiment colData
 #' @export
 sample_frac.tidySCE <- function(tbl, size=1, replace=FALSE,
     weight=NULL, .env=NULL, ...) {

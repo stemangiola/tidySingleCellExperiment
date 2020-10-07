@@ -75,6 +75,7 @@ as_tibble.default <- function(x, ...,
 #' @importFrom purrr map
 #' @importFrom tidyr spread
 #' @importFrom tibble enframe
+#' @importFrom SummarizedExperiment colData
 #'
 #'
 as_tibble.tidySCE <- function(x, ...,

@@ -219,6 +219,7 @@ extract.default <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE
     )
 }
 
+#' @importFrom SummarizedExperiment colData
 #' @export
 extract.tidySCE <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE,
     convert=FALSE, ...) {
@@ -448,13 +449,32 @@ unite.default <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
     tidyr::unite(data, !!cols, ..., sep=sep, remove=remove, na.rm=na.rm)
 }
 
+#' @importFrom SummarizedExperiment colData
 #' @export
 unite.tidySCE <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
 
     # Check that we are not modifying a key column
     cols <- enquo(col)
-    if (intersect(cols %>% quo_names(), get_special_columns(data) %>% c(get_needed_columns())) %>% length() %>% gt(0) & remove) {
-        stop(sprintf("tidySCE says: you are trying to rename a column that is view only %s (it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(data) %>% c(get_needed_columns()) %>% paste(collapse=", ")))
+
+    tst <-
+        intersect(
+            cols %>% quo_names(),
+            get_special_columns(data) %>% c(get_needed_columns())
+        ) %>%
+        length() %>%
+        gt(0) &
+        remove
+
+    if (tst) {
+        columns =
+            get_special_columns(data) %>%
+            c(get_needed_columns()) %>%
+            paste(collapse=", ")
+        stop(
+            "tidySCE says: you are trying to rename a column that is view only",
+            columns,
+            "(it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one."
+        )
     }
 
 
@@ -524,14 +544,33 @@ separate.default <- function(data, col, into, sep="[^[:alnum:]]+", remove=TRUE,
     )
 }
 
+#' @importFrom SummarizedExperiment colData
 #' @export
 separate.tidySCE <- function(data, col, into, sep="[^[:alnum:]]+", remove=TRUE,
     convert=FALSE, extra="warn", fill="warn", ...) {
 
     # Check that we are not modifying a key column
     cols <- enquo(col)
-    if (intersect(cols %>% quo_names(), get_special_columns(data) %>% c(get_needed_columns())) %>% length() %>% gt(0) & remove) {
-        stop(sprintf("tidySCE says: you are trying to rename a column that is view only %s (it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(data) %>% c(get_needed_columns()) %>% paste(collapse=", ")))
+
+    tst <-
+        intersect(
+            cols %>% quo_names(),
+            get_special_columns(data) %>% c(get_needed_columns())
+        ) %>%
+        length() %>%
+        gt(0) &
+        remove
+
+    if (tst) {
+        columns =
+            get_special_columns(data) %>%
+            c(get_needed_columns()) %>%
+            paste(collapse=", ")
+        stop(
+            "tidySCE says: you are trying to rename a column that is view only",
+            columns,
+            "(it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one."
+        )
     }
 
 
