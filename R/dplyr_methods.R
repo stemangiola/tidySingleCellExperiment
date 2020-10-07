@@ -616,6 +616,7 @@ rename.default <- function(.data, ...) {
     dplyr::rename(.data, ...)
 }
 
+#' @importFrom tidyselect eval_select
 #' @export
 rename.tidySCE <- function(.data, ...) {
 
@@ -1232,9 +1233,11 @@ count.tidySCE <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by
 
 #' Extract a single column
 #'
+#'
 #' `pull()` is similar to `$`. It's mostly useful because it looks a little
 #' nicer in pipes, it also works with remote data frames, and it can optionally
 #' name the output.
+#'
 #'
 #' @inheritParams arrange
 #' @inheritParams tidyselect::vars_pull
@@ -1250,6 +1253,9 @@ count.tidySCE <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by
 #' The following methods are currently available in loaded packages:
 #' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("pull")}.
 #' @export
+#'
+#' @importFrom ellipsis check_dots_used
+#'
 #' @examples
 #'
 #' `%>%` <- magrittr::`%>%`

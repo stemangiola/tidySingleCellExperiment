@@ -251,6 +251,8 @@ extract.tidySCE <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE
 #' `pivot_longer()` for new code; `gather()` isn't going away but is no longer
 #' under active development.
 #'
+#' @importFrom ellipsis check_dots_used
+#'
 #' @param data A data frame to pivot.
 #' @param cols <[`tidy-select`][tidyr_tidy_select]> Columns to pivot into
 #'   longer format.
@@ -410,6 +412,8 @@ pivot_longer.tidySCE <- function(data,
 #'
 #' Convenience function to paste together multiple columns into one.
 #'
+#' @importFrom ellipsis check_dots_unnamed
+#'
 #' @param data A data frame.
 #' @param col The name of the new column, as a string or symbol.
 #'
@@ -467,6 +471,8 @@ unite.tidySCE <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
 #'
 #' Given either a regular expression or a vector of character positions,
 #' `separate()` turns a single character column into multiple columns.
+#'
+#' @importFrom ellipsis check_dots_used
 #'
 #' @inheritParams extract
 #' @param sep Separator between columns.

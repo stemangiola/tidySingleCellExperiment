@@ -314,6 +314,7 @@ quo_names <- function(v) {
 #' @importFrom purrr when
 #' @importFrom dplyr select
 #' @importFrom rlang expr
+#' @importFrom tidyselect eval_select
 select_helper <- function(.data, ...) {
     loc <- tidyselect::eval_select(expr(c(...)), .data)
 

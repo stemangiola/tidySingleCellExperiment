@@ -130,7 +130,7 @@ pbmc_small_tidy
 **But it is a SingleCellExperiment object after all**
 
 ```{r}
-pbmc_small_tidy@assays
+assay(pbmc_small_tidy)
 ```
 ## Annotation polishing using tidyverse
 
