@@ -472,7 +472,7 @@ unite.tidySCE <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
             paste(collapse=", ")
         stop(
             "tidySCE says: you are trying to rename a column that is view only",
-            columns,
+            columns, " ",
             "(it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one."
         )
     }
@@ -568,7 +568,7 @@ separate.tidySCE <- function(data, col, into, sep="[^[:alnum:]]+", remove=TRUE,
             paste(collapse=", ")
         stop(
             "tidySCE says: you are trying to rename a column that is view only",
-            columns,
+            columns, " ",
             "(it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one."
         )
     }
