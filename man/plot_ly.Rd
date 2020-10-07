@@ -39,7 +39,7 @@ See [schema()] for a list of acceptable attributes for a given trace `type`
 provided at this level may override other arguments
 (e.g. `plot_ly(x=1:10, y=1:10, color=I("red"), marker=list(color="blue"))`).}
 
-\item{type}{A character string specifying the trace type 
+\item{type}{A character string specifying the trace type
   (e.g. `"scatter"`, `"bar"`, `"box"`, etc).
 If specified, it *always* creates a trace, otherwise}
 
@@ -52,11 +52,11 @@ creates one trace for every unique value.}
 [marker.color](https://plot.ly/r/reference#scatter-marker-color),
 [textfont.color](https://plot.ly/r/reference/#scatter-textfont-color), etc.).
 The mapping from data values to color codes may be controlled using
-`colors` and `alpha`, or avoided altogether via [I()] 
+`colors` and `alpha`, or avoided altogether via [I()]
   (e.g., `color=I("red")`).
 Any color understood by [grDevices::col2rgb()] may be used in this way.}
 
-\item{colors}{Either a colorbrewer2.org palette name 
+\item{colors}{Either a colorbrewer2.org palette name
   (e.g. "YlOrRd" or "Blues"),
 or a vector of colors to interpolate in hexadecimal "#RRGGBB" format,
 or a color interpolation function like `colorRamp()`.}

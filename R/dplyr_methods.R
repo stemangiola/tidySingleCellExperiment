@@ -46,7 +46,7 @@
 #'   more details.
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Variables, or functions or
 #'   variables. Use [desc()] to sort a variable in descending order.
-#' @param .by_group If TRUE, will sort first by grouping variable. Applies to 
+#' @param .by_group If TRUE, will sort first by grouping variable. Applies to
 #'   grouped data frames only.
 #'
 #' @family single table verbs
@@ -113,8 +113,8 @@ arrange.tidySCE <- function(.data, ..., .by_group=FALSE) {
 #'   list of data frames is supplied, the labels are taken from the
 #'   names of the list. If no names are found a numeric sequence is
 #'   used instead.
-#' @param add.cell.ids from SingleCellExperiment 3.0 A character vector of 
-#'   length(x=c(x, y)). Appends the corresponding values to the start of each 
+#' @param add.cell.ids from SingleCellExperiment 3.0 A character vector of
+#'   length(x=c(x, y)). Appends the corresponding values to the start of each
 #'   objects' cell names.
 #'
 #' @return `bind_rows()` and `bind_cols()` return the same type as
@@ -157,6 +157,8 @@ bind_rows.tidySCE <- function(..., .id=NULL, add.cell.ids=NULL) {
     new_obj <- cbind(tts[[1]], tts[[2]]) %>% tidy()
 
     # If duplicated cell names
+    if(new_obj %>% colnames %>% duplicated %>% which %>% length %>% gt(0))
+        warning("tidySCE says: you have duplicated cell names, they will be made unique.")
     colnames(new_obj) <- make.unique(colnames(new_obj), sep="_")
 
     new_obj
@@ -186,7 +188,7 @@ bind_cols.default <- function(..., .id=NULL) {
 bind_cols.tidySCE <- function(..., .id=NULL) {
     tts <- tts <- flatten_if(dots_values(...), is_spliced)
 
-    tts[[1]]@colData <- dplyr::bind_cols(tts[[1]]@colData %>% as.data.frame(), 
+    tts[[1]]@colData <- dplyr::bind_cols(tts[[1]]@colData %>% as.data.frame(),
                                          tts[[2]], .id=.id) %>% DataFrame()
 
     tts[[1]]
@@ -198,7 +200,7 @@ bind_cols.tidySCE <- function(..., .id=NULL) {
 #'
 #' @param .data A tbl. (See dplyr)
 #' @param ... Data frames to combine (See dplyr)
-#' @param .keep_all If TRUE, keep all variables in .data. If a combination 
+#' @param .keep_all If TRUE, keep all variables in .data. If a combination
 #'   of ... is not distinct, this keeps the first row of values. (See dplyr)
 #'
 #' @return A tidySCE object
@@ -221,7 +223,7 @@ distinct.default <- function(.data, ..., .keep_all=FALSE) {
 
 #' @export
 distinct.tidySCE <- function(.data, ..., .keep_all=FALSE) {
-    message("tidySCE says: A data frame is returned for 
+    message("tidySCE says: A data frame is returned for
             independent data analysis.")
 
     .data %>%
@@ -332,10 +334,10 @@ filter.tidySCE <- function(.data, ..., .preserve=FALSE) {
 #'   This argument was previously called `add`, but that prevented
 #'   creating a new grouping variable called `add`, and conflicts with
 #'   our naming conventions.
-#' @param .drop When `.drop=TRUE`, empty groups are dropped. See 
+#' @param .drop When `.drop=TRUE`, empty groups are dropped. See
 #'   [group_by_drop_default()] for what the default value is for this argument.
-#' @return A [grouped data frame][grouped_df()], unless the combination of 
-#'   `...` and `add` yields a non empty set of grouping columns, a 
+#' @return A [grouped data frame][grouped_df()], unless the combination of
+#'   `...` and `add` yields a non empty set of grouping columns, a
 #'   regular (ungrouped) data frame otherwise.
 #' @section Methods:
 #' These function are **generic**s, which means that packages can provide
@@ -449,7 +451,7 @@ summarise.default <- function(.data, ...) {
 
 #' @export
 summarise.tidySCE <- function(.data, ...) {
-    message("tidySCE says: A data frame is returned for 
+    message("tidySCE says: A data frame is returned for
             independent data analysis.")
 
     .data %>%
@@ -681,10 +683,10 @@ rowwise.tidySCE <- function(.data) {
 #' @param x tbls to join. (See dplyr)
 #' @param y tbls to join. (See dplyr)
 #' @param by A character vector of variables to join by. (See dplyr)
-#' @param copy If x and y are not from the same data source, and copy is TRUE, 
+#' @param copy If x and y are not from the same data source, and copy is TRUE,
 #'   then y will be copied into the same src as x. (See dplyr)
-#' @param suffix If there are non-joined duplicate variables in x and y, these 
-#'   suffixes will be added to the output to disambiguate them. Should be a 
+#' @param suffix If there are non-joined duplicate variables in x and y, these
+#'   suffixes will be added to the output to disambiguate them. Should be a
 #'   character vector of length 2. (See dplyr)
 #' @param ... Data frames to combine (See dplyr)
 #'
@@ -792,10 +794,10 @@ inner_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), 
 #' @param x tbls to join. (See dplyr)
 #' @param y tbls to join. (See dplyr)
 #' @param by A character vector of variables to join by. (See dplyr)
-#' @param copy If x and y are not from the same data source, and copy is TRUE, 
+#' @param copy If x and y are not from the same data source, and copy is TRUE,
 #'   then y will be copied into the same src as x. (See dplyr)
-#' @param suffix If there are non-joined duplicate variables in x and y, these 
-#'   suffixes will be added to the output to disambiguate them. Should be a 
+#' @param suffix If there are non-joined duplicate variables in x and y, these
+#'   suffixes will be added to the output to disambiguate them. Should be a
 #'   character vector of length 2. (See dplyr)
 #' @param ... Data frames to combine (See dplyr)
 #'
@@ -851,10 +853,10 @@ right_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
 #' @param x tbls to join. (See dplyr)
 #' @param y tbls to join. (See dplyr)
 #' @param by A character vector of variables to join by. (See dplyr)
-#' @param copy If x and y are not from the same data source, and copy is TRUE, 
+#' @param copy If x and y are not from the same data source, and copy is TRUE,
 #'   then y will be copied into the same src as x. (See dplyr)
-#' @param suffix If there are non-joined duplicate variables in x and y, these 
-#'   suffixes will be added to the output to disambiguate them. Should be a 
+#' @param suffix If there are non-joined duplicate variables in x and y, these
+#'   suffixes will be added to the output to disambiguate them. Should be a
 #'   character vector of length 2. (See dplyr)
 #' @param ... Data frames to combine (See dplyr)
 #'

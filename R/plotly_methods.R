@@ -21,7 +21,7 @@
 #' (by going to `traces` -> `type` -> `attributes`). Note that attributes
 #' provided at this level may override other arguments
 #' (e.g. `plot_ly(x=1:10, y=1:10, color=I("red"), marker=list(color="blue"))`).
-#' @param type A character string specifying the trace type 
+#' @param type A character string specifying the trace type
 #'   (e.g. `"scatter"`, `"bar"`, `"box"`, etc).
 #' If specified, it *always* creates a trace, otherwise
 #' @param name Values mapped to the trace's name attribute. Since a trace can
@@ -32,10 +32,10 @@
 #' [marker.color](https://plot.ly/r/reference#scatter-marker-color),
 #' [textfont.color](https://plot.ly/r/reference/#scatter-textfont-color), etc.).
 #' The mapping from data values to color codes may be controlled using
-#' `colors` and `alpha`, or avoided altogether via [I()] 
+#' `colors` and `alpha`, or avoided altogether via [I()]
 #'   (e.g., `color=I("red")`).
 #' Any color understood by [grDevices::col2rgb()] may be used in this way.
-#' @param colors Either a colorbrewer2.org palette name 
+#' @param colors Either a colorbrewer2.org palette name
 #'   (e.g. "YlOrRd" or "Blues"),
 #' or a vector of colors to interpolate in hexadecimal "#RRGGBB" format,
 #' or a color interpolation function like `colorRamp()`.
@@ -146,7 +146,7 @@ plot_ly <- function(data=data.frame(), ..., type=NULL, name=NULL,
 
 #' @export
 #'
-plot_ly.tbl_df <- function(data=data.frame(), ..., type=NULL, name=NULL,
+plot_ly.default <- function(data=data.frame(), ..., type=NULL, name=NULL,
     color=NULL, colors=NULL, alpha=NULL,
     stroke=NULL, strokes=NULL, alpha_stroke=1,
     size=NULL, sizes=c(10, 100),

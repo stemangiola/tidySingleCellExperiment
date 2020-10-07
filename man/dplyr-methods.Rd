@@ -35,8 +35,8 @@ grouped data frames only.}
   names of the list. If no names are found a numeric sequence is
   used instead.}
 
-\item{add.cell.ids}{from SingleCellExperiment 3.0 A character vector of 
-length(x=c(x, y)). Appends the corresponding values to the start of each 
+\item{add.cell.ids}{from SingleCellExperiment 3.0 A character vector of
+length(x=c(x, y)). Appends the corresponding values to the start of each
 objects' cell names.}
 }
 \value{

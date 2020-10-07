@@ -353,7 +353,7 @@ pivot_longer.default <- function(data,
     ...) {
     cols <- enquo(cols)
     tidyr::pivot_longer(data,
-        cols,
+        !!cols,
         names_to=names_to,
         names_prefix=names_prefix,
         names_sep=names_sep,
@@ -384,13 +384,13 @@ pivot_longer.tidySCE <- function(data,
     values_ptypes=list(),
     values_transform=list(),
     ...) {
-    cols <- enquo(cols) %>% quo_names()
+    cols <- enquo(cols)
 
     message("tidySCE says: A data frame is returned for independent data analysis.")
 
     data %>%
         as_tibble() %>%
-        tidyr::pivot_longer(cols,
+        tidyr::pivot_longer(!!cols,
             names_to=names_to,
             names_prefix=names_prefix,
             names_sep=names_sep,

@@ -11,7 +11,7 @@ distinct(.data, ..., .keep_all = FALSE)
 
 \item{...}{Data frames to combine (See dplyr)}
 
-\item{.keep_all}{If TRUE, keep all variables in .data. If a combination 
+\item{.keep_all}{If TRUE, keep all variables in .data. If a combination
 of ... is not distinct, this keeps the first row of values. (See dplyr)}
 }
 \value{

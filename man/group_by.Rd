@@ -22,12 +22,12 @@ In `ungroup()`, variables to remove from the grouping.}
   creating a new grouping variable called `add`, and conflicts with
   our naming conventions.}
 
-\item{.drop}{When `.drop=TRUE`, empty groups are dropped. See 
+\item{.drop}{When `.drop=TRUE`, empty groups are dropped. See
 [group_by_drop_default()] for what the default value is for this argument.}
 }
 \value{
-A [grouped data frame][grouped_df()], unless the combination of 
-  `...` and `add` yields a non empty set of grouping columns, a 
+A [grouped data frame][grouped_df()], unless the combination of
+  `...` and `add` yields a non empty set of grouping columns, a
   regular (ungrouped) data frame otherwise.
 }
 \description{
