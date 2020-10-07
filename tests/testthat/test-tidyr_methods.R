@@ -6,7 +6,7 @@ tt <-
     mutate(col2 = "other_col")
 
 test_that("nest_unnest", {
-    col_names <- colnames(tt@colData) %>% c("cell")
+    col_names <- tt %>% colData %>% colnames() %>% c("cell")
 
     x <- tt %>%
         nest(data = -groups) %>%
@@ -19,13 +19,13 @@ test_that("nest_unnest", {
 
 
     expect_equal(
-        x@int_colData@listData$reducedDims$PCA %>%
+        reducedDims(x)$PCA %>%
             as.data.frame() %>%
             as_tibble(rownames = "cell") %>%
             arrange(cell) %>%
             pull(PC1) %>%
             abs(),
-        y@int_colData@listData$reducedDims$PCA %>%
+        reducedDims(x)$PCA %>%
             as.data.frame() %>%
             as_tibble(rownames = "cell") %>%
             arrange(cell) %>%

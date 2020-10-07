@@ -17,9 +17,10 @@ test_that("arrange", {
         scater::runPCA()
 
 
+
     expect_equal(
-        tt_pca_aranged@int_colData@listData$reducedDims$PCA[sort(colnames(tt_pca_aranged)), 1:3] %>% abs() %>% head(),
-        tt_pca@int_colData@listData$reducedDims$PCA[sort(colnames(tt_pca_aranged)), 1:3] %>% abs() %>% head(),
+        reducedDims(tt_pca_aranged)$PCA[sort(colnames(tt_pca_aranged)), 1:3] %>% abs() %>% head(),
+        reducedDims(tt_pca_aranged)$PCA[sort(colnames(tt_pca_aranged)), 1:3] %>% abs() %>% head(),
         tollerance = 1e-3
     )
 })
@@ -95,7 +96,7 @@ test_that("left_join", {
         left_join(tt %>%
                       distinct(groups) %>%
                       mutate(new_column = 1:2)) %>%
-        `@`(colData) %>%
+        colData() %>%
         ncol() %>%
         expect_equal(10)
 })
