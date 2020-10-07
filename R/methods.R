@@ -1,14 +1,15 @@
 
 
-setClass("tidySCE", contains="SingleCellExperiment")
+
+setClass("tidySCE", contains = "SingleCellExperiment")
 
 #' @importFrom methods show
 #' @import SingleCellExperiment
 #' @importFrom magrittr %>%
 setMethod(
-    f="show",
-    signature="tidySCE",
-    definition=function(object) {
+    f = "show",
+    signature = "tidySCE",
+    definition = function(object) {
         object %>%
             as_tibble() %>%
             print()
@@ -72,55 +73,55 @@ tidy.SingleCellExperiment <- function(object) {
 #' @export
 #'
 join_transcripts <- function(.data,
-    transcripts=NULL,
-    all=FALSE,
-    exclude_zeros=FALSE,
-    shape="long") {
+                             transcripts = NULL,
+                             all = FALSE,
+                             exclude_zeros = FALSE,
+                             shape = "long") {
     UseMethod("join_transcripts", .data)
 }
 #' @export
 join_transcripts.default <-
     function(.data,
-    transcripts=NULL,
-    all=FALSE,
-    exclude_zeros=FALSE,
-    shape="long") {
+             transcripts = NULL,
+             all = FALSE,
+             exclude_zeros = FALSE,
+             shape = "long") {
         print("This function cannot be applied to this object")
     }
 #' @export
 join_transcripts.tidySCE <-
     function(.data,
-    transcripts=NULL,
-    all=FALSE,
-    exclude_zeros=FALSE,
-    shape="long") {
+             transcripts = NULL,
+             all = FALSE,
+             exclude_zeros = FALSE,
+             shape = "long") {
         message(data_frame_returned_message)
 
-        .data %>%
-            as_tibble() %>%
-            when(
+        my_tibble =
+            .data %>%
+            as_tibble()
 
-                # Shape is long
-                shape == "long" ~ (.) %>%
-                    left_join(
-                        get_abundance_sc_long(
-                            .data=.data,
-                            transcripts=transcripts,
-                            all=all,
-                            exclude_zeros=exclude_zeros
-                        ),
-                        by="cell"
-                    ) %>%
-                    select(cell, transcript, contains("abundance"), everything()),
+        # Shape is long
+        if (shape == "long")
+            my_tibble %>%
+            left_join(
+                get_abundance_sc_long(
+                    .data = .data,
+                    transcripts = transcripts,
+                    all = all,
+                    exclude_zeros = exclude_zeros
+                ),
+                by = "cell"
+            ) %>%
+            select(cell, transcript, contains("abundance"), everything())
 
-                # Shape if wide
-                ~ (.) %>% left_join(
-                    get_abundance_sc_wide(
-                        .data=.data,
-                        transcripts=transcripts,
-                        all=all
-                    ),
-                    by="cell"
-                )
-            )
+        # Shape if wide
+        else
+            my_tibble  %>% left_join(get_abundance_sc_wide(
+                .data = .data,
+                transcripts = transcripts,
+                all = all
+            ),
+            by = "cell")
+
     }
