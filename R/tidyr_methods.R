@@ -224,7 +224,7 @@ extract.tidySCE <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE
     convert=FALSE, ...) {
     col <- enquo(col)
 
-    data@colData <-
+    colData(data) <-
         data %>%
         as_tibble() %>%
         tidyr::extract(col=!!col, into=into, regex=regex, remove=remove, convert=convert, ...) %>%
@@ -458,7 +458,7 @@ unite.tidySCE <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
     }
 
 
-    data@colData <- data %>%
+    colData(data) <- data %>%
         as_tibble() %>%
         tidyr::unite(!!cols, ..., sep=sep, remove=remove, na.rm=na.rm) %>%
         as_meta_data(data)
@@ -535,7 +535,7 @@ separate.tidySCE <- function(data, col, into, sep="[^[:alnum:]]+", remove=TRUE,
     }
 
 
-    data@colData <-
+    colData(data) <-
         data %>%
         as_tibble() %>%
         tidyr::separate(!!cols, into=into, sep=sep, remove=remove, convert=convert, extra=extra, fill=fill, ...) %>%

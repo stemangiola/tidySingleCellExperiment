@@ -120,7 +120,7 @@ pbmc_small_tidy
 **But it is a SingleCellExperiment object after all**
 
 ```{r}
-pbmc_small_tidy@assays
+assays(pbmc_small_tidy)
 ```
 ## Annotation polishing using tidyverse
 We may have a column that contains the directory each run was taken from. We may want to extract the run/sample name out of it.
@@ -275,7 +275,7 @@ We can infer cell type identities using singleR
 blueprint = SingleR::BlueprintEncodeData()
 
 cell_type_df = 
-  pbmc_small_UMAP@assays@data$logcounts %>%
+  assays(pbmc_small_UMAP)$logcounts %>%
   Matrix::Matrix(sparse = TRUE) %>%
    SingleR::SingleR(
        ref = blueprint ,
@@ -419,8 +419,8 @@ pbmc_small_nested_interactions =
 	tidySCE::mutate(interactions = map(data, ~ {
 		
 		# Produce variables. Yuck!
-		cluster = .x@colData$integrated_clusters
-		data = data.frame(.x@assays@data %>% as.list %>% .[[1]] %>% as.matrix)
+		cluster = colData(.x)$integrated_clusters
+		data = data.frame(assays(.x) %>% as.list %>% .[[1]] %>% as.matrix)
 
 		# Ligand/Receptor analysis using SingleCellSignalR
 		data %>%

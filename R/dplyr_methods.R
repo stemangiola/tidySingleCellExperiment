@@ -188,7 +188,7 @@ bind_cols.default <- function(..., .id=NULL) {
 bind_cols.tidySCE <- function(..., .id=NULL) {
     tts <- tts <- flatten_if(dots_values(...), is_spliced)
 
-    tts[[1]]@colData <- dplyr::bind_cols(tts[[1]]@colData %>% as.data.frame(),
+    colData(tts[[1]]) <- dplyr::bind_cols(colData(tts[[1]]) %>% as.data.frame(),
                                          tts[[2]], .id=.id) %>% DataFrame()
 
     tts[[1]]
@@ -308,7 +308,7 @@ filter.tidySCE <- function(.data, ..., .preserve=FALSE) {
         as_tibble() %>%
         dplyr::filter(..., .preserve=.preserve) # %>% as_meta_data(.data)
     new_obj <- .data[, new_meta$cell]
-    # new_obj@colData=new_meta
+    # colData(new_obj)=new_meta
 
     new_obj
 }
@@ -564,7 +564,7 @@ mutate.tidySCE <- function(.data, ...) {
         stop(sprintf("tidySCE says: you are trying to mutate a column that is view only %s (it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% c(get_needed_columns()) %>% paste(collapse=", ")))
     }
 
-    .data@colData <-
+    colData(.data) <-
         .data %>%
         as_tibble() %>%
         dplyr::mutate(...) %>%
@@ -621,12 +621,12 @@ rename.default <- function(.data, ...) {
 rename.tidySCE <- function(.data, ...) {
 
     # Check that we are not modifying a key column
-    cols <- tidyselect::eval_select(expr(c(...)), .data@colData %>% as.data.frame())
+    cols <- tidyselect::eval_select(expr(c(...)), colData(.data) %>% as.data.frame())
     if (intersect(cols %>% names(), get_special_columns(.data) %>% c(get_needed_columns())) %>% length() %>% gt(0)) {
         stop(sprintf("tidySCE says: you are trying to rename a column that is view only %s (it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% c(get_needed_columns()) %>% paste(collapse=", ")))
     }
 
-    .data@colData <- dplyr::rename(.data@colData %>% as.data.frame(), ...) %>% DataFrame()
+    colData(.data) <- dplyr::rename(colData(.data) %>% as.data.frame(), ...) %>% DataFrame()
 
     .data
 }
@@ -729,7 +729,7 @@ left_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
 
             # Otherwise return updated tidySCE
             ~ {
-                x@colData <- (.) %>% as_meta_data(x)
+                colData(x) <- (.) %>% as_meta_data(x)
                 x
             }
         )
@@ -782,7 +782,7 @@ inner_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), 
             # Otherwise return updated tidySCE
             ~ {
                 new_obj <- x[, .$cell]
-                new_obj@colData <- (.) %>% as_meta_data(new_obj)
+                colData(new_obj) <- (.) %>% as_meta_data(new_obj)
                 new_obj
             }
         )
@@ -840,7 +840,7 @@ right_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
             # Otherwise return updated tidySCE
             ~ {
                 new_obj <- x[, .$cell]
-                new_obj@colData <- (.) %>% as_meta_data(new_obj)
+                colData(new_obj) <- (.) %>% as_meta_data(new_obj)
                 new_obj
             }
         )
@@ -899,7 +899,7 @@ full_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
             # Otherwise return updated tidySCE
             ~ {
                 new_obj <- x[, .$cell]
-                new_obj@colData <- (.) %>% as_meta_data(x)
+                colData(new_obj) <- (.) %>% as_meta_data(x)
                 new_obj
             }
         )
@@ -980,9 +980,9 @@ slice.default <- function(.data, ..., .preserve=FALSE) {
 
 #' @export
 slice.tidySCE <- function(.data, ..., .preserve=FALSE) {
-    new_meta <- dplyr::slice(.data@colData %>% as.data.frame(), ..., .preserve=.preserve)
+    new_meta <- dplyr::slice(colData(.data) %>% as.data.frame(), ..., .preserve=.preserve)
     new_obj <- .data[, rownames(new_meta)]
-    # new_obj@colData=new_meta
+    # colData(new_obj)=new_meta
 
     new_obj
 }
@@ -1060,7 +1060,7 @@ select.tidySCE <- function(.data, ...) {
 
             # If valid SingleCellExperiment meta data
             ~ {
-                .data@colData <- (.) %>% as_meta_data(.data)
+                colData(.data) <- (.) %>% as_meta_data(.data)
                 .data
             }
         )
@@ -1128,11 +1128,11 @@ sample_n.tidySCE <- function(tbl, size, replace=FALSE,
     weight=NULL, .env=NULL, ...) {
     lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
 
-    new_meta <- tbl@colData %>%
+    new_meta <- colData(tbl) %>%
         as.data.frame() %>%
         dplyr::sample_n(size, replace=replace, weight=weight, .env=.env, ...)
     new_obj <- tbl[, rownames(new_meta)]
-    # new_obj@colData=new_meta %>% DataFrame()
+    # colData(new_obj)=new_meta %>% DataFrame()
 
     new_obj
 }
@@ -1154,11 +1154,11 @@ sample_frac.tidySCE <- function(tbl, size=1, replace=FALSE,
     weight=NULL, .env=NULL, ...) {
     lifecycle::signal_superseded("1.0.0", "sample_frac()", "slice_sample()")
 
-    new_meta <- tbl@colData %>%
+    new_meta <- colData(tbl) %>%
         as.data.frame() %>%
         dplyr::sample_frac(size, replace=replace, weight=weight, .env=.env, ...)
     new_obj <- tbl[, rownames(new_meta)]
-    # new_obj@colData=new_meta %>% DataFrame()
+    # colData(new_obj)=new_meta %>% DataFrame()
 
     new_obj
 }

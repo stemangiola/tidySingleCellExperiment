@@ -1,4 +1,5 @@
 #' @importFrom tibble as_tibble
+#' @importFrom SummarizedExperiment colData
 #'
 #' @keywords internal
 #'
@@ -6,7 +7,7 @@
 #'
 #' @noRd
 to_tib <- function(.data) {
-    .data@colData %>%
+    colData(.data) %>%
         as.data.frame() %>%
         as_tibble(rownames="cell")
 }
@@ -129,7 +130,7 @@ get_abundance_sc_wide <- function(.data, transcripts=NULL, all=FALSE) {
     }
 
     # Just grub last assay
-    .data@assays@data %>%
+    assays(.data) %>%
         as.list() %>%
         tail(1) %>%
         .[[1]] %>%
@@ -199,10 +200,10 @@ get_abundance_sc_long <- function(.data, transcripts=NULL, all=FALSE, exclude_ze
         variable_genes <- NULL
     }
 
-    assay_names <- .data@assays %>% names()
+    assay_names <- assays(.data) %>% names()
 
 
-    .data@assays@data %>%
+    assays(.data) %>%
         as.list() %>%
 
         # Take active assay
