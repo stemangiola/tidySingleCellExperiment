@@ -1,5 +1,5 @@
 #' @importFrom tibble as_tibble
-#' @importFrom SummarizedExperiment colData
+#' @importFrom SingleCellExperiment colData
 #'
 #' @keywords internal
 #'
@@ -321,3 +321,6 @@ select_helper <- function(.data, ...) {
 
     dplyr::select(.data, loc)
 }
+
+data_frame_returned_message = "tidySCE says: A data frame is returned for independent data analysis."
+duplicated_cell_names = "tidySCE says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis."

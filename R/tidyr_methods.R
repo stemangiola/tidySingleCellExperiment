@@ -388,7 +388,7 @@ pivot_longer.tidySCE <- function(data,
     ...) {
     cols <- enquo(cols)
 
-    message("tidySCE says: A data frame is returned for independent data analysis.")
+    message(data_frame_returned_message)
 
     data %>%
         as_tibble() %>%

@@ -44,7 +44,7 @@ tidy.SingleCellExperiment <- function(object) {
 #'
 #' \lifecycle{experimental}
 #'
-#' @description join_transcripts() extracts and joins information for specific 
+#' @description join_transcripts() extracts and joins information for specific
 #'   transcripts
 #'
 #' @importFrom rlang enquo
@@ -53,13 +53,13 @@ tidy.SingleCellExperiment <- function(object) {
 #' @name join_transcripts
 #' @rdname join_transcripts
 #'
-#' @param .data A tidy SingleCellExperiment object 
+#' @param .data A tidy SingleCellExperiment object
 #' @param transcripts A vector of transcript identifiers to join
 #' @param all If TRUE return all
 #' @param exclude_zeros If TRUE exclude zero values
 #' @param shape Format of the returned table "long" or "wide"
 #'
-#' @details This function extracts information for specified transcripts and 
+#' @details This function extracts information for specified transcripts and
 #'   returns the information in either long or wide format.
 #'
 #' @return A `tbl` containing the information.for the specified transcripts
@@ -94,7 +94,7 @@ join_transcripts.tidySCE <-
     all=FALSE,
     exclude_zeros=FALSE,
     shape="long") {
-        message("tidySCE says: A data frame is returned for independent data analysis.")
+        message(data_frame_returned_message)
 
         .data %>%
             as_tibble() %>%

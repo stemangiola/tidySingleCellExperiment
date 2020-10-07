@@ -223,8 +223,7 @@ distinct.default <- function(.data, ..., .keep_all=FALSE) {
 
 #' @export
 distinct.tidySCE <- function(.data, ..., .keep_all=FALSE) {
-    message("tidySCE says: A data frame is returned for
-            independent data analysis.")
+    message(data_frame_returned_message)
 
     .data %>%
         as_tibble() %>%
@@ -364,7 +363,7 @@ group_by.default <- function(.data, ..., .add=FALSE, .drop=group_by_drop_default
 
 #' @export
 group_by.tidySCE <- function(.data, ..., .add=FALSE, .drop=group_by_drop_default(.data)) {
-    message("tidySCE says: A data frame is returned for independent data analysis.")
+    message(data_frame_returned_message)
 
     .data %>%
         as_tibble() %>%
@@ -451,8 +450,8 @@ summarise.default <- function(.data, ...) {
 
 #' @export
 summarise.tidySCE <- function(.data, ...) {
-    message("tidySCE says: A data frame is returned for
-            independent data analysis.")
+    message(data_frame_returned_message)
+
 
     .data %>%
         as_tibble() %>%
@@ -622,7 +621,18 @@ rename.tidySCE <- function(.data, ...) {
 
     # Check that we are not modifying a key column
     cols <- tidyselect::eval_select(expr(c(...)), colData(.data) %>% as.data.frame())
-    if (intersect(cols %>% names(), get_special_columns(.data) %>% c(get_needed_columns())) %>% length() %>% gt(0)) {
+
+    tst <-
+        intersect(
+            cols %>%
+                names(),
+            get_special_columns(.data) %>%
+                c(get_needed_columns())
+        ) %>%
+        length() %>%
+        gt(0)
+
+    if (tst) {
         stop(sprintf("tidySCE says: you are trying to rename a column that is view only %s (it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% c(get_needed_columns()) %>% paste(collapse=", ")))
     }
 
@@ -669,7 +679,7 @@ rowwise.default <- function(.data) {
 
 #' @export
 rowwise.tidySCE <- function(.data) {
-    message("tidySCE says: A data frame is returned for independent data analysis.")
+    message(data_frame_returned_message)
 
     .data %>%
         as_tibble() %>%
@@ -723,7 +733,7 @@ left_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
                 filter(n > 1) %>%
                 nrow() %>%
                 gt(0) ~ {
-                message("tidySCE says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
+                message(duplicated_cell_names)
                 (.)
             },
 
@@ -775,8 +785,8 @@ inner_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), 
                 filter(n > 1) %>%
                 nrow() %>%
                 gt(0) ~ {
-                message("tidySCE says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
-                (.)
+                    message(duplicated_cell_names)
+                    (.)
             },
 
             # Otherwise return updated tidySCE
@@ -833,8 +843,8 @@ right_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
                 filter(n > 1) %>%
                 nrow() %>%
                 gt(0) ~ {
-                message("tidySCE says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
-                (.)
+                    message(duplicated_cell_names)
+                    (.)
             },
 
             # Otherwise return updated tidySCE
@@ -892,8 +902,8 @@ full_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
                 filter(n > 1) %>%
                 nrow() %>%
                 gt(0) ~ {
-                message("tidySCE says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
-                (.)
+                    message(duplicated_cell_names)
+                    (.)
             },
 
             # Otherwise return updated tidySCE
@@ -1224,7 +1234,7 @@ count.default <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by
 }
 #' @export
 count.tidySCE <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by_drop_default(x)) {
-    message("tidySCE says: A data frame is returned for independent data analysis.")
+    message(data_frame_returned_message)
 
     x %>%
         as_tibble() %>%

@@ -27,13 +27,13 @@ join_transcripts(
 A `tbl` containing the information.for the specified transcripts
 }
 \description{
-join_transcripts() extracts and joins information for specific 
+join_transcripts() extracts and joins information for specific
   transcripts
 }
 \details{
 \lifecycle{experimental}
 
-This function extracts information for specified transcripts and 
+This function extracts information for specified transcripts and
   returns the information in either long or wide format.
 }
 \examples{
