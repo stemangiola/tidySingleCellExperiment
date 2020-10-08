@@ -283,7 +283,7 @@ pbmc_small_UMAP %>%
 
 We can infer cell type identities using *SingleR* [@aran2019reference] and manipulate the output using tidyverse.
 
-```{r}
+```{r eval=FALSE}
 # Get cell type reference data
 blueprint <- celldex::BlueprintEncodeData()
 
@@ -298,7 +298,9 @@ cell_type_df <-
     as.data.frame() %>%
     as_tibble(rownames="cell") %>%
     select(cell, first.labels)
+```
 
+```{r}
 # Join UMAP and cell type info
 pbmc_small_cell_type <-
     pbmc_small_UMAP %>%
