@@ -553,7 +553,7 @@ mutate.default <- function(.data, ...) {
 
 #' @importFrom dplyr mutate
 #' @importFrom rlang enquos
-#' @importFrom SummarizedExperiment colData
+#' @importFrom SingleCellExperiment colData
 #'
 #' @export
 mutate.tidySCE <- function(.data, ...) {
@@ -636,7 +636,7 @@ rename.default <- function(.data, ...) {
 }
 
 #' @importFrom tidyselect eval_select
-#' @importFrom SummarizedExperiment colData
+#' @importFrom SingleCellExperiment colData
 #' @export
 rename.tidySCE <- function(.data, ...) {
 
@@ -750,7 +750,7 @@ left_join.default <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     dplyr::left_join(x, y, by=by, copy=copy, suffix=suffix, ...)
 }
 
-#' @importFrom SummarizedExperiment colData
+#' @importFrom SingleCellExperiment colData
 #' @export
 left_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
@@ -804,7 +804,7 @@ inner_join.default <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), 
     dplyr::inner_join(x, y, by=by, copy=copy, suffix=suffix, ...)
 }
 
-#' @importFrom SummarizedExperiment colData
+#' @importFrom SingleCellExperiment colData
 #' @export
 inner_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), ...) {
     x %>%
@@ -862,7 +862,7 @@ right_join.default <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     dplyr::right_join(x, y, by=by, copy=copy, suffix=suffix, ...)
 }
 
-#' @importFrom SummarizedExperiment colData
+#' @importFrom SingleCellExperiment colData
 #' @export
 right_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
@@ -1021,7 +1021,7 @@ slice.default <- function(.data, ..., .preserve=FALSE) {
     dplyr::slice(.data, ..., .preserve=.preserve)
 }
 
-#' @importFrom SummarizedExperiment colData
+#' @importFrom SingleCellExperiment colData
 #' @export
 slice.tidySCE <- function(.data, ..., .preserve=FALSE) {
     new_meta <- dplyr::slice(colData(.data) %>% as.data.frame(), ..., .preserve=.preserve)
@@ -1087,7 +1087,7 @@ select.default <- function(.data, ...) {
     dplyr::select(.data, ...)
 }
 
-#' @importFrom SummarizedExperiment colData
+#' @importFrom SingleCellExperiment colData
 #' @export
 select.tidySCE <- function(.data, ...) {
     .data %>%
@@ -1168,7 +1168,7 @@ sample_n.default <- function(tbl, size, replace=FALSE, weight=NULL,
     tbl %>% sample_n(size, replace=replace, weight=weight, .env=.env, ...)
 }
 
-#' @importFrom SummarizedExperiment colData
+#' @importFrom SingleCellExperiment colData
 #' @export
 sample_n.tidySCE <- function(tbl, size, replace=FALSE,
     weight=NULL, .env=NULL, ...) {
@@ -1195,7 +1195,7 @@ sample_frac.default <- function(tbl, size, replace=FALSE, weight=NULL,
     tbl %>% dplyr::sample_frac(size, replace=replace, weight=weight, .env=.env, ...)
 }
 
-#' @importFrom SummarizedExperiment colData
+#' @importFrom SingleCellExperiment colData
 #' @export
 sample_frac.tidySCE <- function(tbl, size=1, replace=FALSE,
     weight=NULL, .env=NULL, ...) {

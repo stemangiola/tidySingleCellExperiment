@@ -219,7 +219,7 @@ extract.default <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE
     )
 }
 
-#' @importFrom SummarizedExperiment colData
+#' @importFrom SingleCellExperiment colData
 #' @export
 extract.tidySCE <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE,
     convert=FALSE, ...) {
@@ -449,7 +449,7 @@ unite.default <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
     tidyr::unite(data, !!cols, ..., sep=sep, remove=remove, na.rm=na.rm)
 }
 
-#' @importFrom SummarizedExperiment colData
+#' @importFrom SingleCellExperiment colData
 #' @export
 unite.tidySCE <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
 
@@ -544,7 +544,7 @@ separate.default <- function(data, col, into, sep="[^[:alnum:]]+", remove=TRUE,
     )
 }
 
-#' @importFrom SummarizedExperiment colData
+#' @importFrom SingleCellExperiment colData
 #' @export
 separate.tidySCE <- function(data, col, into, sep="[^[:alnum:]]+", remove=TRUE,
     convert=FALSE, extra="warn", fill="warn", ...) {

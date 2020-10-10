@@ -213,7 +213,7 @@ We can proceed with cluster identification with *scran*.
 ```{r cluster}
 pbmc_small_cluster <- pbmc_small_pca
 
-# Assign clusters to the 'colLabels' of the SummarizedExperiment object
+# Assign clusters to the 'colLabels' of the SingleCellExperiment object
 colLabels(pbmc_small_cluster) <-
     pbmc_small_pca %>%
     buildSNNGraph(use.dimred="PCA") %>%
