@@ -74,7 +74,6 @@ Methods available in currently loaded packages:
 
 \examples{
 
-`\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
     tidy() \%>\%
     slice(1)

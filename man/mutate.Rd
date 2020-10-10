@@ -90,7 +90,6 @@ Methods available in currently loaded packages:
 }
 
 \examples{
-`\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
     tidy() \%>\%
     mutate(nFeature_RNA=1)

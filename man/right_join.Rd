@@ -29,7 +29,6 @@ A tidySCE object
 Right join datasets
 }
 \examples{
-`\%>\%` <- magrittr::`\%>\%`
 
 tt <- pbmc_small \%>\% tidy()
 tt \%>\% right_join(tt \%>\% distinct(groups) \%>\% mutate(new_column=1:2) \%>\% slice(1))

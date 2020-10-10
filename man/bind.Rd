@@ -43,7 +43,6 @@ The output of `bind_rows()` will contain a column if that column
 appears in any of the inputs.
 }
 \examples{
-`\%>\%` <- magrittr::`\%>\%`
 tt <- pbmc_small \%>\% tidy()
 bind_rows(tt, tt)
 

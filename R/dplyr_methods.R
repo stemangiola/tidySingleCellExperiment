@@ -40,6 +40,7 @@
 #' individual methods for extra arguments and differences in behaviour.
 #'
 #' The following methods are currently available in loaded packages:
+#' @importFrom magrittr %>%
 #' @export
 #' @param .data A data frame, data frame extension (e.g. a tibble), or a
 #'   lazy data frame (e.g. from dbplyr or dtplyr). See *Methods*, below, for
@@ -51,7 +52,6 @@
 #'
 #' @family single table verbs
 #' @examples
-#' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
 #'     tidy() %>%
 #'     arrange(nFeature_RNA)
@@ -62,15 +62,17 @@ arrange <- function(.data, ..., .by_group=FALSE) {
 #' @param .by_group If `TRUE`, will sort first by grouping variable. Applies to
 #'   grouped data frames only.
 #' @rdname dplyr-methods
+#' @importFrom dplyr arrange
 #' @export
 #'
 
 #' @inheritParams arrange
 arrange.default <- function(.data, ..., .by_group=FALSE) {
-    dplyr::arrange(.data, ..., .by_group=.by_group)
+    arrange(.data, ..., .by_group=.by_group)
 }
 
 #' @importFrom tibble as_tibble
+#' @importFrom dplyr arrange
 #'
 #' @export
 #' @inheritParams arrange
@@ -78,7 +80,7 @@ arrange.tidySCE <- function(.data, ..., .by_group=FALSE) {
     new_metadata <-
         .data %>%
         as_tibble() %>%
-        dplyr::arrange(..., .by_group=.by_group)
+        arrange(..., .by_group=.by_group)
 
     .data[, new_metadata$cell]
 }
@@ -93,6 +95,8 @@ arrange.tidySCE <- function(.data, ..., .by_group=FALSE) {
 #'
 #' The output of `bind_rows()` will contain a column if that column
 #' appears in any of the inputs.
+#' 
+#' @importFrom magrittr %>%
 #'
 #' @param ... Data frames to combine.
 #'
@@ -120,7 +124,6 @@ arrange.tidySCE <- function(.data, ..., .by_group=FALSE) {
 #' @return `bind_rows()` and `bind_cols()` return the same type as
 #'   the first input, either a data frame, `tbl_df`, or `grouped_df`.
 #' @examples
-#' `%>%` <- magrittr::`%>%`
 #' tt <- pbmc_small %>% tidy()
 #' bind_rows(tt, tt)
 #'
@@ -140,9 +143,10 @@ bind_rows <- function(..., .id=NULL, add.cell.ids=NULL) {
     UseMethod("bind_rows")
 }
 
+#' @importFrom dplyr bind_rows
 #' @export
 bind_rows.default <- function(..., .id=NULL, add.cell.ids=NULL) {
-    dplyr::bind_rows(..., .id=.id)
+    bind_rows(..., .id=.id)
 }
 
 #' @importFrom rlang dots_values
@@ -174,21 +178,23 @@ bind_cols <- function(..., .id=NULL) {
     UseMethod("bind_cols")
 }
 
+#' @importFrom dplyr bind_cols
 #' @export
 bind_cols.default <- function(..., .id=NULL) {
-    dplyr::bind_cols(..., .id=.id)
+    bind_cols(..., .id=.id)
 }
 
 #' @importFrom rlang dots_values
 #' @importFrom rlang flatten_if
 #' @importFrom rlang is_spliced
-#'
+#' @importFrom dplyr bind_cols
+#' 
 #' @export
 #'
 bind_cols.tidySCE <- function(..., .id=NULL) {
     tts <- tts <- flatten_if(dots_values(...), is_spliced)
 
-    colData(tts[[1]]) <- dplyr::bind_cols(colData(tts[[1]]) %>% as.data.frame(),
+    colData(tts[[1]]) <- bind_cols(colData(tts[[1]]) %>% as.data.frame(),
                                          tts[[2]], .id=.id) %>% DataFrame()
 
     tts[[1]]
@@ -207,7 +213,7 @@ bind_cols.tidySCE <- function(..., .id=NULL) {
 #'
 #' @examples
 #'
-#' `%>%` <- magrittr::`%>%`
+#' `%>%` <- `%>%`
 #' pbmc_small %>%
 #'     tidy() %>%
 #'     distinct(groups)
@@ -216,18 +222,20 @@ distinct <- function(.data, ..., .keep_all=FALSE) {
     UseMethod("distinct")
 }
 
+#' @importFrom dplyr distinct
 #' @export
 distinct.default <- function(.data, ..., .keep_all=FALSE) {
-    dplyr::distinct(.data, ..., .keep_all=FALSE)
+    distinct(.data, ..., .keep_all=FALSE)
 }
 
+#' @importFrom dplyr distinct
 #' @export
 distinct.tidySCE <- function(.data, ..., .keep_all=FALSE) {
     message(data_frame_returned_message)
 
     .data %>%
         as_tibble() %>%
-        dplyr::distinct(..., .keep_all=.keep_all)
+        distinct(..., .keep_all=.keep_all)
 }
 
 
@@ -262,6 +270,7 @@ distinct.tidySCE <- function(.data, ..., .keep_all=FALSE) {
 #' average.
 #' @family single table verbs
 #' @inheritParams arrange
+#' @importFrom magrittr %>%
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Logical predicates defined in
 #'   terms of the variables in `.data`.
 #'   Multiple conditions are combined with `&`. Only rows where the
@@ -285,7 +294,7 @@ distinct.tidySCE <- function(.data, ..., .keep_all=FALSE) {
 #' @export
 #' @examples
 #'
-#' `%>%` <- magrittr::`%>%`
+#' `%>%` <- `%>%`
 #' pbmc_small %>%
 #'     tidy() %>%
 #'     filter(groups == "g1")
@@ -296,16 +305,18 @@ filter <- function(.data, ..., .preserve=FALSE) {
     UseMethod("filter")
 }
 
+#' @importFrom dplyr filter
 #' @export
 filter.default <- function(.data, ..., .preserve=FALSE) {
-    dplyr::filter(.data, ..., .preserve=.preserve)
+    filter(.data, ..., .preserve=.preserve)
 }
 
+#' @importFrom dplyr filter
 #' @export
 filter.tidySCE <- function(.data, ..., .preserve=FALSE) {
     new_meta <- .data %>%
         as_tibble() %>%
-        dplyr::filter(..., .preserve=.preserve) # %>% as_meta_data(.data)
+        filter(..., .preserve=.preserve) # %>% as_meta_data(.data)
     new_obj <- .data[, new_meta$cell]
     # colData(new_obj)=new_meta
 
@@ -344,10 +355,10 @@ filter.tidySCE <- function(.data, ..., .preserve=FALSE) {
 #' individual methods for extra arguments and differences in behaviour.
 #'
 #' Methods available in currently loaded packages:
-#'
+#' @importFrom magrittr %>%
 #' @export
 #' @examples
-#' `%>%` <- magrittr::`%>%`
+#' `%>%` <- `%>%`
 #' pbmc_small %>%
 #'     tidy() %>%
 #'     group_by(groups)
@@ -356,18 +367,20 @@ group_by <- function(.data, ..., .add=FALSE, .drop=group_by_drop_default(.data))
     UseMethod("group_by")
 }
 
+#' @importFrom dplyr group_by
 #' @export
 group_by.default <- function(.data, ..., .add=FALSE, .drop=group_by_drop_default(.data)) {
-    dplyr::group_by(.data, ..., .drop=.drop)
+    group_by(.data, ..., .drop=.drop)
 }
 
+#' @importFrom dplyr group_by
 #' @export
 group_by.tidySCE <- function(.data, ..., .add=FALSE, .drop=group_by_drop_default(.data)) {
     message(data_frame_returned_message)
 
     .data %>%
         as_tibble() %>%
-        dplyr::group_by(..., .add=.add, .drop=.drop)
+        group_by(..., .add=.add, .drop=.drop)
 }
 
 
@@ -406,6 +419,7 @@ group_by.tidySCE <- function(.data, ..., .add=FALSE, .drop=group_by_drop_default
 #'
 #' @export
 #' @inheritParams arrange
+#' @importFrom magrittr %>%
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs of summary
 #'   functions. The name will be the name of the variable in the result.
 #'
@@ -434,7 +448,6 @@ group_by.tidySCE <- function(.data, ..., .add=FALSE, .drop=group_by_drop_default
 #'
 #' The following methods are currently available in loaded packages:
 #' @examples
-#' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
 #'     tidy() %>%
 #'     summarise(mean(nCount_RNA))
@@ -443,11 +456,13 @@ summarise <- function(.data, ...) {
     UseMethod("summarise")
 }
 
+#' @importFrom dplyr summarise
 #' @export
 summarise.default <- function(.data, ...) {
-    dplyr::summarise(.data, ...)
+    summarise(.data, ...)
 }
 
+#' @importFrom dplyr summarise
 #' @export
 summarise.tidySCE <- function(.data, ...) {
     message(data_frame_returned_message)
@@ -455,7 +470,7 @@ summarise.tidySCE <- function(.data, ...) {
 
     .data %>%
         as_tibble() %>%
-        dplyr::summarise(...)
+        summarise(...)
 }
 
 
@@ -493,7 +508,7 @@ summarise.tidySCE <- function(.data, ...) {
 #'
 #' The former normalises `mass` by the global average whereas the
 #' latter normalises by the averages within gender levels.
-#'
+#' @importFrom magrittr %>%
 #' @export
 #' @inheritParams arrange
 #' @param ... <[`tidy-eval`][dplyr_tidy_eval]> Name-value pairs.
@@ -536,7 +551,6 @@ summarise.tidySCE <- function(.data, ...) {
 #' Methods available in currently loaded packages:
 #'
 #' @examples
-#' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
 #'     tidy() %>%
 #'     mutate(nFeature_RNA=1)
@@ -545,9 +559,10 @@ mutate <- function(.data, ...) {
     UseMethod("mutate")
 }
 
+#' @importFrom dplyr mutate
 #' @export
 mutate.default <- function(.data, ...) {
-    dplyr::mutate(.data, ...)
+    mutate(.data, ...)
 }
 
 
@@ -586,7 +601,7 @@ mutate.tidySCE <- function(.data, ...) {
     colData(.data) <-
         .data %>%
         as_tibble() %>%
-        dplyr::mutate(...) %>%
+        mutate(...) %>%
         as_meta_data(.data)
 
     .data
@@ -604,6 +619,7 @@ mutate.tidySCE <- function(.data, ...) {
 #' to renaming a set of variables with a function.
 #'
 #' @inheritParams arrange
+#' @importFrom magrittr %>%
 #' @param ... <[`tidy-select`][dplyr_tidy_select]> Use `new_name=old_name`
 #'   to rename selected variables.
 #' @return
@@ -621,7 +637,6 @@ mutate.tidySCE <- function(.data, ...) {
 #' @family single table verbs
 #' @export
 #' @examples
-#' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
 #'     tidy() %>%
 #'     rename(s_score=nFeature_RNA)
@@ -630,18 +645,20 @@ rename <- function(.data, ...) {
     UseMethod("rename")
 }
 
+#' @importFrom dplyr rename
 #' @export
 rename.default <- function(.data, ...) {
-    dplyr::rename(.data, ...)
+    rename(.data, ...)
 }
 
+#' @importFrom dplyr rename
 #' @importFrom tidyselect eval_select
 #' @importFrom SingleCellExperiment colData
 #' @export
 rename.tidySCE <- function(.data, ...) {
 
     # Check that we are not modifying a key column
-    cols <- tidyselect::eval_select(expr(c(...)), colData(.data) %>% as.data.frame())
+    cols <- eval_select(expr(c(...)), colData(.data) %>% as.data.frame())
 
     tst <-
         intersect(
@@ -666,7 +683,7 @@ rename.tidySCE <- function(.data, ...) {
     }
 
 
-    colData(.data) <- dplyr::rename(colData(.data) %>% as.data.frame(), ...) %>% DataFrame()
+    colData(.data) <- rename(colData(.data) %>% as.data.frame(), ...) %>% DataFrame()
 
     .data
 }
@@ -687,7 +704,7 @@ rename.tidySCE <- function(.data, ...) {
 #' [summarise()] and [mutate()] without having to
 #' use \code{[[1]]}. This makes `summarise()` on a rowwise tbl
 #' effectively equivalent to [plyr::ldply()].
-#'
+#' @importFrom magrittr %>%
 #' @param .data Input data frame.
 #'
 #' @return A `tbl`
@@ -696,31 +713,33 @@ rename.tidySCE <- function(.data, ...) {
 #'
 #' @export
 #' @examples
-#' `%>%` <- magrittr::`%>%`
 #' @export
 rowwise <- function(.data) {
     UseMethod("rowwise")
 }
 
+#' @importFrom dplyr rowwise
 #' @export
 rowwise.default <- function(.data) {
-    dplyr::rowwise(.data)
+    rowwise(.data)
 }
 
+#' @importFrom dplyr rowwise
 #' @export
 rowwise.tidySCE <- function(.data) {
     message(data_frame_returned_message)
 
     .data %>%
         as_tibble() %>%
-        dplyr::rowwise()
+        rowwise()
 }
 
 
 #' Left join datasets
 #'
 #' @importFrom dplyr count
-#'
+#' @importFrom dplyr left_join
+#' @importFrom magrittr %>%
 #' @param x tbls to join. (See dplyr)
 #' @param y tbls to join. (See dplyr)
 #' @param by A character vector of variables to join by. (See dplyr)
@@ -736,7 +755,6 @@ rowwise.tidySCE <- function(.data) {
 #' @export
 #'
 #' @examples
-#' `%>%` <- magrittr::`%>%`
 #'
 #' tt <- pbmc_small %>% tidy()
 #' tt %>% left_join(tt %>% distinct(groups) %>% mutate(new_column=1:2))
@@ -744,23 +762,26 @@ left_join <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), ...) {
     UseMethod("left_join")
 }
 
+#' @importFrom dplyr left_join
 #' @export
 left_join.default <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
-    dplyr::left_join(x, y, by=by, copy=copy, suffix=suffix, ...)
+    left_join(x, y, by=by, copy=copy, suffix=suffix, ...)
 }
 
+#' @importFrom dplyr left_join
+#' @importFrom dplyr count
 #' @importFrom SingleCellExperiment colData
 #' @export
 left_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
     x %>%
         as_tibble() %>%
-        dplyr::left_join(y, by=by, copy=copy, suffix=suffix, ...) %>%
+        left_join(y, by=by, copy=copy, suffix=suffix, ...) %>%
         when(
 
             # If duplicated cells returns tibble
-            dplyr::count(., cell) %>%
+            count(., cell) %>%
                 filter(n > 1) %>%
                 nrow() %>%
                 gt(0) ~ {
@@ -779,7 +800,9 @@ left_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
 #' Inner join datasets
 #'
 #' @importFrom dplyr pull
-#'
+#' @importFrom dplyr inner_join
+#' @importFrom magrittr %>%
+#' 
 #' @param x tbls to join. (See dplyr)
 #' @param y tbls to join. (See dplyr)
 #' @param by A character vector of variables to join by. (See dplyr)
@@ -790,7 +813,6 @@ left_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
 #' @return A tidySCE object
 #'
 #' @examples
-#' `%>%` <- magrittr::`%>%`
 #'
 #' tt <- pbmc_small %>% tidy()
 #' tt %>% inner_join(tt %>% distinct(groups) %>% mutate(new_column=1:2) %>% slice(1))
@@ -799,17 +821,19 @@ inner_join <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), ...) {
     UseMethod("inner_join")
 }
 
+#' @importFrom dplyr inner_join
 #' @export
 inner_join.default <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), ...) {
-    dplyr::inner_join(x, y, by=by, copy=copy, suffix=suffix, ...)
+    inner_join(x, y, by=by, copy=copy, suffix=suffix, ...)
 }
 
+#' @importFrom dplyr inner_join
 #' @importFrom SingleCellExperiment colData
 #' @export
 inner_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), ...) {
     x %>%
         as_tibble() %>%
-        dplyr::inner_join(y, by=by, copy=copy, suffix=suffix, ...) %>%
+        inner_join(y, by=by, copy=copy, suffix=suffix, ...) %>%
         when(
 
             # If duplicated cells returns tibble
@@ -833,6 +857,7 @@ inner_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), 
 #' Right join datasets
 #'
 #' @importFrom dplyr pull
+#' @importFrom magrittr %>%
 #'
 #' @param x tbls to join. (See dplyr)
 #' @param y tbls to join. (See dplyr)
@@ -847,7 +872,6 @@ inner_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), 
 #' @return A tidySCE object
 #'
 #' @examples
-#' `%>%` <- magrittr::`%>%`
 #'
 #' tt <- pbmc_small %>% tidy()
 #' tt %>% right_join(tt %>% distinct(groups) %>% mutate(new_column=1:2) %>% slice(1))
@@ -856,19 +880,21 @@ right_join <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), ...) {
     UseMethod("right_join")
 }
 
+#' @importFrom dplyr right_join
 #' @export
 right_join.default <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
-    dplyr::right_join(x, y, by=by, copy=copy, suffix=suffix, ...)
+    right_join(x, y, by=by, copy=copy, suffix=suffix, ...)
 }
 
+#' @importFrom dplyr right_join
 #' @importFrom SingleCellExperiment colData
 #' @export
 right_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
     x %>%
         as_tibble() %>%
-        dplyr::right_join(y, by=by, copy=copy, suffix=suffix, ...) %>%
+        right_join(y, by=by, copy=copy, suffix=suffix, ...) %>%
         when(
 
             # If duplicated cells returns tibble
@@ -893,6 +919,8 @@ right_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
 #' Full join datasets
 #'
 #' @importFrom dplyr pull
+#' @importFrom magrittr %>%
+#' @importFrom tibble tibble
 #'
 #' @param x tbls to join. (See dplyr)
 #' @param y tbls to join. (See dplyr)
@@ -907,27 +935,28 @@ right_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
 #' @return A tidySCE object
 #'
 #' @examples
-#' `%>%` <- magrittr::`%>%`
 #'
 #' tt <- pbmc_small %>% tidy()
-#' tt %>% full_join(tibble::tibble(groups="g1", other=1:4))
+#' tt %>% full_join(tibble(groups="g1", other=1:4))
 #' @export
 full_join <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), ...) {
     UseMethod("full_join")
 }
 
+#' @importFrom dplyr full_join
 #' @export
 full_join.default <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
-    dplyr::full_join(x, y, by=by, copy=copy, suffix=suffix, ...)
+    full_join(x, y, by=by, copy=copy, suffix=suffix, ...)
 }
 
+#' @importFrom dplyr full_join
 #' @export
 full_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
     x %>%
         as_tibble() %>%
-        dplyr::full_join(y, by=by, copy=copy, suffix=suffix, ...) %>%
+        full_join(y, by=by, copy=copy, suffix=suffix, ...) %>%
         when(
 
             # If duplicated cells returns tibble
@@ -972,6 +1001,7 @@ full_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
 #' @family single table verbs
 #' @inheritParams arrange
 #' @inheritParams filter
+#' @importFrom magrittr %>%
 #' @param ... For `slice()`: <[`data-masking`][dplyr_data_masking]> Integer row
 #'   values.
 #'
@@ -1009,22 +1039,24 @@ full_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
 #' @export
 #' @examples
 #'
-#' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
 #'     tidy() %>%
 #'     slice(1)
 slice <- function(.data, ..., .preserve=FALSE) {
     UseMethod("slice")
 }
+
+#' @importFrom dplyr slice
 #' @export
 slice.default <- function(.data, ..., .preserve=FALSE) {
-    dplyr::slice(.data, ..., .preserve=.preserve)
+    slice(.data, ..., .preserve=.preserve)
 }
 
+#' @importFrom dplyr slice
 #' @importFrom SingleCellExperiment colData
 #' @export
 slice.tidySCE <- function(.data, ..., .preserve=FALSE) {
-    new_meta <- dplyr::slice(colData(.data) %>% as.data.frame(), ..., .preserve=.preserve)
+    new_meta <- slice(colData(.data) %>% as.data.frame(), ..., .preserve=.preserve)
     new_obj <- .data[, rownames(new_meta)]
     # colData(new_obj)=new_meta
 
@@ -1048,6 +1080,7 @@ slice.tidySCE <- function(.data, ..., .preserve=FALSE) {
 #' ```
 #'
 #' @inheritParams arrange
+#' @importFrom magrittr %>%
 #' @param ... <[`tidy-select`][dplyr_tidy_select]> One or more unquoted
 #'   expressions separated by commas. Variable names can be used as if they
 #'   were positions in the data frame, so expressions like `x:y` can
@@ -1072,7 +1105,6 @@ slice.tidySCE <- function(.data, ..., .preserve=FALSE) {
 #'
 #' @examples
 #'
-#' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
 #'     tidy() %>%
 #'     select(cell, orig.ident)
@@ -1082,9 +1114,10 @@ select <- function(.data, ...) {
     UseMethod("select")
 }
 
+#' @importFrom dplyr select
 #' @export
 select.default <- function(.data, ...) {
-    dplyr::select(.data, ...)
+    select(.data, ...)
 }
 
 #' @importFrom SingleCellExperiment colData
@@ -1135,6 +1168,7 @@ select.tidySCE <- function(.data, ...) {
 #' * `...` was in a suboptimal position.
 #'
 #' @keywords internal
+#' @importFrom magrittr %>%
 #' @param tbl A data.frame.
 #' @param size <[`tidy-select`][dplyr_tidy_select]>
 #'   For `sample_n()`, the number of rows to select.
@@ -1148,7 +1182,6 @@ select.tidySCE <- function(.data, ...) {
 #' @param ... ignored
 #' @examples
 #'
-#' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
 #'     tidy() %>%
 #'     sample_n(50)
@@ -1168,6 +1201,7 @@ sample_n.default <- function(tbl, size, replace=FALSE, weight=NULL,
     tbl %>% sample_n(size, replace=replace, weight=weight, .env=.env, ...)
 }
 
+#' @importFrom dplyr sample_n
 #' @importFrom SingleCellExperiment colData
 #' @export
 sample_n.tidySCE <- function(tbl, size, replace=FALSE,
@@ -1176,7 +1210,7 @@ sample_n.tidySCE <- function(tbl, size, replace=FALSE,
 
     new_meta <- colData(tbl) %>%
         as.data.frame() %>%
-        dplyr::sample_n(size, replace=replace, weight=weight, .env=.env, ...)
+        sample_n(size, replace=replace, weight=weight, .env=.env, ...)
     new_obj <- tbl[, rownames(new_meta)]
     # colData(new_obj)=new_meta %>% DataFrame()
 
@@ -1189,12 +1223,14 @@ sample_frac <- function(tbl, size=1, replace=FALSE, weight=NULL, .env=NULL, ...)
     UseMethod("sample_frac")
 }
 
+#' @importFrom dplyr sample_frac
 #' @export
 sample_frac.default <- function(tbl, size, replace=FALSE, weight=NULL,
     .env=parent.frame(), ...) {
-    tbl %>% dplyr::sample_frac(size, replace=replace, weight=weight, .env=.env, ...)
+    tbl %>% sample_frac(size, replace=replace, weight=weight, .env=.env, ...)
 }
 
+#' @importFrom dplyr sample_frac
 #' @importFrom SingleCellExperiment colData
 #' @export
 sample_frac.tidySCE <- function(tbl, size=1, replace=FALSE,
@@ -1203,7 +1239,7 @@ sample_frac.tidySCE <- function(tbl, size=1, replace=FALSE,
 
     new_meta <- colData(tbl) %>%
         as.data.frame() %>%
-        dplyr::sample_frac(size, replace=replace, weight=weight, .env=.env, ...)
+        sample_frac(size, replace=replace, weight=weight, .env=.env, ...)
     new_obj <- tbl[, rownames(new_meta)]
     # colData(new_obj)=new_meta %>% DataFrame()
 
@@ -1224,7 +1260,9 @@ sample_frac.tidySCE <- function(tbl, size=1, replace=FALSE,
 #' `add_count()` are `add_tally()` are equivalents to `count()` and `tally()`
 #' but use `mutate()` instead of `summarise()` so that they add a new column
 #' with group-wise counts.
-#'
+#' 
+#' @importFrom magrittr %>%
+#' 
 #' @param x A data frame, data frame extension (e.g. a tibble), or a
 #'   lazy data frame (e.g. from dbplyr or dtplyr).
 #' @param ... <[`data-masking`][dplyr_data_masking]> Variables to group by.
@@ -1247,7 +1285,6 @@ sample_frac.tidySCE <- function(tbl, size=1, replace=FALSE,
 #' @export
 #' @examples
 #'
-#' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
 #'     tidy() %>%
 #'     count(groups)
@@ -1255,17 +1292,22 @@ count <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by_drop_de
     UseMethod("count")
 }
 
+#' @importFrom dplyr group_by
+#' @importFrom dplyr tally
+#' @importFrom dplyr dplyr_reconstruct
+#' @importFrom dplyr count
+#' 
 #' @export
 count.default <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by_drop_default(x)) {
     if (!missing(...)) {
-        out <- dplyr::group_by(x, ..., .add=TRUE, .drop=.drop)
+        out <- group_by(x, ..., .add=TRUE, .drop=.drop)
     }
     else {
         out <- x
     }
-    out <- dplyr::tally(out, wt=!!enquo(wt), sort=sort, name=name)
+    out <- tally(out, wt=!!enquo(wt), sort=sort, name=name)
     if (is.data.frame(x)) {
-        out <- dplyr::dplyr_reconstruct(out, x)
+        out <- dplyr_reconstruct(out, x)
     }
     out
 }
@@ -1275,7 +1317,7 @@ count.tidySCE <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by
 
     x %>%
         as_tibble() %>%
-        dplyr::count(..., wt=!!enquo(wt), sort=sort, name=name, .drop=.drop)
+        count(..., wt=!!enquo(wt), sort=sort, name=name, .drop=.drop)
 }
 
 #' Extract a single column
@@ -1302,22 +1344,24 @@ count.tidySCE <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by
 #' @export
 #'
 #' @importFrom ellipsis check_dots_used
+#' @importFrom magrittr %>%
 #'
 #' @examples
 #'
-#' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
 #'     tidy() %>%
 #'     pull(groups)
 pull <- function(.data, var=-1, name=NULL, ...) {
-    ellipsis::check_dots_used()
+    check_dots_used()
     UseMethod("pull")
 }
+
+#' @importFrom dplyr pull
 #' @export
 pull.default <- function(.data, var=-1, name=NULL, ...) {
     var <- enquo(var)
     name <- enquo(name)
-    .data %>% dplyr::pull(var=!!var, name=!!name, ...)
+    .data %>% pull(var=!!var, name=!!name, ...)
 }
 #' @export
 pull.tidySCE <- function(.data, var=-1, name=NULL, ...) {
@@ -1326,5 +1370,5 @@ pull.tidySCE <- function(.data, var=-1, name=NULL, ...) {
 
     .data %>%
         as_tibble() %>%
-        dplyr::pull(var=!!var, name=!!name, ...)
+        pull(var=!!var, name=!!name, ...)
 }

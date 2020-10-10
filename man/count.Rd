@@ -54,7 +54,6 @@ with group-wise counts.
 }
 \examples{
 
-`\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
     tidy() \%>\%
     count(groups)

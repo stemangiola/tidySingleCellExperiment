@@ -29,6 +29,3 @@ main impact is to allow you to work with list-variables in
 use \code{[[1]]}. This makes `summarise()` on a rowwise tbl
 effectively equivalent to [plyr::ldply()].
 }
-\examples{
-`\%>\%` <- magrittr::`\%>\%`
-}
