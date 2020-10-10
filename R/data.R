@@ -21,7 +21,6 @@
 #' }
 #' @source \url{https://satijalab.org/seurat/v3.1/pbmc3k_tutorial.html}
 #' @usage data(cell_type_df)
-#'
 "cell_type_df"
 
 #' Intercellular ligand-receptor interactions for 38 ligands from a single cell RNA-seq cluster.
@@ -43,6 +42,5 @@
 #'   \item{LRscore}{interaction score}
 #' }
 #' @source \url{https://satijalab.org/seurat/v3.1/pbmc3k_tutorial.html}
-#' @usage data(cell_type_df)
-#'
+#' @usage data(pbmc_small_nested_interactions)
 "pbmc_small_nested_interactions"

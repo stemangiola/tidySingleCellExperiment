@@ -23,7 +23,7 @@ A tibble containing 100 rows and 9 columns. Cells are a subsample of
 \url{https://satijalab.org/seurat/v3.1/pbmc3k_tutorial.html}
 }
 \usage{
-data(cell_type_df)
+data(pbmc_small_nested_interactions)
 }
 \description{
 A dataset containing ligand-receptor interactions withibn a sample. There are 38 ligands from a single cell cluster versus 
