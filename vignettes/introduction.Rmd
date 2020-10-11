@@ -123,7 +123,7 @@ Set colours and theme for plots.
 friendly_cols <- dittoSeq::dittoColors()
 
 # Set theme
-my_theme <-
+custom_theme <-
     list(
         scale_fill_manual(values=friendly_cols),
         scale_color_manual(values=friendly_cols),
@@ -151,7 +151,7 @@ Here we plot number of transcripts per cell.
 pbmc_small_polished %>%
     tidySCE::ggplot(aes(nFeature_RNA, fill=groups)) +
     geom_histogram() +
-    my_theme
+    custom_theme
 ```
 
 Here we plot total transcripts per cell.
@@ -161,7 +161,7 @@ pbmc_small_polished %>%
     tidySCE::ggplot(aes(groups, nCount_RNA, fill=groups)) +
     geom_boxplot(outlier.shape=NA) +
     geom_jitter(width=0.1) +
-    my_theme
+    custom_theme
 ```
 
 Here we plot abundance of two transcripts for each group.
@@ -173,7 +173,7 @@ pbmc_small_polished %>%
     geom_boxplot(outlier.shape=NA) +
     geom_jitter(aes(size=nCount_RNA), alpha=0.5, width=0.2) +
     scale_y_log10() +
-    my_theme
+    custom_theme
 ```
 
 # Preprocess the dataset
@@ -203,7 +203,7 @@ pbmc_small_pca %>%
     as_tibble() %>%
     select(contains("PC"), everything()) %>%
     GGally::ggpairs(columns=1:5, ggplot2::aes(colour=groups)) +
-    my_theme
+    custom_theme
 ```
 
 # Identify clusters 
@@ -334,7 +334,7 @@ pbmc_small_cell_type %>%
     ggplot(aes(UMAP1, UMAP2, color=label)) +
     geom_point() +
     facet_wrap(~classifier) +
-    my_theme
+    custom_theme
 ```
 
 We can easily plot gene correlation per cell category, adding multi-layer annotations.
@@ -352,7 +352,7 @@ pbmc_small_cell_type %>%
     facet_wrap(~first.labels, scales="free") +
     scale_x_log10() +
     scale_y_log10() +
-    my_theme
+    custom_theme
 ```
 
 #  Nested analyses
@@ -413,7 +413,7 @@ pbmc_small_nested_reanalysed %>%
     ggplot(aes(UMAP1, UMAP2, color=cluster)) +
     geom_point() +
     facet_wrap(~cell_class) +
-    my_theme
+    custom_theme
 ```
 
 We can perform a large number of functional analyses on data subsets. For example, we can identify intra-sample cell-cell interactions using *SingleCellSignalR* [@cabello2020singlecellsignalr], and then compare whether interactions are stronger or weaker across conditions. The code below demonstrates how this analysis could be performed. It won't work with this small example dataset as we have just two samples (one for each condition). But some example output is shown below and you can imagine how you can use tidyverse on the output to perform t-tests and visualisation.
