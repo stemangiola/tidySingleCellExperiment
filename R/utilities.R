@@ -202,6 +202,9 @@ get_abundance_sc_long <- function(.data, transcripts=NULL, all=FALSE, exclude_ze
 
     assay_names <- assays(.data) %>% names()
 
+    # Check that I have assay manes
+    if(length(assay_names) == 0)
+      stop("tidySCE says: there are no assays names in the source SingleCellExperiment.")
 
     assays(.data) %>%
         as.list() %>%
