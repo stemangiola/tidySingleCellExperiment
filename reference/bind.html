@@ -81,12 +81,6 @@ data frames into one." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -155,8 +149,8 @@ data frames into one.</p>
     </tr>
     <tr>
       <th>add.cell.ids</th>
-      <td><p>from SingleCellExperiment 3.0 A character vector of 
-length(x=c(x, y)). Appends the corresponding values to the start of each 
+      <td><p>from SingleCellExperiment 3.0 A character vector of
+length(x=c(x, y)). Appends the corresponding values to the start of each
 objects' cell names.</p></td>
     </tr>
     </table>
@@ -171,10 +165,10 @@ objects' cell names.</p></td>
 appears in any of the inputs.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>`%&gt;%`</span> <span class='op'>&lt;-</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
-<span class='kw'>tt</span> <span class='op'>&lt;-</span> <span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='tidy.html'>tidy</a></span>()
-<span class='fu'><a href='arrange.html'>bind_rows</a></span>(<span class='kw'>tt</span>, <span class='kw'>tt</span>)
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 160 x 17</span><span>
+    <pre class="examples"><div class='input'><span class='va'>`%&gt;%`</span> <span class='op'>&lt;-</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
+<span class='va'>tt</span> <span class='op'>&lt;-</span> <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'><a href='arrange.html'>bind_rows</a></span><span class='op'>(</span><span class='va'>tt</span>, <span class='va'>tt</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: tidySCE says: you have duplicated cell names, they will be made unique.</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 160 x 17</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A             g2    
@@ -190,8 +184,8 @@ appears in any of the inputs.</p>
 #&gt; </span><span style='color: #555555;'># … with 150 more rows, and 10 more variables: RNA_snn_res.1 </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span style='color: #555555;'>, file </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   ident </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span style='color: #555555;'>, PC_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_4 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_5 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   tSNE_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, tSNE_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'>
-<span class='kw'>tt_bind</span> <span class='op'>&lt;-</span> <span class='kw'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='select.html'>select</a></span>(<span class='kw'>nCount_RNA</span>, <span class='kw'>nFeature_RNA</span>)
-</div><div class='output co'>#&gt; <span class='message'>tidySCE says: Key columns are missing. A data frame is returned for independent data analysis.</span></div><div class='input'><span class='kw'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='arrange.html'>bind_cols</a></span>(<span class='kw'>tt_bind</span>)
+<span class='va'>tt_bind</span> <span class='op'>&lt;-</span> <span class='va'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='select.html'>select</a></span><span class='op'>(</span><span class='va'>nCount_RNA</span>, <span class='va'>nFeature_RNA</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>tidySCE says: Key columns are missing. A data frame is returned for independent data analysis.</span></div><div class='input'><span class='va'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='arrange.html'>bind_cols</a></span><span class='op'>(</span><span class='va'>tt_bind</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>New names:</span>
 #&gt; <span class='message'>* nCount_RNA -&gt; nCount_RNA...2</span>
 #&gt; <span class='message'>* nFeature_RNA -&gt; nFeature_RNA...3</span>
@@ -232,7 +226,7 @@ appears in any of the inputs.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

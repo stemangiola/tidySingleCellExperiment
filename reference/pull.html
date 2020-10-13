@@ -81,12 +81,6 @@ name the output." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -128,7 +122,7 @@ nicer in pipes, it also works with remote data frames, and it can optionally
 name the output.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pull</span>(<span class='kw'>.data</span>, var = <span class='op'>-</span><span class='fl'>1</span>, name = <span class='kw'>NULL</span>, <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>pull</span><span class='op'>(</span><span class='va'>.data</span>, var <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span>, name <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -180,10 +174,10 @@ dplyr (<code>data.frame</code>)
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>`%&gt;%`</span> <span class='op'>&lt;-</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
-<span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='tidy.html'>tidy</a></span>() <span class='op'>%&gt;%</span>
-    <span class='fu'>pull</span>(<span class='kw'>groups</span>)
+<span class='va'>`%&gt;%`</span> <span class='op'>&lt;-</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
+<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>pull</span><span class='op'>(</span><span class='va'>groups</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("pull"): no applicable method for 'pull' applied to an object of class "c('tidySCE', 'SingleCellExperiment', 'RangedSummarizedExperiment', 'SummarizedExperiment', 'RectangularData', 'Vector', 'Annotated', 'vector_OR_Vector')"</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -200,7 +194,7 @@ dplyr (<code>data.frame</code>)
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

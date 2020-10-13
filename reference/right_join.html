@@ -79,12 +79,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -124,7 +118,7 @@
     <p>Right join datasets</p>
     </div>
 
-    <pre class="usage"><span class='fu'>right_join</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, by = <span class='kw'>NULL</span>, copy = <span class='fl'>FALSE</span>, suffix = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>), <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>right_join</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, by <span class='op'>=</span> <span class='cn'>NULL</span>, copy <span class='op'>=</span> <span class='cn'>FALSE</span>, suffix <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>".x"</span>, <span class='st'>".y"</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -143,13 +137,13 @@
     </tr>
     <tr>
       <th>copy</th>
-      <td><p>If x and y are not from the same data source, and copy is TRUE, 
+      <td><p>If x and y are not from the same data source, and copy is TRUE,
 then y will be copied into the same src as x. (See dplyr)</p></td>
     </tr>
     <tr>
       <th>suffix</th>
-      <td><p>If there are non-joined duplicate variables in x and y, these 
-suffixes will be added to the output to disambiguate them. Should be a 
+      <td><p>If there are non-joined duplicate variables in x and y, these
+suffixes will be added to the output to disambiguate them. Should be a
 character vector of length 2. (See dplyr)</p></td>
     </tr>
     <tr>
@@ -163,10 +157,10 @@ character vector of length 2. (See dplyr)</p></td>
     <p>A tidySCE object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>`%&gt;%`</span> <span class='op'>&lt;-</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
+    <pre class="examples"><div class='input'><span class='va'>`%&gt;%`</span> <span class='op'>&lt;-</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
 
-<span class='kw'>tt</span> <span class='op'>&lt;-</span> <span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='tidy.html'>tidy</a></span>()
-<span class='kw'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'>right_join</span>(<span class='kw'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='distinct.html'>distinct</a></span>(<span class='kw'>groups</span>) <span class='op'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(new_column=<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>) <span class='op'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice</a></span>(<span class='fl'>1</span>))
+<span class='va'>tt</span> <span class='op'>&lt;-</span> <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'>right_join</span><span class='op'>(</span><span class='va'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='distinct.html'>distinct</a></span><span class='op'>(</span><span class='va'>groups</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span>new_column<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("right_join"): no applicable method for 'right_join' applied to an object of class "c('tidySCE', 'SingleCellExperiment', 'RangedSummarizedExperiment', 'SummarizedExperiment', 'RectangularData', 'Vector', 'Annotated', 'vector_OR_Vector')"</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -183,7 +177,7 @@ character vector of length 2. (See dplyr)</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

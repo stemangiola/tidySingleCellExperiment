@@ -87,12 +87,6 @@ variables based on their properties.
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -140,7 +134,7 @@ variables based on their properties.</p>
 ```</p>
     </div>
 
-    <pre class="usage"><span class='fu'>select</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>select</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -191,10 +185,10 @@ dplyr (<code>data.frame</code>, <code>default</code>), utils (<code><a href='htt
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>`%&gt;%`</span> <span class='op'>&lt;-</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
-<span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='tidy.html'>tidy</a></span>() <span class='op'>%&gt;%</span>
-    <span class='fu'>select</span>(<span class='kw'>cell</span>, <span class='kw'>orig.ident</span>)
+<span class='va'>`%&gt;%`</span> <span class='op'>&lt;-</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
+<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>select</span><span class='op'>(</span><span class='va'>cell</span>, <span class='va'>orig.ident</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: `select_()` is deprecated as of dplyr 0.7.0.</span>
 #&gt; <span class='warning'>Please use `select()` instead.</span>
 #&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
@@ -214,7 +208,7 @@ dplyr (<code>data.frame</code>, <code>default</code>), utils (<code><a href='htt
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

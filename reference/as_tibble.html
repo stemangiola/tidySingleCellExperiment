@@ -90,12 +90,6 @@ in contrast with [tibble()], which builds a tibble from individual columns.
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -146,12 +140,12 @@ in contrast with [tibble()], which builds a tibble from individual columns.
 * Default: Other inputs are first coerced with [base::as.data.frame()].</p>
     </div>
 
-    <pre class="usage"><span class='fu'>as_tibble</span>(
-  <span class='kw'>x</span>,
-  <span class='kw'>...</span>,
-  .name_repair = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"check_unique"</span>, <span class='st'>"unique"</span>, <span class='st'>"universal"</span>, <span class='st'>"minimal"</span>),
-  rownames = <span class='kw'>pkgconfig</span>::<span class='fu'><a href='https://rdrr.io/pkg/pkgconfig/man/get_config.html'>get_config</a></span>(<span class='st'>"tibble::rownames"</span>, <span class='kw'>NULL</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>as_tibble</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>...</span>,
+  .name_repair <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"check_unique"</span>, <span class='st'>"unique"</span>, <span class='st'>"universal"</span>, <span class='st'>"minimal"</span><span class='op'>)</span>,
+  rownames <span class='op'>=</span> <span class='fu'>pkgconfig</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/pkgconfig/man/get_config.html'>get_config</a></span><span class='op'>(</span><span class='st'>"tibble::rownames"</span>, <span class='cn'>NULL</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -208,9 +202,9 @@ prefer the more expressive maturing `as_tibble_row()` and
   values. Name repair is implemented using [vctrs::vec_as_names()].</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='tidy.html'>tidy</a></span>() <span class='op'>%&gt;%</span>
-    <span class='fu'>as_tibble</span>()
+    <pre class="examples"><div class='input'><span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>as_tibble</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 80 x 17</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
@@ -242,7 +236,7 @@ prefer the more expressive maturing `as_tibble_row()` and
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

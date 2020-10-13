@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Example data set 2 — pbmc_small_nested_interactions • tidySCE</title>
+<title>Intercellular ligand-receptor interactions for 38 ligands from a single cell RNA-seq cluster. — pbmc_small_nested_interactions • tidySCE</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Example data set 2 — pbmc_small_nested_interactions" />
-<meta property="og:description" content="Example data set 2" />
+<meta property="og:title" content="Intercellular ligand-receptor interactions for 38 ligands from a single cell RNA-seq cluster. — pbmc_small_nested_interactions" />
+<meta property="og:description" content="A dataset containing ligand-receptor interactions withibn a sample. There are 38 ligands from a single cell cluster versus 
+35 receptors in 6 other clusters." />
 
 
 
@@ -79,12 +80,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -115,21 +110,38 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Example data set 2</h1>
+    <h1>Intercellular ligand-receptor interactions for 38 ligands from a single cell RNA-seq cluster.</h1>
     
     <div class="hidden name"><code>pbmc_small_nested_interactions.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Example data set 2</p>
+    <p>A dataset containing ligand-receptor interactions withibn a sample. There are 38 ligands from a single cell cluster versus 
+35 receptors in 6 other clusters.</p>
     </div>
 
-    <pre class="usage"><span class='kw'>pbmc_small_nested_interactions</span></pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>pbmc_small_nested_interactions</span><span class='op'>)</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>An object of class <code>tbl_df</code> (inherits from <code>tbl</code>, <code>data.frame</code>) with 100 rows and 9 columns.</p>
+    <p>A tibble containing 100 rows and 9 columns. Cells are a subsample of 
+        the PBMC dataset of 2,700 single cells. Cell interactions were identified with SingleCellSignalR.</p><dl>
+  <dt>sample</dt><dd><p>sample identifier</p></dd>
+  <dt>ligand</dt><dd><p>cluster and ligand identifier</p></dd>
+  <dt>receptor</dt><dd><p>cluster and receptor identifier</p></dd>
+  <dt>ligand.name</dt><dd><p>ligand name</p></dd>
+  <dt>receptor.name</dt><dd><p>receptor name</p></dd>
+  <dt>origin</dt><dd><p>cluster containing ligand</p></dd>
+  <dt>destination</dt><dd><p>cluster containing receptor</p></dd>
+  <dt>interaction.type</dt><dd><p>type of interation, paracrine or autocrine</p></dd>
+  <dt>LRscore</dt><dd><p>interaction score</p></dd>
+
+</dl>
+
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p><a href='https://satijalab.org/seurat/v3.1/pbmc3k_tutorial.html'>https://satijalab.org/seurat/v3.1/pbmc3k_tutorial.html</a></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -146,7 +158,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

@@ -84,12 +84,6 @@ once per data frame, not once per group." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -134,14 +128,14 @@ in order to group by them, and functions of variables are evaluated
 once per data frame, not once per group.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>arrange</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .by_group = <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>arrange</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .by_group <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>arrange</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .by_group = <span class='fl'>FALSE</span>)
+<span class='fu'>arrange</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .by_group <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>bind_rows</span>(<span class='kw'>...</span>, .id = <span class='kw'>NULL</span>, add.cell.ids = <span class='kw'>NULL</span>)
+<span class='fu'>bind_rows</span><span class='op'>(</span><span class='va'>...</span>, .id <span class='op'>=</span> <span class='cn'>NULL</span>, add.cell.ids <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>bind_cols</span>(<span class='kw'>...</span>, .id = <span class='kw'>NULL</span>)</pre>
+<span class='fu'>bind_cols</span><span class='op'>(</span><span class='va'>...</span>, .id <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -174,8 +168,8 @@ grouped data frames only.</p></td>
     </tr>
     <tr>
       <th>add.cell.ids</th>
-      <td><p>from SingleCellExperiment 3.0 A character vector of 
-length(x=c(x, y)). Appends the corresponding values to the start of each 
+      <td><p>from SingleCellExperiment 3.0 A character vector of
+length(x=c(x, y)). Appends the corresponding values to the start of each
 objects' cell names.</p></td>
     </tr>
     </table>
@@ -217,10 +211,10 @@ individual methods for extra arguments and differences in behaviour.</p>
 <code><a href='summarise.html'>summarise</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>`%&gt;%`</span> <span class='op'>&lt;-</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
-<span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='tidy.html'>tidy</a></span>() <span class='op'>%&gt;%</span>
-    <span class='fu'>arrange</span>(<span class='kw'>nFeature_RNA</span>)
+    <pre class="examples"><div class='input'><span class='va'>`%&gt;%`</span> <span class='op'>&lt;-</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
+<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>arrange</span><span class='op'>(</span><span class='va'>nFeature_RNA</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 80 x 17</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
@@ -252,7 +246,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

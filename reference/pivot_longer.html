@@ -83,12 +83,6 @@ Learn more in `vignette(&quot;pivot&quot;)`." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -132,22 +126,22 @@ decreasing the number of columns. The inverse transformation is
 <p>Learn more in `vignette("pivot")`.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pivot_longer</span>(
-  <span class='kw'>data</span>,
-  <span class='kw'>cols</span>,
-  names_to = <span class='st'>"name"</span>,
-  names_prefix = <span class='kw'>NULL</span>,
-  names_sep = <span class='kw'>NULL</span>,
-  names_pattern = <span class='kw'>NULL</span>,
-  names_ptypes = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  names_transform = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  names_repair = <span class='st'>"check_unique"</span>,
-  values_to = <span class='st'>"value"</span>,
-  values_drop_na = <span class='fl'>FALSE</span>,
-  values_ptypes = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  values_transform = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  <span class='kw'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>pivot_longer</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  <span class='va'>cols</span>,
+  names_to <span class='op'>=</span> <span class='st'>"name"</span>,
+  names_prefix <span class='op'>=</span> <span class='cn'>NULL</span>,
+  names_sep <span class='op'>=</span> <span class='cn'>NULL</span>,
+  names_pattern <span class='op'>=</span> <span class='cn'>NULL</span>,
+  names_ptypes <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  names_transform <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  names_repair <span class='op'>=</span> <span class='st'>"check_unique"</span>,
+  values_to <span class='op'>=</span> <span class='st'>"value"</span>,
+  values_drop_na <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  values_ptypes <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  values_transform <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -250,16 +244,14 @@ under active development.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># See vignette("pivot") for examples and explanation</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:tidySCE’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    arrange, as_tibble, bind_cols, bind_rows, count, distinct, filter,</span>
 #&gt; <span class='message'>    full_join, group_by, inner_join, left_join, mutate, pull, rename,</span>
 #&gt; <span class='message'>    right_join, rowwise, sample_frac, sample_n, select, slice,</span>
-#&gt; <span class='message'>    summarise</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:matrixStats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    count</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:Biobase’:</span>
+#&gt; <span class='message'>    summarise</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:Biobase’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    combine</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:GenomicRanges’:</span>
 #&gt; <span class='message'></span>
@@ -271,13 +263,15 @@ under active development.</p>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    first, intersect, rename, setdiff, setequal, union</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:BiocGenerics’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    combine, intersect, setdiff, union</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
+#&gt; <span class='message'>    combine, intersect, setdiff, union</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:matrixStats’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    count</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='tidy.html'>tidy</a></span>() <span class='op'>%&gt;%</span>
-    <span class='fu'>pivot_longer</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>orig.ident</span>, <span class='kw'>groups</span>), names_to=<span class='st'>"name"</span>, values_to=<span class='st'>"value"</span>)
+#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>pivot_longer</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>orig.ident</span>, <span class='va'>groups</span><span class='op'>)</span>, names_to<span class='op'>=</span><span class='st'>"name"</span>, values_to<span class='op'>=</span><span class='st'>"value"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>tidySCE says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 160 x 17</span><span>
 #&gt;    cell  nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents RNA_snn_res.1
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>        
@@ -309,7 +303,7 @@ under active development.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
