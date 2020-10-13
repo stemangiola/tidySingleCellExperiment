@@ -1,14 +1,15 @@
 
 
-setClass("tidySCE", contains="SingleCellExperiment")
+
+setClass("tidySCE", contains = "SingleCellExperiment")
 
 #' @importFrom methods show
 #' @import SingleCellExperiment
 #' @importFrom magrittr %>%
 setMethod(
-    f="show",
-    signature="tidySCE",
-    definition=function(object) {
+    f = "show",
+    signature = "tidySCE",
+    definition = function(object) {
         object %>%
             as_tibble() %>%
             print()
@@ -44,7 +45,7 @@ tidy.SingleCellExperiment <- function(object) {
 #'
 #' \lifecycle{experimental}
 #'
-#' @description join_transcripts() extracts and joins information for specific 
+#' @description join_transcripts() extracts and joins information for specific
 #'   transcripts
 #'
 #' @importFrom rlang enquo
@@ -53,13 +54,13 @@ tidy.SingleCellExperiment <- function(object) {
 #' @name join_transcripts
 #' @rdname join_transcripts
 #'
-#' @param .data A tidy SingleCellExperiment object 
+#' @param .data A tidy SingleCellExperiment object
 #' @param transcripts A vector of transcript identifiers to join
 #' @param all If TRUE return all
 #' @param exclude_zeros If TRUE exclude zero values
 #' @param shape Format of the returned table "long" or "wide"
 #'
-#' @details This function extracts information for specified transcripts and 
+#' @details This function extracts information for specified transcripts and
 #'   returns the information in either long or wide format.
 #'
 #' @return A `tbl` containing the information.for the specified transcripts
@@ -72,55 +73,55 @@ tidy.SingleCellExperiment <- function(object) {
 #' @export
 #'
 join_transcripts <- function(.data,
-    transcripts=NULL,
-    all=FALSE,
-    exclude_zeros=FALSE,
-    shape="long") {
+                             transcripts = NULL,
+                             all = FALSE,
+                             exclude_zeros = FALSE,
+                             shape = "long") {
     UseMethod("join_transcripts", .data)
 }
 #' @export
 join_transcripts.default <-
     function(.data,
-    transcripts=NULL,
-    all=FALSE,
-    exclude_zeros=FALSE,
-    shape="long") {
+             transcripts = NULL,
+             all = FALSE,
+             exclude_zeros = FALSE,
+             shape = "long") {
         print("This function cannot be applied to this object")
     }
 #' @export
 join_transcripts.tidySCE <-
     function(.data,
-    transcripts=NULL,
-    all=FALSE,
-    exclude_zeros=FALSE,
-    shape="long") {
-        message("tidySCE says: A data frame is returned for independent data analysis.")
+             transcripts = NULL,
+             all = FALSE,
+             exclude_zeros = FALSE,
+             shape = "long") {
+        message(data_frame_returned_message)
 
-        .data %>%
-            as_tibble() %>%
-            when(
+        my_tibble =
+            .data %>%
+            as_tibble()
 
-                # Shape is long
-                shape == "long" ~ (.) %>%
-                    left_join(
-                        get_abundance_sc_long(
-                            .data=.data,
-                            transcripts=transcripts,
-                            all=all,
-                            exclude_zeros=exclude_zeros
-                        ),
-                        by="cell"
-                    ) %>%
-                    select(cell, transcript, contains("abundance"), everything()),
+        # Shape is long
+        if (shape == "long")
+            my_tibble %>%
+            left_join(
+                get_abundance_sc_long(
+                    .data = .data,
+                    transcripts = transcripts,
+                    all = all,
+                    exclude_zeros = exclude_zeros
+                ),
+                by = "cell"
+            ) %>%
+            select(cell, transcript, contains("abundance"), everything())
 
-                # Shape if wide
-                ~ (.) %>% left_join(
-                    get_abundance_sc_wide(
-                        .data=.data,
-                        transcripts=transcripts,
-                        all=all
-                    ),
-                    by="cell"
-                )
-            )
+        # Shape if wide
+        else
+            my_tibble  %>% left_join(get_abundance_sc_wide(
+                .data = .data,
+                transcripts = transcripts,
+                all = all
+            ),
+            by = "cell")
+
     }

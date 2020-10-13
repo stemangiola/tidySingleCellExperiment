@@ -75,12 +75,13 @@ as_tibble.default <- function(x, ...,
 #' @importFrom purrr map
 #' @importFrom tidyr spread
 #' @importFrom tibble enframe
+#' @importFrom SingleCellExperiment colData
 #'
 #'
 as_tibble.tidySCE <- function(x, ...,
     .name_repair=c("check_unique", "unique", "universal", "minimal"),
     rownames=pkgconfig::get_config("tibble::rownames", NULL)) {
-    x@colData %>%
+    colData(x) %>%
         as.data.frame() %>%
         tibble::as_tibble(rownames="cell") %>%
 

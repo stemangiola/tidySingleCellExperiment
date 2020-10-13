@@ -100,7 +100,7 @@ pbmc_small_tidy
 **But it is a SingleCellExperiment object after all**
 
 ```{r}
-pbmc_small_tidy@assays
+assays(pbmc_small_tidy)
 ```
 
 # Annotation polishing
@@ -223,7 +223,7 @@ We can proceed with cluster identification with *scran*.
 ```{r cluster}
 pbmc_small_cluster <- pbmc_small_pca
 
-# Assign clusters to the 'colLabels' of the SummarizedExperiment object
+# Assign clusters to the 'colLabels' of the SingleCellExperiment object
 colLabels(pbmc_small_cluster) <-
     pbmc_small_pca %>%
     buildSNNGraph(use.dimred="PCA") %>%
@@ -277,6 +277,7 @@ And we can plot the result in 3D using plotly.
 
 ```{r umap plot, eval=FALSE}
 pbmc_small_UMAP %>%
+
     plot_ly(
         x=~`UMAP1`,
         y=~`UMAP2`,
@@ -450,6 +451,7 @@ pbmc_small_nested_interactions <-
             `individual-networks` %>%
             map_dfr(~ bind_rows(as_tibble(.x)))
     }))
+
 
 pbmc_small_nested_interactions %>%
     select(-data) %>%

@@ -1,4 +1,5 @@
 #' @importFrom tibble as_tibble
+#' @importFrom SingleCellExperiment colData
 #'
 #' @keywords internal
 #'
@@ -6,7 +7,7 @@
 #'
 #' @noRd
 to_tib <- function(.data) {
-    .data@colData %>%
+    colData(.data) %>%
         as.data.frame() %>%
         as_tibble(rownames="cell")
 }
@@ -129,7 +130,7 @@ get_abundance_sc_wide <- function(.data, transcripts=NULL, all=FALSE) {
     }
 
     # Just grub last assay
-    .data@assays@data %>%
+    assays(.data) %>%
         as.list() %>%
         tail(1) %>%
         .[[1]] %>%
@@ -199,10 +200,13 @@ get_abundance_sc_long <- function(.data, transcripts=NULL, all=FALSE, exclude_ze
         variable_genes <- NULL
     }
 
-    assay_names <- .data@assays %>% names()
+    assay_names <- assays(.data) %>% names()
 
+    # Check that I have assay manes
+    if(length(assay_names) == 0)
+      stop("tidySCE says: there are no assays names in the source SingleCellExperiment.")
 
-    .data@assays@data %>%
+    assays(.data) %>%
         as.list() %>%
 
         # Take active assay
@@ -314,8 +318,12 @@ quo_names <- function(v) {
 #' @importFrom purrr when
 #' @importFrom dplyr select
 #' @importFrom rlang expr
+#' @importFrom tidyselect eval_select
 select_helper <- function(.data, ...) {
     loc <- tidyselect::eval_select(expr(c(...)), .data)
 
     dplyr::select(.data, loc)
 }
+
+data_frame_returned_message = "tidySCE says: A data frame is returned for independent data analysis."
+duplicated_cell_names = "tidySCE says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis."

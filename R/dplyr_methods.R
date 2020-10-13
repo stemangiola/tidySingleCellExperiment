@@ -188,7 +188,7 @@ bind_cols.default <- function(..., .id=NULL) {
 bind_cols.tidySCE <- function(..., .id=NULL) {
     tts <- tts <- flatten_if(dots_values(...), is_spliced)
 
-    tts[[1]]@colData <- dplyr::bind_cols(tts[[1]]@colData %>% as.data.frame(),
+    colData(tts[[1]]) <- dplyr::bind_cols(colData(tts[[1]]) %>% as.data.frame(),
                                          tts[[2]], .id=.id) %>% DataFrame()
 
     tts[[1]]
@@ -223,8 +223,7 @@ distinct.default <- function(.data, ..., .keep_all=FALSE) {
 
 #' @export
 distinct.tidySCE <- function(.data, ..., .keep_all=FALSE) {
-    message("tidySCE says: A data frame is returned for
-            independent data analysis.")
+    message(data_frame_returned_message)
 
     .data %>%
         as_tibble() %>%
@@ -308,7 +307,7 @@ filter.tidySCE <- function(.data, ..., .preserve=FALSE) {
         as_tibble() %>%
         dplyr::filter(..., .preserve=.preserve) # %>% as_meta_data(.data)
     new_obj <- .data[, new_meta$cell]
-    # new_obj@colData=new_meta
+    # colData(new_obj)=new_meta
 
     new_obj
 }
@@ -364,7 +363,7 @@ group_by.default <- function(.data, ..., .add=FALSE, .drop=group_by_drop_default
 
 #' @export
 group_by.tidySCE <- function(.data, ..., .add=FALSE, .drop=group_by_drop_default(.data)) {
-    message("tidySCE says: A data frame is returned for independent data analysis.")
+    message(data_frame_returned_message)
 
     .data %>%
         as_tibble() %>%
@@ -451,8 +450,8 @@ summarise.default <- function(.data, ...) {
 
 #' @export
 summarise.tidySCE <- function(.data, ...) {
-    message("tidySCE says: A data frame is returned for
-            independent data analysis.")
+    message(data_frame_returned_message)
+
 
     .data %>%
         as_tibble() %>%
@@ -554,17 +553,37 @@ mutate.default <- function(.data, ...) {
 
 #' @importFrom dplyr mutate
 #' @importFrom rlang enquos
+#' @importFrom SingleCellExperiment colData
 #'
 #' @export
 mutate.tidySCE <- function(.data, ...) {
 
     # Check that we are not modifying a key column
     cols <- enquos(...) %>% names()
-    if (intersect(cols, get_special_columns(.data) %>% c(get_needed_columns())) %>% length() %>% gt(0)) {
-        stop(sprintf("tidySCE says: you are trying to mutate a column that is view only %s (it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% c(get_needed_columns()) %>% paste(collapse=", ")))
+
+    tst <-
+        intersect(
+            cols %>%
+                names(),
+            get_special_columns(.data) %>%
+                c(get_needed_columns())
+        ) %>%
+        length() %>%
+        gt(0)
+
+    if (tst) {
+        columns =
+            get_special_columns(.data) %>%
+            c(get_needed_columns()) %>%
+            paste(collapse=", ")
+        stop(
+            "tidySCE says: you are trying to rename a column that is view only",
+            columns, " ",
+            "(it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one."
+        )
     }
 
-    .data@colData <-
+    colData(.data) <-
         .data %>%
         as_tibble() %>%
         dplyr::mutate(...) %>%
@@ -616,16 +635,38 @@ rename.default <- function(.data, ...) {
     dplyr::rename(.data, ...)
 }
 
+#' @importFrom tidyselect eval_select
+#' @importFrom SingleCellExperiment colData
 #' @export
 rename.tidySCE <- function(.data, ...) {
 
     # Check that we are not modifying a key column
-    cols <- tidyselect::eval_select(expr(c(...)), .data@colData %>% as.data.frame())
-    if (intersect(cols %>% names(), get_special_columns(.data) %>% c(get_needed_columns())) %>% length() %>% gt(0)) {
-        stop(sprintf("tidySCE says: you are trying to rename a column that is view only %s (it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% c(get_needed_columns()) %>% paste(collapse=", ")))
+    cols <- tidyselect::eval_select(expr(c(...)), colData(.data) %>% as.data.frame())
+
+    tst <-
+        intersect(
+            cols %>%
+                names(),
+            get_special_columns(.data) %>%
+                c(get_needed_columns())
+        ) %>%
+        length() %>%
+        gt(0)
+
+    if (tst) {
+        columns =
+            get_special_columns(.data) %>%
+            c(get_needed_columns()) %>%
+            paste(collapse=", ")
+        stop(
+            "tidySCE says: you are trying to rename a column that is view only",
+            columns, " ",
+            "(it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one."
+        )
     }
 
-    .data@colData <- dplyr::rename(.data@colData %>% as.data.frame(), ...) %>% DataFrame()
+
+    colData(.data) <- dplyr::rename(colData(.data) %>% as.data.frame(), ...) %>% DataFrame()
 
     .data
 }
@@ -668,7 +709,7 @@ rowwise.default <- function(.data) {
 
 #' @export
 rowwise.tidySCE <- function(.data) {
-    message("tidySCE says: A data frame is returned for independent data analysis.")
+    message(data_frame_returned_message)
 
     .data %>%
         as_tibble() %>%
@@ -709,6 +750,7 @@ left_join.default <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     dplyr::left_join(x, y, by=by, copy=copy, suffix=suffix, ...)
 }
 
+#' @importFrom SingleCellExperiment colData
 #' @export
 left_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
@@ -722,13 +764,13 @@ left_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
                 filter(n > 1) %>%
                 nrow() %>%
                 gt(0) ~ {
-                message("tidySCE says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
+                message(duplicated_cell_names)
                 (.)
             },
 
             # Otherwise return updated tidySCE
             ~ {
-                x@colData <- (.) %>% as_meta_data(x)
+                colData(x) <- (.) %>% as_meta_data(x)
                 x
             }
         )
@@ -762,6 +804,7 @@ inner_join.default <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), 
     dplyr::inner_join(x, y, by=by, copy=copy, suffix=suffix, ...)
 }
 
+#' @importFrom SingleCellExperiment colData
 #' @export
 inner_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), ...) {
     x %>%
@@ -774,14 +817,14 @@ inner_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), 
                 filter(n > 1) %>%
                 nrow() %>%
                 gt(0) ~ {
-                message("tidySCE says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
-                (.)
+                    message(duplicated_cell_names)
+                    (.)
             },
 
             # Otherwise return updated tidySCE
             ~ {
                 new_obj <- x[, .$cell]
-                new_obj@colData <- (.) %>% as_meta_data(new_obj)
+                colData(new_obj) <- (.) %>% as_meta_data(new_obj)
                 new_obj
             }
         )
@@ -819,6 +862,7 @@ right_join.default <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     dplyr::right_join(x, y, by=by, copy=copy, suffix=suffix, ...)
 }
 
+#' @importFrom SingleCellExperiment colData
 #' @export
 right_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
@@ -832,14 +876,14 @@ right_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
                 filter(n > 1) %>%
                 nrow() %>%
                 gt(0) ~ {
-                message("tidySCE says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
-                (.)
+                    message(duplicated_cell_names)
+                    (.)
             },
 
             # Otherwise return updated tidySCE
             ~ {
                 new_obj <- x[, .$cell]
-                new_obj@colData <- (.) %>% as_meta_data(new_obj)
+                colData(new_obj) <- (.) %>% as_meta_data(new_obj)
                 new_obj
             }
         )
@@ -891,14 +935,14 @@ full_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
                 filter(n > 1) %>%
                 nrow() %>%
                 gt(0) ~ {
-                message("tidySCE says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
-                (.)
+                    message(duplicated_cell_names)
+                    (.)
             },
 
             # Otherwise return updated tidySCE
             ~ {
                 new_obj <- x[, .$cell]
-                new_obj@colData <- (.) %>% as_meta_data(x)
+                colData(new_obj) <- (.) %>% as_meta_data(x)
                 new_obj
             }
         )
@@ -977,11 +1021,12 @@ slice.default <- function(.data, ..., .preserve=FALSE) {
     dplyr::slice(.data, ..., .preserve=.preserve)
 }
 
+#' @importFrom SingleCellExperiment colData
 #' @export
 slice.tidySCE <- function(.data, ..., .preserve=FALSE) {
-    new_meta <- dplyr::slice(.data@colData %>% as.data.frame(), ..., .preserve=.preserve)
+    new_meta <- dplyr::slice(colData(.data) %>% as.data.frame(), ..., .preserve=.preserve)
     new_obj <- .data[, rownames(new_meta)]
-    # new_obj@colData=new_meta
+    # colData(new_obj)=new_meta
 
     new_obj
 }
@@ -1042,6 +1087,7 @@ select.default <- function(.data, ...) {
     dplyr::select(.data, ...)
 }
 
+#' @importFrom SingleCellExperiment colData
 #' @export
 select.tidySCE <- function(.data, ...) {
     .data %>%
@@ -1059,7 +1105,7 @@ select.tidySCE <- function(.data, ...) {
 
             # If valid SingleCellExperiment meta data
             ~ {
-                .data@colData <- (.) %>% as_meta_data(.data)
+                colData(.data) <- (.) %>% as_meta_data(.data)
                 .data
             }
         )
@@ -1122,16 +1168,17 @@ sample_n.default <- function(tbl, size, replace=FALSE, weight=NULL,
     tbl %>% sample_n(size, replace=replace, weight=weight, .env=.env, ...)
 }
 
+#' @importFrom SingleCellExperiment colData
 #' @export
 sample_n.tidySCE <- function(tbl, size, replace=FALSE,
     weight=NULL, .env=NULL, ...) {
     lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
 
-    new_meta <- tbl@colData %>%
+    new_meta <- colData(tbl) %>%
         as.data.frame() %>%
         dplyr::sample_n(size, replace=replace, weight=weight, .env=.env, ...)
     new_obj <- tbl[, rownames(new_meta)]
-    # new_obj@colData=new_meta %>% DataFrame()
+    # colData(new_obj)=new_meta %>% DataFrame()
 
     new_obj
 }
@@ -1148,16 +1195,17 @@ sample_frac.default <- function(tbl, size, replace=FALSE, weight=NULL,
     tbl %>% dplyr::sample_frac(size, replace=replace, weight=weight, .env=.env, ...)
 }
 
+#' @importFrom SingleCellExperiment colData
 #' @export
 sample_frac.tidySCE <- function(tbl, size=1, replace=FALSE,
     weight=NULL, .env=NULL, ...) {
     lifecycle::signal_superseded("1.0.0", "sample_frac()", "slice_sample()")
 
-    new_meta <- tbl@colData %>%
+    new_meta <- colData(tbl) %>%
         as.data.frame() %>%
         dplyr::sample_frac(size, replace=replace, weight=weight, .env=.env, ...)
     new_obj <- tbl[, rownames(new_meta)]
-    # new_obj@colData=new_meta %>% DataFrame()
+    # colData(new_obj)=new_meta %>% DataFrame()
 
     new_obj
 }
@@ -1223,7 +1271,7 @@ count.default <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by
 }
 #' @export
 count.tidySCE <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by_drop_default(x)) {
-    message("tidySCE says: A data frame is returned for independent data analysis.")
+    message(data_frame_returned_message)
 
     x %>%
         as_tibble() %>%
@@ -1232,9 +1280,11 @@ count.tidySCE <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by
 
 #' Extract a single column
 #'
+#'
 #' `pull()` is similar to `$`. It's mostly useful because it looks a little
 #' nicer in pipes, it also works with remote data frames, and it can optionally
 #' name the output.
+#'
 #'
 #' @inheritParams arrange
 #' @inheritParams tidyselect::vars_pull
@@ -1250,6 +1300,9 @@ count.tidySCE <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by
 #' The following methods are currently available in loaded packages:
 #' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("pull")}.
 #' @export
+#'
+#' @importFrom ellipsis check_dots_used
+#'
 #' @examples
 #'
 #' `%>%` <- magrittr::`%>%`

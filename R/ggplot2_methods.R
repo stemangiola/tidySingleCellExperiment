@@ -52,7 +52,7 @@ ggplot <- function(.data=NULL, mapping=aes(), ..., environment=parent.frame()) {
 
 #' @export
 #'
-ggplot.default <- function(.data=NULL, mapping=aes(), ..., environment=parent.frame()) {
+ggplot.tbl_df <- function(.data=NULL, mapping=aes(), ..., environment=parent.frame()) {
     .data %>%
 
         # This is a trick to not loop the call
