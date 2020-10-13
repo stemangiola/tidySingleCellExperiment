@@ -88,6 +88,8 @@ join_transcripts.default <-
              shape = "long") {
         print("This function cannot be applied to this object")
     }
+#' @importFrom tidyselect contains
+#' @importFrom tidyselect everything
 #' @export
 join_transcripts.tidySCE <-
     function(.data,
