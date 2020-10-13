@@ -228,7 +228,7 @@ get_abundance_sc_long <- function(.data, transcripts=NULL, all=FALSE, exclude_ze
                     x
                 }, ~ (.)) %>%
                 as.matrix() %>%
-                data.frame() %>%
+                data.frame(check.names = FALSE) %>%
                 as_tibble(rownames="transcript") %>%
                 tidyr::pivot_longer(
                     cols=-transcript,
