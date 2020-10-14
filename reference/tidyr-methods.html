@@ -73,7 +73,7 @@ nest" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySCE</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.1</span>
       </span>
     </div>
 
@@ -215,7 +215,7 @@ standard tidyverse recycling rules).</p></td>
     <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>nest</span><span class='op'>(</span>data<span class='op'>=</span><span class='op'>-</span><span class='va'>groups</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>unnest</span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 80 x 17</span><span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble abstraction: 80 x 17</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>        
 #&gt; </span><span style='color: #555555;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A            
@@ -236,7 +236,7 @@ standard tidyverse recycling rules).</p></td>
     <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>nest</span><span class='op'>(</span>data<span class='op'>=</span><span class='op'>-</span><span class='va'>groups</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>unnest</span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 80 x 17</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble abstraction: 80 x 17</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>        
 #&gt; </span><span style='color: #555555;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A            

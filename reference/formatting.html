@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Coerce lists, matrices, and more to data frames — as_tibble • tidySCE</title>
+<title>Printing tibbles — formatting • tidySCE</title>
 
 
 <!-- jquery -->
@@ -39,19 +39,16 @@
 
 
 
-<meta property="og:title" content="Coerce lists, matrices, and more to data frames — as_tibble" />
+<meta property="og:title" content="Printing tibbles — formatting" />
 <meta property="og:description" content="`r lifecycle::badge(&quot;maturing&quot;)`
-`as_tibble()` turns an existing object, such as a data frame or
-matrix, into a so-called tibble, a data frame with class [`tbl_df`]. This is
-in contrast with [tibble()], which builds a tibble from individual columns.
-`as_tibble()` is to [`tibble()`] as [base::as.data.frame()] is to
-[base::data.frame()].
-`as_tibble()` is an S3 generic, with methods for:
-* [`data.frame`][base::data.frame()]: Thin wrapper around the `list` method
-  that implements tibble's treatment of [rownames].
-* [`matrix`][methods::matrix-class], [`poly`][stats::poly()],
-  [`ts`][stats::ts()], [`table`][base::table()]
-* Default: Other inputs are first coerced with [base::as.data.frame()]." />
+One of the main features of the `tbl_df` class is the printing:
+* Tibbles only print as many rows and columns as fit on one screen,
+  supplemented by a summary of the remaining rows and columns.
+* Tibble reveals the type of each column, which keeps the user informed about
+  whether a variable is, e.g., `&amp;lt;chr&amp;gt;` or `&amp;lt;fct&amp;gt;` (character versus factor).
+Printing can be tweaked for a one-off call by calling `print()` explicitly
+and setting arguments like `n` and `width`. More persistent control is
+available by setting the options described below." />
 
 
 
@@ -120,92 +117,131 @@ in contrast with [tibble()], which builds a tibble from individual columns.
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Coerce lists, matrices, and more to data frames</h1>
+    <h1>Printing tibbles</h1>
     
-    <div class="hidden name"><code>as_tibble.Rd</code></div>
+    <div class="hidden name"><code>formatting.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>`r lifecycle::badge("maturing")`</p>
-<p>`as_tibble()` turns an existing object, such as a data frame or
-matrix, into a so-called tibble, a data frame with class [`tbl_df`]. This is
-in contrast with [tibble()], which builds a tibble from individual columns.
-`as_tibble()` is to [`tibble()`] as [base::as.data.frame()] is to
-[base::data.frame()].</p>
-<p>`as_tibble()` is an S3 generic, with methods for:
-* [`data.frame`][base::data.frame()]: Thin wrapper around the `list` method
-  that implements tibble's treatment of [rownames].
-* [`matrix`][methods::matrix-class], [`poly`][stats::poly()],
-  [`ts`][stats::ts()], [`table`][base::table()]
-* Default: Other inputs are first coerced with [base::as.data.frame()].</p>
+<p>One of the main features of the `tbl_df` class is the printing:</p>
+<p>* Tibbles only print as many rows and columns as fit on one screen,
+  supplemented by a summary of the remaining rows and columns.
+* Tibble reveals the type of each column, which keeps the user informed about
+  whether a variable is, e.g., `&lt;chr&gt;` or `&lt;fct&gt;` (character versus factor).</p>
+<p>Printing can be tweaked for a one-off call by calling `print()` explicitly
+and setting arguments like `n` and `width`. More persistent control is
+available by setting the options described below.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>as_tibble</span><span class='op'>(</span>
-  <span class='va'>x</span>,
-  <span class='va'>...</span>,
-  .name_repair <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"check_unique"</span>, <span class='st'>"unique"</span>, <span class='st'>"universal"</span>, <span class='st'>"minimal"</span><span class='op'>)</span>,
-  rownames <span class='op'>=</span> <span class='fu'>pkgconfig</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/pkgconfig/man/get_config.html'>get_config</a></span><span class='op'>(</span><span class='st'>"tibble::rownames"</span>, <span class='cn'>NULL</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='co'># S3 method for tidySCE</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span>, n <span class='op'>=</span> <span class='cn'>NULL</span>, width <span class='op'>=</span> <span class='cn'>NULL</span>, n_extra <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+
+<span class='fu'>tidySCE_format_tbl</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span>, n <span class='op'>=</span> <span class='cn'>NULL</span>, width <span class='op'>=</span> <span class='cn'>NULL</span>, n_extra <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A data frame, list, matrix, or other object that could reasonably be
-coerced to a tibble.</p></td>
+      <td><p>Object to format or print.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Unused, for extensibility.</p></td>
+      <td><p>Other arguments passed on to individual methods.</p></td>
     </tr>
     <tr>
-      <th>.name_repair</th>
-      <td><p>see tidyr</p>
-<p>For compatibility only, do not use for new code.</p></td>
+      <th>n</th>
+      <td><p>Number of rows to show. If `NULL`, the default, will print all rows
+if less than option `tibble.print_max`. Otherwise, will print
+`tibble.print_min` rows.</p></td>
     </tr>
     <tr>
-      <th>rownames</th>
-      <td><p>How to treat existing row names of a data frame or matrix:
- * `NULL`: remove row names. This is the default.
- * `NA`: keep row names.
- * A string: the name of a new column. Existing rownames are transferred
-   into this column and the `row.names` attribute is deleted.
-Read more in [rownames].</p></td>
+      <th>width</th>
+      <td><p>Width of text output to generate. This defaults to `NULL`, which
+means use `getOption("tibble.width")` or (if also `NULL`)
+`getOption("width")`; the latter displays only the columns that fit on one
+screen. You can also set `options(tibble.width = Inf)` to override this
+default and always print all columns.</p></td>
+    </tr>
+    <tr>
+      <th>n_extra</th>
+      <td><p>Number of extra columns to print abbreviated information for,
+if the width is too small for the entire tibble. If `NULL`, the default,
+will print information about at most `tibble.max_extra_cols` extra columns.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A tibble</p>
-    <h2 class="hasAnchor" id="row-names"><a class="anchor" href="#row-names"></a>Row names</h2>
+    <h2 class="hasAnchor" id="package-options"><a class="anchor" href="#package-options"></a>Package options</h2>
 
     
 
-<p>The default behavior is to silently remove row names.</p>
-<p>New code should explicitly convert row names to a new column using the
-`rownames` argument.</p>
-<p>For existing code that relies on the retention of row names, call
-`pkgconfig::set_config("tibble::rownames"=NA)` in your script or in your
-package's [.onLoad()]  function.</p>
-    <h2 class="hasAnchor" id="life-cycle"><a class="anchor" href="#life-cycle"></a>Life cycle</h2>
 
-    
+<p>The following options are used by the tibble and pillar packages
+to format and print `tbl_df` objects.
+Used by the formatting workhorse `trunc_mat()` and, therefore,
+indirectly, by `print.tbl()`.</p>
+<p>* `tibble.print_max`: Row number threshold: Maximum number of rows printed.
+  Set to `Inf` to always print all rows.  Default: 20.
+* `tibble.print_min`: Number of rows printed if row number threshold is
+  exceeded. Default: 10.
+* `tibble.width`: Output width. Default: `NULL` (use `width` option).
+* `tibble.max_extra_cols`: Number of extra columns printed in reduced form.
+  Default: 100.</p>
 
-<p>Using `as_tibble()` for vectors is superseded as of version 3.0.0,
-prefer the more expressive maturing `as_tibble_row()` and
-`as_tibble_col()` variants for new code.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>[tibble()] constructs a tibble from individual columns. [enframe()]
-  converts a named vector to a tibble with a column of names and column of
-  values. Name repair is implemented using [vctrs::vec_as_names()].</p></div>
+<ul>
+<li><p><code>pillar.bold</code>: Use bold font, e.g. for column headers? This currently
+defaults to <code>FALSE</code>, because many terminal fonts have poor support for
+bold fonts.</p></li>
+<li><p><code>pillar.subtle</code>: Use subtle style, e.g. for row numbers and data types?
+Default: <code>TRUE</code>.</p></li>
+<li><p><code>pillar.subtle_num</code>: Use subtle style for insignificant digits? Default:
+<code>FALSE</code>, is also affected by the <code>pillar.subtle</code> option.</p></li>
+<li><p><code>pillar.neg</code>: Highlight negative numbers? Default: <code>TRUE</code>.</p></li>
+<li><p><code>pillar.sigfig</code>: The number of significant digits that will be printed and
+highlighted, default: <code>3</code>. Set the <code>pillar.subtle</code> option to <code>FALSE</code> to
+turn off highlighting of significant digits.</p></li>
+<li><p><code>pillar.min_title_chars</code>: The minimum number of characters for the column
+title, default: <code>15</code>.  Column titles may be truncated up to that width to
+save horizontal space. Set to <code>Inf</code> to turn off truncation of column
+titles.</p></li>
+<li><p><code>pillar.min_chars</code>: The minimum number of characters wide to
+display character columns, default: <code>0</code>.  Character columns may be
+truncated up to that width to save horizontal space. Set to <code>Inf</code> to
+turn off truncation of character columns.</p></li>
+</ul>
+
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-    <span class='fu'>as_tibble</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 80 x 17</span><span>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:tidySCE’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    arrange, as_tibble, bind_cols, bind_rows, count, distinct, filter,</span>
+#&gt; <span class='message'>    full_join, group_by, inner_join, left_join, mutate, pull, rename,</span>
+#&gt; <span class='message'>    right_join, rowwise, sample_frac, sample_n, select, slice,</span>
+#&gt; <span class='message'>    summarise</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:Biobase’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    combine</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:GenomicRanges’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    intersect, setdiff, union</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:GenomeInfoDb’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    intersect</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:IRanges’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    collapse, desc, intersect, setdiff, slice, union</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:S4Vectors’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    first, intersect, rename, setdiff, setequal, union</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:BiocGenerics’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    combine, intersect, setdiff, union</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:matrixStats’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    count</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble abstraction: 80 x 17</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A             g2    

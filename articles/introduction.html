@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySCE</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.1</span>
       </span>
     </div>
 
@@ -69,7 +69,7 @@
       <h1 data-toc-skip>Overview of the tidySCE package</h1>
                         <h4 class="author">Stefano Mangiola</h4>
             
-            <h4 class="date">2020-10-13</h4>
+            <h4 class="date">2020-10-14</h4>
       
       
       <div class="hidden name"><code>introduction.Rmd</code></div>
@@ -178,7 +178,7 @@
 <p><strong>It looks like a tibble</strong></p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="va">pbmc_small_tidy</span></pre></div>
-<pre><code>## # A tibble: 80 x 17
+<pre><code>## # A tibble abstraction: 80 x 17
 ##    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 ##    &lt;chr&gt; &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;         &lt;chr&gt; 
 ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
@@ -1144,7 +1144,7 @@
 <span class="co"># Reorder to have sample column up front</span>
 <span class="va">pbmc_small_polished</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">sample</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></pre></div>
-<pre><code>## # A tibble: 80 x 18
+<pre><code>## # A tibble abstraction: 80 x 18
 ##    cell  sample orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
 ##    &lt;chr&gt; &lt;chr&gt;  &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;        
 ##  1 ATGC… sampl… SeuratPro…         70           47 0               A            
@@ -1232,7 +1232,7 @@
     <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span><span class="op">(</span>subset_row<span class="op">=</span><span class="va">variable_genes</span><span class="op">)</span>
 
 <span class="va">pbmc_small_pca</span></pre></div>
-<pre><code>## # A tibble: 80 x 18
+<pre><code>## # A tibble abstraction: 80 x 18
 ##    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 ##    &lt;chr&gt; &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;         &lt;chr&gt; 
 ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
@@ -1275,7 +1275,7 @@
 
 <span class="co"># Reorder columns</span>
 <span class="va">pbmc_small_cluster</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">label</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></pre></div>
-<pre><code>## # A tibble: 80 x 19
+<pre><code>## # A tibble abstraction: 80 x 19
 ##    cell  label orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
 ##    &lt;chr&gt; &lt;fct&gt; &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;        
 ##  1 ATGC… 2     SeuratPro…         70           47 0               A            
@@ -1378,7 +1378,7 @@
 <span class="co"># Reorder columns</span>
 <span class="va">pbmc_small_cell_type</span> <span class="op">%&gt;%</span>
     <span class="fu">tidySCE</span><span class="fu">::</span><span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">cell</span>, <span class="va">first.labels</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></pre></div>
-<pre><code>## # A tibble: 80 x 23
+<pre><code>## # A tibble abstraction: 80 x 23
 ##    cell  first.labels orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8
 ##    &lt;chr&gt; &lt;chr&gt;        &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;          
 ##  1 ATGC… CD4+ T-cells SeuratPro…         70           47 0              
@@ -1585,15 +1585,15 @@
 ## [8] methods   base     
 ## 
 ## other attached packages:
-##  [1] tidySCE_0.99.0              tidyHeatmap_1.1.5          
+##  [1] tidySCE_0.99.1              tidyHeatmap_1.1.5          
 ##  [3] purrr_0.3.4                 SingleCellSignalR_1.1.0    
-##  [5] SingleR_1.3.10              scran_1.17.21              
+##  [5] SingleR_1.3.11              scran_1.17.21              
 ##  [7] scater_1.17.5               ggplot2_3.3.2              
 ##  [9] SingleCellExperiment_1.11.8 SummarizedExperiment_1.19.9
 ## [11] Biobase_2.49.1              GenomicRanges_1.41.6       
 ## [13] GenomeInfoDb_1.25.11        IRanges_2.23.10            
 ## [15] S4Vectors_0.27.14           BiocGenerics_0.35.4        
-## [17] MatrixGenerics_1.1.4        matrixStats_0.57.0         
+## [17] MatrixGenerics_1.1.5        matrixStats_0.57.0         
 ## [19] knitr_1.30                  BiocStyle_2.17.1           
 ## 
 ## loaded via a namespace (and not attached):
@@ -1628,13 +1628,13 @@
 ##  [57] utf8_1.1.4                tidyselect_1.1.0         
 ##  [59] labeling_0.3              rlang_0.4.8              
 ##  [61] munsell_0.5.0             tools_4.0.2              
-##  [63] cli_2.0.2                 generics_0.0.2           
+##  [63] cli_2.1.0                 generics_0.0.2           
 ##  [65] ggridges_0.5.2            evaluate_0.14            
 ##  [67] stringr_1.4.0             yaml_2.2.1               
 ##  [69] ragg_0.4.0                fs_1.5.0                 
 ##  [71] caTools_1.18.0            pracma_2.2.9             
 ##  [73] compiler_4.0.2            beeswarm_0.2.3           
-##  [75] png_0.1-7                 tibble_3.0.3             
+##  [75] png_0.1-7                 tibble_3.0.4             
 ##  [77] statmod_1.4.34            stringi_1.5.3            
 ##  [79] desc_1.2.0                RSpectra_0.16-0          
 ##  [81] lattice_0.20-41           bluster_0.99.1           

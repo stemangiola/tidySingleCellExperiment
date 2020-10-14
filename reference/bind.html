@@ -74,7 +74,7 @@ data frames into one." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySCE</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.1</span>
       </span>
     </div>
 
@@ -168,7 +168,7 @@ appears in any of the inputs.</p>
     <pre class="examples"><div class='input'><span class='va'>`%&gt;%`</span> <span class='op'>&lt;-</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
 <span class='va'>tt</span> <span class='op'>&lt;-</span> <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='fu'><a href='arrange.html'>bind_rows</a></span><span class='op'>(</span><span class='va'>tt</span>, <span class='va'>tt</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: tidySCE says: you have duplicated cell names, they will be made unique.</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 160 x 17</span><span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: tidySCE says: you have duplicated cell names, they will be made unique.</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble abstraction: 160 x 17</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A             g2    
@@ -194,7 +194,7 @@ appears in any of the inputs.</p>
 #&gt; <span class='message'>* nCount_RNA...2 -&gt; nCount_RNA...3</span>
 #&gt; <span class='message'>* nFeature_RNA...3 -&gt; nFeature_RNA...4</span>
 #&gt; <span class='message'>* nCount_RNA...10 -&gt; nCount_RNA...11</span>
-#&gt; <span class='message'>* nFeature_RNA...11 -&gt; nFeature_RNA...12</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 80 x 19</span><span>
+#&gt; <span class='message'>* nFeature_RNA...11 -&gt; nFeature_RNA...12</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble abstraction: 80 x 19</span><span>
 #&gt;    cell  orig.ident nCount_RNA...3 nFeature_RNA...4 RNA_snn_res.0.8
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>               </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>          
 #&gt; </span><span style='color: #555555;'> 1</span><span> ATGC… SeuratPro…             70               47 0              
