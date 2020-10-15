@@ -21,6 +21,8 @@ setMethod(
 #'
 #' @return A tidySCE object
 #'
+#' @name tidy
+#'
 #' @examples
 #'
 #' tidySCE::pbmc_small %>% tidy()
