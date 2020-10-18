@@ -90,7 +90,7 @@ as_tibble.tidySCE <- function(x, ...,
         when(
 
             # Only if I have reduced dimensions and special datasets
-            ncol(x@int_colData@listData$reducedDims) > 0 ~ (.) %>% bind_cols(
+            ncol(x@int_colData@listData$reducedDims) > 0 ~ (.) %>% dplyr::bind_cols(
                 get_special_datasets(x) %>%
                     map(~ .x %>% when(
 
@@ -104,7 +104,7 @@ as_tibble.tidySCE <- function(x, ...,
                         # Otherwise continue normally
                         ~ as_tibble(.)
                     )) %>%
-                    reduce(bind_cols)
+                    reduce(dplyr::bind_cols)
             ),
 
             # Otherwise skip

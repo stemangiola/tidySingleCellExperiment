@@ -1,12 +1,6 @@
-#' drplyr-methods
-#'
-#' @rdname dplyr-methods
-#'
-#' @return A tibble
-
-
 #' Arrange rows by column values
 #'
+#' @importFrom dplyr arrange
 #'
 #' @description
 #' `arrange()` order the rows of a data frame rows by the values of selected
@@ -52,7 +46,6 @@
 #' @rdname dplyr-methods
 #' @name arrange
 #'
-#' @family single table verbs
 #' @examples
 #' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
@@ -71,6 +64,7 @@ arrange.tidySCE <- function(.data, ..., .by_group=FALSE) {
         dplyr::arrange(..., .by_group=.by_group)
 
     .data[, new_metadata$cell]
+
 }
 
 
@@ -115,16 +109,27 @@ arrange.tidySCE <- function(.data, ..., .by_group=FALSE) {
 #'
 #' tt_bind <- tt %>% select(nCount_RNA, nFeature_RNA)
 #' tt %>% bind_cols(tt_bind)
+#' @name bind
+NULL
+
 #' @rdname dplyr-methods
-#' @name bind_rows
+#'
+#' @inheritParams bind
 #'
 #' @export
-NULL
+#'
+bind_rows <- function(..., .id=NULL, add.cell.ids=NULL) {
+    UseMethod("bind_rows")
+}
+
+#' @export
+bind_rows.default <- function(..., .id=NULL, add.cell.ids=NULL) {
+    dplyr::bind_rows(..., .id=.id)
+}
 
 #' @importFrom rlang dots_values
 #' @importFrom rlang flatten_if
 #' @importFrom rlang is_spliced
-#'
 #'
 #' @export
 #'
@@ -141,53 +146,29 @@ bind_rows.tidySCE <- function(..., .id=NULL, add.cell.ids=NULL) {
     new_obj
 }
 
-#' Efficiently bind multiple data frames by row and column
-#'
-#' This is an efficient implementation of the common pattern of
-#' `do.call(rbind, dfs)` or `do.call(cbind, dfs)` for binding many
-#' data frames into one.
-#'
-#' The output of `bind_rows()` will contain a column if that column
-#' appears in any of the inputs.
-#'
-#' @param ... Data frames to combine.
-#'
-#'   Each argument can either be a data frame, a list that could be a data
-#'   frame, or a list of data frames.
-#'
-#'   When row-binding, columns are matched by name, and any missing
-#'   columns will be filled with NA.
-#'
-#'   When column-binding, rows are matched by position, so all data
-#'   frames must have the same number of rows. To match by value, not
-#'   position, see [mutate-joins].
-#' @param .id Data frame identifier.
-#'
-#'   When `.id` is supplied, a new column of identifiers is
-#'   created to link each row to its original data frame. The labels
-#'   are taken from the named arguments to `bind_rows()`. When a
-#'   list of data frames is supplied, the labels are taken from the
-#'   names of the list. If no names are found a numeric sequence is
-#'   used instead.
-#' @param add.cell.ids from SingleCellExperiment 3.0 A character vector of
-#'   length(x=c(x, y)). Appends the corresponding values to the start of each
-#'   objects' cell names.
-#'
-#' @return `bind_rows()` and `bind_cols()` return the same type as
-#'   the first input, either a data frame, `tbl_df`, or `grouped_df`.
-#' @examples
-#' `%>%` <- magrittr::`%>%`
-#' tt <- pbmc_small %>% tidy()
-#' bind_rows(tt, tt)
-#'
-#' tt_bind <- tt %>% select(nCount_RNA, nFeature_RNA)
-#' tt %>% bind_cols(tt_bind)
-#' @rdname dplyr-methods
-#' @name bind_cols
-#'
-#' @export
-NULL
+# Internal of bind_cols
+bind_cols_ = function(..., .id=NULL) {
+    tts <- tts <- flatten_if(dots_values(...), is_spliced)
 
+    colData(tts[[1]]) <- dplyr::bind_cols(colData(tts[[1]]) %>% as.data.frame(),
+                                          tts[[2]], .id=.id) %>% DataFrame()
+
+    tts[[1]]
+}
+
+#' @export
+#'
+#' @inheritParams bind
+#'
+#' @rdname dplyr-methods
+bind_cols <- function(..., .id=NULL) {
+    UseMethod("bind_cols")
+}
+
+#' @export
+bind_cols.default <- function(..., .id=NULL) {
+    dplyr::bind_cols(..., .id=.id)
+}
 
 #' @importFrom rlang dots_values
 #' @importFrom rlang flatten_if
@@ -195,18 +176,11 @@ NULL
 #'
 #' @export
 #'
-bind_cols.tidySCE <- function(..., .id=NULL) {
-    tts <- tts <- flatten_if(dots_values(...), is_spliced)
-
-    colData(tts[[1]]) <- dplyr::bind_cols(colData(tts[[1]]) %>% as.data.frame(),
-                                         tts[[2]], .id=.id) %>% DataFrame()
-
-    tts[[1]]
-}
-
+bind_cols.tidySCE <- bind_cols_
 
 #' distinct
 #'
+#' @importFrom dplyr distinct
 #'
 #' @param .data A tbl. (See dplyr)
 #' @param ... Data frames to combine (See dplyr)
@@ -228,6 +202,8 @@ bind_cols.tidySCE <- function(..., .id=NULL) {
 #' @export
 NULL
 
+#' @inheritParams distinct
+#'
 #' @export
 distinct.tidySCE <- function(.data, ..., .keep_all=FALSE) {
     message(data_frame_returned_message)
@@ -240,6 +216,7 @@ distinct.tidySCE <- function(.data, ..., .keep_all=FALSE) {
 
 #' Subset rows using column values
 #'
+#'
 #' `filter()` retains the rows where the conditions you provide a `TRUE`. Note
 #' that, unlike base subsetting with `[`, rows where the condition evaluates
 #' to `NA` are dropped.
@@ -247,6 +224,8 @@ distinct.tidySCE <- function(.data, ..., .keep_all=FALSE) {
 #' dplyr is not yet smart enough to optimise filtering optimisation
 #' on grouped datasets that don't need grouped calculations. For this reason,
 #' filtering is often considerably faster on [ungroup()]ed data.
+#'
+#' @importFrom dplyr filter
 #'
 #' @section Useful filter functions:
 #'
@@ -304,6 +283,8 @@ distinct.tidySCE <- function(.data, ..., .keep_all=FALSE) {
 #' @export
 NULL
 
+#' @inheritParams filter
+#'
 #' @export
 filter.tidySCE <- function(.data, ..., .preserve=FALSE) {
     new_meta <- .data %>%
@@ -318,7 +299,9 @@ filter.tidySCE <- function(.data, ..., .preserve=FALSE) {
 
 #' Group by one or more variables
 #'
+#' @importFrom dplyr group_by
 #' @importFrom dplyr group_by_drop_default
+#'
 #'
 #' @description
 #' Most data operations are done on groups defined by variables.
@@ -371,6 +354,8 @@ group_by.tidySCE <- function(.data, ..., .add=FALSE, .drop=group_by_drop_default
 
 
 #' Summarise each group to fewer rows
+#'
+#' @importFrom dplyr summarise
 #'
 #' @description
 #' `summarise()` creates a new data frame. It will have one (or more) rows for
@@ -484,7 +469,6 @@ summarise.tidySCE <- function(.data, ...) {
 #' as soon as an aggregating, lagging, or ranking function is
 #' involved. Compare this ungrouped mutate:
 #'
-
 #' With the grouped equivalent:
 #'
 #' The former normalises `mass` by the global average whereas the
@@ -588,7 +572,10 @@ mutate.tidySCE <- function(.data, ...) {
 
 #' Rename columns
 #'
+#'
 #' Rename individual variables using `new_name=old_name` syntax.
+#'
+#' @importFrom dplyr rename
 #'
 #' @section Scoped selection and renaming:
 #'
@@ -677,8 +664,10 @@ rename.tidySCE <- function(.data, ...) {
 #' use \code{[[1]]}. This makes `summarise()` on a rowwise tbl
 #' effectively equivalent to [plyr::ldply()].
 #'
-#' @param .data Input data frame.
+#' @importFrom dplyr rowwise
 #'
+#' @param .data Input data frame.
+#' @param ... See dplyr::rowwise
 #' @return A `tbl`
 #'
 #'   A `tbl`
@@ -693,18 +682,19 @@ rename.tidySCE <- function(.data, ...) {
 NULL
 
 #' @export
-rowwise.tidySCE <- function(.data) {
+rowwise.tidySCE <- function(data, ...) {
     message(data_frame_returned_message)
 
-    .data %>%
+    data %>%
         as_tibble() %>%
-        dplyr::rowwise()
+        dplyr::rowwise(...)
 }
 
 
 #' Left join datasets
 #'
 #' @importFrom dplyr count
+#' @importFrom dplyr left_join
 #'
 #' @param x tbls to join. (See dplyr)
 #' @param y tbls to join. (See dplyr)
@@ -759,6 +749,7 @@ left_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
 #' Inner join datasets
 #'
 #' @importFrom dplyr pull
+#' @importFrom dplyr inner_join
 #'
 #' @param x tbls to join. (See dplyr)
 #' @param y tbls to join. (See dplyr)
@@ -810,6 +801,7 @@ inner_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), 
 #' Right join datasets
 #'
 #' @importFrom dplyr pull
+#' @importFrom dplyr right_join
 #'
 #' @param x tbls to join. (See dplyr)
 #' @param y tbls to join. (See dplyr)
@@ -866,6 +858,7 @@ right_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
 #' Full join datasets
 #'
 #' @importFrom dplyr pull
+#' @importFrom dplyr full_join
 #'
 #' @param x tbls to join. (See dplyr)
 #' @param y tbls to join. (See dplyr)
@@ -918,6 +911,8 @@ full_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
 }
 
 #' Subset rows using their positions
+#'
+#' @importFrom dplyr slice
 #'
 #' @description
 #' `slice()` lets you index rows by their (integer) locations. It allows you
@@ -1000,6 +995,8 @@ slice.tidySCE <- function(.data, ..., .preserve=FALSE) {
 
 #' Subset columns using their names and types
 #'
+#' @importFrom dplyr select
+#'
 #' @description
 #'
 #' Select (and optionally rename) variables in a data frame, using a concise
@@ -1078,6 +1075,8 @@ select.tidySCE <- function(.data, ...) {
 
 #' Sample n rows from a table
 #'
+#' @importFrom dplyr sample_n
+#'
 #' @description
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
 #' `sample_n()` and `sample_frac()` have been superseded in favour of
@@ -1142,6 +1141,8 @@ sample_n.tidySCE <- function(tbl, size, replace=FALSE,
     new_obj
 }
 
+#' @importFrom dplyr sample_frac
+#'
 #' @rdname dplyr-methods
 #' @name sample_frac
 #'
@@ -1165,6 +1166,7 @@ sample_frac.tidySCE <- function(tbl, size=1, replace=FALSE,
 
 
 #' Count observations by group
+#'
 #'
 #' @description
 #' `count()` lets you quickly count the unique values of one or more variables:
@@ -1197,10 +1199,6 @@ sample_frac.tidySCE <- function(tbl, size=1, replace=FALSE,
 #' @return
 #' An object of the same type as `.data`. `count()` and `add_count()`
 #' group transiently, so the output has the same groups as the input.
-#'
-#' @rdname dplyr-methods
-#' @name count
-#'
 #' @export
 #' @examples
 #'
@@ -1208,8 +1206,24 @@ sample_frac.tidySCE <- function(tbl, size=1, replace=FALSE,
 #' pbmc_small %>%
 #'     tidy() %>%
 #'     count(groups)
-NULL
+count <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by_drop_default(x)) {
+    UseMethod("count")
+}
 
+#' @export
+count.default <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by_drop_default(x)) {
+    if (!missing(...)) {
+        out <- dplyr::group_by(x, ..., .add=TRUE, .drop=.drop)
+    }
+    else {
+        out <- x
+    }
+    out <- dplyr::tally(out, wt=!!enquo(wt), sort=sort, name=name)
+    if (is.data.frame(x)) {
+        out <- dplyr::dplyr_reconstruct(out, x)
+    }
+    out
+}
 #' @export
 count.tidySCE <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by_drop_default(x)) {
     message(data_frame_returned_message)
@@ -1219,6 +1233,7 @@ count.tidySCE <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by
         dplyr::count(..., wt=!!enquo(wt), sort=sort, name=name, .drop=.drop)
 }
 
+
 #' Extract a single column
 #'
 #'
@@ -1226,6 +1241,7 @@ count.tidySCE <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by
 #' nicer in pipes, it also works with remote data frames, and it can optionally
 #' name the output.
 #'
+#' @importFrom dplyr pull
 #'
 #' @inheritParams arrange
 #' @inheritParams tidyselect::vars_pull

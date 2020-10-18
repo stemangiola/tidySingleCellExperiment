@@ -19,12 +19,15 @@
 \alias{select}
 \alias{sample_n}
 \alias{sample_frac}
-\alias{count}
 \alias{pull}
-\title{drplyr-methods}
+\title{Arrange rows by column values}
+\usage{
+bind_rows(..., .id = NULL, add.cell.ids = NULL)
+
+bind_cols(..., .id = NULL)
+}
 \arguments{
-\item{.by_group}{If TRUE, will sort first by grouping variable. Applies to
-grouped data frames only.}
+\item{...}{For use by methods.}
 
 \item{.id}{Data frame identifier.
 
@@ -38,6 +41,9 @@ grouped data frames only.}
 \item{add.cell.ids}{from SingleCellExperiment 3.0 A character vector of
 length(x=c(x, y)). Appends the corresponding values to the start of each
 objects' cell names.}
+
+\item{.by_group}{If TRUE, will sort first by grouping variable. Applies to
+grouped data frames only.}
 
 \item{.keep_all}{If TRUE, keep all variables in .data. If a combination
 of ... is not distinct, this keeps the first row of values. (See dplyr)}
@@ -53,7 +59,12 @@ is recalculated based on the resulting data, otherwise it is kept as is.}
   creating a new grouping variable called `add`, and conflicts with
   our naming conventions.}
 
+\item{.drop}{When `.drop=TRUE`, empty groups are dropped. See
+[group_by_drop_default()] for what the default value is for this argument.}
+
 \item{.data}{Input data frame.}
+
+\item{x}{tbls to join. (See dplyr)}
 
 \item{y}{tbls to join. (See dplyr)}
 
@@ -81,42 +92,16 @@ the input. Weights are automatically standardised to sum to 1.}
 
 \item{.env}{DEPRECATED.}
 
-\item{x}{A data frame, data frame extension (e.g. a tibble), or a
-lazy data frame (e.g. from dbplyr or dtplyr).}
-
-\item{wt}{<[`data-masking`][dplyr_data_masking]> Frequency weights.
-  Can be `NULL` or a variable:
-
-  * If `NULL` (the default), counts the number of rows in each group.
-  * If a variable, computes `sum(wt)` for each group.}
-
-\item{sort}{If `TRUE`, will show the largest groups at the top.}
-
-\item{.drop}{For `count()`: if `FALSE` will include counts for empty groups
-(i.e. for levels of factors that don't exist in the data). Deprecated in
-`add_count()` since it didn't actually affect the output.}
-
 \item{name}{An optional parameter that specifies the column to be used
 as names for a named vector. Specified in a similar manner as \code{var}.}
-
-\item{...}{For use by methods.}
 }
 \value{
-A tibble
-Arrange rows by column values
-
 An object of the same type as `.data`.
 
 * All rows appear in the output, but (usually) in a different place.
 * Columns are not modified.
 * Groups are not modified.
 * Data frame attributes are preserved.
-
-`bind_rows()` and `bind_cols()` return the same type as
-  the first input, either a data frame, `tbl_df`, or `grouped_df`.
-
-`bind_rows()` and `bind_cols()` return the same type as
-  the first input, either a data frame, `tbl_df`, or `grouped_df`.
 
 A tidySCE object
 
@@ -200,9 +185,6 @@ properties:
 
 A tidySCE object
 
-An object of the same type as `.data`. `count()` and `add_count()`
-group transiently, so the output has the same groups as the input.
-
 A vector the same size as `.data`.
 }
 \description{
@@ -213,14 +195,6 @@ Unlike other dplyr verbs, `arrange()` largely ignores grouping; you
 need to explicit mention grouping variables (or use  `by_group=TRUE`)
 in order to group by them, and functions of variables are evaluated
 once per data frame, not once per group.
-
-This is an efficient implementation of the common pattern of
-`do.call(rbind, dfs)` or `do.call(cbind, dfs)` for binding many
-data frames into one.
-
-This is an efficient implementation of the common pattern of
-`do.call(rbind, dfs)` or `do.call(cbind, dfs)` for binding many
-data frames into one.
 
 `filter()` retains the rows where the conditions you provide a `TRUE`. Note
 that, unlike base subsetting with `[`, rows where the condition evaluates
@@ -292,17 +266,6 @@ design issues with `sample_n()`/`sample_frac`:
 * It was easier to remove the deprecated `.env` argument.
 * `...` was in a suboptimal position.
 
-`count()` lets you quickly count the unique values of one or more variables:
-`df %>% count(a, b)` is roughly equivalent to
-`df %>% group_by(a, b) %>% summarise(n=n())`.
-`count()` is paired with `tally()`, a lower-level helper that is equivalent
-to `df %>% summarise(n=n())`. Supply `wt` to perform weighted counts,
-switching the summary from `n=n()` to `n=sum(wt)`.
-
-`add_count()` are `add_tally()` are equivalents to `count()` and `tally()`
-but use `mutate()` instead of `summarise()` so that they add a new column
-with group-wise counts.
-
 `pull()` is similar to `$`. It's mostly useful because it looks a little
 nicer in pipes, it also works with remote data frames, and it can optionally
 name the output.
@@ -316,12 +279,6 @@ of the locale in use: see [locales()].
 Unlike base sorting with `sort()`, `NA` are:
 * always sorted to the end for local data, even when wrapped with `desc()`.
 * treated differently for remote data, depending on the backend.
-
-The output of `bind_rows()` will contain a column if that column
-appears in any of the inputs.
-
-The output of `bind_rows()` will contain a column if that column
-appears in any of the inputs.
 
 dplyr is not yet smart enough to optimise filtering optimisation
 on grouped datasets that don't need grouped calculations. For this reason,
@@ -506,18 +463,6 @@ to renaming a set of variables with a function.
 pbmc_small \%>\%
     tidy() \%>\%
     arrange(nFeature_RNA)
-`\%>\%` <- magrittr::`\%>\%`
-tt <- pbmc_small \%>\% tidy()
-bind_rows(tt, tt)
-
-tt_bind <- tt \%>\% select(nCount_RNA, nFeature_RNA)
-tt \%>\% bind_cols(tt_bind)
-`\%>\%` <- magrittr::`\%>\%`
-tt <- pbmc_small \%>\% tidy()
-bind_rows(tt, tt)
-
-tt_bind <- tt \%>\% select(nCount_RNA, nFeature_RNA)
-tt \%>\% bind_cols(tt_bind)
 
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
@@ -591,11 +536,6 @@ pbmc_small \%>\%
 pbmc_small \%>\%
     tidy() \%>\%
     sample_frac(0.1)
-
-`\%>\%` <- magrittr::`\%>\%`
-pbmc_small \%>\%
-    tidy() \%>\%
-    count(groups)
 
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%

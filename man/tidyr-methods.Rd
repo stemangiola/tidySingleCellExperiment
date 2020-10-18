@@ -2,39 +2,13 @@
 % Please edit documentation in R/tidyr_methods.R
 \name{unnest}
 \alias{unnest}
-\alias{unnest.tidySCE_nested}
 \alias{nest}
-\alias{nest.tidySCE}
 \alias{extract}
 \alias{pivot_longer}
 \alias{unite}
 \alias{separate}
 \title{unnest}
-\usage{
-\method{unnest}{tidySCE_nested}(
-  .data,
-  cols,
-  ...,
-  keep_empty = FALSE,
-  ptype = NULL,
-  names_sep = NULL,
-  names_repair = "check_unique"
-)
-
-\method{nest}{tidySCE}(.data, ...)
-}
 \arguments{
-\item{.data}{A tbl. (See tidyr)}
-
-\item{cols}{<[`tidy-select`][tidyr_tidy_select]> Columns to pivot into
-longer format.}
-
-\item{...}{<[`tidy-select`][tidyr_tidy_select]> Columns to unite}
-
-\item{keep_empty}{See tidyr::unnest}
-
-\item{ptype}{See tidyr::unnest}
-
 \item{names_sep}{If `NULL`, the default, the names will be left
   as is. In `nest()`, inner names will come from the former outer names;
   in `unnest()`, the new outer names will come from the inner names.
@@ -45,11 +19,19 @@ longer format.}
   the new inner names will have the outer names (+ `names_sep`) automatically
   stripped. This makes `names_sep` roughly symmetric between nesting and unnesting.}
 
-\item{names_repair}{What happens if the output has invalid column names?
-The default, `"check_unique"` is to error if the columns are duplicated.
-Use `"minimal"` to allow duplicates in the output, or `"unique"` to
-de-duplicated by adding numeric suffixes. See [vctrs::vec_as_names()]
-for more options.}
+\item{keep_empty}{See tidyr::unnest}
+
+\item{ptype}{See tidyr::unnest}
+
+\item{.drop}{See tidyr::unnest}
+
+\item{.id}{tidyr::unnest}
+
+\item{.preserve}{See tidyr::unnest}
+
+\item{.data}{A tbl. (See tidyr)}
+
+\item{.names_sep}{See ?tidyr::nest}
 
 \item{into}{Names of new variables to create as character vector.
 Use `NA` to omit the variable in the output.}
@@ -62,6 +44,9 @@ There should be one group (defined by `()`) for each element of `into`.}
   columns are integer, numeric or logical.
 
   NB: this will cause string `"NA"`s to be converted to `NA`s.}
+
+\item{cols}{<[`tidy-select`][tidyr_tidy_select]> Columns to pivot into
+longer format.}
 
 \item{names_to}{A string specifying the name of the column to create
   from the data stored in the column names of `data`.
@@ -90,6 +75,12 @@ from the start of each variable name.}
   If these arguments do not give you enough control, use
   `pivot_longer_spec()` to create a spec object and process manually as
   needed.}
+
+\item{names_repair}{What happens if the output has invalid column names?
+The default, `"check_unique"` is to error if the columns are duplicated.
+Use `"minimal"` to allow duplicates in the output, or `"unique"` to
+de-duplicated by adding numeric suffixes. See [vctrs::vec_as_names()]
+for more options.}
 
 \item{values_to}{A string specifying the name of the column to create
 from the data stored in cell values. If `names_to` is a character
@@ -127,6 +118,8 @@ a character week variable to an integer.}
   [rlang::ensym()] (note that this kind of interface where
   symbols do not represent actual objects is now discouraged in the
   tidyverse; we support it here for backward compatibility).}
+
+\item{...}{<[`tidy-select`][tidyr_tidy_select]> Columns to unite}
 
 \item{na.rm}{If `TRUE`, missing values will be remove prior to uniting
 each value.}
