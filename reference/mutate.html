@@ -212,11 +212,22 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>
     <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>mutate</span><span class='op'>(</span>nFeature_RNA<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: `mutate_()` is deprecated as of dplyr 0.7.0.</span>
-#&gt; <span class='warning'>Please use `mutate()` instead.</span>
-#&gt; <span class='warning'>See vignette('programming') for more help</span>
-#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
-#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("mutate_"): no applicable method for 'mutate_' applied to an object of class "c('tidySCE', 'SingleCellExperiment', 'RangedSummarizedExperiment', 'SummarizedExperiment', 'RectangularData', 'Vector', 'Annotated', 'vector_OR_Vector')"</span></div></span></pre>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble abstraction: 80 x 17</span><span>
+#&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> ATGC… SeuratPro…         70            1 0               A             g2    
+#&gt; </span><span style='color: #555555;'> 2</span><span> CATG… SeuratPro…         85            1 0               A             g1    
+#&gt; </span><span style='color: #555555;'> 3</span><span> GAAC… SeuratPro…         87            1 1               B             g2    
+#&gt; </span><span style='color: #555555;'> 4</span><span> TGAC… SeuratPro…        127            1 0               A             g2    
+#&gt; </span><span style='color: #555555;'> 5</span><span> AGTC… SeuratPro…        173            1 0               A             g2    
+#&gt; </span><span style='color: #555555;'> 6</span><span> TCTG… SeuratPro…         70            1 0               A             g1    
+#&gt; </span><span style='color: #555555;'> 7</span><span> TGGT… SeuratPro…         64            1 0               A             g1    
+#&gt; </span><span style='color: #555555;'> 8</span><span> GCAG… SeuratPro…         72            1 0               A             g1    
+#&gt; </span><span style='color: #555555;'> 9</span><span> GATA… SeuratPro…         52            1 0               A             g1    
+#&gt; </span><span style='color: #555555;'>10</span><span> AATG… SeuratPro…        100            1 0               A             g1    
+#&gt; </span><span style='color: #555555;'># … with 70 more rows, and 10 more variables: RNA_snn_res.1 </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span style='color: #555555;'>, file </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   ident </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span style='color: #555555;'>, PC_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_4 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_5 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   tSNE_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, tSNE_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
