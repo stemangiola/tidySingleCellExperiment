@@ -51,10 +51,10 @@
 #' @examples
 #' library(dplyr)
 #' pbmc_small %>% tidy() %>% print()
-#' @name formatting
+#' @name print
 NULL
 
-#' @rdname formatting
+#' @rdname print
 #' @importFrom cli cat_line
 #' @export
 print.tidySCE <- function(x, ..., n = NULL, width = NULL, n_extra = NULL) {
@@ -74,7 +74,6 @@ print.tidySCE <- function(x, ..., n = NULL, width = NULL, n_extra = NULL) {
   invisible(x)
 }
 
-#' @rdname formatting
 #' @importFrom tibble trunc_mat
 tidySCE_format_tbl <- function(x, ..., n = NULL, width = NULL, n_extra = NULL) {
   mat <- trunc_mat(x, n = n, width = width, n_extra = n_extra)
