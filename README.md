@@ -1,17 +1,17 @@
-tidySCE - part of tidytranscriptomics
+tidySingleCellExperiment - part of tidytranscriptomics
 ================
 
 <!-- badges: start -->
 
 [![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![R build
-status](https://github.com/stemangiola/tidySCE/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/stemangiola/tidySCE/actions)
+status](https://github.com/stemangiola/tidySingleCellExperiment/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/stemangiola/tidySingleCellExperiment/actions)
 <!-- badges: end -->
 
 **Brings SingleCellExperiment to the tidyverse!**
 
 Website:
-[tidySCE](https://stemangiola.github.io/tidySCE/articles/introduction.html)
+[tidySingleCellExperiment](https://stemangiola.github.io/tidySingleCellExperiment/articles/introduction.html)
 
 Please also have a look at
 
@@ -29,7 +29,7 @@ Please also have a look at
 Introduction
 ============
 
-tidySCE provides a bridge between Bioconductor single-cell packages
+tidySingleCellExperiment provides a bridge between Bioconductor single-cell packages
 \[@amezquita2019orchestrating\] and the tidyverse
 \[@wickham2019welcome\]. It creates an invisible layer that enables
 viewing the Bioconductor *SingleCellExperiment* object as a tidyverse
@@ -42,18 +42,18 @@ Functions/utilities available
 
 | SingleCellExperiment-compatible Functions | Description                                                       |
 |-------------------------------------------|-------------------------------------------------------------------|
-| `all`                                     | After all `tidySCE` is a SingleCellExperiment object, just better |
+| `all`                                     | After all `tidySingleCellExperiment` is a SingleCellExperiment object, just better |
 
 | tidyverse Packages | Description                                                 |
 |--------------------|-------------------------------------------------------------|
-| `dplyr`            | All `dplyr` tibble functions (e.g. `tidySCE::select`)       |
-| `tidyr`            | All `tidyr` tibble functions (e.g. `tidySCE::pivot_longer`) |
-| `ggplot2`          | `ggplot` (`tidySCE::ggplot`)                                |
-| `plotly`           | `plot_ly` (`tidySCE::plot_ly`)                              |
+| `dplyr`            | All `dplyr` tibble functions (e.g. `tidySingleCellExperiment::select`)       |
+| `tidyr`            | All `tidyr` tibble functions (e.g. `tidySingleCellExperiment::pivot_longer`) |
+| `ggplot2`          | `ggplot` (`tidySingleCellExperiment::ggplot`)                                |
+| `plotly`           | `plot_ly` (`tidySingleCellExperiment::plot_ly`)                              |
 
 | Utilities          | Description                                                      |
 |--------------------|------------------------------------------------------------------|
-| `tidy`             | Add `tidySCE` invisible layer over a SingleCellExperiment object |
+| `tidy`             | Add `tidySingleCellExperiment` invisible layer over a SingleCellExperiment object |
 | `as_tibble`        | Convert cell-wise information to a `tbl_df`                      |
 | `join_transcripts` | Add transcript-wise information, returns a `tbl_df`              |
 
@@ -65,11 +65,11 @@ From Bioconductor (under submission)
     if (!requireNamespace("BiocManager", quietly=TRUE))
         install.packages("BiocManager")
 
-    BiocManager::install("tidySCE")
+    BiocManager::install("tidySingleCellExperiment")
 
 From GitHub
 
-    devtools::install_github("stemangiola/tidySCE")
+    devtools::install_github("stemangiola/tidySingleCellExperiment")
 
 Load libraries used in this vignette.
 
@@ -85,15 +85,15 @@ Load libraries used in this vignette.
     library(tidyHeatmap)
 
     # Both
-    library(tidySCE)
+    library(tidySingleCellExperiment)
 
-Create `tidySCE`, the best of both worlds!
+Create `tidySingleCellExperiment`, the best of both worlds!
 ==========================================
 
 This is a *SingleCellExperiment* object but it is evaluated as a tibble.
 So it is compatible both with SingleCellExperiment and tidyverse.
 
-    pbmc_small_tidy <- tidySCE::pbmc_small %>% tidy()
+    pbmc_small_tidy <- tidySingleCellExperiment::pbmc_small %>% tidy()
 
 **It looks like a tibble**
 
@@ -202,7 +202,7 @@ We can treat `pbmc_small_polished` as a tibble for plotting.
 Here we plot number of transcripts per cell.
 
     pbmc_small_polished %>%
-        tidySCE::ggplot(aes(nFeature_RNA, fill=groups)) +
+        tidySingleCellExperiment::ggplot(aes(nFeature_RNA, fill=groups)) +
         geom_histogram() +
         my_theme
 
@@ -213,7 +213,7 @@ Here we plot number of transcripts per cell.
 Here we plot total transcripts per cell.
 
     pbmc_small_polished %>%
-        tidySCE::ggplot(aes(groups, nCount_RNA, fill=groups)) +
+        tidySingleCellExperiment::ggplot(aes(groups, nCount_RNA, fill=groups)) +
         geom_boxplot(outlier.shape=NA) +
         geom_jitter(width=0.1) +
         my_theme
@@ -230,7 +230,7 @@ Here we plot abundance of two transcripts for each group.
         scale_y_log10() +
         my_theme
 
-    ## tidySCE says: A data frame is returned for independent data analysis.
+    ## tidySingleCellExperiment says: A data frame is returned for independent data analysis.
 
 ![](man/figures/unnamed-chunk-11-1.png)<!-- -->
 
@@ -278,8 +278,8 @@ as *scran* \[@lun2016pooling\] and *scater* \[@mccarthy2017scater\].
     ## #   sample <chr>, ident <fct>, PC1 <dbl>, PC2 <dbl>, PC3 <dbl>, PC4 <dbl>,
     ## #   PC5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>
 
-If a tidyverse-compatible package is not included in the tidySCE
-collection, we can use `as_tibble` to permanently convert `tidySCE` into
+If a tidyverse-compatible package is not included in the tidySingleCellExperiment
+collection, we can use `as_tibble` to permanently convert `tidySingleCellExperiment` into
 a tibble.
 
     # Create pairs plot with GGally
@@ -337,9 +337,9 @@ And interrogate the output as if it was a regular tibble.
 
     # Count number of cells for each cluster per group
     pbmc_small_cluster %>%
-        tidySCE::count(groups, label)
+        tidySingleCellExperiment::count(groups, label)
 
-    ## tidySCE says: A data frame is returned for independent data analysis.
+    ## tidySingleCellExperiment says: A data frame is returned for independent data analysis.
 
     ## # A tibble: 8 x 3
     ##   groups label     n
@@ -373,7 +373,7 @@ SingleCellExperiment, tidyverse functions and tidyHeatmap
         group_by(label) %>%
         heatmap(transcript, cell, abundance_counts, .scale="column")
 
-    ## tidySCE says: A data frame is returned for independent data analysis.
+    ## tidySingleCellExperiment says: A data frame is returned for independent data analysis.
 
 ![](man/figures/unnamed-chunk-12-1.png)<!-- -->
 
@@ -438,7 +438,7 @@ and manipulate the output using tidyverse.
 
     # Reorder columns
     pbmc_small_cell_type %>%
-        tidySCE::select(cell, first.labels, everything())
+        tidySingleCellExperiment::select(cell, first.labels, everything())
 
     ## # A tibble: 80 x 23
     ##    cell  first.labels orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8
@@ -465,7 +465,7 @@ type classification overlaps with cluster classification.
     pbmc_small_cell_type %>%
         count(label, first.labels)
 
-    ## tidySCE says: A data frame is returned for independent data analysis.
+    ## tidySingleCellExperiment says: A data frame is returned for independent data analysis.
 
     ## # A tibble: 9 x 3
     ##   label first.labels     n
@@ -497,7 +497,7 @@ plots.
         facet_wrap(~classifier) +
         my_theme
 
-    ## tidySCE says: A data frame is returned for independent data analysis.
+    ## tidySingleCellExperiment says: A data frame is returned for independent data analysis.
 
 ![](man/figures/unnamed-chunk-15-1.png)<!-- -->
 
@@ -518,14 +518,14 @@ multi-layer annotations.
         scale_y_log10() +
         my_theme
 
-    ## tidySCE says: A data frame is returned for independent data analysis.
+    ## tidySingleCellExperiment says: A data frame is returned for independent data analysis.
 
 ![](man/figures/unnamed-chunk-16-1.png)<!-- -->
 
 Nested analyses
 ===============
 
-A powerful tool we can use with tidySCE is tidyverse `nest`. We can
+A powerful tool we can use with tidySingleCellExperiment is tidyverse `nest`. We can
 easily perform independent analyses on subsets of the dataset. First we
 classify cell types into lymphoid and myeloid, and then nest based on
 the new classification.
@@ -541,8 +541,8 @@ the new classification.
     ## # A tibble: 2 x 2
     ##   cell_class data     
     ##   <chr>      <list>   
-    ## 1 lymphoid   <tidySCE>
-    ## 2 myeloid    <tidySCE>
+    ## 1 lymphoid   <tidySingleCellExperiment>
+    ## 2 myeloid    <tidySingleCellExperiment>
 
 Now we can independently for the lymphoid and myeloid subsets (i) find
 variable features, (ii) reduce dimensions, and (iii) cluster using both
@@ -575,8 +575,8 @@ tidyverse and SingleCellExperiment seamlessly.
     ## # A tibble: 2 x 2
     ##   cell_class data     
     ##   <chr>      <list>   
-    ## 1 lymphoid   <tidySCE>
-    ## 2 myeloid    <tidySCE>
+    ## 1 lymphoid   <tidySingleCellExperiment>
+    ## 2 myeloid    <tidySingleCellExperiment>
 
 We can then unnest and plot the new classification.
 
@@ -617,8 +617,8 @@ visualisation.
         mutate(integrated_clusters=first.labels %>% as.factor() %>% as.integer()) %>%
 
         # Nest based on sample
-        tidySCE::nest(data=-sample) %>%
-        tidySCE::mutate(interactions=map(data, ~ {
+        tidySingleCellExperiment::nest(data=-sample) %>%
+        tidySingleCellExperiment::mutate(interactions=map(data, ~ {
 
             # Produce variables. Yuck!
             cluster <- .x@colData$integrated_clusters
@@ -639,7 +639,7 @@ visualisation.
 If the dataset was not so small, and interactions could be identified,
 you would see something like below.
 
-    tidySCE::pbmc_small_nested_interactions
+    tidySingleCellExperiment::pbmc_small_nested_interactions
 
     ## # A tibble: 100 x 9
     ##    sample ligand receptor ligand.name receptor.name origin destination

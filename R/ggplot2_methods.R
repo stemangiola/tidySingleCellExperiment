@@ -1,5 +1,5 @@
 
-#' Create a new ggplot from a tidySCE object
+#' Create a new ggplot from a tidySingleCellExperiment object
 #'
 #'
 #' `ggplot()` initializes a ggplot object. It can be used to
@@ -46,14 +46,14 @@
 #'
 #' library(ggplot2)
 #'
-#' tidySCE::pbmc_small %>%
+#' tidySingleCellExperiment::pbmc_small %>%
 #'     tidy() %>%
-#'     tidySCE::ggplot(aes(groups, nCount_RNA)) +
+#'     tidySingleCellExperiment::ggplot(aes(groups, nCount_RNA)) +
 #'     geom_boxplot()
 NULL
 
 #' @export
-ggplot.tidySCE <- function(data=NULL, mapping=aes(), ..., environment=parent.frame()) {
+ggplot.tidySingleCellExperiment <- function(data=NULL, mapping=aes(), ..., environment=parent.frame()) {
     data %>%
         as_tibble() %>%
         ggplot2::ggplot(mapping=mapping)

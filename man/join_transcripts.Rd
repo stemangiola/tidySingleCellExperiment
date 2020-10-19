@@ -38,7 +38,7 @@ This function extracts information for specified transcripts and
 }
 \examples{
 
-tidySCE::pbmc_small \%>\%
+tidySingleCellExperiment::pbmc_small \%>\%
     tidy() \%>\%
     join_transcripts(transcripts=c("HLA-DRA", "LYZ"))
 }

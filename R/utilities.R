@@ -3,7 +3,7 @@
 #'
 #' @keywords internal
 #'
-#' @param .data A tidySCE
+#' @param .data A tidySingleCellExperiment
 #'
 #' @noRd
 to_tib <- function(.data) {
@@ -84,12 +84,12 @@ drop_class <- function(var, name) {
 #' @importFrom magrittr "%$%"
 #' @importFrom utils tail
 #'
-#' @param .data A tidySCE
+#' @param .data A tidySingleCellExperiment
 #' @param transcripts A character
 #' @param all A boolean
 #'
 #'
-#' @return A tidySCE object
+#' @return A tidySingleCellExperiment object
 #'
 #'
 #' @noRd
@@ -154,12 +154,12 @@ get_abundance_sc_wide <- function(.data, transcripts=NULL, all=FALSE) {
 #' @importFrom purrr when
 #' @importFrom purrr map2
 #'
-#' @param .data A tidySCE
+#' @param .data A tidySingleCellExperiment
 #' @param transcripts A character
 #' @param all A boolean
 #' @param exclude_zeros A boolean
 #'
-#' @return A tidySCE object
+#' @return A tidySingleCellExperiment object
 #'
 #'
 #' @noRd
@@ -204,7 +204,7 @@ get_abundance_sc_long <- function(.data, transcripts=NULL, all=FALSE, exclude_ze
 
     # Check that I have assay manes
     if(length(assay_names) == 0)
-      stop("tidySCE says: there are no assays names in the source SingleCellExperiment.")
+      stop("tidySingleCellExperiment says: there are no assays names in the source SingleCellExperiment.")
 
     assays(.data) %>%
         as.list() %>%
@@ -248,7 +248,7 @@ get_abundance_sc_long <- function(.data, transcripts=NULL, all=FALSE, exclude_ze
 #' @keywords internal
 #'
 #' @param .data A tibble
-#' @param SingleCellExperiment_object A tidySCE
+#' @param SingleCellExperiment_object A tidySingleCellExperiment
 #'
 #' @noRd
 as_meta_data <- function(.data, SingleCellExperiment_object) {
@@ -269,7 +269,7 @@ as_meta_data <- function(.data, SingleCellExperiment_object) {
 #'
 #' @keywords internal
 #'
-#' @param SingleCellExperiment_object A tidySCE
+#' @param SingleCellExperiment_object A tidySingleCellExperiment
 #'
 #' @noRd
 #'
@@ -325,6 +325,6 @@ select_helper <- function(.data, ...) {
     dplyr::select(.data, loc)
 }
 
-data_frame_returned_message = "tidySCE says: A data frame is returned for independent data analysis."
-duplicated_cell_names = "tidySCE says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis."
+data_frame_returned_message = "tidySingleCellExperiment says: A data frame is returned for independent data analysis."
+duplicated_cell_names = "tidySingleCellExperiment says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis."
 

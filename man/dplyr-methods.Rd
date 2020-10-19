@@ -103,7 +103,7 @@ An object of the same type as `.data`.
 * Groups are not modified.
 * Data frame attributes are preserved.
 
-A tidySCE object
+A tidySingleCellExperiment object
 
 An object of the same type as `.data`.
 
@@ -158,13 +158,13 @@ A `tbl`
 
   A `tbl`
 
-A tidySCE object
+A tidySingleCellExperiment object
 
-A tidySCE object
+A tidySingleCellExperiment object
 
-A tidySCE object
+A tidySingleCellExperiment object
 
-A tidySCE object
+A tidySingleCellExperiment object
 
 An object of the same type as `.data`. The output has the following
 properties:
@@ -183,7 +183,7 @@ properties:
 * Data frame attributes are preserved.
 * Groups are maintained; you can't select off grouping variables.
 
-A tidySCE object
+A tidySingleCellExperiment object
 
 A vector the same size as `.data`.
 }
