@@ -26,6 +26,9 @@ default and always print all columns.}
 if the width is too small for the entire tibble. If `NULL`, the default,
 will print information about at most `tibble.max_extra_cols` extra columns.}
 }
+\value{
+Nothing
+}
 \description{
 `r lifecycle::badge("maturing")`
 
