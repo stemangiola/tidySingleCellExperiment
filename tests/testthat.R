@@ -1,4 +1,4 @@
 library(testthat)
-library(tidySCE)
+library(tidySingleCellExperiment)
 
-test_check("tidySCE")
+test_check("tidySingleCellExperiment")

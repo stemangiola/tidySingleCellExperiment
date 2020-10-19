@@ -173,7 +173,7 @@ plot_ly.default <- function(data=data.frame(), ..., type=NULL, name=NULL,
 }
 
 #' @export
-plot_ly.tidySCE <- function(data=data.frame(), ..., type=NULL, name=NULL,
+plot_ly.tidySingleCellExperiment <- function(data=data.frame(), ..., type=NULL, name=NULL,
     color=NULL, colors=NULL, alpha=NULL,
     stroke=NULL, strokes=NULL, alpha_stroke=1,
     size=NULL, sizes=c(10, 100),

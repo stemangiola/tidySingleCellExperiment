@@ -15,7 +15,7 @@ distinct(.data, ..., .keep_all = FALSE)
 of ... is not distinct, this keeps the first row of values. (See dplyr)}
 }
 \value{
-A tidySCE object
+A tidySingleCellExperiment object
 }
 \description{
 distinct

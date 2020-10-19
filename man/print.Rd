@@ -2,10 +2,10 @@
 % Please edit documentation in R/print_method.R
 \name{print}
 \alias{print}
-\alias{print.tidySCE}
+\alias{print.tidySingleCellExperiment}
 \title{Printing tibbles}
 \usage{
-\method{print}{tidySCE}(x, ..., n = NULL, width = NULL, n_extra = NULL)
+\method{print}{tidySingleCellExperiment}(x, ..., n = NULL, width = NULL, n_extra = NULL)
 }
 \arguments{
 \item{x}{Object to format or print.}

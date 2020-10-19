@@ -78,7 +78,7 @@ as_tibble.default <- function(x, ...,
 #' @importFrom SingleCellExperiment colData
 #'
 #'
-as_tibble.tidySCE <- function(x, ...,
+as_tibble.tidySingleCellExperiment <- function(x, ...,
     .name_repair=c("check_unique", "unique", "universal", "minimal"),
     rownames=pkgconfig::get_config("tibble::rownames", NULL)) {
     colData(x) %>%

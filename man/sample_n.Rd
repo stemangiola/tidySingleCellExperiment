@@ -28,7 +28,7 @@ the input. Weights are automatically standardised to sum to 1.}
 \item{...}{ignored}
 }
 \value{
-A tidySCE object
+A tidySingleCellExperiment object
 }
 \description{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}

@@ -23,7 +23,7 @@ character vector of length 2. (See dplyr)}
 \item{...}{Data frames to combine (See dplyr)}
 }
 \value{
-A tidySCE object
+A tidySingleCellExperiment object
 }
 \description{
 Right join datasets

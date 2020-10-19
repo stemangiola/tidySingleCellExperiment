@@ -74,7 +74,7 @@ arrange.default <- function(.data, ..., .by_group=FALSE) {
 #'
 #' @export
 #' @inheritParams arrange
-arrange.tidySCE <- function(.data, ..., .by_group=FALSE) {
+arrange.tidySingleCellExperiment <- function(.data, ..., .by_group=FALSE) {
     new_metadata <-
         .data %>%
         as_tibble() %>%
@@ -151,14 +151,14 @@ bind_rows.default <- function(..., .id=NULL, add.cell.ids=NULL) {
 #'
 #' @export
 #'
-bind_rows.tidySCE <- function(..., .id=NULL, add.cell.ids=NULL) {
+bind_rows.tidySingleCellExperiment <- function(..., .id=NULL, add.cell.ids=NULL) {
     tts <- flatten_if(dots_values(...), is_spliced)
 
     new_obj <- cbind(tts[[1]], tts[[2]]) %>% tidy()
 
     # If duplicated cell names
     if(new_obj %>% colnames %>% duplicated %>% which %>% length %>% gt(0))
-        warning("tidySCE says: you have duplicated cell names, they will be made unique.")
+        warning("tidySingleCellExperiment says: you have duplicated cell names, they will be made unique.")
     colnames(new_obj) <- make.unique(colnames(new_obj), sep="_")
 
     new_obj
@@ -185,7 +185,7 @@ bind_cols.default <- function(..., .id=NULL) {
 #'
 #' @export
 #'
-bind_cols.tidySCE <- function(..., .id=NULL) {
+bind_cols.tidySingleCellExperiment <- function(..., .id=NULL) {
     tts <- tts <- flatten_if(dots_values(...), is_spliced)
 
     colData(tts[[1]]) <- dplyr::bind_cols(colData(tts[[1]]) %>% as.data.frame(),
@@ -203,7 +203,7 @@ bind_cols.tidySCE <- function(..., .id=NULL) {
 #' @param .keep_all If TRUE, keep all variables in .data. If a combination
 #'   of ... is not distinct, this keeps the first row of values. (See dplyr)
 #'
-#' @return A tidySCE object
+#' @return A tidySingleCellExperiment object
 #'
 #' @examples
 #'
@@ -222,7 +222,7 @@ distinct.default <- function(.data, ..., .keep_all=FALSE) {
 }
 
 #' @export
-distinct.tidySCE <- function(.data, ..., .keep_all=FALSE) {
+distinct.tidySingleCellExperiment <- function(.data, ..., .keep_all=FALSE) {
     message(data_frame_returned_message)
 
     .data %>%
@@ -302,7 +302,7 @@ filter.default <- function(.data, ..., .preserve=FALSE) {
 }
 
 #' @export
-filter.tidySCE <- function(.data, ..., .preserve=FALSE) {
+filter.tidySingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
     new_meta <- .data %>%
         as_tibble() %>%
         dplyr::filter(..., .preserve=.preserve) # %>% as_meta_data(.data)
@@ -362,7 +362,7 @@ group_by.default <- function(.data, ..., .add=FALSE, .drop=group_by_drop_default
 }
 
 #' @export
-group_by.tidySCE <- function(.data, ..., .add=FALSE, .drop=group_by_drop_default(.data)) {
+group_by.tidySingleCellExperiment <- function(.data, ..., .add=FALSE, .drop=group_by_drop_default(.data)) {
     message(data_frame_returned_message)
 
     .data %>%
@@ -449,7 +449,7 @@ summarise.default <- function(.data, ...) {
 }
 
 #' @export
-summarise.tidySCE <- function(.data, ...) {
+summarise.tidySingleCellExperiment <- function(.data, ...) {
     message(data_frame_returned_message)
 
 
@@ -556,7 +556,7 @@ mutate.default <- function(.data, ...) {
 #' @importFrom SingleCellExperiment colData
 #'
 #' @export
-mutate.tidySCE <- function(.data, ...) {
+mutate.tidySingleCellExperiment <- function(.data, ...) {
 
     # Check that we are not modifying a key column
     cols <- enquos(...) %>% names()
@@ -577,7 +577,7 @@ mutate.tidySCE <- function(.data, ...) {
             c(get_needed_columns()) %>%
             paste(collapse=", ")
         stop(
-            "tidySCE says: you are trying to rename a column that is view only",
+            "tidySingleCellExperiment says: you are trying to rename a column that is view only",
             columns, " ",
             "(it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one."
         )
@@ -638,7 +638,7 @@ rename.default <- function(.data, ...) {
 #' @importFrom tidyselect eval_select
 #' @importFrom SingleCellExperiment colData
 #' @export
-rename.tidySCE <- function(.data, ...) {
+rename.tidySingleCellExperiment <- function(.data, ...) {
 
     # Check that we are not modifying a key column
     cols <- tidyselect::eval_select(expr(c(...)), colData(.data) %>% as.data.frame())
@@ -659,7 +659,7 @@ rename.tidySCE <- function(.data, ...) {
             c(get_needed_columns()) %>%
             paste(collapse=", ")
         stop(
-            "tidySCE says: you are trying to rename a column that is view only",
+            "tidySingleCellExperiment says: you are trying to rename a column that is view only",
             columns, " ",
             "(it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one."
         )
@@ -708,7 +708,7 @@ rowwise.default <- function(.data) {
 }
 
 #' @export
-rowwise.tidySCE <- function(.data) {
+rowwise.tidySingleCellExperiment <- function(.data) {
     message(data_frame_returned_message)
 
     .data %>%
@@ -731,7 +731,7 @@ rowwise.tidySCE <- function(.data) {
 #'   character vector of length 2. (See dplyr)
 #' @param ... Data frames to combine (See dplyr)
 #'
-#' @return A tidySCE object
+#' @return A tidySingleCellExperiment object
 #'
 #' @export
 #'
@@ -752,7 +752,7 @@ left_join.default <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
 
 #' @importFrom SingleCellExperiment colData
 #' @export
-left_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
+left_join.tidySingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
     x %>%
         as_tibble() %>%
@@ -768,7 +768,7 @@ left_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
                 (.)
             },
 
-            # Otherwise return updated tidySCE
+            # Otherwise return updated tidySingleCellExperiment
             ~ {
                 colData(x) <- (.) %>% as_meta_data(x)
                 x
@@ -787,7 +787,7 @@ left_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
 #' @param suffix If there are non-joined duplicate variables in x and y, these suffixes will be added to the output to disambiguate them. Should be a character vector of length 2. (See dplyr)
 #' @param ... Data frames to combine (See dplyr)
 #'
-#' @return A tidySCE object
+#' @return A tidySingleCellExperiment object
 #'
 #' @examples
 #' `%>%` <- magrittr::`%>%`
@@ -806,7 +806,7 @@ inner_join.default <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), 
 
 #' @importFrom SingleCellExperiment colData
 #' @export
-inner_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), ...) {
+inner_join.tidySingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), ...) {
     x %>%
         as_tibble() %>%
         dplyr::inner_join(y, by=by, copy=copy, suffix=suffix, ...) %>%
@@ -821,7 +821,7 @@ inner_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), 
                     (.)
             },
 
-            # Otherwise return updated tidySCE
+            # Otherwise return updated tidySingleCellExperiment
             ~ {
                 new_obj <- x[, .$cell]
                 colData(new_obj) <- (.) %>% as_meta_data(new_obj)
@@ -844,7 +844,7 @@ inner_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), 
 #'   character vector of length 2. (See dplyr)
 #' @param ... Data frames to combine (See dplyr)
 #'
-#' @return A tidySCE object
+#' @return A tidySingleCellExperiment object
 #'
 #' @examples
 #' `%>%` <- magrittr::`%>%`
@@ -864,7 +864,7 @@ right_join.default <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
 
 #' @importFrom SingleCellExperiment colData
 #' @export
-right_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
+right_join.tidySingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
     x %>%
         as_tibble() %>%
@@ -880,7 +880,7 @@ right_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
                     (.)
             },
 
-            # Otherwise return updated tidySCE
+            # Otherwise return updated tidySingleCellExperiment
             ~ {
                 new_obj <- x[, .$cell]
                 colData(new_obj) <- (.) %>% as_meta_data(new_obj)
@@ -904,7 +904,7 @@ right_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
 #'   character vector of length 2. (See dplyr)
 #' @param ... Data frames to combine (See dplyr)
 #'
-#' @return A tidySCE object
+#' @return A tidySingleCellExperiment object
 #'
 #' @examples
 #' `%>%` <- magrittr::`%>%`
@@ -923,7 +923,7 @@ full_join.default <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
 }
 
 #' @export
-full_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
+full_join.tidySingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
     x %>%
         as_tibble() %>%
@@ -939,7 +939,7 @@ full_join.tidySCE <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
                     (.)
             },
 
-            # Otherwise return updated tidySCE
+            # Otherwise return updated tidySingleCellExperiment
             ~ {
                 new_obj <- x[, .$cell]
                 colData(new_obj) <- (.) %>% as_meta_data(x)
@@ -1023,7 +1023,7 @@ slice.default <- function(.data, ..., .preserve=FALSE) {
 
 #' @importFrom SingleCellExperiment colData
 #' @export
-slice.tidySCE <- function(.data, ..., .preserve=FALSE) {
+slice.tidySingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
     new_meta <- dplyr::slice(colData(.data) %>% as.data.frame(), ..., .preserve=.preserve)
     new_obj <- .data[, rownames(new_meta)]
     # colData(new_obj)=new_meta
@@ -1089,7 +1089,7 @@ select.default <- function(.data, ...) {
 
 #' @importFrom SingleCellExperiment colData
 #' @export
-select.tidySCE <- function(.data, ...) {
+select.tidySingleCellExperiment <- function(.data, ...) {
     .data %>%
         as_tibble() %>%
         select_helper(...) %>%
@@ -1099,7 +1099,7 @@ select.tidySCE <- function(.data, ...) {
             (get_needed_columns() %in% colnames(.)) %>%
                 all() %>%
                 `!`() ~ {
-                message("tidySCE says: Key columns are missing. A data frame is returned for independent data analysis.")
+                message("tidySingleCellExperiment says: Key columns are missing. A data frame is returned for independent data analysis.")
                 (.)
             },
 
@@ -1155,7 +1155,7 @@ select.tidySCE <- function(.data, ...) {
 #' pbmc_small %>%
 #'     tidy() %>%
 #'     sample_frac(0.1)
-#' @return A tidySCE object
+#' @return A tidySingleCellExperiment object
 #'
 #' @export
 sample_n <- function(tbl, size, replace=FALSE, weight=NULL, .env=NULL, ...) {
@@ -1170,7 +1170,7 @@ sample_n.default <- function(tbl, size, replace=FALSE, weight=NULL,
 
 #' @importFrom SingleCellExperiment colData
 #' @export
-sample_n.tidySCE <- function(tbl, size, replace=FALSE,
+sample_n.tidySingleCellExperiment <- function(tbl, size, replace=FALSE,
     weight=NULL, .env=NULL, ...) {
     lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
 
@@ -1197,7 +1197,7 @@ sample_frac.default <- function(tbl, size, replace=FALSE, weight=NULL,
 
 #' @importFrom SingleCellExperiment colData
 #' @export
-sample_frac.tidySCE <- function(tbl, size=1, replace=FALSE,
+sample_frac.tidySingleCellExperiment <- function(tbl, size=1, replace=FALSE,
     weight=NULL, .env=NULL, ...) {
     lifecycle::signal_superseded("1.0.0", "sample_frac()", "slice_sample()")
 
@@ -1270,7 +1270,7 @@ count.default <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by
     out
 }
 #' @export
-count.tidySCE <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by_drop_default(x)) {
+count.tidySingleCellExperiment <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by_drop_default(x)) {
     message(data_frame_returned_message)
 
     x %>%
@@ -1320,7 +1320,7 @@ pull.default <- function(.data, var=-1, name=NULL, ...) {
     .data %>% dplyr::pull(var=!!var, name=!!name, ...)
 }
 #' @export
-pull.tidySCE <- function(.data, var=-1, name=NULL, ...) {
+pull.tidySingleCellExperiment <- function(.data, var=-1, name=NULL, ...) {
     var <- enquo(var)
     name <- enquo(name)
 

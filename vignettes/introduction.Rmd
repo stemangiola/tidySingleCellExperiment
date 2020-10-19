@@ -1,15 +1,15 @@
 ---
-title: "Overview of the tidySCE package"
+title: "Overview of the tidySingleCellExperiment package"
 author: "Stefano Mangiola"
 date: "`r Sys.Date()`"
-package: tidySCE
+package: tidySingleCellExperiment
 output:
   BiocStyle::html_document:
     toc_float: true
-bibliography: tidySCE.bib
+bibliography: tidySingleCellExperiment.bib
 vignette: >
   %\VignetteEngine{knitr::knitr}
-  %\VignetteIndexEntry{Overview of the tidySCE package}
+  %\VignetteIndexEntry{Overview of the tidySingleCellExperiment package}
   %\usepackage[UTF-8]{inputenc}
 ---
 
@@ -24,25 +24,25 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-tidySCE provides a bridge between Bioconductor single-cell packages [@amezquita2019orchestrating] and the tidyverse [@wickham2019welcome]. It creates an invisible layer that enables viewing the
+tidySingleCellExperiment provides a bridge between Bioconductor single-cell packages [@amezquita2019orchestrating] and the tidyverse [@wickham2019welcome]. It creates an invisible layer that enables viewing the
 Bioconductor *SingleCellExperiment* object as a tidyverse tibble, and provides SingleCellExperiment-compatible *dplyr*, *tidyr*, *ggplot* and *plotly* functions. This allows users to get the best of both Bioconductor and tidyverse worlds.
 
 ## Functions/utilities available
 
 SingleCellExperiment-compatible Functions | Description
 ------------ | -------------
-`all` | After all `tidySCE` is a SingleCellExperiment object, just better
+`all` | After all `tidySingleCellExperiment` is a SingleCellExperiment object, just better
 
 tidyverse Packages | Description
 ------------ | -------------
-`dplyr` | All `dplyr` tibble functions (e.g. `tidySCE::select`)
-`tidyr` | All `tidyr` tibble functions (e.g. `tidySCE::pivot_longer`)
-`ggplot2` | `ggplot` (`tidySCE::ggplot`)
-`plotly` | `plot_ly` (`tidySCE::plot_ly`)
+`dplyr` | All `dplyr` tibble functions (e.g. `tidySingleCellExperiment::select`)
+`tidyr` | All `tidyr` tibble functions (e.g. `tidySingleCellExperiment::pivot_longer`)
+`ggplot2` | `ggplot` (`tidySingleCellExperiment::ggplot`)
+`plotly` | `plot_ly` (`tidySingleCellExperiment::plot_ly`)
 
 Utilities | Description
 ------------ | -------------
-`tidy` | Add `tidySCE` invisible layer over a SingleCellExperiment object
+`tidy` | Add `tidySingleCellExperiment` invisible layer over a SingleCellExperiment object
 `as_tibble` | Convert cell-wise information to a `tbl_df`
 `join_transcripts` | Add transcript-wise information, returns a `tbl_df`
 
@@ -52,7 +52,7 @@ Utilities | Description
 if (!requireNamespace("BiocManager", quietly=TRUE))
     install.packages("BiocManager")
 
-BiocManager::install("tidySCE")
+BiocManager::install("tidySingleCellExperiment")
 ```
 
 Load libraries used in this vignette.
@@ -70,15 +70,15 @@ library(purrr)
 library(tidyHeatmap)
 
 # Both
-library(tidySCE)
+library(tidySingleCellExperiment)
 ```
 
-# Create `tidySCE`, the best of both worlds!
+# Create `tidySingleCellExperiment`, the best of both worlds!
 
 This is a *SingleCellExperiment* object but it is evaluated as a tibble. So it is compatible both with SingleCellExperiment and tidyverse. 
 
 ```{r}
-pbmc_small_tidy <- tidySCE::pbmc_small %>% tidy()
+pbmc_small_tidy <- tidySingleCellExperiment::pbmc_small %>% tidy()
 ```
 
 **It looks like a tibble**
@@ -149,7 +149,7 @@ Here we plot number of transcripts per cell.
 
 ```{r plot1}
 pbmc_small_polished %>%
-    tidySCE::ggplot(aes(nFeature_RNA, fill=groups)) +
+    tidySingleCellExperiment::ggplot(aes(nFeature_RNA, fill=groups)) +
     geom_histogram() +
     custom_theme
 ```
@@ -158,7 +158,7 @@ Here we plot total transcripts per cell.
 
 ```{r plot2}
 pbmc_small_polished %>%
-    tidySCE::ggplot(aes(groups, nCount_RNA, fill=groups)) +
+    tidySingleCellExperiment::ggplot(aes(groups, nCount_RNA, fill=groups)) +
     geom_boxplot(outlier.shape=NA) +
     geom_jitter(width=0.1) +
     custom_theme
@@ -195,7 +195,7 @@ pbmc_small_pca <-
 pbmc_small_pca
 ```
 
-If a tidyverse-compatible package is not included in the tidySCE collection, we can use `as_tibble` to permanently convert `tidySCE` into a tibble.
+If a tidyverse-compatible package is not included in the tidySingleCellExperiment collection, we can use `as_tibble` to permanently convert `tidySingleCellExperiment` into a tibble.
 
 ```{r pc_plot}
 # Create pairs plot with GGally
@@ -230,7 +230,7 @@ And interrogate the output as if it was a regular tibble.
 ```{r cluster count}
 # Count number of cells for each cluster per group
 pbmc_small_cluster %>%
-    tidySCE::count(groups, label)
+    tidySingleCellExperiment::count(groups, label)
 ```
 
 We can identify and visualise cluster markers combining SingleCellExperiment, tidyverse functions and tidyHeatmap [@mangiola2020tidyheatmap]
@@ -310,7 +310,7 @@ pbmc_small_cell_type <-
 
 # Reorder columns
 pbmc_small_cell_type %>%
-    tidySCE::select(cell, first.labels, everything())
+    tidySingleCellExperiment::select(cell, first.labels, everything())
 ```
 
 We can easily summarise the results. For example, we can see how cell type classification overlaps with cluster classification.
@@ -359,7 +359,7 @@ pbmc_small_cell_type %>%
 
 #  Nested analyses
 
-A powerful tool we can use with tidySCE is tidyverse `nest`. We can easily perform independent analyses on subsets of the dataset. First we classify cell types into lymphoid and myeloid, and then nest based on the new classification.
+A powerful tool we can use with tidySingleCellExperiment is tidyverse `nest`. We can easily perform independent analyses on subsets of the dataset. First we classify cell types into lymphoid and myeloid, and then nest based on the new classification.
 
 ```{r}
 pbmc_small_nested <-
@@ -431,8 +431,8 @@ pbmc_small_nested_interactions <-
     mutate(integrated_clusters=first.labels %>% as.factor() %>% as.integer()) %>%
 
     # Nest based on sample
-    tidySCE::nest(data=-sample) %>%
-    tidySCE::mutate(interactions=map(data, ~ {
+    tidySingleCellExperiment::nest(data=-sample) %>%
+    tidySingleCellExperiment::mutate(interactions=map(data, ~ {
 
         # Produce variables. Yuck!
         cluster <- colData(.x)$integrated_clusters
@@ -454,7 +454,7 @@ pbmc_small_nested_interactions %>%
 If the dataset was not so small, and interactions could be identified, you would see something like below.
 
 ```{r}
-tidySCE::pbmc_small_nested_interactions
+tidySingleCellExperiment::pbmc_small_nested_interactions
 ```
 
 # Session Info

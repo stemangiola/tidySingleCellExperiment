@@ -28,7 +28,7 @@ unite(data, col, ..., sep = "_", remove = TRUE, na.rm = FALSE)
 each value.}
 }
 \value{
-A tidySCE objector a tibble depending on input
+A tidySingleCellExperiment objector a tibble depending on input
 }
 \description{
 Convenience function to paste together multiple columns into one.

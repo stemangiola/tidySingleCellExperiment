@@ -33,7 +33,7 @@
 #' @param ptype See tidyr::unnest
 #'
 #'
-#' @return A tidySCE objector a tibble depending on input
+#' @return A tidySingleCellExperiment objector a tibble depending on input
 #'
 #' @examples
 #'
@@ -66,7 +66,7 @@ unnest.default <- function(.data, cols, ..., keep_empty=FALSE, ptype=NULL,
 #'
 #' @export
 #' @rdname tidyr-methods
-unnest.tidySCE_nested <- function(.data, cols, ..., keep_empty=FALSE, ptype=NULL,
+unnest.tidySingleCellExperiment_nested <- function(.data, cols, ..., keep_empty=FALSE, ptype=NULL,
     names_sep=NULL, names_repair="check_unique") {
     # Need this otherwise crashes map
     .data_ <- .data
@@ -76,12 +76,12 @@ unnest.tidySCE_nested <- function(.data, cols, ..., keep_empty=FALSE, ptype=NULL
     .data_ %>%
         when(
 
-            # If my only column to unnest is tidySCE
+            # If my only column to unnest is tidySingleCellExperiment
             pull(., !!cols) %>%
                 .[[1]] %>%
                 class() %>%
                 as.character() %>%
-                eq("tidySCE") %>%
+                eq("tidySingleCellExperiment") %>%
                 any() ~
 
             # Do my trick to unnest
@@ -100,9 +100,9 @@ unnest.tidySCE_nested <- function(.data, cols, ..., keep_empty=FALSE, ptype=NULL
 
             # Else do normal stuff
             ~ (.) %>%
-                drop_class("tidySCE_nested") %>%
+                drop_class("tidySingleCellExperiment_nested") %>%
                 tidyr::unnest(!!cols, ..., keep_empty=keep_empty, ptype=ptype, names_sep=names_sep, names_repair=names_repair) %>%
-                add_class("tidySCE_nested")
+                add_class("tidySingleCellExperiment_nested")
         )
 }
 
@@ -113,7 +113,7 @@ unnest.tidySCE_nested <- function(.data, cols, ..., keep_empty=FALSE, ptype=NULL
 #' @param .data A tbl. (See tidyr)
 #' @param ... Name-variable pairs of the form new_col=c(col1, col2, col3) (See tidyr)
 #'
-#' @return A tidySCE objector a tibble depending on input
+#' @return A tidySingleCellExperiment objector a tibble depending on input
 #'
 #' @examples
 #'
@@ -140,7 +140,7 @@ nest.default <- function(.data, ...) {
 #'
 #' @export
 #' @rdname tidyr-methods
-nest.tidySCE <- function(.data, ...) {
+nest.tidySingleCellExperiment <- function(.data, ...) {
     my_data__ <- .data
     cols <- enquos(...)
     col_name_data <- names(cols)
@@ -163,8 +163,8 @@ nest.tidySCE <- function(.data, ...) {
             )
         ) %>%
 
-        # Coerce to tidySCE_nested for unnesting
-        add_class("tidySCE_nested")
+        # Coerce to tidySingleCellExperiment_nested for unnesting
+        add_class("tidySingleCellExperiment_nested")
 }
 
 #' Extract a character column into multiple columns using regular
@@ -174,7 +174,7 @@ nest.tidySCE <- function(.data, ...) {
 #' each group into a new column. If the groups don't match, or the input
 #' is NA, the output will be NA.
 #'
-#' @param data A tidySCE object
+#' @param data A tidySingleCellExperiment object
 #' @param col Column name or position. This is passed to
 #'   [tidyselect::vars_pull()].
 #'
@@ -199,7 +199,7 @@ nest.tidySCE <- function(.data, ...) {
 #' pbmc_small %>%
 #'     tidy() %>%
 #'     extract(groups, into="g", regex="g([0-9])", convert=TRUE)
-#' @return A tidySCE objector a tibble depending on input
+#' @return A tidySingleCellExperiment objector a tibble depending on input
 #'
 #' @importFrom tidyr extract
 #'
@@ -221,7 +221,7 @@ extract.default <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE
 
 #' @importFrom SingleCellExperiment colData
 #' @export
-extract.tidySCE <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE,
+extract.tidySingleCellExperiment <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE,
     convert=FALSE, ...) {
     col <- enquo(col)
 
@@ -311,7 +311,7 @@ extract.tidySCE <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE
 #'   will be the common type of the input columns used to generate them.
 #' @param ... Additional arguments passed on to methods.
 #'
-#' @return A tidySCE objector a tibble depending on input
+#' @return A tidySingleCellExperiment objector a tibble depending on input
 #'
 #' @export
 #' @examples
@@ -373,7 +373,7 @@ pivot_longer.default <- function(data,
 }
 
 #' @export
-pivot_longer.tidySCE <- function(data,
+pivot_longer.tidySingleCellExperiment <- function(data,
     cols,
     names_to="name",
     names_prefix=NULL,
@@ -431,7 +431,7 @@ pivot_longer.tidySCE <- function(data,
 #' @param remove If `TRUE`, remove input columns from output data frame.
 #' @seealso [separate()], the complement.
 #'
-#' @return A tidySCE objector a tibble depending on input
+#' @return A tidySingleCellExperiment objector a tibble depending on input
 #'
 #' @export
 #' @examples
@@ -451,7 +451,7 @@ unite.default <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
 
 #' @importFrom SingleCellExperiment colData
 #' @export
-unite.tidySCE <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
+unite.tidySingleCellExperiment <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
 
     # Check that we are not modifying a key column
     cols <- enquo(col)
@@ -471,7 +471,7 @@ unite.tidySCE <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
             c(get_needed_columns()) %>%
             paste(collapse=", ")
         stop(
-            "tidySCE says: you are trying to rename a column that is view only",
+            "tidySingleCellExperiment says: you are trying to rename a column that is view only",
             columns, " ",
             "(it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one."
         )
@@ -520,7 +520,7 @@ unite.tidySCE <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
 #' @seealso [unite()], the complement, [extract()] which uses regular
 #'   expression capturing groups.
 #'
-#' @return A tidySCE objector a tibble depending on input
+#' @return A tidySingleCellExperiment objector a tibble depending on input
 #'
 #' @export
 #' @examples
@@ -546,7 +546,7 @@ separate.default <- function(data, col, into, sep="[^[:alnum:]]+", remove=TRUE,
 
 #' @importFrom SingleCellExperiment colData
 #' @export
-separate.tidySCE <- function(data, col, into, sep="[^[:alnum:]]+", remove=TRUE,
+separate.tidySingleCellExperiment <- function(data, col, into, sep="[^[:alnum:]]+", remove=TRUE,
     convert=FALSE, extra="warn", fill="warn", ...) {
 
     # Check that we are not modifying a key column
@@ -567,7 +567,7 @@ separate.tidySCE <- function(data, col, into, sep="[^[:alnum:]]+", remove=TRUE,
             c(get_needed_columns()) %>%
             paste(collapse=", ")
         stop(
-            "tidySCE says: you are trying to rename a column that is view only",
+            "tidySingleCellExperiment says: you are trying to rename a column that is view only",
             columns, " ",
             "(it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one."
         )

@@ -90,7 +90,7 @@ values in `data` were created by its structure.}
 \item{...}{Additional arguments passed on to methods.}
 }
 \value{
-A tidySCE objector a tibble depending on input
+A tidySingleCellExperiment objector a tibble depending on input
 }
 \description{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("maturing")}

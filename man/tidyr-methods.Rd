@@ -3,10 +3,10 @@
 \name{unnest}
 \alias{unnest}
 \alias{unnest.default}
-\alias{unnest.tidySCE_nested}
+\alias{unnest.tidySingleCellExperiment_nested}
 \alias{nest}
 \alias{nest.default}
-\alias{nest.tidySCE}
+\alias{nest.tidySingleCellExperiment}
 \title{unnest}
 \usage{
 unnest(
@@ -29,7 +29,7 @@ unnest(
   names_repair = "check_unique"
 )
 
-\method{unnest}{tidySCE_nested}(
+\method{unnest}{tidySingleCellExperiment_nested}(
   .data,
   cols,
   ...,
@@ -43,7 +43,7 @@ nest(.data, ...)
 
 \method{nest}{default}(.data, ...)
 
-\method{nest}{tidySCE}(.data, ...)
+\method{nest}{tidySingleCellExperiment}(.data, ...)
 }
 \arguments{
 \item{.data}{A tbl. (See tidyr)}
@@ -72,9 +72,9 @@ standard tidyverse recycling rules).}
 \item{names_repair}{See tidyr::unnest}
 }
 \value{
-A tidySCE objector a tibble depending on input
+A tidySingleCellExperiment objector a tibble depending on input
 
-A tidySCE objector a tibble depending on input
+A tidySingleCellExperiment objector a tibble depending on input
 }
 \description{
 unnest

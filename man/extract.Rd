@@ -16,7 +16,7 @@ extract(
 )
 }
 \arguments{
-\item{data}{A tidySCE object}
+\item{data}{A tidySingleCellExperiment object}
 
 \item{col}{Column name or position. This is passed to
   [tidyselect::vars_pull()].
@@ -42,7 +42,7 @@ There should be one group (defined by `()`) for each element of `into`.}
 \item{...}{Additional arguments passed on to methods.}
 }
 \value{
-A tidySCE objector a tibble depending on input
+A tidySingleCellExperiment objector a tibble depending on input
 }
 \description{
 Given a regular expression with capturing groups, `extract()` turns

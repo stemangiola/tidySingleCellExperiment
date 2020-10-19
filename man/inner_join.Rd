@@ -20,7 +20,7 @@ inner_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 \item{...}{Data frames to combine (See dplyr)}
 }
 \value{
-A tidySCE object
+A tidySingleCellExperiment object
 }
 \description{
 Inner join datasets
