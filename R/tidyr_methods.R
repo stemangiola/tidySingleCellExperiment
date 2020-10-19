@@ -31,6 +31,10 @@
 #' @param keep_empty See tidyr::unnest
 #' @param names_repair See tidyr::unnest
 #' @param ptype See tidyr::unnest
+#' @param .drop See tidyr::unnest
+#' @param .id tidyr::unnest
+#' @param sep tidyr::unnest
+#' @param .preserve See tidyr::unnest
 #'
 #'
 #' @return A tidySCE objector a tibble depending on input
@@ -43,33 +47,20 @@
 #'     nest(data=-groups) %>%
 #'     unnest(data)
 #' @rdname tidyr-methods
+#' @name unnest
 #'
 #' @export
-unnest <- function(.data, cols, ..., keep_empty=FALSE, ptype=NULL,
-    names_sep=NULL, names_repair="check_unique") {
-    UseMethod("unnest")
-}
-
-#' @export
-#' @rdname tidyr-methods
-unnest.default <- function(.data, cols, ..., keep_empty=FALSE, ptype=NULL,
-    names_sep=NULL, names_repair="check_unique") {
-    cols <- enquo(cols)
-    tidyr::unnest(.data, !!cols, ...,
-        keep_empty=keep_empty, ptype=ptype,
-        names_sep=names_sep, names_repair=names_repair
-    )
-}
+NULL
 
 #' @importFrom rlang quo_name
 #' @importFrom purrr imap
 #'
+#'
 #' @export
-#' @rdname tidyr-methods
-unnest.tidySCE_nested <- function(.data, cols, ..., keep_empty=FALSE, ptype=NULL,
-    names_sep=NULL, names_repair="check_unique") {
+unnest.tidySCE_nested <- function(data, cols, ..., keep_empty=FALSE, ptype=NULL,
+    names_sep=NULL, names_repair="check_unique", .drop, .id, .sep, .preserve) {
     # Need this otherwise crashes map
-    .data_ <- .data
+    .data_ <- data
 
     cols <- enquo(cols)
 
@@ -87,7 +78,7 @@ unnest.tidySCE_nested <- function(.data, cols, ..., keep_empty=FALSE, ptype=NULL
             # Do my trick to unnest
             mutate(., !!cols := imap(
                 !!cols, ~ .x %>%
-                    bind_cols(
+                    bind_cols_(
 
                         # Attach back the columns used for nesting
                         .data_ %>%
@@ -112,6 +103,7 @@ unnest.tidySCE_nested <- function(.data, cols, ..., keep_empty=FALSE, ptype=NULL
 #'
 #' @param .data A tbl. (See tidyr)
 #' @param ... Name-variable pairs of the form new_col=c(col1, col2, col3) (See tidyr)
+#' @param .names_sep See ?tidyr::nest
 #'
 #' @return A tidySCE objector a tibble depending on input
 #'
@@ -123,24 +115,16 @@ unnest.tidySCE_nested <- function(.data, cols, ..., keep_empty=FALSE, ptype=NULL
 #'     nest(data=-groups) %>%
 #'     unnest(data)
 #' @rdname tidyr-methods
+#' @name nest
 #'
 #' @export
-nest <- function(.data, ...) {
-    UseMethod("nest")
-}
-
-#' @export
-#' @rdname tidyr-methods
-nest.default <- function(.data, ...) {
-    tidyr::nest(.data, ...)
-}
+NULL
 
 #' @importFrom rlang enquos
 #' @importFrom rlang :=
 #'
 #' @export
-#' @rdname tidyr-methods
-nest.tidySCE <- function(.data, ...) {
+nest.tidySCE <- function(.data, ..., .names_sep = NULL) {
     my_data__ <- .data
     cols <- enquos(...)
     col_name_data <- names(cols)
@@ -174,6 +158,8 @@ nest.tidySCE <- function(.data, ...) {
 #' each group into a new column. If the groups don't match, or the input
 #' is NA, the output will be NA.
 #'
+#' @importFrom tidyr extract
+#'
 #' @param data A tidySCE object
 #' @param col Column name or position. This is passed to
 #'   [tidyselect::vars_pull()].
@@ -203,21 +189,11 @@ nest.tidySCE <- function(.data, ...) {
 #'
 #' @importFrom tidyr extract
 #'
+#' @rdname tidyr-methods
+#' @name extract
+#'
 #' @export
-extract <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE,
-    convert=FALSE, ...) {
-    UseMethod("extract")
-}
-
-#' @export
-extract.default <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE,
-    convert=FALSE, ...) {
-    col <- enquo(col)
-    tidyr::extract(
-        col=!!col, into=into, regex=regex, remove=remove,
-        convert=convert, ...
-    )
-}
+NULL
 
 #' @importFrom SingleCellExperiment colData
 #' @export
@@ -253,6 +229,7 @@ extract.tidySCE <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE
 #' under active development.
 #'
 #' @importFrom ellipsis check_dots_used
+#' @importFrom tidyr pivot_longer
 #'
 #' @param data A data frame to pivot.
 #' @param cols <[`tidy-select`][tidyr_tidy_select]> Columns to pivot into
@@ -313,6 +290,9 @@ extract.tidySCE <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE
 #'
 #' @return A tidySCE objector a tibble depending on input
 #'
+#' @rdname tidyr-methods
+#' @name pivot_longer
+#'
 #' @export
 #' @examples
 #' # See vignette("pivot") for examples and explanation
@@ -321,56 +301,7 @@ extract.tidySCE <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE
 #' pbmc_small %>%
 #'     tidy() %>%
 #'     pivot_longer(c(orig.ident, groups), names_to="name", values_to="value")
-pivot_longer <- function(data,
-    cols,
-    names_to="name",
-    names_prefix=NULL,
-    names_sep=NULL,
-    names_pattern=NULL,
-    names_ptypes=list(),
-    names_transform=list(),
-    names_repair="check_unique",
-    values_to="value",
-    values_drop_na=FALSE,
-    values_ptypes=list(),
-    values_transform=list(),
-    ...) {
-    ellipsis::check_dots_used()
-    UseMethod("pivot_longer")
-}
-
-#' @export
-pivot_longer.default <- function(data,
-    cols,
-    names_to="name",
-    names_prefix=NULL,
-    names_sep=NULL,
-    names_pattern=NULL,
-    names_ptypes=list(),
-    names_transform=list(),
-    names_repair="check_unique",
-    values_to="value",
-    values_drop_na=FALSE,
-    values_ptypes=list(),
-    values_transform=list(),
-    ...) {
-    cols <- enquo(cols)
-    tidyr::pivot_longer(data,
-        !!cols,
-        names_to=names_to,
-        names_prefix=names_prefix,
-        names_sep=names_sep,
-        names_pattern=names_pattern,
-        names_ptypes=names_ptypes,
-        names_transform=names_transform,
-        names_repair=names_repair,
-        values_to=values_to,
-        values_drop_na=values_drop_na,
-        values_ptypes=values_ptypes,
-        values_transform=values_transform,
-        ...
-    )
-}
+NULL
 
 #' @export
 pivot_longer.tidySCE <- function(data,
@@ -414,6 +345,7 @@ pivot_longer.tidySCE <- function(data,
 #' Convenience function to paste together multiple columns into one.
 #'
 #' @importFrom ellipsis check_dots_unnamed
+#' @importFrom tidyr unite
 #'
 #' @param data A data frame.
 #' @param col The name of the new column, as a string or symbol.
@@ -433,21 +365,16 @@ pivot_longer.tidySCE <- function(data,
 #'
 #' @return A tidySCE objector a tibble depending on input
 #'
+#' @rdname tidyr-methods
+#' @name unite
+#'
 #' @export
 #' @examples
 #'
 #' pbmc_small %>%
 #'     tidy() %>%
 #'     unite("new_col", c(orig.ident, groups))
-unite <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
-    ellipsis::check_dots_unnamed()
-    UseMethod("unite")
-}
-#' @export
-unite.default <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
-    cols <- enquo(col)
-    tidyr::unite(data, !!cols, ..., sep=sep, remove=remove, na.rm=na.rm)
-}
+NULL
 
 #' @importFrom SingleCellExperiment colData
 #' @export
@@ -493,6 +420,7 @@ unite.tidySCE <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
 #' `separate()` turns a single character column into multiple columns.
 #'
 #' @importFrom ellipsis check_dots_used
+#' @importFrom tidyr separate
 #'
 #' @inheritParams extract
 #' @param sep Separator between columns.
@@ -522,6 +450,9 @@ unite.tidySCE <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
 #'
 #' @return A tidySCE objector a tibble depending on input
 #'
+#' @rdname tidyr-methods
+#' @name separate
+#'
 #' @export
 #' @examples
 #'
@@ -529,20 +460,7 @@ unite.tidySCE <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
 #'     tidy() %>%
 #'     unite("new_col", c(orig.ident, groups))
 #' un %>% separate(col=new_col, into=c("orig.ident", "groups"))
-separate <- function(data, col, into, sep="[^[:alnum:]]+", remove=TRUE,
-    convert=FALSE, extra="warn", fill="warn", ...) {
-    ellipsis::check_dots_used()
-    UseMethod("separate")
-}
-#' @export
-separate.default <- function(data, col, into, sep="[^[:alnum:]]+", remove=TRUE,
-    convert=FALSE, extra="warn", fill="warn", ...) {
-    cols <- enquo(col)
-    tidyr::separate(data, !!cols,
-        into=into, sep=sep, remove=remove,
-        convert=convert, extra=extra, fill=fill, ...
-    )
-}
+NULL
 
 #' @importFrom SingleCellExperiment colData
 #' @export

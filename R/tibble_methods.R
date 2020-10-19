@@ -16,6 +16,8 @@
 #'   [`ts`][stats::ts()], [`table`][base::table()]
 #' * Default: Other inputs are first coerced with [base::as.data.frame()].
 #'
+#' @importFrom tibble as_tibble
+#'
 #' @section Row names:
 #' The default behavior is to silently remove row names.
 #'
@@ -49,26 +51,15 @@
 #'   For compatibility only, do not use for new code.
 #' @return A tibble
 #'
+#' @rdname tibble-methods
+#' @name as_tibble
+#'
 #' @export
 #' @examples
 #' pbmc_small %>%
 #'     tidy() %>%
 #'     as_tibble()
-as_tibble <- function(x, ...,
-    .name_repair=c("check_unique", "unique", "universal", "minimal"),
-    rownames=pkgconfig::get_config("tibble::rownames", NULL)) {
-    UseMethod("as_tibble")
-}
-
-#' @export
-as_tibble.default <- function(x, ...,
-    .name_repair=c("check_unique", "unique", "universal", "minimal"),
-    rownames=pkgconfig::get_config("tibble::rownames", NULL)) {
-    tibble::as_tibble(x, ...,
-        .name_repair=.name_repair,
-        rownames=rownames
-    )
-}
+NULL
 
 #' @export
 #' @importFrom purrr reduce
@@ -90,7 +81,7 @@ as_tibble.tidySCE <- function(x, ...,
         when(
 
             # Only if I have reduced dimensions and special datasets
-            ncol(x@int_colData@listData$reducedDims) > 0 ~ (.) %>% bind_cols(
+            ncol(x@int_colData@listData$reducedDims) > 0 ~ (.) %>% dplyr::bind_cols(
                 get_special_datasets(x) %>%
                     map(~ .x %>% when(
 
@@ -104,7 +95,7 @@ as_tibble.tidySCE <- function(x, ...,
                         # Otherwise continue normally
                         ~ as_tibble(.)
                     )) %>%
-                    reduce(bind_cols)
+                    reduce(dplyr::bind_cols)
             ),
 
             # Otherwise skip

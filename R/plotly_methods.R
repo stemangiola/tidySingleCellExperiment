@@ -172,6 +172,7 @@ plot_ly.default <- function(data=data.frame(), ..., type=NULL, name=NULL,
         )
 }
 
+#' @importFrom plotly plot_ly
 #' @export
 plot_ly.tidySCE <- function(data=data.frame(), ..., type=NULL, name=NULL,
     color=NULL, colors=NULL, alpha=NULL,
@@ -186,7 +187,7 @@ plot_ly.tidySCE <- function(data=data.frame(), ..., type=NULL, name=NULL,
 
         # This is a trick to not loop the call
         as_tibble() %>%
-        plotly::plot_ly(...,
+        plot_ly(...,
             type=type, name=name,
             color=color, colors=colors, alpha=alpha,
             stroke=stroke, strokes=strokes, alpha_stroke=alpha_stroke,

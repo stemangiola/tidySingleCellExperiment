@@ -21,6 +21,8 @@ setMethod(
 #'
 #' @return A tidySCE object
 #'
+#' @name tidy
+#'
 #' @examples
 #'
 #' tidySCE::pbmc_small %>% tidy()
@@ -37,8 +39,6 @@ tidy <- function(object) {
 tidy.SingleCellExperiment <- function(object) {
     as(object, "tidySCE")
 }
-
-
 
 #' Add differential transcription information to a tbl using edgeR.
 #'
