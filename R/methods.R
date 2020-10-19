@@ -40,8 +40,6 @@ tidy.SingleCellExperiment <- function(object) {
     as(object, "tidySCE")
 }
 
-
-
 #' Add differential transcription information to a tbl using edgeR.
 #'
 #' \lifecycle{experimental}

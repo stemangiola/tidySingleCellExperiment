@@ -9,13 +9,13 @@ Description: tidySCE is an adapter that abstracts the 'SingleCellExperiment' con
 License: GPL-3
 Depends:
     R (>= 4.0.0),
-    SingleCellExperiment,
+    SingleCellExperiment
+Imports:
     dplyr,
     tibble,
     tidyr,
     ggplot2,
-    plotly
-Imports:
+    plotly,
     magrittr,
     rlang,
     purrr,
