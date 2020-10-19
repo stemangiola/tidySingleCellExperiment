@@ -1,5 +1,6 @@
 #' Initiate a plotly visualization
 #'
+#'
 #' This function maps R objects to [plotly.js](https://plot.ly/javascript/),
 #' an (MIT licensed) web-based interactive charting library. It provides
 #' abstractions for doing common things (e.g. mapping data values to
