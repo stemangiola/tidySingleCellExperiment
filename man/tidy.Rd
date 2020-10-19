@@ -10,12 +10,12 @@ tidy(object)
 \item{object}{A SingleCellExperiment object}
 }
 \value{
-A tidySCE object
+A tidySingleCellExperiment object
 }
 \description{
 tidy for SingleCellExperiment
 }
 \examples{
 
-tidySCE::pbmc_small \%>\% tidy()
+tidySingleCellExperiment::pbmc_small \%>\% tidy()
 }

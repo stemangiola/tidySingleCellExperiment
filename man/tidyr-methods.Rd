@@ -152,17 +152,17 @@ each value.}
   * "left": fill with missing values on the left}
 }
 \value{
-A tidySCE objector a tibble depending on input
+A tidySingleCellExperiment objector a tibble depending on input
 
-A tidySCE objector a tibble depending on input
+A tidySingleCellExperiment objector a tibble depending on input
 
-A tidySCE objector a tibble depending on input
+A tidySingleCellExperiment objector a tibble depending on input
 
-A tidySCE objector a tibble depending on input
+A tidySingleCellExperiment objector a tibble depending on input
 
-A tidySCE objector a tibble depending on input
+A tidySingleCellExperiment objector a tibble depending on input
 
-A tidySCE objector a tibble depending on input
+A tidySingleCellExperiment objector a tibble depending on input
 }
 \description{
 Given a regular expression with capturing groups, `extract()` turns

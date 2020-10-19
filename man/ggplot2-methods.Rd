@@ -2,7 +2,7 @@
 % Please edit documentation in R/ggplot2_methods.R
 \name{ggplot}
 \alias{ggplot}
-\title{Create a new ggplot from a tidySCE object}
+\title{Create a new ggplot from a tidySingleCellExperiment object}
 \arguments{
 \item{.data}{Default dataset to use for plot. If not already a data.frame,
 will be converted to one by [fortify()]. If not specified,
@@ -47,8 +47,8 @@ is often the case in complex graphics.
 
 library(ggplot2)
 
-tidySCE::pbmc_small \%>\%
+tidySingleCellExperiment::pbmc_small \%>\%
     tidy() \%>\%
-    tidySCE::ggplot(aes(groups, nCount_RNA)) +
+    tidySingleCellExperiment::ggplot(aes(groups, nCount_RNA)) +
     geom_boxplot()
 }

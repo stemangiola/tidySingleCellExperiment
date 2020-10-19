@@ -1,14 +1,14 @@
 
 
 
-setClass("tidySCE", contains = "SingleCellExperiment")
+setClass("tidySingleCellExperiment", contains = "SingleCellExperiment")
 
 #' @importFrom methods show
 #' @import SingleCellExperiment
 #' @importFrom magrittr %>%
 setMethod(
     f = "show",
-    signature = "tidySCE",
+    signature = "tidySingleCellExperiment",
     definition = function(object) {
         object %>%
             print()
@@ -19,13 +19,13 @@ setMethod(
 #'
 #' @param object A SingleCellExperiment object
 #'
-#' @return A tidySCE object
+#' @return A tidySingleCellExperiment object
 #'
 #' @name tidy
 #'
 #' @examples
 #'
-#' tidySCE::pbmc_small %>% tidy()
+#' tidySingleCellExperiment::pbmc_small %>% tidy()
 #' @export
 tidy <- function(object) {
     UseMethod("tidy", object)
@@ -37,7 +37,7 @@ tidy <- function(object) {
 #'
 #' @export
 tidy.SingleCellExperiment <- function(object) {
-    as(object, "tidySCE")
+    as(object, "tidySingleCellExperiment")
 }
 
 #' Add differential transcription information to a tbl using edgeR.
@@ -66,7 +66,7 @@ tidy.SingleCellExperiment <- function(object) {
 #'
 #' @examples
 #'
-#' tidySCE::pbmc_small %>%
+#' tidySingleCellExperiment::pbmc_small %>%
 #'     tidy() %>%
 #'     join_transcripts(transcripts=c("HLA-DRA", "LYZ"))
 #' @export
@@ -90,7 +90,7 @@ join_transcripts.default <-
 #' @importFrom tidyselect contains
 #' @importFrom tidyselect everything
 #' @export
-join_transcripts.tidySCE <-
+join_transcripts.tidySingleCellExperiment <-
     function(.data,
              transcripts = NULL,
              all = FALSE,

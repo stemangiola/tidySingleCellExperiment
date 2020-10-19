@@ -30,7 +30,7 @@ test_that("bind_rows", {
 
     tt_bind %>%
         select(cell) %>%
-        tidySCE:::to_tib() %>%
+        tidySingleCellExperiment:::to_tib() %>%
         dplyr::count(cell) %>%
         dplyr::count(n) %>%
         nrow() %>%
@@ -140,7 +140,7 @@ test_that("select", {
         select(cell, orig.ident) %>%
         class() %>%
         as.character() %>%
-        expect_equal("tidySCE")
+        expect_equal("tidySingleCellExperiment")
 
     tt %>%
         select(orig.ident) %>%
