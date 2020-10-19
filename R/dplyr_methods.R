@@ -447,6 +447,8 @@ summarise.tidySCE <- function(.data, ...) {
 #' New variables overwrite existing variables of the same name.
 #' Variables can be removed by setting their value to `NULL`.
 #'
+#' @importFrom dplyr mutate
+#'
 #' @section Useful mutate functions:
 #'
 #' * [`+`], [`-`], [log()], etc., for their usual mathematical meanings
