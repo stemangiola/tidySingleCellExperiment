@@ -37,6 +37,11 @@ tidy <- function(object) {
 #'
 #' @export
 tidy.SingleCellExperiment <- function(object) {
+
+    # Check if data has colnames
+    if(length(colnames(object)) == 0)
+        warning("tidySingleCellExperiment says: your counts do not have colnames. This will cause the problem for downstream manipulation. Please make sure you import counts with column names. For example using read10xCounts(col.names = TRUE)")
+
     as(object, "tidySingleCellExperiment")
 }
 
