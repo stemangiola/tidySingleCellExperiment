@@ -239,7 +239,7 @@ get_abundance_sc_long <- function(.data, transcripts=NULL, all=FALSE, exclude_ze
             # %>%
             # mutate_if(is.character, as.factor) %>%
         ) %>%
-        Reduce(function(...) left_join(..., by=c("transcript", "cell")), .)
+        Reduce(function(...) full_join(..., by=c("transcript", "cell")), .)
 }
 
 #' @importFrom dplyr select_if
