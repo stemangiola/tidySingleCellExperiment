@@ -44,7 +44,8 @@ Suggests:
     Matrix,
     uwot,
     celldex,
-    dittoSeq
+    dittoSeq,
+    EnsDb.Hsapiens.v86
 VignetteBuilder: 
     knitr
 RdMacros:

@@ -280,11 +280,11 @@ get_special_columns <- function(SingleCellExperiment_object) {
         as.character()
 }
 
-get_special_datasets <- function(SingleCellExperiment_object) {
+get_special_datasets <- function(SingleCellExperiment_object, n_dimensions_to_return = Inf) {
     rd <- SingleCellExperiment_object@int_colData@listData$reducedDims
 
     map2(rd %>% as.list(), names(rd), ~ {
-        mat <- .x[, seq_len(min(5, ncol(.x))), drop=FALSE]
+        mat <- .x[, seq_len(min(n_dimensions_to_return, ncol(.x))), drop=FALSE]
 
         # Set names as SCE is much less constrained and there could be missing names
         if (length(colnames(mat)) == 0) colnames(mat) <- sprintf("%s%s", .y, seq_len(ncol(mat)))

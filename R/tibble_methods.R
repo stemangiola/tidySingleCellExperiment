@@ -82,7 +82,7 @@ as_tibble.tidySingleCellExperiment <- function(x, ...,
 
             # Only if I have reduced dimensions and special datasets
             ncol(x@int_colData@listData$reducedDims) > 0 ~ (.) %>% dplyr::bind_cols(
-                get_special_datasets(x) %>%
+                get_special_datasets(x, ...) %>%
                     map(~ .x %>% when(
 
                         # If row == 1 do a trick
