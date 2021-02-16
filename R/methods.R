@@ -63,6 +63,7 @@ tidy.SingleCellExperiment <- function(object) {
 #' @param all If TRUE return all
 #' @param exclude_zeros If TRUE exclude zero values
 #' @param shape Format of the returned table "long" or "wide"
+#' @param ... Parameters to pass to join wide, i.e. assay name to extract transcript abundance from
 #'
 #' @details This function extracts information for specified transcripts and
 #'   returns the information in either long or wide format.
@@ -80,7 +81,7 @@ join_transcripts <- function(.data,
                              transcripts = NULL,
                              all = FALSE,
                              exclude_zeros = FALSE,
-                             shape = "long") {
+                             shape = "long", ...) {
     UseMethod("join_transcripts", .data)
 }
 #' @export
@@ -89,7 +90,7 @@ join_transcripts.default <-
              transcripts = NULL,
              all = FALSE,
              exclude_zeros = FALSE,
-             shape = "long") {
+             shape = "long", ...) {
         print("This function cannot be applied to this object")
     }
 #' @importFrom tidyselect contains
@@ -100,7 +101,7 @@ join_transcripts.tidySingleCellExperiment <-
              transcripts = NULL,
              all = FALSE,
              exclude_zeros = FALSE,
-             shape = "long") {
+             shape = "long", ...) {
         message(data_frame_returned_message)
 
         my_tibble =
@@ -126,7 +127,7 @@ join_transcripts.tidySingleCellExperiment <-
             my_tibble  %>% left_join(get_abundance_sc_wide(
                 .data = .data,
                 transcripts = transcripts,
-                all = all
+                all = all, ...
             ),
             by = "cell")
 
