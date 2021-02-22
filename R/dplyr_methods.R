@@ -1140,7 +1140,17 @@ sample_n.tidySingleCellExperiment <- function(tbl, size, replace=FALSE,
     new_obj <- tbl[, rownames(new_meta)]
     # colData(new_obj)=new_meta %>% DataFrame()
 
-    new_obj
+    new_obj %>%
+
+        # If replace return simple tibble because is not trivial to build
+        # a redundant Seurat object and it would not make much sense
+        when(
+            replace ~ {
+                message("tidyseurat says: When sampling with replacement a data frame is returned for independent data analysis.")
+                as_tibble(.)
+            },
+            ~ (.)
+        )
 }
 
 #' @importFrom dplyr sample_frac
@@ -1163,7 +1173,17 @@ sample_frac.tidySingleCellExperiment <- function(tbl, size=1, replace=FALSE,
     new_obj <- tbl[, rownames(new_meta)]
     # colData(new_obj)=new_meta %>% DataFrame()
 
-    new_obj
+    new_obj %>%
+
+        # If replace return simple tibble because is not trivial to build
+        # a redundant Seurat object and it would not make much sense
+        when(
+            replace ~ {
+                message("tidyseurat says: When sampling with replacement a data frame is returned for independent data analysis.")
+                as_tibble(.)
+            },
+            ~ (.)
+        )
 }
 
 

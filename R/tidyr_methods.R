@@ -81,9 +81,8 @@ unnest.tidySingleCellExperiment_nested <- function(data, cols, ..., keep_empty=F
                     bind_cols_(
 
                         # Attach back the columns used for nesting
-                        .data_ %>%
-                            select(-!!cols) %>%
-                            slice(rep(.y, ncol(.x)))
+                        .data_ %>% select(-!!cols) %>% slice(rep(.y, nrow(as_tibble(.x))))
+
                     )
             )) %>%
                 pull(!!cols) %>%
