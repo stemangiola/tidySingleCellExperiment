@@ -1146,7 +1146,7 @@ sample_n.tidySingleCellExperiment <- function(tbl, size, replace=FALSE,
         # a redundant Seurat object and it would not make much sense
         when(
             replace ~ {
-                message("tidyseurat says: When sampling with replacement a data frame is returned for independent data analysis.")
+                message("tidySingleCellExperiment says: When sampling with replacement a data frame is returned for independent data analysis.")
                 as_tibble(.)
             },
             ~ (.)
@@ -1179,7 +1179,7 @@ sample_frac.tidySingleCellExperiment <- function(tbl, size=1, replace=FALSE,
         # a redundant Seurat object and it would not make much sense
         when(
             replace ~ {
-                message("tidyseurat says: When sampling with replacement a data frame is returned for independent data analysis.")
+                message("tidySingleCellExperiment says: When sampling with replacement a data frame is returned for independent data analysis.")
                 as_tibble(.)
             },
             ~ (.)
@@ -1255,6 +1255,32 @@ count.tidySingleCellExperiment <- function(x, ..., wt=NULL, sort=FALSE, name=NUL
         dplyr::count(..., wt=!!enquo(wt), sort=sort, name=name, .drop=.drop)
 }
 
+#' @export
+add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+    UseMethod("add_count")
+}
+
+#' @export
+#' @rdname count
+add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+
+    dplyr::add_count(x=x, ..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)
+
+}
+
+#' @export
+#' @rdname count
+add_count.tidySingleCellExperiment <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+
+    x@meta.data =
+        x %>%
+        as_tibble %>%
+        dplyr::add_count(..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)  %>%
+        as_meta_data(x)
+
+    x
+
+}
 
 #' Extract a single column
 #'
