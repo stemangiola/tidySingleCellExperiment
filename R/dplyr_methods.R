@@ -146,7 +146,9 @@ bind_rows.tidySingleCellExperiment <- function(..., .id=NULL, add.cell.ids=NULL)
     new_obj
 }
 
+
 # Internal of bind_cols
+#' @importFrom SingleCellExperiment colData
 bind_cols_ = function(..., .id=NULL) {
     tts <- tts <- flatten_if(dots_values(...), is_spliced)
 
@@ -1256,13 +1258,14 @@ count.tidySingleCellExperiment <- function(x, ..., wt=NULL, sort=FALSE, name=NUL
 }
 
 #' @export
-add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+#' @rdname count
+add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
     UseMethod("add_count")
 }
 
 #' @export
 #' @rdname count
-add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
 
     dplyr::add_count(x=x, ..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)
 
@@ -1270,7 +1273,7 @@ add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .dro
 
 #' @export
 #' @rdname count
-add_count.tidySingleCellExperiment <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+add_count.tidySingleCellExperiment <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
 
     x@meta.data =
         x %>%

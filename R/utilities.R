@@ -83,6 +83,7 @@ drop_class <- function(var, name) {
 #'
 #' @importFrom magrittr "%$%"
 #' @importFrom utils tail
+#' @importFrom SummarizedExperiment assays
 #'
 #' @param .data A tidySingleCellExperiment
 #' @param transcripts A character
@@ -153,6 +154,7 @@ get_abundance_sc_wide <- function(.data, transcripts=NULL, all=FALSE) {
 #' @importFrom tibble as_tibble
 #' @importFrom purrr when
 #' @importFrom purrr map2
+#' @importFrom SummarizedExperiment assays
 #'
 #' @param .data A tidySingleCellExperiment
 #' @param transcripts A character

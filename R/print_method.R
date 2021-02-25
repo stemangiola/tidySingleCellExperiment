@@ -69,7 +69,14 @@ print.tidySingleCellExperiment <- function(x, ..., n = NULL, width = NULL, n_ext
     tidySingleCellExperiment_format_tbl(..., n = n, width = width, n_extra = n_extra) %>%
 
     # Hijack the tibble header
-    map_chr(~ .x %>% str_replace("A tibble:", "A tibble abstraction:")) %>%
+    map_chr(~ .x %>% str_replace("A tibble:", "A SingleCellExperiment-tibble abstraction:")) %>%
+
+    # Insert more info
+    append(sprintf(
+      "\033[90m# Transcripts=%s | Assays=%s\033[39m",
+      counts(x) %>% nrow,
+      assays(x) %>% names %>% paste(collapse=", ")
+    ), after = 1) %>%
 
     # Output
     cat_line()
