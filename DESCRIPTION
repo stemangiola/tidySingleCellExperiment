@@ -11,6 +11,7 @@ Depends:
     R (>= 4.0.0),
     SingleCellExperiment
 Imports:
+    SummarizedExperiment,
     dplyr,
     tibble,
     tidyr,
