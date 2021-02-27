@@ -134,7 +134,8 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='fu'>tidySingleCellExperiment</span><span class='fu'>::</span><span class='va'><a href='pbmc_small.html'>pbmc_small</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble abstraction: 80 x 17</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A SingleCellExperiment-tibble abstraction: 80 x 17</span><span>
+#&gt; </span><span style='color: #555555;'># Transcripts=230 | Assays=counts, logcounts</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A             g2    

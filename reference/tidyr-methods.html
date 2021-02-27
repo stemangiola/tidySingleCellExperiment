@@ -363,7 +363,8 @@ under active development.</p>
     <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>nest</span><span class='op'>(</span>data<span class='op'>=</span><span class='op'>-</span><span class='va'>groups</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>unnest</span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble abstraction: 80 x 17</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A SingleCellExperiment-tibble abstraction: 80 x 17</span><span>
+#&gt; </span><span style='color: #555555;'># Transcripts=230 | Assays=counts, logcounts</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>        
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A            
@@ -384,7 +385,8 @@ under active development.</p>
     <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>nest</span><span class='op'>(</span>data<span class='op'>=</span><span class='op'>-</span><span class='va'>groups</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>unnest</span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble abstraction: 80 x 17</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A SingleCellExperiment-tibble abstraction: 80 x 17</span><span>
+#&gt; </span><span style='color: #555555;'># Transcripts=230 | Assays=counts, logcounts</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>        
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A            
@@ -403,7 +405,8 @@ under active development.</p>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>
     <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>extract</span><span class='op'>(</span><span class='va'>groups</span>, into<span class='op'>=</span><span class='st'>"g"</span>, regex<span class='op'>=</span><span class='st'>"g([0-9])"</span>, convert<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble abstraction: 80 x 17</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A SingleCellExperiment-tibble abstraction: 80 x 17</span><span>
+#&gt; </span><span style='color: #555555;'># Transcripts=230 | Assays=counts, logcounts</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents     g
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A                 2
@@ -446,7 +449,8 @@ under active development.</p>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>
     <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>unite</span><span class='op'>(</span><span class='st'>"new_col"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>orig.ident</span>, <span class='va'>groups</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble abstraction: 80 x 16</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A SingleCellExperiment-tibble abstraction: 80 x 16</span><span>
+#&gt; </span><span style='color: #555555;'># Transcripts=230 | Assays=counts, logcounts</span><span>
 #&gt;    cell  new_col nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>        
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… Seurat…         70           47 0               A            
@@ -466,7 +470,8 @@ under active development.</p>
     <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>unite</span><span class='op'>(</span><span class='st'>"new_col"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>orig.ident</span>, <span class='va'>groups</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>un</span> <span class='op'>%&gt;%</span> <span class='fu'>separate</span><span class='op'>(</span>col<span class='op'>=</span><span class='va'>new_col</span>, into<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"orig.ident"</span>, <span class='st'>"groups"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble abstraction: 80 x 17</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A SingleCellExperiment-tibble abstraction: 80 x 17</span><span>
+#&gt; </span><span style='color: #555555;'># Transcripts=230 | Assays=counts, logcounts</span><span>
 #&gt;    cell  orig.ident groups nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>        
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro… g2             70           47 0               A            

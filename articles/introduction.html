@@ -75,7 +75,7 @@
       <h1 data-toc-skip>Overview of the tidySingleCellExperiment package</h1>
                         <h4 class="author">Stefano Mangiola</h4>
             
-            <h4 class="date">2021-02-25</h4>
+            <h4 class="date">2021-02-27</h4>
       
       
       <div class="hidden name"><code>introduction.Rmd</code></div>
@@ -196,7 +196,8 @@
 <p><strong>It looks like a tibble</strong></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pbmc_small_tidy</span></code></pre></div>
-<pre><code>## # A tibble abstraction: 80 x 17
+<pre><code>## # A SingleCellExperiment-tibble abstraction: 80 x 17
+## [90m# Transcripts=230 | Assays=counts, logcounts[39m
 ##    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 ##    &lt;chr&gt; &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;         &lt;chr&gt; 
 ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
@@ -1162,7 +1163,8 @@
 <span class="co"># Reorder to have sample column up front</span>
 <span class="va">pbmc_small_polished</span> <span class="op">%&gt;%</span>
     <span class="fu"><a href="../reference/arrange.html">select</a></span><span class="op">(</span><span class="va">sample</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble abstraction: 80 x 18
+<pre><code>## # A SingleCellExperiment-tibble abstraction: 80 x 18
+## [90m# Transcripts=230 | Assays=counts, logcounts[39m
 ##    cell  sample orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
 ##    &lt;chr&gt; &lt;chr&gt;  &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;        
 ##  1 ATGC… sampl… SeuratPro…         70           47 0               A            
@@ -1250,7 +1252,8 @@
     <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span><span class="op">(</span>subset_row<span class="op">=</span><span class="va">variable_genes</span><span class="op">)</span>
 
 <span class="va">pbmc_small_pca</span></code></pre></div>
-<pre><code>## # A tibble abstraction: 80 x 18
+<pre><code>## # A SingleCellExperiment-tibble abstraction: 80 x 18
+## [90m# Transcripts=230 | Assays=counts, logcounts[39m
 ##    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 ##    &lt;chr&gt; &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;         &lt;chr&gt; 
 ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
@@ -1293,7 +1296,8 @@
 
 <span class="co"># Reorder columns</span>
 <span class="va">pbmc_small_cluster</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/arrange.html">select</a></span><span class="op">(</span><span class="va">label</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble abstraction: 80 x 19
+<pre><code>## # A SingleCellExperiment-tibble abstraction: 80 x 19
+## [90m# Transcripts=230 | Assays=counts, logcounts[39m
 ##    cell  label orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
 ##    &lt;chr&gt; &lt;fct&gt; &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;        
 ##  1 ATGC… 2     SeuratPro…         70           47 0               A            
@@ -1396,7 +1400,8 @@
 <span class="co"># Reorder columns</span>
 <span class="va">pbmc_small_cell_type</span> <span class="op">%&gt;%</span>
     <span class="fu">tidySingleCellExperiment</span><span class="fu">::</span><span class="fu"><a href="../reference/arrange.html">select</a></span><span class="op">(</span><span class="va">cell</span>, <span class="va">first.labels</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble abstraction: 80 x 23
+<pre><code>## # A SingleCellExperiment-tibble abstraction: 80 x 23
+## [90m# Transcripts=230 | Assays=counts, logcounts[39m
 ##    cell  first.labels orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8
 ##    &lt;chr&gt; &lt;chr&gt;        &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;          
 ##  1 ATGC… CD4+ T-cells SeuratPro…         70           47 0              
@@ -1652,12 +1657,12 @@
 ##  [69] cli_2.3.1                 generics_0.1.0           
 ##  [71] ggridges_0.5.3            evaluate_0.14            
 ##  [73] stringr_1.4.0             fastmap_1.1.0            
-##  [75] yaml_2.2.1                ragg_1.1.0               
+##  [75] yaml_2.2.1                ragg_1.1.1               
 ##  [77] fs_1.5.0                  caTools_1.18.1           
 ##  [79] sparseMatrixStats_1.2.1   pracma_2.3.3             
 ##  [81] rstudioapi_0.13           compiler_4.0.3           
 ##  [83] beeswarm_0.2.3            plotly_4.9.3             
-##  [85] png_0.1-7                 tibble_3.0.6             
+##  [85] png_0.1-7                 tibble_3.1.0             
 ##  [87] statmod_1.4.35            bslib_0.2.4              
 ##  [89] stringi_1.5.3             ps_1.5.0                 
 ##  [91] highr_0.8                 desc_1.2.0               

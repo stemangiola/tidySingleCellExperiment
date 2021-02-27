@@ -147,6 +147,35 @@ with group-wise counts.</p>
   sort <span class='op'>=</span> <span class='cn'>FALSE</span>,
   name <span class='op'>=</span> <span class='cn'>NULL</span>,
   .drop <span class='op'>=</span> <span class='fu'>group_by_drop_default</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+<span class='op'>)</span>
+
+<span class='fu'>add_count</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>...</span>,
+  wt <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sort <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  .drop <span class='op'>=</span> <span class='fu'>group_by_drop_default</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+<span class='op'>)</span>
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>add_count</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>...</span>,
+  wt <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sort <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  .drop <span class='op'>=</span> <span class='fu'>group_by_drop_default</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+<span class='op'>)</span>
+
+<span class='co'># S3 method for tidySingleCellExperiment</span>
+<span class='fu'>add_count</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>...</span>,
+  wt <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sort <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  .drop <span class='op'>=</span> <span class='fu'>group_by_drop_default</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>

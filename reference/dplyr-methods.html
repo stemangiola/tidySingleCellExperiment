@@ -603,7 +603,8 @@ to renaming a set of variables with a function.</p>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>
     <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>arrange</span><span class='op'>(</span><span class='va'>nFeature_RNA</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble abstraction: 80 x 17</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A SingleCellExperiment-tibble abstraction: 80 x 17</span><span>
+#&gt; </span><span style='color: #555555;'># Transcripts=230 | Assays=counts, logcounts</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> CATG… SeuratPro…         51           26 0               A             g2    
@@ -633,7 +634,8 @@ to renaming a set of variables with a function.</p>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>
     <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>filter</span><span class='op'>(</span><span class='va'>groups</span> <span class='op'>==</span> <span class='st'>"g1"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble abstraction: 44 x 17</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A SingleCellExperiment-tibble abstraction: 44 x 17</span><span>
+#&gt; </span><span style='color: #555555;'># Transcripts=230 | Assays=counts, logcounts</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> CATG… SeuratPro…         85           52 0               A             g1    
@@ -686,7 +688,8 @@ to renaming a set of variables with a function.</p>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>
     <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>mutate</span><span class='op'>(</span>nFeature_RNA<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble abstraction: 80 x 17</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A SingleCellExperiment-tibble abstraction: 80 x 17</span><span>
+#&gt; </span><span style='color: #555555;'># Transcripts=230 | Assays=counts, logcounts</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro…         70            1 0               A             g2    
@@ -706,7 +709,8 @@ to renaming a set of variables with a function.</p>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>
     <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>rename</span><span class='op'>(</span>s_score<span class='op'>=</span><span class='va'>nFeature_RNA</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble abstraction: 80 x 17</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A SingleCellExperiment-tibble abstraction: 80 x 17</span><span>
+#&gt; </span><span style='color: #555555;'># Transcripts=230 | Assays=counts, logcounts</span><span>
 #&gt;    cell  orig.ident nCount_RNA s_score RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro…         70      47 0               A             g2    
@@ -728,7 +732,8 @@ to renaming a set of variables with a function.</p>
 
 <span class='va'>tt</span> <span class='op'>&lt;-</span> <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'>distinct</span><span class='op'>(</span><span class='va'>groups</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>new_column<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>tidySingleCellExperiment says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "groups"</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble abstraction: 80 x 18</span><span>
+</div><div class='output co'>#&gt; <span class='message'>tidySingleCellExperiment says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "groups"</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A SingleCellExperiment-tibble abstraction: 80 x 18</span><span>
+#&gt; </span><span style='color: #555555;'># Transcripts=230 | Assays=counts, logcounts</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A             g2    
@@ -747,7 +752,8 @@ to renaming a set of variables with a function.</p>
 
 <span class='va'>tt</span> <span class='op'>&lt;-</span> <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'>inner_join</span><span class='op'>(</span><span class='va'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'>distinct</span><span class='op'>(</span><span class='va'>groups</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>new_column<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>tidySingleCellExperiment says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "groups"</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble abstraction: 36 x 18</span><span>
+</div><div class='output co'>#&gt; <span class='message'>tidySingleCellExperiment says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "groups"</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A SingleCellExperiment-tibble abstraction: 36 x 18</span><span>
+#&gt; </span><span style='color: #555555;'># Transcripts=230 | Assays=counts, logcounts</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A             g2    
@@ -767,7 +773,8 @@ to renaming a set of variables with a function.</p>
 
 <span class='va'>tt</span> <span class='op'>&lt;-</span> <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'>right_join</span><span class='op'>(</span><span class='va'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'>distinct</span><span class='op'>(</span><span class='va'>groups</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>new_column<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>tidySingleCellExperiment says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "groups"</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble abstraction: 36 x 18</span><span>
+</div><div class='output co'>#&gt; <span class='message'>tidySingleCellExperiment says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "groups"</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A SingleCellExperiment-tibble abstraction: 36 x 18</span><span>
+#&gt; </span><span style='color: #555555;'># Transcripts=230 | Assays=counts, logcounts</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A             g2    
@@ -811,7 +818,8 @@ to renaming a set of variables with a function.</p>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>
     <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble abstraction: 1 x 17</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A SingleCellExperiment-tibble abstraction: 1 x 17</span><span>
+#&gt; </span><span style='color: #555555;'># Transcripts=230 | Assays=counts, logcounts</span><span>
 #&gt;   cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span> ATGC… SeuratPro…         70           47 0               A             g2    
@@ -822,7 +830,8 @@ to renaming a set of variables with a function.</p>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>
     <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>select</span><span class='op'>(</span><span class='va'>cell</span>, <span class='va'>orig.ident</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble abstraction: 80 x 9</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A SingleCellExperiment-tibble abstraction: 80 x 9</span><span>
+#&gt; </span><span style='color: #555555;'># Transcripts=230 | Assays=counts, logcounts</span><span>
 #&gt;    cell          orig.ident      PC_1   PC_2   PC_3  PC_4   PC_5  tSNE_1  tSNE_2
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGCCAGAACGA… SeuratProje… -</span><span style='color: #BB0000;'>0.774</span><span>  -</span><span style='color: #BB0000;'>0.900</span><span> -</span><span style='color: #BB0000;'>0.249</span><span> 0.559  0.465   0.868  -</span><span style='color: #BB0000;'>8.10</span><span> 
@@ -840,7 +849,8 @@ to renaming a set of variables with a function.</p>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>
     <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>sample_n</span><span class='op'>(</span><span class='fl'>50</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble abstraction: 50 x 17</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A SingleCellExperiment-tibble abstraction: 50 x 17</span><span>
+#&gt; </span><span style='color: #555555;'># Transcripts=230 | Assays=counts, logcounts</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> CTGC… SeuratPro…        146           47 0               A             g1    
@@ -858,7 +868,8 @@ to renaming a set of variables with a function.</p>
 #&gt; </span><span style='color: #949494;'>#   tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'><span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>
     <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'>sample_frac</span><span class='op'>(</span><span class='fl'>0.1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble abstraction: 8 x 17</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A SingleCellExperiment-tibble abstraction: 8 x 17</span><span>
+#&gt; </span><span style='color: #555555;'># Transcripts=230 | Assays=counts, logcounts</span><span>
 #&gt;   cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span> CCAT… SeuratPro…        224           50 1               B             g2    
