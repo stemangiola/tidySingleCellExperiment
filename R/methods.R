@@ -102,6 +102,11 @@ join_transcripts.tidySingleCellExperiment <-
              all = FALSE,
              exclude_zeros = FALSE,
              shape = "long", ...) {
+
+        # CRAN Note
+        cell = NULL
+        transcript= NULL
+
         message(data_frame_returned_message)
 
         my_tibble =

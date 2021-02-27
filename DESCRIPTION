@@ -11,6 +11,7 @@ Depends:
     R (>= 4.0.0),
     SingleCellExperiment
 Imports:
+    SummarizedExperiment,
     dplyr,
     tibble,
     tidyr,
@@ -44,7 +45,8 @@ Suggests:
     Matrix,
     uwot,
     celldex,
-    dittoSeq
+    dittoSeq,
+    EnsDb.Hsapiens.v86
 VignetteBuilder: 
     knitr
 RdMacros:

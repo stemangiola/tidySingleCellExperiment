@@ -71,6 +71,7 @@ Load libraries used in this vignette.
 # Bioconductor single-cell packages
 library(scater)
 library(scran)
+library(EnsDb.Hsapiens.v86)
 library(SingleR)
 library(SingleCellSignalR)
 
@@ -186,20 +187,76 @@ pbmc_small_polished %>%
     my_theme
 ```
 
+# Quality control
+
+We can quality control for each sample in an intuitive way using nest function and Bioconductor utilities
+
+```{r}
+
+location <- mapIds(
+	EnsDb.Hsapiens.v86, 
+	keys=rownames(pbmc_small_polished), 
+	column="SEQNAME",
+	keytype="SYMBOL"
+)
+
+counts_mito = 
+	pbmc_small_polished %>%
+	
+	nest(data = -sample) %>%
+	mutate(data = map(
+		data, 
+		~ .x %>%
+			
+			# Join mitochondrion statistics
+			left_join(
+				scuttle::perCellQCMetrics(., subsets=list(Mito=which(location=="MT"))) %>%
+					as_tibble(rownames="cell"),
+				by="cell"
+			) %>%
+			
+			# Label cells
+			mutate(high_mitochondrion = isOutlier(subsets_Mito_percent, type="higher")) 
+	)) %>%
+	unnest(data) 
+	
+plot_QC = 
+	counts_mito %>%
+	pivot_longer(c(detected , sum, subsets_Mito_percent)) %>%
+	ggplot(aes(x=sample,y=value,
+						 color = high_mitochondrion, 
+						 alpha=high_mitochondrion,
+						 size= high_mitochondrion
+	)) +
+	ggbeeswarm::geom_quasirandom() +
+	facet_wrap(~name, scale="free_y") +
+	
+	# Customisation
+	scale_color_manual(values=c("black", "#e11f28")) +
+	scale_size_discrete(range = c(0, 2)) +
+	my_theme
+
+counts_alive =
+	counts_mito %>% 
+	filter(!high_mitochondrion)
+
+
+```
+
 # Preprocess the dataset
 
-We can also treat `pbmc_small_polished` as a *SingleCellExperiment* object and proceed with data processing with Bioconductor packages, such as *scran* [@lun2016pooling] and *scater* [@mccarthy2017scater].
+We can also treat `cunts_alive` as a *SingleCellExperiment* object and proceed with data processing with Bioconductor packages, such as *scran* [@lun2016pooling] and *scater* [@mccarthy2017scater].
 
 ```{r preprocess}
 # Identify variable genes with scran
 variable_genes <-
-    pbmc_small_polished %>%
+    counts_alive %>%
     modelGeneVar() %>%
     getTopHVGs(prop=0.1)
 
 # Perform PCA with scater
 pbmc_small_pca <-
-    pbmc_small_polished %>%
+    counts_alive %>%
     runPCA(subset_row=variable_genes)
 
 pbmc_small_pca

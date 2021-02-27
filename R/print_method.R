@@ -16,6 +16,8 @@
 #' and setting arguments like `n` and `width`. More persistent control is
 #' available by setting the options described below.
 #'
+#' Only the first 5 reduced dimensions are displayed, while all of them are queriable (e.g. ggplot). All dimensions are returned/displayed if as_tibble is used.
+#'
 #' @inheritSection pillar::`pillar-package` Package options
 #' @section Package options:
 #'
@@ -63,13 +65,20 @@ NULL
 print.tidySingleCellExperiment <- function(x, ..., n = NULL, width = NULL, n_extra = NULL) {
 
   x %>%
-    as_tibble() %>%
+    as_tibble(n_dimensions_to_return = 5) %>%
 
     # Get formatting
     tidySingleCellExperiment_format_tbl(..., n = n, width = width, n_extra = n_extra) %>%
 
     # Hijack the tibble header
-    map_chr(~ .x %>% str_replace("A tibble:", "A tibble abstraction:")) %>%
+    map_chr(~ .x %>% str_replace("A tibble:", "A SingleCellExperiment-tibble abstraction:")) %>%
+
+    # Insert more info
+    append(sprintf(
+      "\033[90m# Transcripts=%s | Assays=%s\033[39m",
+      counts(x) %>% nrow,
+      assays(x) %>% names %>% paste(collapse=", ")
+    ), after = 1) %>%
 
     # Output
     cat_line()
