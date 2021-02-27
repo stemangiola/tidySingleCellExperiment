@@ -2,9 +2,39 @@
 % Please edit documentation in R/dplyr_methods.R
 \name{count}
 \alias{count}
+\alias{add_count}
+\alias{add_count.default}
+\alias{add_count.tidySingleCellExperiment}
 \title{Count observations by group}
 \usage{
 count(
+  x,
+  ...,
+  wt = NULL,
+  sort = FALSE,
+  name = NULL,
+  .drop = group_by_drop_default(x)
+)
+
+add_count(
+  x,
+  ...,
+  wt = NULL,
+  sort = FALSE,
+  name = NULL,
+  .drop = group_by_drop_default(x)
+)
+
+\method{add_count}{default}(
+  x,
+  ...,
+  wt = NULL,
+  sort = FALSE,
+  name = NULL,
+  .drop = group_by_drop_default(x)
+)
+
+\method{add_count}{tidySingleCellExperiment}(
   x,
   ...,
   wt = NULL,
