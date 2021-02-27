@@ -88,13 +88,14 @@ drop_class <- function(var, name) {
 #' @param .data A tidySingleCellExperiment
 #' @param transcripts A character
 #' @param all A boolean
+#' @param ... Parameters to pass to join wide, i.e. assay name to extract transcript abundance from
 #'
 #'
 #' @return A tidySingleCellExperiment object
 #'
 #'
 #' @noRd
-get_abundance_sc_wide <- function(.data, transcripts=NULL, all=FALSE) {
+get_abundance_sc_wide <- function(.data, transcripts=NULL, all=FALSE, assay = assays(.data) %>% as.list() %>% tail(1) %>% names ) {
 
     # Solve CRAN warnings
     . <- NULL
@@ -133,8 +134,7 @@ get_abundance_sc_wide <- function(.data, transcripts=NULL, all=FALSE) {
     # Just grub last assay
     assays(.data) %>%
         as.list() %>%
-        tail(1) %>%
-        .[[1]] %>%
+      .[[assay]] %>%
         when(
             variable_genes %>% is.null() %>% `!`() ~ (.)[variable_genes, , drop=FALSE],
             transcripts %>% is.null() %>% `!`() ~ (.)[transcripts, , drop=FALSE],
