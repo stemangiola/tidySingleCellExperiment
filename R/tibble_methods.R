@@ -57,7 +57,7 @@
 #' @export
 #' @examples
 #' pbmc_small %>%
-#'     tidy() %>%
+#'     
 #'     as_tibble()
 NULL
 
@@ -69,7 +69,7 @@ NULL
 #' @importFrom SingleCellExperiment colData
 #'
 #'
-as_tibble.tidySingleCellExperiment <- function(x, ...,
+as_tibble.SingleCellExperiment <- function(x, ...,
     .name_repair=c("check_unique", "unique", "universal", "minimal"),
     rownames=pkgconfig::get_config("tibble::rownames", NULL)) {
     colData(x) %>%

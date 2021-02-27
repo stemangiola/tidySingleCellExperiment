@@ -1,9 +1,6 @@
 context("tidyr test")
 
-tt <-
-    pbmc_small %>%
-    tidy() %>%
-    mutate(col2 = "other_col")
+tt <-   pbmc_small %>%   mutate(col2 = "other_col")
 
 test_that("nest_unnest", {
     col_names <- tt %>% colData %>% colnames() %>% c("cell")

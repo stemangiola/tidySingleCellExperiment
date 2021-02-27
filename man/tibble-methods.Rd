@@ -60,7 +60,7 @@ prefer the more expressive maturing `as_tibble_row()` and
 
 \examples{
 pbmc_small \%>\%
-    tidy() \%>\%
+    
     as_tibble()
 }
 \seealso{

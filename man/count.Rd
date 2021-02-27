@@ -56,6 +56,6 @@ with group-wise counts.
 
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
-    tidy() \%>\%
+
     count(groups)
 }

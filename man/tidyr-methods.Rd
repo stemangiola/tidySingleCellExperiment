@@ -192,32 +192,32 @@ under active development.
 
 library(dplyr)
 pbmc_small \%>\%
-    tidy() \%>\%
+
     nest(data=-groups) \%>\%
     unnest(data)
 
 library(dplyr)
 pbmc_small \%>\%
-    tidy() \%>\%
+
     nest(data=-groups) \%>\%
     unnest(data)
 
 pbmc_small \%>\%
-    tidy() \%>\%
+
     extract(groups, into="g", regex="g([0-9])", convert=TRUE)
 # See vignette("pivot") for examples and explanation
 
 library(dplyr)
 pbmc_small \%>\%
-    tidy() \%>\%
+
     pivot_longer(c(orig.ident, groups), names_to="name", values_to="value")
 
 pbmc_small \%>\%
-    tidy() \%>\%
+
     unite("new_col", c(orig.ident, groups))
 
 un <- pbmc_small \%>\%
-    tidy() \%>\%
+
     unite("new_col", c(orig.ident, groups))
 un \%>\% separate(col=new_col, into=c("orig.ident", "groups"))
 }

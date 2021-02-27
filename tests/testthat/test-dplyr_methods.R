@@ -2,7 +2,7 @@ context("dplyr test")
 
 library(magrittr)
 
-tt <- pbmc_small %>% tidy()
+tt <- pbmc_small
 
 test_that("arrange", {
     tt_pca_aranged <-
@@ -140,7 +140,7 @@ test_that("select", {
         select(cell, orig.ident) %>%
         class() %>%
         as.character() %>%
-        expect_equal("tidySingleCellExperiment")
+        expect_equal("SingleCellExperiment")
 
     tt %>%
         select(orig.ident) %>%

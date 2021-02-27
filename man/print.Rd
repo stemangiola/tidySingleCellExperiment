@@ -2,10 +2,10 @@
 % Please edit documentation in R/print_method.R
 \name{print}
 \alias{print}
-\alias{print.tidySingleCellExperiment}
+\alias{print.SingleCellExperiment}
 \title{Printing tibbles}
 \usage{
-\method{print}{tidySingleCellExperiment}(x, ..., n = NULL, width = NULL, n_extra = NULL)
+\method{print}{SingleCellExperiment}(x, ..., n = NULL, width = NULL, n_extra = NULL)
 }
 \arguments{
 \item{x}{Object to format or print.}
@@ -42,6 +42,8 @@ One of the main features of the `tbl_df` class is the printing:
 Printing can be tweaked for a one-off call by calling `print()` explicitly
 and setting arguments like `n` and `width`. More persistent control is
 available by setting the options described below.
+
+Only the first 5 reduced dimensions are displayed, while all of them are queriable (e.g. ggplot). All dimensions are returned/displayed if as_tibble is used.
 }
 \section{Package options}{
 
@@ -87,5 +89,5 @@ turn off truncation of character columns.
 
 \examples{
 library(dplyr)
-pbmc_small \%>\% tidy() \%>\% print()
+pbmc_small  \%>\% print()
 }

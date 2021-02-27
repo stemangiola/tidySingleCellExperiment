@@ -461,85 +461,85 @@ to renaming a set of variables with a function.
 \examples{
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
-    tidy() \%>\%
+
     arrange(nFeature_RNA)
 
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
-    tidy() \%>\%
+
     distinct(groups)
 
 
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
-    tidy() \%>\%
+
     filter(groups == "g1")
 
 # Learn more in ?dplyr_tidy_eval
 
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
-    tidy() \%>\%
+
     group_by(groups)
 
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
-    tidy() \%>\%
+
     summarise(mean(nCount_RNA))
 
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
-    tidy() \%>\%
+
     mutate(nFeature_RNA=1)
 
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
-    tidy() \%>\%
+
     rename(s_score=nFeature_RNA)
 
 `\%>\%` <- magrittr::`\%>\%`
 
 `\%>\%` <- magrittr::`\%>\%`
 
-tt <- pbmc_small \%>\% tidy()
+tt <- pbmc_small
 tt \%>\% left_join(tt \%>\% distinct(groups) \%>\% mutate(new_column=1:2))
 `\%>\%` <- magrittr::`\%>\%`
 
-tt <- pbmc_small \%>\% tidy()
+tt <- pbmc_small
 tt \%>\% inner_join(tt \%>\% distinct(groups) \%>\% mutate(new_column=1:2) \%>\% slice(1))
 
 `\%>\%` <- magrittr::`\%>\%`
 
-tt <- pbmc_small \%>\% tidy()
+tt <- pbmc_small
 tt \%>\% right_join(tt \%>\% distinct(groups) \%>\% mutate(new_column=1:2) \%>\% slice(1))
 
 `\%>\%` <- magrittr::`\%>\%`
 
-tt <- pbmc_small \%>\% tidy()
+tt <- pbmc_small
 tt \%>\% full_join(tibble::tibble(groups="g1", other=1:4))
 
 
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
-    tidy() \%>\%
+
     slice(1)
 
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
-    tidy() \%>\%
+
     select(cell, orig.ident)
 
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
-    tidy() \%>\%
+
     sample_n(50)
 pbmc_small \%>\%
-    tidy() \%>\%
+
     sample_frac(0.1)
 
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%
-    tidy() \%>\%
+
     pull(groups)
 }
 \seealso{

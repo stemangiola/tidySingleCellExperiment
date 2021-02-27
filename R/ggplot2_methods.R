@@ -47,13 +47,13 @@
 #' library(ggplot2)
 #'
 #' tidySingleCellExperiment::pbmc_small %>%
-#'     tidy() %>%
+#'     
 #'     tidySingleCellExperiment::ggplot(aes(groups, nCount_RNA)) +
 #'     geom_boxplot()
 NULL
 
 #' @export
-ggplot.tidySingleCellExperiment <- function(data=NULL, mapping=aes(), ..., environment=parent.frame()) {
+ggplot.SingleCellExperiment <- function(data=NULL, mapping=aes(), ..., environment=parent.frame()) {
     data %>%
         as_tibble() %>%
         ggplot2::ggplot(mapping=mapping)

@@ -48,7 +48,7 @@ is often the case in complex graphics.
 library(ggplot2)
 
 tidySingleCellExperiment::pbmc_small \%>\%
-    tidy() \%>\%
+    
     tidySingleCellExperiment::ggplot(aes(groups, nCount_RNA)) +
     geom_boxplot()
 }

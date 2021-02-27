@@ -49,7 +49,7 @@
 #' @examples
 #' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
-#'     tidy() %>%
+#'
 #'     arrange(nFeature_RNA)
 NULL
 
@@ -57,7 +57,7 @@ NULL
 #'
 #' @export
 #' @inheritParams arrange
-arrange.tidySingleCellExperiment <- function(.data, ..., .by_group=FALSE) {
+arrange.SingleCellExperiment <- function(.data, ..., .by_group=FALSE) {
     new_metadata <-
         .data %>%
         as_tibble() %>%
@@ -104,7 +104,7 @@ arrange.tidySingleCellExperiment <- function(.data, ..., .by_group=FALSE) {
 #'   the first input, either a data frame, `tbl_df`, or `grouped_df`.
 #' @examples
 #' `%>%` <- magrittr::`%>%`
-#' tt <- pbmc_small %>% tidy()
+#' tt <- pbmc_small
 #' bind_rows(tt, tt)
 #'
 #' tt_bind <- tt %>% select(nCount_RNA, nFeature_RNA)
@@ -130,13 +130,14 @@ bind_rows.default <- function(..., .id=NULL, add.cell.ids=NULL) {
 #' @importFrom rlang dots_values
 #' @importFrom rlang flatten_if
 #' @importFrom rlang is_spliced
+#' @importFrom SingleCellExperiment cbind
 #'
 #' @export
 #'
-bind_rows.tidySingleCellExperiment <- function(..., .id=NULL, add.cell.ids=NULL) {
+bind_rows.SingleCellExperiment <- function(..., .id=NULL, add.cell.ids=NULL) {
     tts <- flatten_if(dots_values(...), is_spliced)
 
-    new_obj <- cbind(tts[[1]], tts[[2]]) %>% tidy()
+    new_obj <- SingleCellExperiment::cbind(tts[[1]], tts[[2]])
 
     # If duplicated cell names
     if(new_obj %>% colnames %>% duplicated %>% which %>% length %>% gt(0))
@@ -176,7 +177,7 @@ bind_cols.default <- function(..., .id=NULL) {
 #'
 #' @export
 #'
-bind_cols.tidySingleCellExperiment <- bind_cols_
+bind_cols.SingleCellExperiment <- bind_cols_
 
 #' distinct
 #'
@@ -193,7 +194,7 @@ bind_cols.tidySingleCellExperiment <- bind_cols_
 #'
 #' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
-#'     tidy() %>%
+#'
 #'     distinct(groups)
 #'
 #' @rdname dplyr-methods
@@ -205,7 +206,7 @@ NULL
 #' @inheritParams distinct
 #'
 #' @export
-distinct.tidySingleCellExperiment <- function(.data, ..., .keep_all=FALSE) {
+distinct.SingleCellExperiment <- function(.data, ..., .keep_all=FALSE) {
     message(data_frame_returned_message)
 
     .data %>%
@@ -272,7 +273,7 @@ distinct.tidySingleCellExperiment <- function(.data, ..., .keep_all=FALSE) {
 #'
 #' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
-#'     tidy() %>%
+#'
 #'     filter(groups == "g1")
 #'
 #' # Learn more in ?dplyr_tidy_eval
@@ -286,7 +287,7 @@ NULL
 #' @inheritParams filter
 #'
 #' @export
-filter.tidySingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
+filter.SingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
     new_meta <- .data %>%
         as_tibble() %>%
         dplyr::filter(..., .preserve=.preserve) # %>% as_meta_data(.data)
@@ -334,7 +335,7 @@ filter.tidySingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
 #' @examples
 #' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
-#'     tidy() %>%
+#'
 #'     group_by(groups)
 #'
 #' @rdname dplyr-methods
@@ -344,7 +345,7 @@ filter.tidySingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
 NULL
 
 #' @export
-group_by.tidySingleCellExperiment <- function(.data, ..., .add=FALSE, .drop=group_by_drop_default(.data)) {
+group_by.SingleCellExperiment <- function(.data, ..., .add=FALSE, .drop=group_by_drop_default(.data)) {
     message(data_frame_returned_message)
 
     .data %>%
@@ -419,7 +420,7 @@ group_by.tidySingleCellExperiment <- function(.data, ..., .add=FALSE, .drop=grou
 #' @examples
 #' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
-#'     tidy() %>%
+#'
 #'     summarise(mean(nCount_RNA))
 #'
 #' @rdname dplyr-methods
@@ -430,7 +431,7 @@ group_by.tidySingleCellExperiment <- function(.data, ..., .add=FALSE, .drop=grou
 NULL
 
 #' @export
-summarise.tidySingleCellExperiment <- function(.data, ...) {
+summarise.SingleCellExperiment <- function(.data, ...) {
     message(data_frame_returned_message)
 
 
@@ -519,7 +520,7 @@ summarise.tidySingleCellExperiment <- function(.data, ...) {
 #' @examples
 #' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
-#'     tidy() %>%
+#'
 #'     mutate(nFeature_RNA=1)
 #'
 #' @rdname dplyr-methods
@@ -534,7 +535,7 @@ NULL
 #' @importFrom SingleCellExperiment colData
 #'
 #' @export
-mutate.tidySingleCellExperiment <- function(.data, ...) {
+mutate.SingleCellExperiment <- function(.data, ...) {
 
     # Check that we are not modifying a key column
     cols <- enquos(...) %>% names()
@@ -604,7 +605,7 @@ mutate.tidySingleCellExperiment <- function(.data, ...) {
 #' @examples
 #' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
-#'     tidy() %>%
+#'
 #'     rename(s_score=nFeature_RNA)
 #'
 #' @rdname dplyr-methods
@@ -616,7 +617,7 @@ NULL
 #' @importFrom tidyselect eval_select
 #' @importFrom SingleCellExperiment colData
 #' @export
-rename.tidySingleCellExperiment <- function(.data, ...) {
+rename.SingleCellExperiment <- function(.data, ...) {
 
     # Check that we are not modifying a key column
     cols <- tidyselect::eval_select(expr(c(...)), colData(.data) %>% as.data.frame())
@@ -684,7 +685,7 @@ rename.tidySingleCellExperiment <- function(.data, ...) {
 NULL
 
 #' @export
-rowwise.tidySingleCellExperiment <- function(data, ...) {
+rowwise.SingleCellExperiment <- function(data, ...) {
     message(data_frame_returned_message)
 
     data %>%
@@ -718,13 +719,13 @@ rowwise.tidySingleCellExperiment <- function(data, ...) {
 #' @examples
 #' `%>%` <- magrittr::`%>%`
 #'
-#' tt <- pbmc_small %>% tidy()
+#' tt <- pbmc_small
 #' tt %>% left_join(tt %>% distinct(groups) %>% mutate(new_column=1:2))
 NULL
 
 #' @importFrom SingleCellExperiment colData
 #' @export
-left_join.tidySingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
+left_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
     x %>%
         as_tibble() %>%
@@ -765,7 +766,7 @@ left_join.tidySingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix
 #' @examples
 #' `%>%` <- magrittr::`%>%`
 #'
-#' tt <- pbmc_small %>% tidy()
+#' tt <- pbmc_small
 #' tt %>% inner_join(tt %>% distinct(groups) %>% mutate(new_column=1:2) %>% slice(1))
 #'
 #' @rdname dplyr-methods
@@ -776,7 +777,7 @@ NULL
 
 #' @importFrom SingleCellExperiment colData
 #' @export
-inner_join.tidySingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), ...) {
+inner_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), ...) {
     x %>%
         as_tibble() %>%
         dplyr::inner_join(y, by=by, copy=copy, suffix=suffix, ...) %>%
@@ -820,7 +821,7 @@ inner_join.tidySingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffi
 #' @examples
 #' `%>%` <- magrittr::`%>%`
 #'
-#' tt <- pbmc_small %>% tidy()
+#' tt <- pbmc_small
 #' tt %>% right_join(tt %>% distinct(groups) %>% mutate(new_column=1:2) %>% slice(1))
 #'
 #' @rdname dplyr-methods
@@ -831,7 +832,7 @@ NULL
 
 #' @importFrom SingleCellExperiment colData
 #' @export
-right_join.tidySingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
+right_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
     x %>%
         as_tibble() %>%
@@ -877,7 +878,7 @@ right_join.tidySingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffi
 #' @examples
 #' `%>%` <- magrittr::`%>%`
 #'
-#' tt <- pbmc_small %>% tidy()
+#' tt <- pbmc_small
 #' tt %>% full_join(tibble::tibble(groups="g1", other=1:4))
 #'
 #' @rdname dplyr-methods
@@ -887,7 +888,7 @@ right_join.tidySingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffi
 NULL
 
 #' @export
-full_join.tidySingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
+full_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
     x %>%
         as_tibble() %>%
@@ -981,13 +982,13 @@ full_join.tidySingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix
 #'
 #' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
-#'     tidy() %>%
+#'
 #'     slice(1)
 NULL
 
 #' @importFrom SingleCellExperiment colData
 #' @export
-slice.tidySingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
+slice.SingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
     new_meta <- dplyr::slice(colData(.data) %>% as.data.frame(), ..., .preserve=.preserve)
     new_obj <- .data[, rownames(new_meta)]
     # colData(new_obj)=new_meta
@@ -1040,7 +1041,7 @@ slice.tidySingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
 #'
 #' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
-#'     tidy() %>%
+#'
 #'     select(cell, orig.ident)
 #' @family single table verbs
 #'
@@ -1052,7 +1053,7 @@ NULL
 
 #' @importFrom SingleCellExperiment colData
 #' @export
-select.tidySingleCellExperiment <- function(.data, ...) {
+select.SingleCellExperiment <- function(.data, ...) {
     .data %>%
         as_tibble() %>%
         select_helper(...) %>%
@@ -1115,10 +1116,10 @@ select.tidySingleCellExperiment <- function(.data, ...) {
 #'
 #' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
-#'     tidy() %>%
+#'
 #'     sample_n(50)
 #' pbmc_small %>%
-#'     tidy() %>%
+#'
 #'     sample_frac(0.1)
 #' @return A tidySingleCellExperiment object
 #'
@@ -1130,7 +1131,7 @@ NULL
 
 #' @importFrom SingleCellExperiment colData
 #' @export
-sample_n.tidySingleCellExperiment <- function(tbl, size, replace=FALSE,
+sample_n.SingleCellExperiment <- function(tbl, size, replace=FALSE,
     weight=NULL, .env=NULL, ...) {
     lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
 
@@ -1153,7 +1154,7 @@ NULL
 
 #' @importFrom SingleCellExperiment colData
 #' @export
-sample_frac.tidySingleCellExperiment <- function(tbl, size=1, replace=FALSE,
+sample_frac.SingleCellExperiment <- function(tbl, size=1, replace=FALSE,
     weight=NULL, .env=NULL, ...) {
     lifecycle::signal_superseded("1.0.0", "sample_frac()", "slice_sample()")
 
@@ -1206,7 +1207,7 @@ sample_frac.tidySingleCellExperiment <- function(tbl, size=1, replace=FALSE,
 #'
 #' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
-#'     tidy() %>%
+#'
 #'     count(groups)
 count <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by_drop_default(x)) {
     UseMethod("count")
@@ -1227,7 +1228,7 @@ count.default <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by
     out
 }
 #' @export
-count.tidySingleCellExperiment <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by_drop_default(x)) {
+count.SingleCellExperiment <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by_drop_default(x)) {
     message(data_frame_returned_message)
 
     x %>%
@@ -1270,12 +1271,12 @@ count.tidySingleCellExperiment <- function(x, ..., wt=NULL, sort=FALSE, name=NUL
 #'
 #' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
-#'     tidy() %>%
+#'
 #'     pull(groups)
 NULL
 
 #' @export
-pull.tidySingleCellExperiment <- function(.data, var=-1, name=NULL, ...) {
+pull.SingleCellExperiment <- function(.data, var=-1, name=NULL, ...) {
     var <- enquo(var)
     name <- enquo(name)
 
