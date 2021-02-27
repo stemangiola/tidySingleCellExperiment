@@ -1,19 +1,4 @@
-
-
-
 setClass("tidySingleCellExperiment", contains = "SingleCellExperiment")
-
-#' @importFrom methods show
-#' @import SingleCellExperiment
-#' @importFrom magrittr %>%
-setMethod(
-    f = "show",
-    signature = "tidySingleCellExperiment",
-    definition = function(object) {
-        object %>%
-            print()
-    }
-)
 
 #' tidy for SingleCellExperiment
 #'
@@ -25,7 +10,7 @@ setMethod(
 #'
 #' @examples
 #'
-#' tidySingleCellExperiment::pbmc_small %>% tidy()
+#' tidySingleCellExperiment::pbmc_small 
 #' @export
 tidy <- function(object) {
     UseMethod("tidy", object)
@@ -38,12 +23,33 @@ tidy <- function(object) {
 #' @export
 tidy.SingleCellExperiment <- function(object) {
 
-    # Check if data has colnames
-    if(length(colnames(object)) == 0)
-        warning("tidySingleCellExperiment says: your counts do not have colnames. This will cause the problem for downstream manipulation. Please make sure you import counts with column names. For example using read10xCounts(col.names = TRUE)")
+    # DEPRECATE
+    deprecate_warn(
+        when = "1.1.1",
+        what = "tidy()",
+        details = "tidySingleCellExperiment says: tidy() is not needed anymore."
+    )
 
-    as(object, "tidySingleCellExperiment")
+    object
 }
+
+setMethod(
+    f = "show",
+    signature = "SingleCellExperiment",
+    definition = function(object) {
+        if (isTRUE(x = getOption(x = "restore_SingleCellExperiment_show", default = FALSE))) {
+            f <- getMethod(
+                f = "show",
+                signature = "SingleCellExperiment",
+                where = asNamespace(ns = "SingleCellExperiment")
+            )
+            f(object = object)
+        } else {
+            object %>%
+                print()
+        }
+    }
+)
 
 #' Add differential transcription information to a tbl using edgeR.
 #'
@@ -72,7 +78,7 @@ tidy.SingleCellExperiment <- function(object) {
 #' @examples
 #'
 #' tidySingleCellExperiment::pbmc_small %>%
-#'     tidy() %>%
+#'     
 #'     join_transcripts(transcripts=c("HLA-DRA", "LYZ"))
 #' @export
 #'
@@ -95,7 +101,7 @@ join_transcripts.default <-
 #' @importFrom tidyselect contains
 #' @importFrom tidyselect everything
 #' @export
-join_transcripts.tidySingleCellExperiment <-
+join_transcripts.SingleCellExperiment <-
     function(.data,
              transcripts = NULL,
              all = FALSE,

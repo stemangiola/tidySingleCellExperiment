@@ -93,7 +93,7 @@ Create `tidySingleCellExperiment`, the best of both worlds!
 This is a *SingleCellExperiment* object but it is evaluated as a tibble.
 So it is compatible both with SingleCellExperiment and tidyverse.
 
-    pbmc_small_tidy <- tidySingleCellExperiment::pbmc_small %>% tidy()
+    pbmc_small_tidy <- tidySingleCellExperiment::pbmc_small 
 
 **It looks like a tibble**
 

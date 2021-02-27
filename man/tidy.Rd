@@ -17,5 +17,5 @@ tidy for SingleCellExperiment
 }
 \examples{
 
-tidySingleCellExperiment::pbmc_small \%>\% tidy()
+tidySingleCellExperiment::pbmc_small 
 }

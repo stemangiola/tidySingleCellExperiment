@@ -1,6 +1,7 @@
 #' unnest
 #'
 #' @importFrom tidyr unnest
+#' @importFrom purrr when
 #'
 #' @param .data A tbl. (See tidyr)
 #' @param cols <[`tidy-select`][tidyr_tidy_select]> Columns to unnest.
@@ -43,7 +44,7 @@
 #'
 #' library(dplyr)
 #' pbmc_small %>%
-#'     tidy() %>%
+#'
 #'     nest(data=-groups) %>%
 #'     unnest(data)
 #' @rdname tidyr-methods
@@ -72,7 +73,7 @@ unnest.tidySingleCellExperiment_nested <- function(data, cols, ..., keep_empty=F
                 .[[1]] %>%
                 class() %>%
                 as.character() %>%
-                eq("tidySingleCellExperiment") %>%
+                eq("SingleCellExperiment") %>%
                 any() ~
 
             # Do my trick to unnest
@@ -110,7 +111,7 @@ unnest.tidySingleCellExperiment_nested <- function(data, cols, ..., keep_empty=F
 #'
 #' library(dplyr)
 #' pbmc_small %>%
-#'     tidy() %>%
+#'
 #'     nest(data=-groups) %>%
 #'     unnest(data)
 #' @rdname tidyr-methods
@@ -123,7 +124,7 @@ NULL
 #' @importFrom rlang :=
 #'
 #' @export
-nest.tidySingleCellExperiment <- function(.data, ..., .names_sep = NULL) {
+nest.SingleCellExperiment <- function(.data, ..., .names_sep = NULL) {
     my_data__ <- .data
     cols <- enquos(...)
     col_name_data <- names(cols)
@@ -182,7 +183,7 @@ nest.tidySingleCellExperiment <- function(.data, ..., .names_sep = NULL) {
 #' @examples
 #'
 #' pbmc_small %>%
-#'     tidy() %>%
+#'
 #'     extract(groups, into="g", regex="g([0-9])", convert=TRUE)
 #' @return A tidySingleCellExperiment objector a tibble depending on input
 #'
@@ -196,7 +197,7 @@ NULL
 
 #' @importFrom SingleCellExperiment colData
 #' @export
-extract.tidySingleCellExperiment <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE,
+extract.SingleCellExperiment <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE,
     convert=FALSE, ...) {
     col <- enquo(col)
 
@@ -298,12 +299,12 @@ extract.tidySingleCellExperiment <- function(data, col, into, regex="([[:alnum:]
 #'
 #' library(dplyr)
 #' pbmc_small %>%
-#'     tidy() %>%
+#'
 #'     pivot_longer(c(orig.ident, groups), names_to="name", values_to="value")
 NULL
 
 #' @export
-pivot_longer.tidySingleCellExperiment <- function(data,
+pivot_longer.SingleCellExperiment <- function(data,
     cols,
     names_to="name",
     names_prefix=NULL,
@@ -371,13 +372,13 @@ pivot_longer.tidySingleCellExperiment <- function(data,
 #' @examples
 #'
 #' pbmc_small %>%
-#'     tidy() %>%
+#'
 #'     unite("new_col", c(orig.ident, groups))
 NULL
 
 #' @importFrom SingleCellExperiment colData
 #' @export
-unite.tidySingleCellExperiment <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
+unite.SingleCellExperiment <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
 
     # Check that we are not modifying a key column
     cols <- enquo(col)
@@ -456,14 +457,14 @@ unite.tidySingleCellExperiment <- function(data, col, ..., sep="_", remove=TRUE,
 #' @examples
 #'
 #' un <- pbmc_small %>%
-#'     tidy() %>%
+#'
 #'     unite("new_col", c(orig.ident, groups))
 #' un %>% separate(col=new_col, into=c("orig.ident", "groups"))
 NULL
 
 #' @importFrom SingleCellExperiment colData
 #' @export
-separate.tidySingleCellExperiment <- function(data, col, into, sep="[^[:alnum:]]+", remove=TRUE,
+separate.SingleCellExperiment <- function(data, col, into, sep="[^[:alnum:]]+", remove=TRUE,
     convert=FALSE, extra="warn", fill="warn", ...) {
 
     # Check that we are not modifying a key column
