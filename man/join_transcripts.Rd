@@ -27,21 +27,21 @@ join_transcripts(
 \item{...}{Parameters to pass to join wide, i.e. assay name to extract transcript abundance from}
 }
 \value{
-A `tbl` containing the information.for the specified transcripts
+A \code{tbl} containing the information.for the specified transcripts
 }
 \description{
 join_transcripts() extracts and joins information for specific
-  transcripts
+transcripts
 }
 \details{
 \lifecycle{experimental}
 
 This function extracts information for specified transcripts and
-  returns the information in either long or wide format.
+returns the information in either long or wide format.
 }
 \examples{
 
 tidySingleCellExperiment::pbmc_small \%>\%
-    
+
     join_transcripts(transcripts=c("HLA-DRA", "LYZ"))
 }

@@ -1,5 +1,5 @@
 #' @importFrom tibble as_tibble
-#' @importFrom SingleCellExperiment colData
+#' @importFrom SummarizedExperiment colData
 #'
 #' @keywords internal
 #'

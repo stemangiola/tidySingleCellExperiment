@@ -61,6 +61,7 @@ NULL
 
 #' @rdname print
 #' @importFrom cli cat_line
+#' @importFrom SingleCellExperiment counts
 #' @export
 print.SingleCellExperiment <- function(x, ..., n = NULL, width = NULL, n_extra = NULL) {
 

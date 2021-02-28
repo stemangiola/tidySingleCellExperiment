@@ -5,12 +5,12 @@
 \alias{cell_type_df}
 \title{Cell types of 80 PBMC single cells}
 \format{
-A tibble containing 80 rows and 2 columns. Cells are a subsample of 
-         the Peripheral Blood Mononuclear Cells (PBMC) dataset of 2,700 single 
-         cell. Cell types were identified with SingleR.
+A tibble containing 80 rows and 2 columns. Cells are a subsample of
+the Peripheral Blood Mononuclear Cells (PBMC) dataset of 2,700 single
+cell. Cell types were identified with SingleR.
 \describe{
-  \item{cell}{cell identifier, barcode}
-  \item{first.labels}{cell type}
+\item{cell}{cell identifier, barcode}
+\item{first.labels}{cell type}
 }
 }
 \source{

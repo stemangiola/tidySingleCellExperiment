@@ -57,7 +57,7 @@
 #' @export
 #' @examples
 #' pbmc_small %>%
-#'     
+#'
 #'     as_tibble()
 NULL
 
@@ -66,7 +66,7 @@ NULL
 #' @importFrom purrr map
 #' @importFrom tidyr spread
 #' @importFrom tibble enframe
-#' @importFrom SingleCellExperiment colData
+#' @importFrom SummarizedExperiment colData
 #'
 #'
 as_tibble.SingleCellExperiment <- function(x, ...,

@@ -31,12 +31,12 @@ bind_cols(..., .id = NULL)
 
 \item{.id}{Data frame identifier.
 
-  When `.id` is supplied, a new column of identifiers is
-  created to link each row to its original data frame. The labels
-  are taken from the named arguments to `bind_rows()`. When a
-  list of data frames is supplied, the labels are taken from the
-  names of the list. If no names are found a numeric sequence is
-  used instead.}
+When \code{.id} is supplied, a new column of identifiers is
+created to link each row to its original data frame. The labels
+are taken from the named arguments to \code{bind_rows()}. When a
+list of data frames is supplied, the labels are taken from the
+names of the list. If no names are found a numeric sequence is
+used instead.}
 
 \item{add.cell.ids}{from SingleCellExperiment 3.0 A character vector of
 length(x=c(x, y)). Appends the corresponding values to the start of each
@@ -48,19 +48,19 @@ grouped data frames only.}
 \item{.keep_all}{If TRUE, keep all variables in .data. If a combination
 of ... is not distinct, this keeps the first row of values. (See dplyr)}
 
-\item{.preserve}{when `FALSE` (the default), the grouping structure
+\item{.preserve}{when \code{FALSE} (the default), the grouping structure
 is recalculated based on the resulting data, otherwise it is kept as is.}
 
-\item{.add}{When `FALSE`, the default, `group_by()` will
-  override existing groups. To add to the existing groups, use
-  `.add=TRUE`.
+\item{.add}{When \code{FALSE}, the default, \code{group_by()} will
+override existing groups. To add to the existing groups, use
+\code{.add=TRUE}.
 
-  This argument was previously called `add`, but that prevented
-  creating a new grouping variable called `add`, and conflicts with
-  our naming conventions.}
+This argument was previously called \code{add}, but that prevented
+creating a new grouping variable called \code{add}, and conflicts with
+our naming conventions.}
 
-\item{.drop}{When `.drop=TRUE`, empty groups are dropped. See
-[group_by_drop_default()] for what the default value is for this argument.}
+\item{.drop}{When \code{.drop=TRUE}, empty groups are dropped. See
+\code{\link[=group_by_drop_default]{group_by_drop_default()}} for what the default value is for this argument.}
 
 \item{.data}{Input data frame.}
 
@@ -79,14 +79,14 @@ character vector of length 2. (See dplyr)}
 
 \item{tbl}{A data.frame.}
 
-\item{size}{<[`tidy-select`][dplyr_tidy_select]>
-For `sample_n()`, the number of rows to select.
-For `sample_frac()`, the fraction of rows to select.
-If `tbl` is grouped, `size` applies to each group.}
+\item{size}{<\code{\link[=dplyr_tidy_select]{tidy-select}}>
+For \code{sample_n()}, the number of rows to select.
+For \code{sample_frac()}, the fraction of rows to select.
+If \code{tbl} is grouped, \code{size} applies to each group.}
 
 \item{replace}{Sample with or without replacement?}
 
-\item{weight}{<[`tidy-select`][dplyr_tidy_select]> Sampling weights.
+\item{weight}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Sampling weights.
 This must evaluate to a vector of non-negative numbers the same length as
 the input. Weights are automatically standardised to sum to 1.}
 
@@ -96,267 +96,279 @@ the input. Weights are automatically standardised to sum to 1.}
 as names for a named vector. Specified in a similar manner as \code{var}.}
 }
 \value{
-An object of the same type as `.data`.
-
-* All rows appear in the output, but (usually) in a different place.
-* Columns are not modified.
-* Groups are not modified.
-* Data frame attributes are preserved.
-
-A tidySingleCellExperiment object
-
-An object of the same type as `.data`.
-
-* Rows are a subset of the input, but appear in the same order.
-* Columns are not modified.
-* The number of groups may be reduced (if `.preserve` is not `TRUE`).
-* Data frame attributes are preserved.
-
-A [grouped data frame][grouped_df()], unless the combination of
-  `...` and `add` yields a non empty set of grouping columns, a
-  regular (ungrouped) data frame otherwise.
-
-An object _usually_ of the same type as `.data`.
-
-* The rows come from the underlying `group_keys()`.
-* The columns are a combination of the grouping keys and the summary
-  expressions that you provide.
-* If `x` is grouped by more than one variable, the output will be another
-  [grouped_df] with the right-most group removed.
-* If `x` is grouped by one variable, or is not grouped, the output will
-  be a [tibble].
-* Data frame attributes are **not** preserved, because `summarise()`
-  fundamentally creates a new data frame.
-
-An object of the same type as `.data`.
-
-For `mutate()`:
-
-* Rows are not affected.
-* Existing columns will be preserved unless explicitly modified.
-* New columns will be added to the right of existing columns.
-* Columns given value `NULL` will be removed
-* Groups will be recomputed if a grouping variable is mutated.
-* Data frame attributes are preserved.
-
-For `transmute()`:
-
-* Rows are not affected.
-* Apart from grouping variables, existing columns will be remove unless
-  explicitly kept.
-* Column order matches order of expressions.
-* Groups will be recomputed if a grouping variable is mutated.
-* Data frame attributes are preserved.
-
-An object of the same type as `.data`.
-* Rows are not affected.
-* Column names are changed; column order is preserved
-* Data frame attributes are preserved.
-* Groups are updated to reflect new names.
-
-A `tbl`
-
-  A `tbl`
+An object of the same type as \code{.data}.
+\itemize{
+\item All rows appear in the output, but (usually) in a different place.
+\item Columns are not modified.
+\item Groups are not modified.
+\item Data frame attributes are preserved.
+}
 
 A tidySingleCellExperiment object
 
-A tidySingleCellExperiment object
+An object of the same type as \code{.data}.
+\itemize{
+\item Rows are a subset of the input, but appear in the same order.
+\item Columns are not modified.
+\item The number of groups may be reduced (if \code{.preserve} is not \code{TRUE}).
+\item Data frame attributes are preserved.
+}
+
+A \link[=grouped_df]{grouped data frame}, unless the combination of
+\code{...} and \code{add} yields a non empty set of grouping columns, a
+regular (ungrouped) data frame otherwise.
+
+An object \emph{usually} of the same type as \code{.data}.
+\itemize{
+\item The rows come from the underlying \code{group_keys()}.
+\item The columns are a combination of the grouping keys and the summary
+expressions that you provide.
+\item If \code{x} is grouped by more than one variable, the output will be another
+\link{grouped_df} with the right-most group removed.
+\item If \code{x} is grouped by one variable, or is not grouped, the output will
+be a \link{tibble}.
+\item Data frame attributes are \strong{not} preserved, because \code{summarise()}
+fundamentally creates a new data frame.
+}
+
+An object of the same type as \code{.data}.
+
+For \code{mutate()}:
+\itemize{
+\item Rows are not affected.
+\item Existing columns will be preserved unless explicitly modified.
+\item New columns will be added to the right of existing columns.
+\item Columns given value \code{NULL} will be removed
+\item Groups will be recomputed if a grouping variable is mutated.
+\item Data frame attributes are preserved.
+}
+
+For \code{transmute()}:
+\itemize{
+\item Rows are not affected.
+\item Apart from grouping variables, existing columns will be remove unless
+explicitly kept.
+\item Column order matches order of expressions.
+\item Groups will be recomputed if a grouping variable is mutated.
+\item Data frame attributes are preserved.
+}
+
+An object of the same type as \code{.data}.
+\itemize{
+\item Rows are not affected.
+\item Column names are changed; column order is preserved
+\item Data frame attributes are preserved.
+\item Groups are updated to reflect new names.
+}
+
+A \code{tbl}
+
+A \code{tbl}
 
 A tidySingleCellExperiment object
 
 A tidySingleCellExperiment object
 
-An object of the same type as `.data`. The output has the following
+A tidySingleCellExperiment object
+
+A tidySingleCellExperiment object
+
+An object of the same type as \code{.data}. The output has the following
 properties:
+\itemize{
+\item Each row may appear 0, 1, or many times in the output.
+\item Columns are not modified.
+\item Groups are not modified.
+\item Data frame attributes are preserved.
+}
 
-* Each row may appear 0, 1, or many times in the output.
-* Columns are not modified.
-* Groups are not modified.
-* Data frame attributes are preserved.
-
-An object of the same type as `.data`. The output has the following
+An object of the same type as \code{.data}. The output has the following
 properties:
-
-* Rows are not affected.
-* Output columns are a subset of input columns, potentially with a different
-  order. Columns will be renamed if `new_name=old_name` form is used.
-* Data frame attributes are preserved.
-* Groups are maintained; you can't select off grouping variables.
+\itemize{
+\item Rows are not affected.
+\item Output columns are a subset of input columns, potentially with a different
+order. Columns will be renamed if \code{new_name=old_name} form is used.
+\item Data frame attributes are preserved.
+\item Groups are maintained; you can't select off grouping variables.
+}
 
 A tidySingleCellExperiment object
 
-A vector the same size as `.data`.
+A vector the same size as \code{.data}.
 }
 \description{
-`arrange()` order the rows of a data frame rows by the values of selected
+\code{arrange()} order the rows of a data frame rows by the values of selected
 columns.
 
-Unlike other dplyr verbs, `arrange()` largely ignores grouping; you
-need to explicit mention grouping variables (or use  `by_group=TRUE`)
+Unlike other dplyr verbs, \code{arrange()} largely ignores grouping; you
+need to explicit mention grouping variables (or use  \code{by_group=TRUE})
 in order to group by them, and functions of variables are evaluated
 once per data frame, not once per group.
 
-`filter()` retains the rows where the conditions you provide a `TRUE`. Note
-that, unlike base subsetting with `[`, rows where the condition evaluates
-to `NA` are dropped.
+\code{filter()} retains the rows where the conditions you provide a \code{TRUE}. Note
+that, unlike base subsetting with \code{[}, rows where the condition evaluates
+to \code{NA} are dropped.
 
 Most data operations are done on groups defined by variables.
-`group_by()` takes an existing tbl and converts it into a grouped tbl
-where operations are performed "by group". `ungroup()` removes grouping.
+\code{group_by()} takes an existing tbl and converts it into a grouped tbl
+where operations are performed "by group". \code{ungroup()} removes grouping.
 
-`summarise()` creates a new data frame. It will have one (or more) rows for
+\code{summarise()} creates a new data frame. It will have one (or more) rows for
 each combination of grouping variables; if there are no grouping variables,
 the output will have a single row summarising all observations in the input.
 It will contain one column for each grouping variable and one column
 for each of the summary statistics that you have specified.
 
-`summarise()` and `summarize()` are synonyms.
+\code{summarise()} and \code{summarize()} are synonyms.
 
-`mutate()` adds new variables and preserves existing ones;
-`transmute()` adds new variables and drops existing ones.
+\code{mutate()} adds new variables and preserves existing ones;
+\code{transmute()} adds new variables and drops existing ones.
 New variables overwrite existing variables of the same name.
-Variables can be removed by setting their value to `NULL`.
+Variables can be removed by setting their value to \code{NULL}.
 
-Rename individual variables using `new_name=old_name` syntax.
+Rename individual variables using \code{new_name=old_name} syntax.
 
-See [this repository](https://github.com/jennybc/row-oriented-workflows)
+See \href{https://github.com/jennybc/row-oriented-workflows}{this repository}
 for alternative ways to perform row-wise operations.
 
-`slice()` lets you index rows by their (integer) locations. It allows you
+\code{slice()} lets you index rows by their (integer) locations. It allows you
 to select, remove, and duplicate rows. It is accompanied by a number of
 helpers for common use cases:
+\itemize{
+\item \code{slice_head()} and \code{slice_tail()} select the first or last rows.
+\item \code{slice_sample()} randomly selects rows.
+\item \code{slice_min()} and \code{slice_max()} select rows with highest or lowest values
+of a variable.
+}
 
-* `slice_head()` and `slice_tail()` select the first or last rows.
-* `slice_sample()` randomly selects rows.
-* `slice_min()` and `slice_max()` select rows with highest or lowest values
-  of a variable.
-
-If `.data` is a [grouped_df], the operation will be performed on each group,
-so that (e.g.) `slice_head(df, n=5)` will select the first five rows in
+If \code{.data} is a \link{grouped_df}, the operation will be performed on each group,
+so that (e.g.) \code{slice_head(df, n=5)} will select the first five rows in
 each group.
 
 Select (and optionally rename) variables in a data frame, using a concise
 mini-language that makes it easy to refer to variables based on their name
-(e.g. `a:f` selects all columns from `a` on the left to `f` on the
-right). You can also use predicate functions like [is.numeric] to select
+(e.g. \code{a:f} selects all columns from \code{a} on the left to \code{f} on the
+right). You can also use predicate functions like \link{is.numeric} to select
 variables based on their properties.
 
-
-## Overview of selection features
-
-```{r, child="man/rmd/overview.Rmd"}
-```
-
 \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
-`sample_n()` and `sample_frac()` have been superseded in favour of
-[slice_sample()]. While they will not be deprecated in the near future,
+\code{sample_n()} and \code{sample_frac()} have been superseded in favour of
+\code{\link[=slice_sample]{slice_sample()}}. While they will not be deprecated in the near future,
 retirement means that we will only perform critical bug fixes, so we recommend
 moving to the newer alternative.
 
 These functions were superseded because we realised it was more convenient to
 have two mutually exclusive arguments to one function, rather than two
 separate functions. This also made it to clean up a few other smaller
-design issues with `sample_n()`/`sample_frac`:
+design issues with \code{sample_n()}/\code{sample_frac}:
+\itemize{
+\item The connection to \code{slice()} was not obvious.
+\item The name of the first argument, \code{tbl}, is inconsistent with other
+single table verbs which use \code{.data}.
+\item The \code{size} argument uses tidy evaluation, which is surprising and
+undocumented.
+\item It was easier to remove the deprecated \code{.env} argument.
+\item \code{...} was in a suboptimal position.
+}
 
-* The connection to `slice()` was not obvious.
-* The name of the first argument, `tbl`, is inconsistent with other
-  single table verbs which use `.data`.
-* The `size` argument uses tidy evaluation, which is surprising and
-  undocumented.
-* It was easier to remove the deprecated `.env` argument.
-* `...` was in a suboptimal position.
-
-`pull()` is similar to `$`. It's mostly useful because it looks a little
+\code{pull()} is similar to \code{$}. It's mostly useful because it looks a little
 nicer in pipes, it also works with remote data frames, and it can optionally
 name the output.
 }
 \details{
-## Locales
-The sort order for character vectors will depend on the collating sequence
-of the locale in use: see [locales()].
+\subsection{Locales}{
 
-## Missing values
-Unlike base sorting with `sort()`, `NA` are:
-* always sorted to the end for local data, even when wrapped with `desc()`.
-* treated differently for remote data, depending on the backend.
+The sort order for character vectors will depend on the collating sequence
+of the locale in use: see \code{\link[=locales]{locales()}}.
+}
+
+\subsection{Missing values}{
+
+Unlike base sorting with \code{sort()}, \code{NA} are:
+\itemize{
+\item always sorted to the end for local data, even when wrapped with \code{desc()}.
+\item treated differently for remote data, depending on the backend.
+}
+}
 
 dplyr is not yet smart enough to optimise filtering optimisation
 on grouped datasets that don't need grouped calculations. For this reason,
-filtering is often considerably faster on [ungroup()]ed data.
+filtering is often considerably faster on \code{\link[=ungroup]{ungroup()}}ed data.
 
-`rowwise()` is used for the results of [do()] when you
+\code{rowwise()} is used for the results of \code{\link[=do]{do()}} when you
 create list-variables. It is also useful to support arbitrary
 complex operations that need to be applied to each row.
 
 Currently, rowwise grouping only works with data frames. Its
 main impact is to allow you to work with list-variables in
-[summarise()] and [mutate()] without having to
-use \code{[[1]]}. This makes `summarise()` on a rowwise tbl
-effectively equivalent to [plyr::ldply()].
+\code{\link[=summarise]{summarise()}} and \code{\link[=mutate]{mutate()}} without having to
+use \code{[[1]]}. This makes \code{summarise()} on a rowwise tbl
+effectively equivalent to \code{\link[plyr:ldply]{plyr::ldply()}}.
 
 Slice does not work with relational databases because they have no
 intrinsic notion of row order. If you want to perform the equivalent
-operation, use [filter()] and [row_number()].
+operation, use \code{\link[=filter]{filter()}} and \code{\link[=row_number]{row_number()}}.
 }
 \section{Methods}{
 
-This function is a **generic**, which means that packages can provide
+This function is a \strong{generic}, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
 
 The following methods are currently available in loaded packages:
 
 
-This function is a **generic**, which means that packages can provide
+This function is a \strong{generic}, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
 
 The following methods are currently available in loaded packages:
 
 
-These function are **generic**s, which means that packages can provide
+These function are \strong{generic}s, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
 
 Methods available in currently loaded packages:
 
 
-This function is a **generic**, which means that packages can provide
+This function is a \strong{generic}, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
 
 The following methods are currently available in loaded packages:
 
 
-These function are **generic**s, which means that packages can provide
+These function are \strong{generic}s, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
 
 Methods available in currently loaded packages:
 
 
-This function is a **generic**, which means that packages can provide
+This function is a \strong{generic}, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
 
 The following methods are currently available in loaded packages:
 
 
-These function are **generic**s, which means that packages can provide
+These function are \strong{generic}s, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
 
 Methods available in currently loaded packages:
+\itemize{
+\item \code{slice()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice")}.
+\item \code{slice_head()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_head")}.
+\item \code{slice_tail()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_tail")}.
+\item \code{slice_min()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_min")}.
+\item \code{slice_max()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_max")}.
+\item \code{slice_sample()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_sample")}.
+}
 
-* `slice()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice")}.
-* `slice_head()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_head")}.
-* `slice_tail()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_tail")}.
-* `slice_min()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_min")}.
-* `slice_max()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_max")}.
-* `slice_sample()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_sample")}.
 
-
-This function is a **generic**, which means that packages can provide
+This function is a \strong{generic}, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
 
@@ -364,7 +376,7 @@ The following methods are currently available in loaded packages:
 \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("select")}.
 
 
-This function is a **generic**, which means that packages can provide
+This function is a \strong{generic}, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
 
@@ -374,11 +386,12 @@ The following methods are currently available in loaded packages:
 
 \section{Useful filter functions}{
 
-
-* [`==`], [`>`], [`>=`] etc
-* [`&`], [`|`], [`!`], [xor()]
-* [is.na()]
-* [between()], [near()]
+\itemize{
+\item \code{\link{==}}, \code{\link{>}}, \code{\link{>=}} etc
+\item \code{\link{&}}, \code{\link{|}}, \code{\link{!}}, \code{\link[=xor]{xor()}}
+\item \code{\link[=is.na]{is.na()}}
+\item \code{\link[=between]{between()}}, \code{\link[=near]{near()}}
+}
 }
 
 \section{Grouped tibbles}{
@@ -389,9 +402,8 @@ yield different results on grouped tibbles. This will be the case
 as soon as an aggregating, lagging, or ranking function is
 involved. Compare this ungrouped filtering:
 
-
-The former keeps rows with `mass` greater than the global average
-whereas the latter keeps rows with `mass` greater than the gender
+The former keeps rows with \code{mass} greater than the global average
+whereas the latter keeps rows with \code{mass} greater than the gender
 
 average.
 
@@ -404,19 +416,20 @@ involved. Compare this ungrouped mutate:
 
 With the grouped equivalent:
 
-The former normalises `mass` by the global average whereas the
+The former normalises \code{mass} by the global average whereas the
 latter normalises by the averages within gender levels.
 }
 
 \section{Useful functions}{
 
-
-* Center: [mean()], [median()]
-* Spread: [sd()], [IQR()], [mad()]
-* Range: [min()], [max()], [quantile()]
-* Position: [first()], [last()], [nth()],
-* Count: [n()], [n_distinct()]
-* Logical: [any()], [all()]
+\itemize{
+\item Center: \code{\link[=mean]{mean()}}, \code{\link[=median]{median()}}
+\item Spread: \code{\link[=sd]{sd()}}, \code{\link[=IQR]{IQR()}}, \code{\link[=mad]{mad()}}
+\item Range: \code{\link[=min]{min()}}, \code{\link[=max]{max()}}, \code{\link[=quantile]{quantile()}}
+\item Position: \code{\link[=first]{first()}}, \code{\link[=last]{last()}}, \code{\link[=nth]{nth()}},
+\item Count: \code{\link[=n]{n()}}, \code{\link[=n_distinct]{n_distinct()}}
+\item Logical: \code{\link[=any]{any()}}, \code{\link[=all]{all()}}
+}
 }
 
 \section{Backend variations}{
@@ -424,7 +437,7 @@ latter normalises by the averages within gender levels.
 
 The data frame backend supports creating a variable and using it in the
 same summary. This means that previously created summary variables can be
-further transformed or combined within the summary, as in [mutate()].
+further transformed or combined within the summary, as in \code{\link[=mutate]{mutate()}}.
 However, it also means that summary variables with the same names as previous
 variables overwrite them, making those variables unavailable to later summary
 variables.
@@ -436,25 +449,21 @@ creating multiple summaries.
 
 \section{Useful mutate functions}{
 
-
-* [`+`], [`-`], [log()], etc., for their usual mathematical meanings
-
-* [lead()], [lag()]
-
-* [dense_rank()], [min_rank()], [percent_rank()], [row_number()],
-  [cume_dist()], [ntile()]
-
-* [cumsum()], [cummean()], [cummin()], [cummax()], [cumany()], [cumall()]
-
-* [na_if()], [coalesce()]
-
-* [if_else()], [recode()], [case_when()]
+\itemize{
+\item \code{\link{+}}, \code{\link{-}}, \code{\link[=log]{log()}}, etc., for their usual mathematical meanings
+\item \code{\link[=lead]{lead()}}, \code{\link[=lag]{lag()}}
+\item \code{\link[=dense_rank]{dense_rank()}}, \code{\link[=min_rank]{min_rank()}}, \code{\link[=percent_rank]{percent_rank()}}, \code{\link[=row_number]{row_number()}},
+\code{\link[=cume_dist]{cume_dist()}}, \code{\link[=ntile]{ntile()}}
+\item \code{\link[=cumsum]{cumsum()}}, \code{\link[=cummean]{cummean()}}, \code{\link[=cummin]{cummin()}}, \code{\link[=cummax]{cummax()}}, \code{\link[=cumany]{cumany()}}, \code{\link[=cumall]{cumall()}}
+\item \code{\link[=na_if]{na_if()}}, \code{\link[=coalesce]{coalesce()}}
+\item \code{\link[=if_else]{if_else()}}, \code{\link[=recode]{recode()}}, \code{\link[=case_when]{case_when()}}
+}
 }
 
 \section{Scoped selection and renaming}{
 
 
-Use the three scoped variants ([rename_all()], [rename_if()], [rename_at()])
+Use the three scoped variants (\code{\link[=rename_all]{rename_all()}}, \code{\link[=rename_if]{rename_if()}}, \code{\link[=rename_at]{rename_at()}})
 to renaming a set of variables with a function.
 }
 
@@ -543,7 +552,7 @@ pbmc_small \%>\%
     pull(groups)
 }
 \seealso{
-[filter_all()], [filter_if()] and [filter_at()].
+\code{\link[=filter_all]{filter_all()}}, \code{\link[=filter_if]{filter_if()}} and \code{\link[=filter_at]{filter_at()}}.
 }
 \concept{grouping functions}
 \concept{single table verbs}

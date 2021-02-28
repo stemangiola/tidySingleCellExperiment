@@ -149,7 +149,7 @@ bind_rows.SingleCellExperiment <- function(..., .id=NULL, add.cell.ids=NULL) {
 
 
 # Internal of bind_cols
-#' @importFrom SingleCellExperiment colData
+#' @importFrom SummarizedExperiment colData
 bind_cols_ = function(..., .id=NULL) {
     tts <- tts <- flatten_if(dots_values(...), is_spliced)
 
@@ -176,6 +176,7 @@ bind_cols.default <- function(..., .id=NULL) {
 #' @importFrom rlang dots_values
 #' @importFrom rlang flatten_if
 #' @importFrom rlang is_spliced
+#' @importFrom SummarizedExperiment colData
 #'
 #' @export
 #'
@@ -534,7 +535,7 @@ NULL
 
 #' @importFrom dplyr mutate
 #' @importFrom rlang enquos
-#' @importFrom SingleCellExperiment colData
+#' @importFrom SummarizedExperiment colData
 #'
 #' @export
 mutate.SingleCellExperiment <- function(.data, ...) {
@@ -617,7 +618,7 @@ mutate.SingleCellExperiment <- function(.data, ...) {
 NULL
 
 #' @importFrom tidyselect eval_select
-#' @importFrom SingleCellExperiment colData
+#' @importFrom SummarizedExperiment colData
 #' @export
 rename.SingleCellExperiment <- function(.data, ...) {
 
@@ -725,7 +726,7 @@ rowwise.SingleCellExperiment <- function(data, ...) {
 #' tt %>% left_join(tt %>% distinct(groups) %>% mutate(new_column=1:2))
 NULL
 
-#' @importFrom SingleCellExperiment colData
+#' @importFrom SummarizedExperiment colData
 #' @export
 left_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
@@ -777,7 +778,7 @@ left_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c("
 #' @export
 NULL
 
-#' @importFrom SingleCellExperiment colData
+#' @importFrom SummarizedExperiment colData
 #' @export
 inner_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), ...) {
     x %>%
@@ -832,7 +833,7 @@ inner_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(
 #' @export
 NULL
 
-#' @importFrom SingleCellExperiment colData
+#' @importFrom SummarizedExperiment colData
 #' @export
 right_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
@@ -988,7 +989,7 @@ full_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c("
 #'     slice(1)
 NULL
 
-#' @importFrom SingleCellExperiment colData
+#' @importFrom SummarizedExperiment colData
 #' @export
 slice.SingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
     new_meta <- dplyr::slice(colData(.data) %>% as.data.frame(), ..., .preserve=.preserve)
@@ -1011,10 +1012,6 @@ slice.SingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
 #' variables based on their properties.
 #'
 #'
-#' ## Overview of selection features
-#'
-#' ```{r, child="man/rmd/overview.Rmd"}
-#' ```
 #'
 #' @inheritParams arrange
 #' @param ... <[`tidy-select`][dplyr_tidy_select]> One or more unquoted
@@ -1053,7 +1050,7 @@ slice.SingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
 #' @export
 NULL
 
-#' @importFrom SingleCellExperiment colData
+#' @importFrom SummarizedExperiment colData
 #' @export
 select.SingleCellExperiment <- function(.data, ...) {
     .data %>%
@@ -1131,7 +1128,7 @@ select.SingleCellExperiment <- function(.data, ...) {
 #' @export
 NULL
 
-#' @importFrom SingleCellExperiment colData
+#' @importFrom SummarizedExperiment colData
 #' @export
 sample_n.SingleCellExperiment <- function(tbl, size, replace=FALSE,
     weight=NULL, .env=NULL, ...) {
@@ -1164,7 +1161,7 @@ sample_n.SingleCellExperiment <- function(tbl, size, replace=FALSE,
 #' @export
 NULL
 
-#' @importFrom SingleCellExperiment colData
+#' @importFrom SummarizedExperiment colData
 #' @export
 sample_frac.SingleCellExperiment <- function(tbl, size=1, replace=FALSE,
     weight=NULL, .env=NULL, ...) {

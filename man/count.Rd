@@ -47,39 +47,40 @@ add_count(
 \item{x}{A data frame, data frame extension (e.g. a tibble), or a
 lazy data frame (e.g. from dbplyr or dtplyr).}
 
-\item{...}{<[`data-masking`][dplyr_data_masking]> Variables to group by.}
+\item{...}{<\code{\link[=dplyr_data_masking]{data-masking}}> Variables to group by.}
 
-\item{wt}{<[`data-masking`][dplyr_data_masking]> Frequency weights.
-  Can be `NULL` or a variable:
+\item{wt}{<\code{\link[=dplyr_data_masking]{data-masking}}> Frequency weights.
+Can be \code{NULL} or a variable:
+\itemize{
+\item If \code{NULL} (the default), counts the number of rows in each group.
+\item If a variable, computes \code{sum(wt)} for each group.
+}}
 
-  * If `NULL` (the default), counts the number of rows in each group.
-  * If a variable, computes `sum(wt)` for each group.}
-
-\item{sort}{If `TRUE`, will show the largest groups at the top.}
+\item{sort}{If \code{TRUE}, will show the largest groups at the top.}
 
 \item{name}{The name of the new column in the output.
 
-  If omitted, it will default to `n`. If there's already a column called `n`,
-  it will error, and require you to specify the name.}
+If omitted, it will default to \code{n}. If there's already a column called \code{n},
+it will error, and require you to specify the name.}
 
-\item{.drop}{For `count()`: if `FALSE` will include counts for empty groups
+\item{.drop}{For \code{count()}: if \code{FALSE} will include counts for empty groups
 (i.e. for levels of factors that don't exist in the data). Deprecated in
-`add_count()` since it didn't actually affect the output.}
+\code{add_count()} since it didn't actually affect the output.}
 }
 \value{
-An object of the same type as `.data`. `count()` and `add_count()`
+An object of the same type as \code{.data}. \code{count()} and \code{add_count()}
 group transiently, so the output has the same groups as the input.
 }
 \description{
-`count()` lets you quickly count the unique values of one or more variables:
-`df %>% count(a, b)` is roughly equivalent to
-`df %>% group_by(a, b) %>% summarise(n=n())`.
-`count()` is paired with `tally()`, a lower-level helper that is equivalent
-to `df %>% summarise(n=n())`. Supply `wt` to perform weighted counts,
-switching the summary from `n=n()` to `n=sum(wt)`.
+\code{count()} lets you quickly count the unique values of one or more variables:
+\code{df \%>\% count(a, b)} is roughly equivalent to
+\code{df \%>\% group_by(a, b) \%>\% summarise(n=n())}.
+\code{count()} is paired with \code{tally()}, a lower-level helper that is equivalent
+to \code{df \%>\% summarise(n=n())}. Supply \code{wt} to perform weighted counts,
+switching the summary from \code{n=n()} to \code{n=sum(wt)}.
 
-`add_count()` are `add_tally()` are equivalents to `count()` and `tally()`
-but use `mutate()` instead of `summarise()` so that they add a new column
+\code{add_count()} are \code{add_tally()} are equivalents to \code{count()} and \code{tally()}
+but use \code{mutate()} instead of \code{summarise()} so that they add a new column
 with group-wise counts.
 }
 \examples{

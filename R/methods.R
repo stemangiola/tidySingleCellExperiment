@@ -10,13 +10,14 @@ setClass("tidySingleCellExperiment", contains = "SingleCellExperiment")
 #'
 #' @examples
 #'
-#' tidySingleCellExperiment::pbmc_small 
+#' tidySingleCellExperiment::pbmc_small
 #' @export
 tidy <- function(object) {
     UseMethod("tidy", object)
 }
 
 #' @importFrom methods as
+#' @importFrom lifecycle deprecate_warn
 #'
 #' @param object A SingleCellExperiment object
 #'
@@ -79,7 +80,7 @@ setMethod(
 #' @examples
 #'
 #' tidySingleCellExperiment::pbmc_small %>%
-#'     
+#'
 #'     join_transcripts(transcripts=c("HLA-DRA", "LYZ"))
 #' @export
 #'

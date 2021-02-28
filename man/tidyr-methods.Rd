@@ -9,15 +9,15 @@
 \alias{separate}
 \title{unnest}
 \arguments{
-\item{names_sep}{If `NULL`, the default, the names will be left
-  as is. In `nest()`, inner names will come from the former outer names;
-  in `unnest()`, the new outer names will come from the inner names.
+\item{names_sep}{If \code{NULL}, the default, the names will be left
+as is. In \code{nest()}, inner names will come from the former outer names;
+in \code{unnest()}, the new outer names will come from the inner names.
 
-  If a string, the inner and outer names will be used together. In `nest()`,
-  the names of the new outer columns will be formed by pasting together the
-  outer and the inner column names, separated by `names_sep`. In `unnest()`,
-  the new inner names will have the outer names (+ `names_sep`) automatically
-  stripped. This makes `names_sep` roughly symmetric between nesting and unnesting.}
+If a string, the inner and outer names will be used together. In \code{nest()},
+the names of the new outer columns will be formed by pasting together the
+outer and the inner column names, separated by \code{names_sep}. In \code{unnest()},
+the new inner names will have the outer names (+ \code{names_sep}) automatically
+stripped. This makes \code{names_sep} roughly symmetric between nesting and unnesting.}
 
 \item{keep_empty}{See tidyr::unnest}
 
@@ -34,122 +34,125 @@
 \item{.names_sep}{See ?tidyr::nest}
 
 \item{into}{Names of new variables to create as character vector.
-Use `NA` to omit the variable in the output.}
+Use \code{NA} to omit the variable in the output.}
 
 \item{regex}{a regular expression used to extract the desired values.
-There should be one group (defined by `()`) for each element of `into`.}
+There should be one group (defined by \verb{()}) for each element of \code{into}.}
 
-\item{convert}{If `TRUE`, will run [type.convert()] with
-  `as.is=TRUE` on new columns. This is useful if the component
-  columns are integer, numeric or logical.
+\item{convert}{If \code{TRUE}, will run \code{\link[=type.convert]{type.convert()}} with
+\code{as.is=TRUE} on new columns. This is useful if the component
+columns are integer, numeric or logical.
 
-  NB: this will cause string `"NA"`s to be converted to `NA`s.}
+NB: this will cause string \code{"NA"}s to be converted to \code{NA}s.}
 
-\item{cols}{<[`tidy-select`][tidyr_tidy_select]> Columns to pivot into
+\item{cols}{<\code{\link[=tidyr_tidy_select]{tidy-select}}> Columns to pivot into
 longer format.}
 
 \item{names_to}{A string specifying the name of the column to create
-  from the data stored in the column names of `data`.
+from the data stored in the column names of \code{data}.
 
-  Can be a character vector, creating multiple columns, if `names_sep`
-  or `names_pattern` is provided. In this case, there are two special
-  values you can take advantage of:
-
-  * `NA` will discard that component of the name.
-  * `.value` indicates that component of the name defines the name of the
-    column containing the cell values, overriding `values_to`.}
+Can be a character vector, creating multiple columns, if \code{names_sep}
+or \code{names_pattern} is provided. In this case, there are two special
+values you can take advantage of:
+\itemize{
+\item \code{NA} will discard that component of the name.
+\item \code{.value} indicates that component of the name defines the name of the
+column containing the cell values, overriding \code{values_to}.
+}}
 
 \item{names_prefix}{A regular expression used to remove matching text
 from the start of each variable name.}
 
-\item{names_sep, names_pattern}{If `names_to` contains multiple values,
-  these arguments control how the column name is broken up.
+\item{names_sep, names_pattern}{If \code{names_to} contains multiple values,
+these arguments control how the column name is broken up.
 
-  `names_sep` takes the same specification as [separate()], and can either
-  be a numeric vector (specifying positions to break on), or a single string
-  (specifying a regular expression to split on).
+\code{names_sep} takes the same specification as \code{\link[=separate]{separate()}}, and can either
+be a numeric vector (specifying positions to break on), or a single string
+(specifying a regular expression to split on).
 
-  `names_pattern` takes the same specification as [extract()], a regular
-  expression containing matching groups (`()`).
+\code{names_pattern} takes the same specification as \code{\link[=extract]{extract()}}, a regular
+expression containing matching groups (\verb{()}).
 
-  If these arguments do not give you enough control, use
-  `pivot_longer_spec()` to create a spec object and process manually as
-  needed.}
+If these arguments do not give you enough control, use
+\code{pivot_longer_spec()} to create a spec object and process manually as
+needed.}
 
 \item{names_repair}{What happens if the output has invalid column names?
-The default, `"check_unique"` is to error if the columns are duplicated.
-Use `"minimal"` to allow duplicates in the output, or `"unique"` to
-de-duplicated by adding numeric suffixes. See [vctrs::vec_as_names()]
+The default, \code{"check_unique"} is to error if the columns are duplicated.
+Use \code{"minimal"} to allow duplicates in the output, or \code{"unique"} to
+de-duplicated by adding numeric suffixes. See \code{\link[vctrs:vec_as_names]{vctrs::vec_as_names()}}
 for more options.}
 
 \item{values_to}{A string specifying the name of the column to create
-from the data stored in cell values. If `names_to` is a character
-containing the special `.value` sentinel, this value will be ignored,
+from the data stored in cell values. If \code{names_to} is a character
+containing the special \code{.value} sentinel, this value will be ignored,
 and the name of the value column will be derived from part of the
 existing column names.}
 
-\item{values_drop_na}{If `TRUE`, will drop rows that contain only `NA`s
-in the `value_to` column. This effectively converts explicit missing values
+\item{values_drop_na}{If \code{TRUE}, will drop rows that contain only \code{NA}s
+in the \code{value_to} column. This effectively converts explicit missing values
 to implicit missing values, and should generally be used only when missing
-values in `data` were created by its structure.}
+values in \code{data} were created by its structure.}
 
 \item{names_transform, values_transform}{A list of column name-function pairs.
 Use these arguments if you need to change the type of specific columns.
-For example, `names_transform=list(week=as.integer)` would convert
+For example, \code{names_transform=list(week=as.integer)} would convert
 a character week variable to an integer.}
 
 \item{names_ptypes, values_ptypes}{A list of column name-prototype pairs.
-  A prototype (or ptype for short) is a zero-length vector (like `integer()`
-  or `numeric()`) that defines the type, class, and attributes of a vector.
-  Use these arguments to confirm that the created columns are the types that
-  you expect.
+A prototype (or ptype for short) is a zero-length vector (like \code{integer()}
+or \code{numeric()}) that defines the type, class, and attributes of a vector.
+Use these arguments to confirm that the created columns are the types that
+you expect.
 
-  If not specified, the type of the columns generated from `names_to` will
-  be character, and the type of the variables generated from `values_to`
-  will be the common type of the input columns used to generate them.}
+If not specified, the type of the columns generated from \code{names_to} will
+be character, and the type of the variables generated from \code{values_to}
+will be the common type of the input columns used to generate them.}
 
 \item{data}{A data frame.}
 
 \item{col}{The name of the new column, as a string or symbol.
 
-  This argument is passed by expression and supports
-  [quasiquotation][rlang::quasiquotation] (you can unquote strings
-  and symbols). The name is captured from the expression with
-  [rlang::ensym()] (note that this kind of interface where
-  symbols do not represent actual objects is now discouraged in the
-  tidyverse; we support it here for backward compatibility).}
+This argument is passed by expression and supports
+\link[rlang:nse-force]{quasiquotation} (you can unquote strings
+and symbols). The name is captured from the expression with
+\code{\link[rlang:nse-defuse]{rlang::ensym()}} (note that this kind of interface where
+symbols do not represent actual objects is now discouraged in the
+tidyverse; we support it here for backward compatibility).}
 
-\item{...}{<[`tidy-select`][tidyr_tidy_select]> Columns to unite}
+\item{...}{<\code{\link[=tidyr_tidy_select]{tidy-select}}> Columns to unite}
 
-\item{na.rm}{If `TRUE`, missing values will be remove prior to uniting
+\item{na.rm}{If \code{TRUE}, missing values will be remove prior to uniting
 each value.}
 
-\item{remove}{If `TRUE`, remove input columns from output data frame.}
+\item{remove}{If \code{TRUE}, remove input columns from output data frame.}
 
 \item{sep}{Separator between columns.
 
-  If character, `sep` is interpreted as a regular expression. The default
-  value is a regular expression that matches any sequence of
-  non-alphanumeric values.
+If character, \code{sep} is interpreted as a regular expression. The default
+value is a regular expression that matches any sequence of
+non-alphanumeric values.
 
-  If numeric, `sep` is interpreted as character positions to split at. Positive
-  values start at 1 at the far-left of the string; negative value start at -1 at
-  the far-right of the string. The length of `sep` should be one less than
-  `into`.}
+If numeric, \code{sep} is interpreted as character positions to split at. Positive
+values start at 1 at the far-left of the string; negative value start at -1 at
+the far-right of the string. The length of \code{sep} should be one less than
+\code{into}.}
 
-\item{extra}{If `sep` is a character vector, this controls what
-  happens when there are too many pieces. There are three valid options:
+\item{extra}{If \code{sep} is a character vector, this controls what
+happens when there are too many pieces. There are three valid options:
+\itemize{
+\item "warn" (the default): emit a warning and drop extra values.
+\item "drop": drop any extra values without a warning.
+\item "merge": only splits at most \code{length(into)} times
+}}
 
-  * "warn" (the default): emit a warning and drop extra values.
-  * "drop": drop any extra values without a warning.
-  * "merge": only splits at most `length(into)` times}
-
-\item{fill}{If `sep` is a character vector, this controls what
-  happens when there are not enough pieces. There are three valid options:
-
-  * "warn" (the default): emit a warning and fill from the right
-  * "right": fill with missing values on the right
-  * "left": fill with missing values on the left}
+\item{fill}{If \code{sep} is a character vector, this controls what
+happens when there are not enough pieces. There are three valid options:
+\itemize{
+\item "warn" (the default): emit a warning and fill from the right
+\item "right": fill with missing values on the right
+\item "left": fill with missing values on the left
+}}
 }
 \value{
 A tidySingleCellExperiment objector a tibble depending on input
@@ -165,27 +168,27 @@ A tidySingleCellExperiment objector a tibble depending on input
 A tidySingleCellExperiment objector a tibble depending on input
 }
 \description{
-Given a regular expression with capturing groups, `extract()` turns
+Given a regular expression with capturing groups, \code{extract()} turns
 each group into a new column. If the groups don't match, or the input
 is NA, the output will be NA.
 
 \Sexpr[results=rd, stage=render]{lifecycle::badge("maturing")}
 
-`pivot_longer()` "lengthens" data, increasing the number of rows and
+\code{pivot_longer()} "lengthens" data, increasing the number of rows and
 decreasing the number of columns. The inverse transformation is
-[pivot_wider()]
+\code{\link[=pivot_wider]{pivot_wider()}}
 
-Learn more in `vignette("pivot")`.
+Learn more in \code{vignette("pivot")}.
 
 Convenience function to paste together multiple columns into one.
 
 Given either a regular expression or a vector of character positions,
-`separate()` turns a single character column into multiple columns.
+\code{separate()} turns a single character column into multiple columns.
 }
 \details{
-`pivot_longer()` is an updated approach to [gather()], designed to be both
+\code{pivot_longer()} is an updated approach to \code{\link[=gather]{gather()}}, designed to be both
 simpler to use and to handle more use cases. We recommend you use
-`pivot_longer()` for new code; `gather()` isn't going away but is no longer
+\code{pivot_longer()} for new code; \code{gather()} isn't going away but is no longer
 under active development.
 }
 \examples{
@@ -222,10 +225,10 @@ un <- pbmc_small \%>\%
 un \%>\% separate(col=new_col, into=c("orig.ident", "groups"))
 }
 \seealso{
-[separate()] to split up by a separator.
+\code{\link[=separate]{separate()}} to split up by a separator.
 
-[separate()], the complement.
+\code{\link[=separate]{separate()}}, the complement.
 
-[unite()], the complement, [extract()] which uses regular
-  expression capturing groups.
+\code{\link[=unite]{unite()}}, the complement, \code{\link[=extract]{extract()}} which uses regular
+expression capturing groups.
 }

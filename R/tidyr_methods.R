@@ -195,7 +195,7 @@ nest.SingleCellExperiment <- function(.data, ..., .names_sep = NULL) {
 #' @export
 NULL
 
-#' @importFrom SingleCellExperiment colData
+#' @importFrom SummarizedExperiment colData
 #' @export
 extract.SingleCellExperiment <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE,
     convert=FALSE, ...) {
@@ -376,7 +376,7 @@ pivot_longer.SingleCellExperiment <- function(data,
 #'     unite("new_col", c(orig.ident, groups))
 NULL
 
-#' @importFrom SingleCellExperiment colData
+#' @importFrom SummarizedExperiment colData
 #' @export
 unite.SingleCellExperiment <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
 
@@ -462,7 +462,7 @@ unite.SingleCellExperiment <- function(data, col, ..., sep="_", remove=TRUE, na.
 #' un %>% separate(col=new_col, into=c("orig.ident", "groups"))
 NULL
 
-#' @importFrom SingleCellExperiment colData
+#' @importFrom SummarizedExperiment colData
 #' @export
 separate.SingleCellExperiment <- function(data, col, into, sep="[^[:alnum:]]+", remove=TRUE,
     convert=FALSE, extra="warn", fill="warn", ...) {
