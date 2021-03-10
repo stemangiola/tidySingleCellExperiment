@@ -150,6 +150,8 @@ bind_rows.SingleCellExperiment <- function(..., .id=NULL, add.cell.ids=NULL) {
 
 # Internal of bind_cols
 #' @importFrom SummarizedExperiment colData
+#' @importFrom SummarizedExperiment colData<-
+#'
 bind_cols_ = function(..., .id=NULL) {
     tts <- tts <- flatten_if(dots_values(...), is_spliced)
 
@@ -177,6 +179,7 @@ bind_cols.default <- function(..., .id=NULL) {
 #' @importFrom rlang flatten_if
 #' @importFrom rlang is_spliced
 #' @importFrom SummarizedExperiment colData
+#' @importFrom SummarizedExperiment colData<-
 #'
 #' @export
 #'
@@ -536,6 +539,7 @@ NULL
 #' @importFrom dplyr mutate
 #' @importFrom rlang enquos
 #' @importFrom SummarizedExperiment colData
+#' @importFrom SummarizedExperiment colData<-
 #'
 #' @export
 mutate.SingleCellExperiment <- function(.data, ...) {
@@ -619,6 +623,7 @@ NULL
 
 #' @importFrom tidyselect eval_select
 #' @importFrom SummarizedExperiment colData
+#' @importFrom SummarizedExperiment colData<-
 #' @export
 rename.SingleCellExperiment <- function(.data, ...) {
 

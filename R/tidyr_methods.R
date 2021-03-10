@@ -3,7 +3,7 @@
 #' @importFrom tidyr unnest
 #' @importFrom purrr when
 #'
-#' @param .data A tbl. (See tidyr)
+#' @param data A tbl. (See tidyr)
 #' @param cols <[`tidy-select`][tidyr_tidy_select]> Columns to unnest.
 #'   If you `unnest()` multiple columns, parallel entries must be of
 #'   compatible sizes, i.e. they're either equal or length 1 (following the
@@ -47,6 +47,7 @@
 #'
 #'     nest(data=-groups) %>%
 #'     unnest(data)
+#'
 #' @rdname tidyr-methods
 #' @name unnest
 #'
@@ -196,6 +197,11 @@ nest.SingleCellExperiment <- function(.data, ..., .names_sep = NULL) {
 NULL
 
 #' @importFrom SummarizedExperiment colData
+#' @importFrom SummarizedExperiment colData<-
+#'
+#' @rdname extract-methods
+#' @name extract
+#'
 #' @export
 extract.SingleCellExperiment <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE,
     convert=FALSE, ...) {
@@ -290,7 +296,7 @@ extract.SingleCellExperiment <- function(data, col, into, regex="([[:alnum:]]+)"
 #'
 #' @return A tidySingleCellExperiment objector a tibble depending on input
 #'
-#' @rdname tidyr-methods
+#' @rdname pivot-methods
 #' @name pivot_longer
 #'
 #' @export
@@ -365,7 +371,7 @@ pivot_longer.SingleCellExperiment <- function(data,
 #'
 #' @return A tidySingleCellExperiment objector a tibble depending on input
 #'
-#' @rdname tidyr-methods
+#' @rdname unite-methods
 #' @name unite
 #'
 #' @export
@@ -377,6 +383,7 @@ pivot_longer.SingleCellExperiment <- function(data,
 NULL
 
 #' @importFrom SummarizedExperiment colData
+#' @importFrom SummarizedExperiment colData<-
 #' @export
 unite.SingleCellExperiment <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
 
@@ -450,7 +457,7 @@ unite.SingleCellExperiment <- function(data, col, ..., sep="_", remove=TRUE, na.
 #'
 #' @return A tidySingleCellExperiment objector a tibble depending on input
 #'
-#' @rdname tidyr-methods
+#' @rdname unite-methods
 #' @name separate
 #'
 #' @export
@@ -463,6 +470,8 @@ unite.SingleCellExperiment <- function(data, col, ..., sep="_", remove=TRUE, na.
 NULL
 
 #' @importFrom SummarizedExperiment colData
+#' @importFrom SummarizedExperiment colData<-
+#'
 #' @export
 separate.SingleCellExperiment <- function(data, col, into, sep="[^[:alnum:]]+", remove=TRUE,
     convert=FALSE, extra="warn", fill="warn", ...) {
