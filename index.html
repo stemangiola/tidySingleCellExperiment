@@ -131,7 +131,7 @@
 </tr>
 <tr class="even">
 <td><code>tidyr</code></td>
-<td>All <code>tidyr</code> tibble functions (e.g. <code><a href="reference/unnest.html">tidySingleCellExperiment::pivot_longer</a></code>)</td>
+<td>All <code>tidyr</code> tibble functions (e.g. <code><a href="reference/pivot_longer.html">tidySingleCellExperiment::pivot_longer</a></code>)</td>
 </tr>
 <tr class="odd">
 <td><code>ggplot2</code></td>
@@ -202,7 +202,7 @@
 <h1 class="hasAnchor">
 <a href="#create-tidysinglecellexperiment-the-best-of-both-worlds" class="anchor"></a>Create <code>tidySingleCellExperiment</code>, the best of both worlds!</h1>
 <p>This is a <em>SingleCellExperiment</em> object but it is evaluated as a tibble. So it is compatible both with SingleCellExperiment and tidyverse.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>pbmc_small_tidy &lt;-<span class="st"> </span>tidySingleCellExperiment<span class="op">::</span>pbmc_small <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tidy</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>pbmc_small_tidy &lt;-<span class="st"> </span>tidySingleCellExperiment<span class="op">::</span>pbmc_small </span></code></pre></div>
 <p><strong>It looks like a tibble</strong></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>pbmc_small_tidy</span>
 <span id="cb5-2"><a href="#cb5-2"></a></span>

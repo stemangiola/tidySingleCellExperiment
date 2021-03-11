@@ -40,23 +40,25 @@
 
 
 <meta property="og:title" content="Coerce lists, matrices, and more to data frames — as_tibble" />
-<meta property="og:description" content="`r lifecycle::badge(&quot;maturing&quot;)`
-`as_tibble()` turns an existing object, such as a data frame or
-matrix, into a so-called tibble, a data frame with class [`tbl_df`]. This is
-in contrast with [tibble()], which builds a tibble from individual columns.
-`as_tibble()` is to [`tibble()`] as [base::as.data.frame()] is to
-[base::data.frame()].
-`as_tibble()` is an S3 generic, with methods for:
-* [`data.frame`][base::data.frame()]: Thin wrapper around the `list` method
-  that implements tibble's treatment of [rownames].
-* [`matrix`][methods::matrix-class], [`poly`][stats::poly()],
-  [`ts`][stats::ts()], [`table`][base::table()]
-* Default: Other inputs are first coerced with [base::as.data.frame()].
-`r lifecycle::badge(&quot;maturing&quot;)`
-`glimpse()` is like a transposed version of `print()`:
+<meta property="og:description" content="
+as_tibble() turns an existing object, such as a data frame or
+matrix, into a so-called tibble, a data frame with class tbl_df. This is
+in contrast with tibble(), which builds a tibble from individual columns.
+as_tibble() is to tibble() as base::as.data.frame() is to
+base::data.frame().
+as_tibble() is an S3 generic, with methods for:
+data.frame: Thin wrapper around the list method
+that implements tibble's treatment of rownames.
+matrix, poly,
+ts, table
+Default: Other inputs are first coerced with base::as.data.frame().
+
+
+
+glimpse() is like a transposed version of print():
 columns run down the page, and data runs across.
 This makes it possible to see every column in a data frame.
-It's a little like [str()] applied to a data frame
+It's a little like str() applied to a data frame
 but it tries to show you as much data as possible.
 (And it always shows the underlying data, even when applied
 to a remote data source.)
@@ -142,23 +144,25 @@ as soon as it becomes available." />
     </div>
 
     <div class="ref-description">
-    <p>`r lifecycle::badge("maturing")`</p>
-<p>`as_tibble()` turns an existing object, such as a data frame or
-matrix, into a so-called tibble, a data frame with class [`tbl_df`]. This is
-in contrast with [tibble()], which builds a tibble from individual columns.
-`as_tibble()` is to [`tibble()`] as [base::as.data.frame()] is to
-[base::data.frame()].</p>
-<p>`as_tibble()` is an S3 generic, with methods for:
-* [`data.frame`][base::data.frame()]: Thin wrapper around the `list` method
-  that implements tibble's treatment of [rownames].
-* [`matrix`][methods::matrix-class], [`poly`][stats::poly()],
-  [`ts`][stats::ts()], [`table`][base::table()]
-* Default: Other inputs are first coerced with [base::as.data.frame()].</p>
-<p>`r lifecycle::badge("maturing")`</p>
-<p>`glimpse()` is like a transposed version of `print()`:
+    <p><a href='https://lifecycle.r-lib.org/articles/stages.html#maturing'><img src='figures/lifecycle-maturing.svg' alt='[Maturing]' /></a></p>
+<p><code>as_tibble()</code> turns an existing object, such as a data frame or
+matrix, into a so-called tibble, a data frame with class <code><a href='https://dplyr.tidyverse.org/reference/tbl_df.html'>tbl_df</a></code>. This is
+in contrast with <code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble()</a></code>, which builds a tibble from individual columns.
+<code>as_tibble()</code> is to <code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble()</a></code> as <code><a href='https://rdrr.io/r/base/as.data.frame.html'>base::as.data.frame()</a></code> is to
+<code><a href='https://rdrr.io/r/base/data.frame.html'>base::data.frame()</a></code>.</p>
+<p><code>as_tibble()</code> is an S3 generic, with methods for:</p><ul>
+<li><p><code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></code>: Thin wrapper around the <code>list</code> method
+that implements tibble's treatment of <a href='https://rdrr.io/r/base/colnames.html'>rownames</a>.</p></li>
+<li><p><code>matrix</code>, <code><a href='https://rdrr.io/r/stats/poly.html'>poly</a></code>,
+<code><a href='https://rdrr.io/r/stats/ts.html'>ts</a></code>, <code><a href='https://rdrr.io/r/base/table.html'>table</a></code></p></li>
+<li><p>Default: Other inputs are first coerced with <code><a href='https://rdrr.io/r/base/as.data.frame.html'>base::as.data.frame()</a></code>.</p></li>
+</ul>
+
+<p><a href='https://lifecycle.r-lib.org/articles/stages.html#maturing'><img src='figures/lifecycle-maturing.svg' alt='[Maturing]' /></a></p>
+<p><code>glimpse()</code> is like a transposed version of <code><a href='print.html'>print()</a></code>:
 columns run down the page, and data runs across.
 This makes it possible to see every column in a data frame.
-It's a little like [str()] applied to a data frame
+It's a little like <code><a href='https://rdrr.io/r/utils/str.html'>str()</a></code> applied to a data frame
 but it tries to show you as much data as possible.
 (And it always shows the underlying data, even when applied
 to a remote data source.)</p>
@@ -172,12 +176,13 @@ as soon as it becomes available.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>rownames</th>
-      <td><p>How to treat existing row names of a data frame or matrix:
- * `NULL`: remove row names. This is the default.
- * `NA`: keep row names.
- * A string: the name of a new column. Existing rownames are transferred
-   into this column and the `row.names` attribute is deleted.
-Read more in [rownames].</p></td>
+      <td><p>How to treat existing row names of a data frame or matrix:</p><ul>
+<li><p><code>NULL</code>: remove row names. This is the default.</p></li>
+<li><p><code>NA</code>: keep row names.</p></li>
+<li><p>A string: the name of a new column. Existing rownames are transferred
+into this column and the <code>row.names</code> attribute is deleted.
+Read more in <a href='https://rdrr.io/r/base/colnames.html'>rownames</a>.</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>.name_repair</th>
@@ -191,7 +196,7 @@ Read more in [rownames].</p></td>
     <tr>
       <th>width</th>
       <td><p>Width of output: defaults to the setting of the option
-`tibble.width` (if finite) or the width of the console.</p></td>
+<code>tibble.width</code> (if finite) or the width of the console.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -202,40 +207,40 @@ Read more in [rownames].</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A tibble</p>
-<p>x original x is (invisibly) returned, allowing `glimpse()` to be
-  used within a data pipe line.</p>
+<p>x original x is (invisibly) returned, allowing <code>glimpse()</code> to be
+used within a data pipe line.</p>
     <h2 class="hasAnchor" id="row-names"><a class="anchor" href="#row-names"></a>Row names</h2>
 
     
 
 <p>The default behavior is to silently remove row names.</p>
 <p>New code should explicitly convert row names to a new column using the
-`rownames` argument.</p>
+<code>rownames</code> argument.</p>
 <p>For existing code that relies on the retention of row names, call
-`pkgconfig::set_config("tibble::rownames"=NA)` in your script or in your
-package's [.onLoad()]  function.</p>
+<code><a href='https://rdrr.io/pkg/pkgconfig/man/set_config.html'>pkgconfig::set_config("tibble::rownames"=NA)</a></code> in your script or in your
+package's <code><a href='https://rdrr.io/r/base/ns-hooks.html'>.onLoad()</a></code>  function.</p>
     <h2 class="hasAnchor" id="life-cycle"><a class="anchor" href="#life-cycle"></a>Life cycle</h2>
 
     
 
-<p>Using `as_tibble()` for vectors is superseded as of version 3.0.0,
-prefer the more expressive maturing `as_tibble_row()` and
-`as_tibble_col()` variants for new code.</p>
+<p>Using <code>as_tibble()</code> for vectors is superseded as of version 3.0.0,
+prefer the more expressive maturing <code>as_tibble_row()</code> and
+<code>as_tibble_col()</code> variants for new code.</p>
     <h2 class="hasAnchor" id="s-methods"><a class="anchor" href="#s-methods"></a>S3 methods</h2>
 
     
 
-<p>`glimpse` is an S3 generic with a customised method for `tbl`s and
-`data.frames`, and a default method that calls [str()].</p>
+<p><code>glimpse</code> is an S3 generic with a customised method for <code>tbl</code>s and
+<code>data.frames</code>, and a default method that calls <code><a href='https://rdrr.io/r/utils/str.html'>str()</a></code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>[tibble()] constructs a tibble from individual columns. [enframe()]
-  converts a named vector to a tibble with a column of names and column of
-  values. Name repair is implemented using [vctrs::vec_as_names()].</p></div>
+    <div class='dont-index'><p><code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble()</a></code> constructs a tibble from individual columns. <code>enframe()</code>
+converts a named vector to a tibble with a column of names and column of
+values. Name repair is implemented using <code><a href='https://vctrs.r-lib.org/reference/vec_as_names.html'>vctrs::vec_as_names()</a></code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+
     <span class='fu'>as_tibble</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 80 x 31</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
@@ -255,39 +260,20 @@ prefer the more expressive maturing `as_tibble_row()` and
 #&gt; </span><span style='color: #949494;'>#   PC_6 &lt;dbl&gt;, PC_7 &lt;dbl&gt;, PC_8 &lt;dbl&gt;, PC_9 &lt;dbl&gt;, PC_10 &lt;dbl&gt;, PC_11 &lt;dbl&gt;,</span><span>
 #&gt; </span><span style='color: #949494;'>#   PC_12 &lt;dbl&gt;, PC_13 &lt;dbl&gt;, PC_14 &lt;dbl&gt;, PC_15 &lt;dbl&gt;, PC_16 &lt;dbl&gt;,</span><span>
 #&gt; </span><span style='color: #949494;'>#   PC_17 &lt;dbl&gt;, PC_18 &lt;dbl&gt;, PC_19 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'><span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='va'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>glimpse</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Rows: 80
-#&gt; Columns: 31
-#&gt; $ cell            </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> "ATGCCAGAACGACT", "CATGGCCTGTGCAT", "GAACCTGATGAACC", …
-#&gt; $ orig.ident      </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> SeuratProject, SeuratProject, SeuratProject, SeuratPro…
-#&gt; $ nCount_RNA      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> 70, 85, 87, 127, 173, 70, 64, 72, 52, 100, 62, 191, 10…
-#&gt; $ nFeature_RNA    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> 47, 52, 50, 56, 53, 48, 36, 45, 36, 41, 31, 61, 41, 26…
-#&gt; $ RNA_snn_res.0.8 </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-#&gt; $ letter.idents   </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> A, A, B, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, …
-#&gt; $ groups          </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> "g2", "g1", "g2", "g2", "g2", "g1", "g1", "g1", "g1", …
-#&gt; $ RNA_snn_res.1   </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, …
-#&gt; $ file            </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> "../data/sample2/outs/filtered_feature_bc_matrix/", ".…
-#&gt; $ ident           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, …
-#&gt; $ PC_1            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.77403708, -0.02602702, -0.45650250, -0.81163243, -0…
-#&gt; $ PC_2            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.89964608, -0.34667947, 0.17958114, -1.37953401, -0.…
-#&gt; $ PC_3            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.2493078, 0.6651668, 1.3175907, -1.0019320, -0.24930…
-#&gt; $ PC_4            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> 0.55859480, 0.41828998, 2.01372104, 0.13905026, 0.5585…
-#&gt; $ PC_5            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> 0.46508378, 0.58532045, -0.48188513, -1.59822320, 0.46…
-#&gt; $ PC_6            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -1.38727138, -1.17380941, 0.35757129, -0.23157629, -1.…
-#&gt; $ PC_7            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.1277598, 0.1195137, -1.3821372, 0.1396306, -0.12775…
-#&gt; $ PC_8            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.29002273, -0.21363844, -1.72040130, 0.72629941, -0.…
-#&gt; $ PC_9            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> 0.37365607, 0.34941666, 0.81703026, 0.67584015, 0.3736…
-#&gt; $ PC_10           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> 0.44682478, 1.20616303, 0.06372349, -0.73786224, 0.446…
-#&gt; $ PC_11           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.24265143, 0.90313003, 0.08629753, 0.79933396, -0.24…
-#&gt; $ PC_12           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.16502284, -0.39257588, -0.46815637, -0.61207526, -0…
-#&gt; $ PC_13           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.013565041, 0.803542544, -0.128876042, 0.776509775, …
-#&gt; $ PC_14           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.42514591, -1.03526716, -0.86425209, 0.34403811, -0.…
-#&gt; $ PC_15           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.14646171, 0.55604780, 0.72772498, -0.48998525, -0.1…
-#&gt; $ PC_16           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.394102365, 1.520806392, -0.070302297, -0.303268701,…
-#&gt; $ PC_17           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> 7.561356e-02, 1.995033e-01, -6.991638e-01, 1.306050e-0…
-#&gt; $ PC_18           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> 0.019799375, -0.880980524, 0.900604550, -0.213501542, …
-#&gt; $ PC_19           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> 0.04491314, 0.19911188, -0.32448103, 0.06828601, 0.044…
-#&gt; $ tSNE_1          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> 0.8675977, -7.3925306, -28.2064258, 16.3480689, 1.9113…
-#&gt; $ tSNE_2          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -8.1007483, -8.7717451, 0.2410102, -11.1633255, -11.19…</div><div class='input'>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: `tidy()` was deprecated in tidySingleCellExperiment 1.1.1.</span>
+#&gt; <span class='warning'>tidySingleCellExperiment says: tidy() is not needed anymore.</span></div><div class='output co'>#&gt; Formal class 'SingleCellExperiment' [package "SingleCellExperiment"] with 9 slots
+#&gt;   ..@ int_elementMetadata:Formal class 'DFrame' [package "S4Vectors"] with 6 slots
+#&gt;   ..@ int_colData        :Formal class 'DFrame' [package "S4Vectors"] with 6 slots
+#&gt;   ..@ int_metadata       :List of 3
+#&gt;   .. ..$ version          :Classes 'package_version', 'numeric_version'  hidden list of 1
+#&gt;   .. ..$ spike_names      : chr(0) 
+#&gt;   .. ..$ size_factor_names: chr(0) 
+#&gt;   ..@ rowRanges          :Formal class 'CompressedGRangesList' [package "GenomicRanges"] with 5 slots
+#&gt;   ..@ colData            :Formal class 'DFrame' [package "S4Vectors"] with 6 slots
+#&gt;   ..@ assays             :Formal class 'SimpleAssays' [package "SummarizedExperiment"] with 1 slot
+#&gt;   ..@ NAMES              : NULL
+#&gt;   ..@ elementMetadata    :Formal class 'DFrame' [package "S4Vectors"] with 6 slots
+#&gt;   ..@ metadata           : list()</div><div class='input'>
 
 </div></span></pre>
   </div>

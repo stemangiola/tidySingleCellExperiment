@@ -41,7 +41,7 @@
 
 <meta property="og:title" content="Efficiently bind multiple data frames by row and column — bind" />
 <meta property="og:description" content="This is an efficient implementation of the common pattern of
-`do.call(rbind, dfs)` or `do.call(cbind, dfs)` for binding many
+do.call(rbind, dfs) or do.call(cbind, dfs) for binding many
 data frames into one." />
 
 
@@ -124,7 +124,7 @@ data frames into one." />
 
     <div class="ref-description">
     <p>This is an efficient implementation of the common pattern of
-`do.call(rbind, dfs)` or `do.call(cbind, dfs)` for binding many
+<code><a href='https://rdrr.io/r/base/do.call.html'>do.call(rbind, dfs)</a></code> or <code><a href='https://rdrr.io/r/base/do.call.html'>do.call(cbind, dfs)</a></code> for binding many
 data frames into one.</p>
     </div>
 
@@ -136,22 +136,22 @@ data frames into one.</p>
       <th>...</th>
       <td><p>Data frames to combine.</p>
 <p>Each argument can either be a data frame, a list that could be a data
-  frame, or a list of data frames.</p>
+frame, or a list of data frames.</p>
 <p>When row-binding, columns are matched by name, and any missing
-  columns will be filled with NA.</p>
+columns will be filled with NA.</p>
 <p>When column-binding, rows are matched by position, so all data
-  frames must have the same number of rows. To match by value, not
-  position, see [mutate-joins].</p></td>
+frames must have the same number of rows. To match by value, not
+position, see mutate-joins.</p></td>
     </tr>
     <tr>
       <th>.id</th>
       <td><p>Data frame identifier.</p>
-<p>When `.id` is supplied, a new column of identifiers is
-  created to link each row to its original data frame. The labels
-  are taken from the named arguments to `bind_rows()`. When a
-  list of data frames is supplied, the labels are taken from the
-  names of the list. If no names are found a numeric sequence is
-  used instead.</p></td>
+<p>When <code>.id</code> is supplied, a new column of identifiers is
+created to link each row to its original data frame. The labels
+are taken from the named arguments to <code><a href='arrange.html'>bind_rows()</a></code>. When a
+list of data frames is supplied, the labels are taken from the
+names of the list. If no names are found a numeric sequence is
+used instead.</p></td>
     </tr>
     <tr>
       <th>add.cell.ids</th>
@@ -163,16 +163,16 @@ objects' cell names.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>`bind_rows()` and `bind_cols()` return the same type as
-  the first input, either a data frame, `tbl_df`, or `grouped_df`.</p>
+    <p><code><a href='arrange.html'>bind_rows()</a></code> and <code><a href='arrange.html'>bind_cols()</a></code> return the same type as
+the first input, either a data frame, <code>tbl_df</code>, or <code>grouped_df</code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The output of `bind_rows()` will contain a column if that column
+    <p>The output of <code><a href='arrange.html'>bind_rows()</a></code> will contain a column if that column
 appears in any of the inputs.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>`%&gt;%`</span> <span class='op'>&lt;-</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
-<span class='va'>tt</span> <span class='op'>&lt;-</span> <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>tt</span> <span class='op'>&lt;-</span> <span class='va'>pbmc_small</span>
 <span class='fu'><a href='arrange.html'>bind_rows</a></span><span class='op'>(</span><span class='va'>tt</span>, <span class='va'>tt</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: tidySingleCellExperiment says: you have duplicated cell names, they will be made unique.</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A SingleCellExperiment-tibble abstraction: 160 x 17</span><span>
 #&gt; </span><span style='color: #555555;'># Transcripts=230 | Assays=counts, logcounts</span><span>

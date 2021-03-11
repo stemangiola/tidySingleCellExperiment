@@ -40,15 +40,18 @@
 
 
 <meta property="og:title" content="Printing tibbles — print" />
-<meta property="og:description" content="`r lifecycle::badge(&quot;maturing&quot;)`
-One of the main features of the `tbl_df` class is the printing:
-* Tibbles only print as many rows and columns as fit on one screen,
-  supplemented by a summary of the remaining rows and columns.
-* Tibble reveals the type of each column, which keeps the user informed about
-  whether a variable is, e.g., `&amp;lt;chr&amp;gt;` or `&amp;lt;fct&amp;gt;` (character versus factor).
-Printing can be tweaked for a one-off call by calling `print()` explicitly
-and setting arguments like `n` and `width`. More persistent control is
-available by setting the options described below." />
+<meta property="og:description" content="
+One of the main features of the tbl_df class is the printing:
+Tibbles only print as many rows and columns as fit on one screen,
+supplemented by a summary of the remaining rows and columns.
+Tibble reveals the type of each column, which keeps the user informed about
+whether a variable is, e.g., &amp;lt;chr&amp;gt; or &amp;lt;fct&amp;gt; (character versus factor).
+
+
+Printing can be tweaked for a one-off call by calling print() explicitly
+and setting arguments like n and width. More persistent control is
+available by setting the options described below.
+Only the first 5 reduced dimensions are displayed, while all of them are queriable (e.g. ggplot). All dimensions are returned/displayed if as_tibble is used." />
 
 
 
@@ -129,18 +132,21 @@ available by setting the options described below." />
     </div>
 
     <div class="ref-description">
-    <p>`r lifecycle::badge("maturing")`</p>
-<p>One of the main features of the `tbl_df` class is the printing:</p>
-<p>* Tibbles only print as many rows and columns as fit on one screen,
-  supplemented by a summary of the remaining rows and columns.
-* Tibble reveals the type of each column, which keeps the user informed about
-  whether a variable is, e.g., `&lt;chr&gt;` or `&lt;fct&gt;` (character versus factor).</p>
-<p>Printing can be tweaked for a one-off call by calling `print()` explicitly
-and setting arguments like `n` and `width`. More persistent control is
+    <p><a href='https://lifecycle.r-lib.org/articles/stages.html#maturing'><img src='figures/lifecycle-maturing.svg' alt='[Maturing]' /></a></p>
+<p>One of the main features of the <code>tbl_df</code> class is the printing:</p><ul>
+<li><p>Tibbles only print as many rows and columns as fit on one screen,
+supplemented by a summary of the remaining rows and columns.</p></li>
+<li><p>Tibble reveals the type of each column, which keeps the user informed about
+whether a variable is, e.g., <code>&lt;chr&gt;</code> or <code>&lt;fct&gt;</code> (character versus factor).</p></li>
+</ul>
+
+<p>Printing can be tweaked for a one-off call by calling <code>print()</code> explicitly
+and setting arguments like <code>n</code> and <code>width</code>. More persistent control is
 available by setting the options described below.</p>
+<p>Only the first 5 reduced dimensions are displayed, while all of them are queriable (e.g. ggplot). All dimensions are returned/displayed if as_tibble is used.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for tidySingleCellExperiment</span>
+    <pre class="usage"><span class='co'># S3 method for SingleCellExperiment</span>
 <span class='fu'>print</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span>, n <span class='op'>=</span> <span class='cn'>NULL</span>, width <span class='op'>=</span> <span class='cn'>NULL</span>, n_extra <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -156,23 +162,23 @@ available by setting the options described below.</p>
     </tr>
     <tr>
       <th>n</th>
-      <td><p>Number of rows to show. If `NULL`, the default, will print all rows
-if less than option `tibble.print_max`. Otherwise, will print
-`tibble.print_min` rows.</p></td>
+      <td><p>Number of rows to show. If <code>NULL</code>, the default, will print all rows
+if less than option <code>tibble.print_max</code>. Otherwise, will print
+<code>tibble.print_min</code> rows.</p></td>
     </tr>
     <tr>
       <th>width</th>
-      <td><p>Width of text output to generate. This defaults to `NULL`, which
-means use `getOption("tibble.width")` or (if also `NULL`)
-`getOption("width")`; the latter displays only the columns that fit on one
-screen. You can also set `options(tibble.width = Inf)` to override this
+      <td><p>Width of text output to generate. This defaults to <code>NULL</code>, which
+means use <code><a href='https://rdrr.io/r/base/options.html'>getOption("tibble.width")</a></code> or (if also <code>NULL</code>)
+<code><a href='https://rdrr.io/r/base/options.html'>getOption("width")</a></code>; the latter displays only the columns that fit on one
+screen. You can also set <code><a href='https://rdrr.io/r/base/options.html'>options(tibble.width = Inf)</a></code> to override this
 default and always print all columns.</p></td>
     </tr>
     <tr>
       <th>n_extra</th>
       <td><p>Number of extra columns to print abbreviated information for,
-if the width is too small for the entire tibble. If `NULL`, the default,
-will print information about at most `tibble.max_extra_cols` extra columns.</p></td>
+if the width is too small for the entire tibble. If <code>NULL</code>, the default,
+will print information about at most <code>tibble.max_extra_cols</code> extra columns.</p></td>
     </tr>
     </table>
 
@@ -185,16 +191,18 @@ will print information about at most `tibble.max_extra_cols` extra columns.</p><
 
 
 <p>The following options are used by the tibble and pillar packages
-to format and print `tbl_df` objects.
-Used by the formatting workhorse `trunc_mat()` and, therefore,
-indirectly, by `print.tbl()`.</p>
-<p>* `tibble.print_max`: Row number threshold: Maximum number of rows printed.
-  Set to `Inf` to always print all rows.  Default: 20.
-* `tibble.print_min`: Number of rows printed if row number threshold is
-  exceeded. Default: 10.
-* `tibble.width`: Output width. Default: `NULL` (use `width` option).
-* `tibble.max_extra_cols`: Number of extra columns printed in reduced form.
-  Default: 100.</p>
+to format and print <code>tbl_df</code> objects.
+Used by the formatting workhorse <code><a href='https://tibble.tidyverse.org/reference/trunc_mat.html'>trunc_mat()</a></code> and, therefore,
+indirectly, by <code>print.tbl()</code>.</p><ul>
+<li><p><code>tibble.print_max</code>: Row number threshold: Maximum number of rows printed.
+Set to <code>Inf</code> to always print all rows.  Default: 20.</p></li>
+<li><p><code>tibble.print_min</code>: Number of rows printed if row number threshold is
+exceeded. Default: 10.</p></li>
+<li><p><code>tibble.width</code>: Output width. Default: <code>NULL</code> (use <code>width</code> option).</p></li>
+<li><p><code>tibble.max_extra_cols</code>: Number of extra columns printed in reduced form.
+Default: 100.</p></li>
+</ul>
+
 
 
 <ul>
@@ -223,28 +231,7 @@ turn off truncation of character columns.</p></li>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:tidySingleCellExperiment’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    add_count, bind_cols, bind_rows, count</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:Biobase’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    combine</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:GenomicRanges’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, union</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:GenomeInfoDb’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:IRanges’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    collapse, desc, intersect, setdiff, slice, union</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:S4Vectors’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    first, intersect, rename, setdiff, setequal, union</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:BiocGenerics’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    combine, intersect, setdiff, union</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:matrixStats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    count</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>print</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>pbmc_small</span>  <span class='op'>%&gt;%</span> <span class='fu'>print</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #949494;'># A SingleCellExperiment-tibble abstraction: 80 x 17</span><span>
 #&gt; </span><span style='color: #555555;'># Transcripts=230 | Assays=counts, logcounts</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups

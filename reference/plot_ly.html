@@ -40,12 +40,12 @@
 
 
 <meta property="og:title" content="Initiate a plotly visualization — plot_ly" />
-<meta property="og:description" content="This function maps R objects to [plotly.js](https://plot.ly/javascript/),
+<meta property="og:description" content="This function maps R objects to plotly.js,
 an (MIT licensed) web-based interactive charting library. It provides
 abstractions for doing common things (e.g. mapping data values to
-fill colors (via `color`) or creating [animation]s (via `frame`)) and sets
+fill colors (via color) or creating animations (via frame)) and sets
 some different defaults to make the interface feel more 'R-like'
-(i.e., closer to [plot()] and [ggplot2::qplot()])." />
+(i.e., closer to plot() and ggplot2::qplot())." />
 
 
 
@@ -126,12 +126,12 @@ some different defaults to make the interface feel more 'R-like'
     </div>
 
     <div class="ref-description">
-    <p>This function maps R objects to [plotly.js](https://plot.ly/javascript/),
+    <p>This function maps R objects to <a href='https://plot.ly/javascript/'>plotly.js</a>,
 an (MIT licensed) web-based interactive charting library. It provides
 abstractions for doing common things (e.g. mapping data values to
-fill colors (via `color`) or creating [animation]s (via `frame`)) and sets
+fill colors (via <code>color</code>) or creating animations (via <code>frame</code>)) and sets
 some different defaults to make the interface feel more 'R-like'
-(i.e., closer to [plot()] and [ggplot2::qplot()]).</p>
+(i.e., closer to <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot()</a></code> and <code><a href='https://ggplot2.tidyverse.org/reference/qplot.html'>ggplot2::qplot()</a></code>).</p>
     </div>
 
     <pre class="usage"><span class='fu'>plot_ly</span><span class='op'>(</span>
@@ -165,114 +165,114 @@ some different defaults to make the interface feel more 'R-like'
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>A data frame (optional) or [crosstalk::SharedData] object.</p></td>
+      <td><p>A data frame (optional) or <a href='https://rdrr.io/pkg/crosstalk/man/SharedData.html'>crosstalk::SharedData</a> object.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Arguments (i.e., attributes) passed along to the trace `type`.
-See [schema()] for a list of acceptable attributes for a given trace `type`
-(by going to `traces` -&gt; `type` -&gt; `attributes`). Note that attributes
+      <td><p>Arguments (i.e., attributes) passed along to the trace <code>type</code>.
+See <code>schema()</code> for a list of acceptable attributes for a given trace <code>type</code>
+(by going to <code>traces</code> -&gt; <code>type</code> -&gt; <code>attributes</code>). Note that attributes
 provided at this level may override other arguments
-(e.g. `plot_ly(x=1:10, y=1:10, color=I("red"), marker=list(color="blue"))`).</p></td>
+(e.g. <code>plot_ly(x=1:10, y=1:10, color=I("red"), marker=list(color="blue"))</code>).</p></td>
     </tr>
     <tr>
       <th>type</th>
       <td><p>A character string specifying the trace type
-  (e.g. `"scatter"`, `"bar"`, `"box"`, etc).
-If specified, it *always* creates a trace, otherwise</p></td>
+(e.g. <code>"scatter"</code>, <code>"bar"</code>, <code>"box"</code>, etc).
+If specified, it <em>always</em> creates a trace, otherwise</p></td>
     </tr>
     <tr>
       <th>name</th>
       <td><p>Values mapped to the trace's name attribute. Since a trace can
-only have one name, this argument acts very much like `split` in that it
+only have one name, this argument acts very much like <code>split</code> in that it
 creates one trace for every unique value.</p></td>
     </tr>
     <tr>
       <th>color</th>
       <td><p>Values mapped to relevant 'fill-color' attribute(s)
-(e.g. [fillcolor](https://plot.ly/r/reference#scatter-fillcolor),
-[marker.color](https://plot.ly/r/reference#scatter-marker-color),
-[textfont.color](https://plot.ly/r/reference/#scatter-textfont-color), etc.).
+(e.g. <a href='https://plot.ly/r/reference#scatter-fillcolor'>fillcolor</a>,
+<a href='https://plot.ly/r/reference#scatter-marker-color'>marker.color</a>,
+<a href='https://plot.ly/r/reference/#scatter-textfont-color'>textfont.color</a>, etc.).
 The mapping from data values to color codes may be controlled using
-`colors` and `alpha`, or avoided altogether via [I()]
-  (e.g., `color=I("red")`).
-Any color understood by [grDevices::col2rgb()] may be used in this way.</p></td>
+<code>colors</code> and <code>alpha</code>, or avoided altogether via <code><a href='https://rdrr.io/r/base/AsIs.html'>I()</a></code>
+(e.g., <code>color=I("red")</code>).
+Any color understood by <code><a href='https://rdrr.io/r/grDevices/col2rgb.html'>grDevices::col2rgb()</a></code> may be used in this way.</p></td>
     </tr>
     <tr>
       <th>colors</th>
       <td><p>Either a colorbrewer2.org palette name
-  (e.g. "YlOrRd" or "Blues"),
+(e.g. "YlOrRd" or "Blues"),
 or a vector of colors to interpolate in hexadecimal "#RRGGBB" format,
-or a color interpolation function like `colorRamp()`.</p></td>
+or a color interpolation function like <code><a href='https://rdrr.io/r/grDevices/colorRamp.html'>colorRamp()</a></code>.</p></td>
     </tr>
     <tr>
       <th>alpha</th>
-      <td><p>A number between 0 and 1 specifying the alpha channel applied to `color`.
-Defaults to 0.5 when mapping to [fillcolor](https://plot.ly/r/reference#scatter-fillcolor) and 1 otherwise.</p></td>
+      <td><p>A number between 0 and 1 specifying the alpha channel applied to <code>color</code>.
+Defaults to 0.5 when mapping to <a href='https://plot.ly/r/reference#scatter-fillcolor'>fillcolor</a> and 1 otherwise.</p></td>
     </tr>
     <tr>
       <th>stroke</th>
-      <td><p>Similar to `color`, but values are mapped to relevant 'stroke-color' attribute(s)
-(e.g., [marker.line.color](https://plot.ly/r/reference#scatter-marker-line-color)
- and [line.color](https://plot.ly/r/reference#scatter-line-color)
-for filled polygons). If not specified, `stroke` inherits from `color`.</p></td>
+      <td><p>Similar to <code>color</code>, but values are mapped to relevant 'stroke-color' attribute(s)
+(e.g., <a href='https://plot.ly/r/reference#scatter-marker-line-color'>marker.line.color</a>
+and <a href='https://plot.ly/r/reference#scatter-line-color'>line.color</a>
+for filled polygons). If not specified, <code>stroke</code> inherits from <code>color</code>.</p></td>
     </tr>
     <tr>
       <th>strokes</th>
-      <td><p>Similar to `colors`, but controls the `stroke` mapping.</p></td>
+      <td><p>Similar to <code>colors</code>, but controls the <code>stroke</code> mapping.</p></td>
     </tr>
     <tr>
       <th>alpha_stroke</th>
-      <td><p>Similar to `alpha`, but applied to `stroke`.</p></td>
+      <td><p>Similar to <code>alpha</code>, but applied to <code>stroke</code>.</p></td>
     </tr>
     <tr>
       <th>size</th>
       <td><p>(Numeric) values mapped to relevant 'fill-size' attribute(s)
-(e.g., [marker.size](https://plot.ly/r/reference#scatter-marker-size),
-[textfont.size](https://plot.ly/r/reference#scatter-textfont-size),
-and [error_x.width](https://plot.ly/r/reference#scatter-error_x-width)).
+(e.g., <a href='https://plot.ly/r/reference#scatter-marker-size'>marker.size</a>,
+<a href='https://plot.ly/r/reference#scatter-textfont-size'>textfont.size</a>,
+and <a href='https://plot.ly/r/reference#scatter-error_x-width'>error_x.width</a>).
 The mapping from data values to symbols may be controlled using
-`sizes`, or avoided altogether via [I()] (e.g., `size=I(30)`).</p></td>
+<code>sizes</code>, or avoided altogether via <code><a href='https://rdrr.io/r/base/AsIs.html'>I()</a></code> (e.g., <code>size=I(30)</code>).</p></td>
     </tr>
     <tr>
       <th>sizes</th>
-      <td><p>A numeric vector of length 2 used to scale `size` to pixels.</p></td>
+      <td><p>A numeric vector of length 2 used to scale <code>size</code> to pixels.</p></td>
     </tr>
     <tr>
       <th>span</th>
       <td><p>(Numeric) values mapped to relevant 'stroke-size' attribute(s)
 (e.g.,
-[marker.line.width](https://plot.ly/r/reference#scatter-marker-line-width),
-[line.width](https://plot.ly/r/reference#scatter-line-width) for filled polygons,
-and [error_x.thickness](https://plot.ly/r/reference#scatter-error_x-thickness))
+<a href='https://plot.ly/r/reference#scatter-marker-line-width'>marker.line.width</a>,
+<a href='https://plot.ly/r/reference#scatter-line-width'>line.width</a> for filled polygons,
+and <a href='https://plot.ly/r/reference#scatter-error_x-thickness'>error_x.thickness</a>)
 The mapping from data values to symbols may be controlled using
-`spans`, or avoided altogether via [I()] (e.g., `span=I(30)`).</p></td>
+<code>spans</code>, or avoided altogether via <code><a href='https://rdrr.io/r/base/AsIs.html'>I()</a></code> (e.g., <code>span=I(30)</code>).</p></td>
     </tr>
     <tr>
       <th>spans</th>
-      <td><p>A numeric vector of length 2 used to scale `span` to pixels.</p></td>
+      <td><p>A numeric vector of length 2 used to scale <code>span</code> to pixels.</p></td>
     </tr>
     <tr>
       <th>symbol</th>
-      <td><p>(Discrete) values mapped to [marker.symbol](https://plot.ly/r/reference#scatter-marker-symbol).
+      <td><p>(Discrete) values mapped to <a href='https://plot.ly/r/reference#scatter-marker-symbol'>marker.symbol</a>.
 The mapping from data values to symbols may be controlled using
-`symbols`, or avoided altogether via [I()] (e.g., `symbol=I("pentagon")`).
-Any [pch] value or [symbol name](https://plot.ly/r/reference#scatter-marker-symbol) may be used in this way.</p></td>
+<code>symbols</code>, or avoided altogether via <code><a href='https://rdrr.io/r/base/AsIs.html'>I()</a></code> (e.g., <code>symbol=I("pentagon")</code>).
+Any <a href='https://rdrr.io/r/graphics/points.html'>pch</a> value or <a href='https://plot.ly/r/reference#scatter-marker-symbol'>symbol name</a> may be used in this way.</p></td>
     </tr>
     <tr>
       <th>symbols</th>
-      <td><p>A character vector of [pch] values or [symbol names](https://plot.ly/r/reference#scatter-marker-symbol).</p></td>
+      <td><p>A character vector of <a href='https://rdrr.io/r/graphics/points.html'>pch</a> values or <a href='https://plot.ly/r/reference#scatter-marker-symbol'>symbol names</a>.</p></td>
     </tr>
     <tr>
       <th>linetype</th>
-      <td><p>(Discrete) values mapped to [line.dash](https://plot.ly/r/reference#scatter-line-dash).
+      <td><p>(Discrete) values mapped to <a href='https://plot.ly/r/reference#scatter-line-dash'>line.dash</a>.
 The mapping from data values to symbols may be controlled using
-`linetypes`, or avoided altogether via [I()] (e.g., `linetype=I("dash")`).
-Any `lty` (see [par]) value or [dash name](https://plot.ly/r/reference#scatter-line-dash) may be used in this way.</p></td>
+<code>linetypes</code>, or avoided altogether via <code><a href='https://rdrr.io/r/base/AsIs.html'>I()</a></code> (e.g., <code>linetype=I("dash")</code>).
+Any <code>lty</code> (see <a href='https://rdrr.io/r/graphics/par.html'>par</a>) value or <a href='https://plot.ly/r/reference#scatter-line-dash'>dash name</a> may be used in this way.</p></td>
     </tr>
     <tr>
       <th>linetypes</th>
-      <td><p>A character vector of `lty` values or [dash names](https://plot.ly/r/reference#scatter-line-dash)</p></td>
+      <td><p>A character vector of <code>lty</code> values or <a href='https://plot.ly/r/reference#scatter-line-dash'>dash names</a></p></td>
     </tr>
     <tr>
       <th>split</th>
@@ -293,7 +293,7 @@ Any `lty` (see [par]) value or [dash name](https://plot.ly/r/reference#scatter-l
     <tr>
       <th>source</th>
       <td><p>a character string of length 1. Match the value of this string
-with the source argument in [event_data()] to retrieve the
+with the source argument in <code>event_data()</code> to retrieve the
 event data corresponding to a specific plot (shiny apps can have multiple plots).</p></td>
     </tr>
     </table>
@@ -303,28 +303,28 @@ event data corresponding to a specific plot (shiny apps can have multiple plots)
     <p>A plotly</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Unless `type` is specified, this function just initiates a plotly
+    <p>Unless <code>type</code> is specified, this function just initiates a plotly
 object with 'global' attributes that are passed onto downstream uses of
-[add_trace()] (or similar). A [formula] must always be used when
-referencing column name(s) in `data` (e.g. `plot_ly(mtcars, x=~wt)`).
+<code>add_trace()</code> (or similar). A <a href='https://rdrr.io/r/stats/formula.html'>formula</a> must always be used when
+referencing column name(s) in <code>data</code> (e.g. <code>plot_ly(mtcars, x=~wt)</code>).
 Formulas are optional when supplying values directly, but they do
 help inform default axis/scale titles
-(e.g., `plot_ly(x=mtcars$wt)` vs `plot_ly(x=~mtcars$wt)`)</p>
+(e.g., <code>plot_ly(x=mtcars$wt)</code> vs <code>plot_ly(x=~mtcars$wt)</code>)</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>&lt;https://plotly-r.com/overview.html&gt;</p>
+    <p><a href='https://plotly-r.com/overview.html'>https://plotly-r.com/overview.html</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'>
 <ul>
-<li><p>For initializing a plotly-geo object: [plot_geo()]</p></li>
-<li><p>For initializing a plotly-mapbox object: [plot_mapbox()]</p></li>
-<li><p>For translating a ggplot2 object to a plotly object: [ggplotly()]</p></li>
-<li><p>For modifying any plotly object: [layout()], [add_trace()], [style()]</p></li>
-<li><p>For linked brushing: [highlight()]</p></li>
-<li><p>For arranging multiple plots: [subplot()], [crosstalk::bscols()]</p></li>
-<li><p>For inspecting plotly objects: [plotly_json()]</p></li>
-<li><p>For quick, accurate, and searchable plotly.js reference: [schema()]</p></li>
+<li><p>For initializing a plotly-geo object: <code>plot_geo()</code></p></li>
+<li><p>For initializing a plotly-mapbox object: <code>plot_mapbox()</code></p></li>
+<li><p>For translating a ggplot2 object to a plotly object: <code>ggplotly()</code></p></li>
+<li><p>For modifying any plotly object: <code><a href='https://rdrr.io/r/graphics/layout.html'>layout()</a></code>, <code>add_trace()</code>, <code>style()</code></p></li>
+<li><p>For linked brushing: <code>highlight()</code></p></li>
+<li><p>For arranging multiple plots: <code>subplot()</code>, <code><a href='https://rdrr.io/pkg/crosstalk/man/bscols.html'>crosstalk::bscols()</a></code></p></li>
+<li><p>For inspecting plotly objects: <code>plotly_json()</code></p></li>
+<li><p>For quick, accurate, and searchable plotly.js reference: <code>schema()</code></p></li>
 </ul>
 </div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
