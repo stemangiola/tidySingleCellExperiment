@@ -77,7 +77,7 @@ print.SingleCellExperiment <- function(x, ..., n = NULL, width = NULL, n_extra =
     # Insert more info
     append(sprintf(
       "\033[90m# Transcripts=%s | Assays=%s\033[39m",
-      counts(x) %>% nrow,
+      nrow(x),
       assays(x) %>% names %>% paste(collapse=", ")
     ), after = 1) %>%
 
