@@ -6,14 +6,15 @@
 \usage{
 lhs \%>\% rhs
 }
+\arguments{
+\item{lhs}{A value or the magrittr placeholder.}
+
+\item{rhs}{A function call using the magrittr semantics.}
+}
 \value{
-void
+The result of calling \code{rhs(lhs)}.
 }
 \description{
 See \code{magrittr::\link[magrittr:pipe]{\%>\%}} for details.
-}
-\examples{
-
-tidySingleCellExperiment::pbmc_small 
 }
 \keyword{internal}
