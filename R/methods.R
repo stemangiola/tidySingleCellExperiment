@@ -52,49 +52,49 @@ setMethod(
     }
 )
 
-#' Add differential transcription information to a tbl using edgeR.
+#' Add differential featureion information to a tbl using edgeR.
 #'
 #' \lifecycle{experimental}
 #'
-#' @description join_transcripts() extracts and joins information for specific
-#'   transcripts
+#' @description join_features() extracts and joins information for specific
+#'   features
 #'
 #' @importFrom rlang enquo
 #' @importFrom magrittr "%>%"
 #'
-#' @name join_transcripts
-#' @rdname join_transcripts
+#' @name join_features
+#' @rdname join_features
 #'
 #' @param .data A tidy SingleCellExperiment object
-#' @param transcripts A vector of transcript identifiers to join
+#' @param features A vector of feature identifiers to join
 #' @param all If TRUE return all
 #' @param exclude_zeros If TRUE exclude zero values
 #' @param shape Format of the returned table "long" or "wide"
-#' @param ... Parameters to pass to join wide, i.e. assay name to extract transcript abundance from
+#' @param ... Parameters to pass to join wide, i.e. assay name to extract feature abundance from
 #'
-#' @details This function extracts information for specified transcripts and
+#' @details This function extracts information for specified features and
 #'   returns the information in either long or wide format.
 #'
-#' @return A `tbl` containing the information.for the specified transcripts
+#' @return A `tbl` containing the information.for the specified features
 #'
 #' @examples
 #'
 #' tidySingleCellExperiment::pbmc_small %>%
 #'
-#'     join_transcripts(transcripts=c("HLA-DRA", "LYZ"))
+#'     join_features(features=c("HLA-DRA", "LYZ"))
 #' @export
 #'
-join_transcripts <- function(.data,
-                             transcripts = NULL,
+join_features <- function(.data,
+                             features = NULL,
                              all = FALSE,
                              exclude_zeros = FALSE,
                              shape = "long", ...) {
-    UseMethod("join_transcripts", .data)
+    UseMethod("join_features", .data)
 }
 #' @export
-join_transcripts.default <-
+join_features.default <-
     function(.data,
-             transcripts = NULL,
+             features = NULL,
              all = FALSE,
              exclude_zeros = FALSE,
              shape = "long", ...) {
@@ -103,16 +103,16 @@ join_transcripts.default <-
 #' @importFrom tidyselect contains
 #' @importFrom tidyselect everything
 #' @export
-join_transcripts.SingleCellExperiment <-
+join_features.SingleCellExperiment <-
     function(.data,
-             transcripts = NULL,
+             features = NULL,
              all = FALSE,
              exclude_zeros = FALSE,
              shape = "long", ...) {
 
         # CRAN Note
         cell = NULL
-        transcript= NULL
+        feature= NULL
 
         message(data_frame_returned_message)
 
@@ -126,19 +126,19 @@ join_transcripts.SingleCellExperiment <-
             left_join(
                 get_abundance_sc_long(
                     .data = .data,
-                    transcripts = transcripts,
+                    features = features,
                     all = all,
                     exclude_zeros = exclude_zeros
                 ),
                 by = "cell"
             ) %>%
-            select(cell, transcript, contains("abundance"), everything())
+            select(cell, feature, contains("abundance"), everything())
 
         # Shape if wide
         else
             my_tibble  %>% left_join(get_abundance_sc_wide(
                 .data = .data,
-                transcripts = transcripts,
+                features = features,
                 all = all, ...
             ),
             by = "cell")
