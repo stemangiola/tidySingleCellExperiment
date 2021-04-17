@@ -1,4 +1,4 @@
-tidySingleCellExperiment - part of tidytranscriptomics
+tidySingleCellExperiment - part of tidyfeatureomics
 ================
 
 <!-- badges: start -->
@@ -55,7 +55,7 @@ Functions/utilities available
 |--------------------|------------------------------------------------------------------|
 | `tidy`             | Add `tidySingleCellExperiment` invisible layer over a SingleCellExperiment object |
 | `as_tibble`        | Convert cell-wise information to a `tbl_df`                      |
-| `join_transcripts` | Add transcript-wise information, returns a `tbl_df`              |
+| `join_features` | Add feature-wise information, returns a `tbl_df`              |
 
 Installation
 ------------
@@ -199,7 +199,7 @@ Set colours and theme for plots.
 
 We can treat `pbmc_small_polished` as a tibble for plotting.
 
-Here we plot number of transcripts per cell.
+Here we plot number of features per cell.
 
     pbmc_small_polished %>%
         tidySingleCellExperiment::ggplot(aes(nFeature_RNA, fill=groups)) +
@@ -210,7 +210,7 @@ Here we plot number of transcripts per cell.
 
 ![](man/figures/plot1-1.png)<!-- -->
 
-Here we plot total transcripts per cell.
+Here we plot total features per cell.
 
     pbmc_small_polished %>%
         tidySingleCellExperiment::ggplot(aes(groups, nCount_RNA, fill=groups)) +
@@ -220,10 +220,10 @@ Here we plot total transcripts per cell.
 
 ![](man/figures/plot2-1.png)<!-- -->
 
-Here we plot abundance of two transcripts for each group.
+Here we plot abundance of two features for each group.
 
     pbmc_small_polished %>%
-        join_transcripts(transcripts=c("HLA-DRA", "LYZ")) %>%
+        join_features(features=c("HLA-DRA", "LYZ")) %>%
         ggplot(aes(groups, abundance_counts + 1, fill=groups)) +
         geom_boxplot(outlier.shape=NA) +
         geom_jitter(aes(size=nCount_RNA), alpha=0.5, width=0.2) +
@@ -369,9 +369,9 @@ SingleCellExperiment, tidyverse functions and tidyHeatmap
 
     # Plot heatmap
     pbmc_small_cluster %>%
-        join_transcripts(transcripts=marker_genes) %>%
+        join_features(features=marker_genes) %>%
         group_by(label) %>%
-        heatmap(transcript, cell, abundance_counts, .scale="column")
+        heatmap(feature, cell, abundance_counts, .scale="column")
 
     ## tidySingleCellExperiment says: A data frame is returned for independent data analysis.
 
@@ -510,7 +510,7 @@ multi-layer annotations.
         mutate(mitochondrial=rnorm(dplyr::n())) %>%
 
         # Plot correlation
-        join_transcripts(transcripts=c("CST3", "LYZ"), shape="wide") %>%
+        join_features(features=c("CST3", "LYZ"), shape="wide") %>%
         ggplot(aes(CST3 + 1, LYZ + 1, color=groups, size=mitochondrial)) +
         geom_point() +
         facet_wrap(~first.labels, scales="free") +

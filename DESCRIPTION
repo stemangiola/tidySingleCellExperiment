@@ -1,7 +1,7 @@
 Type: Package
 Package: tidySingleCellExperiment
 Title: Brings SingleCellExperiment to the Tidyverse 
-Version: 1.1.1
+Version: 1.1.2
 Authors@R: c(person("Stefano", "Mangiola", email = "mangiolastefano@gmail.com",
                   role = c("aut", "cre")) )
 Description: tidySingleCellExperiment is an adapter that abstracts the 'SingleCellExperiment' container 
@@ -52,7 +52,7 @@ VignetteBuilder:
 RdMacros:
     lifecycle
 Biarch: true
-biocViews: AssayDomain, Infrastructure, RNASeq, DifferentialExpression, GeneExpression, Normalization, Clustering, QualityControl, Sequencing, Transcription, Transcriptomics
+biocViews: AssayDomain, Infrastructure, RNASeq, DifferentialExpression, GeneExpression, Normalization, Clustering, QualityControl, Sequencing, featureion, featureomics
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1

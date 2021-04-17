@@ -86,16 +86,16 @@ drop_class <- function(var, name) {
 #' @importFrom SummarizedExperiment assays
 #'
 #' @param .data A tidySingleCellExperiment
-#' @param transcripts A character
+#' @param features A character
 #' @param all A boolean
-#' @param ... Parameters to pass to join wide, i.e. assay name to extract transcript abundance from
+#' @param ... Parameters to pass to join wide, i.e. assay name to extract feature abundance from
 #'
 #'
 #' @return A tidySingleCellExperiment object
 #'
 #'
 #' @noRd
-get_abundance_sc_wide <- function(.data, transcripts=NULL, all=FALSE, assay = assays(.data) %>% as.list() %>% tail(1) %>% names ) {
+get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, assay = assays(.data) %>% as.list() %>% tail(1) %>% names ) {
 
     # Solve CRAN warnings
     . <- NULL
@@ -106,15 +106,15 @@ get_abundance_sc_wide <- function(.data, transcripts=NULL, all=FALSE, assay = as
     # Check if output would be too big without forcing
     if (
         length(variable_feature) == 0 &
-            is.null(transcripts) &
+            is.null(features) &
             all == FALSE
     ) {
         stop("
-                Your object does not contain variable transcript labels,
-                transcript argument is empty and all arguments are set to FALSE.
+                Your object does not contain variable feature labels,
+                feature argument is empty and all arguments are set to FALSE.
                 Either:
                 1. use detect_variable_features() to select variable feature
-                2. pass an array of transcript names
+                2. pass an array of feature names
                 3. set all=TRUE (this will output a very large object, does your computer have enough RAM?)
                 ")
     }
@@ -122,7 +122,7 @@ get_abundance_sc_wide <- function(.data, transcripts=NULL, all=FALSE, assay = as
     # Get variable features if existing
     if (
         length(variable_feature) > 0 &
-            is.null(transcripts) &
+            is.null(features) &
             all == FALSE
     ) {
         variable_genes <- variable_feature
@@ -137,8 +137,8 @@ get_abundance_sc_wide <- function(.data, transcripts=NULL, all=FALSE, assay = as
       .[[assay]] %>%
         when(
             variable_genes %>% is.null() %>% `!`() ~ (.)[variable_genes, , drop=FALSE],
-            transcripts %>% is.null() %>% `!`() ~ (.)[transcripts, , drop=FALSE],
-            ~ stop("It is not convenient to extract all genes, you should have either variable features or transcript list to extract")
+            features %>% is.null() %>% `!`() ~ (.)[features, , drop=FALSE],
+            ~ stop("It is not convenient to extract all genes, you should have either variable features or feature list to extract")
         ) %>%
         as.matrix() %>%
         t() %>%
@@ -157,7 +157,7 @@ get_abundance_sc_wide <- function(.data, transcripts=NULL, all=FALSE, assay = as
 #' @importFrom SummarizedExperiment assays
 #'
 #' @param .data A tidySingleCellExperiment
-#' @param transcripts A character
+#' @param features A character
 #' @param all A boolean
 #' @param exclude_zeros A boolean
 #'
@@ -165,7 +165,7 @@ get_abundance_sc_wide <- function(.data, transcripts=NULL, all=FALSE, assay = as
 #'
 #'
 #' @noRd
-get_abundance_sc_long <- function(.data, transcripts=NULL, all=FALSE, exclude_zeros=FALSE) {
+get_abundance_sc_long <- function(.data, features=NULL, all=FALSE, exclude_zeros=FALSE) {
 
     # Solve CRAN warnings
     . <- NULL
@@ -176,15 +176,15 @@ get_abundance_sc_long <- function(.data, transcripts=NULL, all=FALSE, exclude_ze
     # Check if output would be too big without forcing
     if (
         length(variable_feature) == 0 &
-            is.null(transcripts) &
+            is.null(features) &
             all == FALSE
     ) {
         stop("
-                Your object does not contain variable transcript labels,
-                transcript argument is empty and all arguments are set to FALSE.
+                Your object does not contain variable feature labels,
+                feature argument is empty and all arguments are set to FALSE.
                 Either:
                 1. use detect_variable_features() to select variable feature
-                2. pass an array of transcript names
+                2. pass an array of feature names
                 3. set all=TRUE (this will output a very large object, does your computer have enough RAM?)
                 ")
     }
@@ -193,7 +193,7 @@ get_abundance_sc_long <- function(.data, transcripts=NULL, all=FALSE, exclude_ze
     # Get variable features if existing
     if (
         length(variable_feature) > 0 &
-            is.null(transcripts) &
+            is.null(features) &
             all == FALSE
     ) {
         variable_genes <- variable_feature
@@ -218,9 +218,9 @@ get_abundance_sc_long <- function(.data, transcripts=NULL, all=FALSE, exclude_ze
             ~ .x %>%
                 when(
                     variable_genes %>% is.null() %>% `!`() ~ .x[variable_genes, , drop=FALSE],
-                    transcripts %>% is.null() %>% `!`() ~ .x[toupper(rownames(.x)) %in% toupper(transcripts), , drop=FALSE],
+                    features %>% is.null() %>% `!`() ~ .x[toupper(rownames(.x)) %in% toupper(features), , drop=FALSE],
                     all ~ .x,
-                    ~ stop("It is not convenient to extract all genes, you should have either variable features or transcript list to extract")
+                    ~ stop("It is not convenient to extract all genes, you should have either variable features or feature list to extract")
                 ) %>%
 
                 # Replace 0 with NA
@@ -231,9 +231,9 @@ get_abundance_sc_long <- function(.data, transcripts=NULL, all=FALSE, exclude_ze
                 }, ~ (.)) %>%
                 as.matrix() %>%
                 data.frame(check.names = FALSE) %>%
-                as_tibble(rownames="transcript") %>%
+                as_tibble(rownames="feature") %>%
                 tidyr::pivot_longer(
-                    cols=-transcript,
+                    cols=-feature,
                     names_to="cell",
                     values_to="abundance" %>% paste(.y, sep="_"),
                     values_drop_na=TRUE
@@ -241,7 +241,7 @@ get_abundance_sc_long <- function(.data, transcripts=NULL, all=FALSE, exclude_ze
             # %>%
             # mutate_if(is.character, as.factor) %>%
         ) %>%
-        Reduce(function(...) full_join(..., by=c("transcript", "cell")), .)
+        Reduce(function(...) full_join(..., by=c("feature", "cell")), .)
 }
 
 #' @importFrom dplyr select_if
