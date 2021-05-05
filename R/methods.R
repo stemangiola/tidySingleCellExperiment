@@ -114,15 +114,9 @@ join_features.SingleCellExperiment <-
         cell = NULL
         feature= NULL
 
-        message(data_frame_returned_message)
-
-        my_tibble =
-            .data %>%
-            as_tibble()
-
         # Shape is long
         if (shape == "long")
-            my_tibble %>%
+          .data %>%
             left_join(
                 get_abundance_sc_long(
                     .data = .data,
@@ -136,7 +130,7 @@ join_features.SingleCellExperiment <-
 
         # Shape if wide
         else
-            my_tibble  %>% left_join(get_abundance_sc_wide(
+          .data  %>% left_join(get_abundance_sc_wide(
                 .data = .data,
                 features = features,
                 all = all, ...
