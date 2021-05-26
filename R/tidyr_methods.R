@@ -72,9 +72,7 @@ unnest.tidySingleCellExperiment_nested <- function(data, cols, ..., keep_empty=F
             # If my only column to unnest is tidySingleCellExperiment
             pull(., !!cols) %>%
                 .[[1]] %>%
-                class() %>%
-                as.character() %>%
-                eq("SingleCellExperiment") %>%
+                is("SingleCellExperiment") %>%
                 any() ~
 
             # Do my trick to unnest
