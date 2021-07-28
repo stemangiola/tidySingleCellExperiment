@@ -1139,24 +1139,28 @@ sample_n.SingleCellExperiment <- function(tbl, size, replace=FALSE,
     weight=NULL, .env=NULL, ...) {
     lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
 
-    new_meta <- colData(tbl) %>%
+    new_meta = colData(tbl) %>%
         as.data.frame() %>%
-        dplyr::sample_n(size, replace=replace, weight=weight, .env=.env, ...)
-    new_obj <- tbl[, rownames(new_meta)]
-    # colData(new_obj)=new_meta %>% DataFrame()
+        as_tibble(rownames = "cell") %>%
+        dplyr::sample_n( size, replace = replace, weight = weight, .env = .env, ...)
 
-    new_obj %>%
+    count_cells = new_meta %>% select(cell) %>% count(cell)
 
-        # If replace return simple tibble because is not trivial to build
-        # a redundant Seurat object and it would not make much sense
-        when(
-            replace ~ {
-                message("tidySingleCellExperiment says: When sampling with replacement a data frame is returned for independent data analysis.")
-                as_tibble(.)
-            },
-            ~ (.)
-        )
+    # If repeted cells
+    if(count_cells$n %>% max() %>% gt(1)){
+        message("tidySingleCellExperiment says: When sampling with replacement a data frame is returned for independent data analysis.")
+        tbl %>%
+            as_tibble() %>%
+            right_join(new_meta %>% select(cell),  by = "cell")
+    }  else{
+        new_obj = tbl[,  new_meta %>% pull(cell)]
+        new_obj
+    }
 }
+
+
+
+
 
 #' @importFrom dplyr sample_frac
 #'
@@ -1172,23 +1176,23 @@ sample_frac.SingleCellExperiment <- function(tbl, size=1, replace=FALSE,
     weight=NULL, .env=NULL, ...) {
     lifecycle::signal_superseded("1.0.0", "sample_frac()", "slice_sample()")
 
-    new_meta <- colData(tbl) %>%
+    new_meta = colData(tbl) %>%
         as.data.frame() %>%
-        dplyr::sample_frac(size, replace=replace, weight=weight, .env=.env, ...)
-    new_obj <- tbl[, rownames(new_meta)]
-    # colData(new_obj)=new_meta %>% DataFrame()
+        as_tibble(rownames = "cell") %>%
+        dplyr::sample_frac( size, replace = replace, weight = weight, .env = .env, ...)
 
-    new_obj %>%
+    count_cells = new_meta %>% select(cell) %>% count(cell)
 
-        # If replace return simple tibble because is not trivial to build
-        # a redundant Seurat object and it would not make much sense
-        when(
-            replace ~ {
-                message("tidySingleCellExperiment says: When sampling with replacement a data frame is returned for independent data analysis.")
-                as_tibble(.)
-            },
-            ~ (.)
-        )
+    # If repeted cells
+    if(count_cells$n %>% max() %>% gt(1)){
+        message("tidySingleCellExperiment says: When sampling with replacement a data frame is returned for independent data analysis.")
+        tbl %>%
+            as_tibble() %>%
+            right_join(new_meta %>% select(cell),  by = "cell")
+    }  else{
+        new_obj = tbl[,  new_meta %>% pull(cell)]
+        new_obj
+    }
 }
 
 

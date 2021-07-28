@@ -2,17 +2,17 @@ context("dplyr test")
 
 library(magrittr)
 
-tt <- pbmc_small
+pbmc_small <- pbmc_small
 
 test_that("arrange", {
     tt_pca_aranged <-
-        tt %>%
+        pbmc_small %>%
         arrange(groups) %>%
         scater::logNormCounts() %>%
         scater::runPCA()
 
     tt_pca <-
-        tt %>%
+        pbmc_small %>%
         scater::logNormCounts() %>%
         scater::runPCA()
 
@@ -26,7 +26,7 @@ test_that("arrange", {
 })
 
 test_that("bind_rows", {
-    tt_bind <- bind_rows(tt, tt)
+    tt_bind <- bind_rows(pbmc_small, pbmc_small)
 
     tt_bind %>%
         select(cell) %>%
@@ -38,9 +38,9 @@ test_that("bind_rows", {
 })
 
 test_that("bind_cols", {
-    tt_bind <- tt %>% select(groups)
+    tt_bind <- pbmc_small %>% select(groups)
 
-    tt %>%
+    pbmc_small %>%
         bind_cols(tt_bind) %>%
         select(groups...7) %>%
         ncol() %>%
@@ -48,35 +48,35 @@ test_that("bind_cols", {
 })
 
 test_that("distinct", {
-    tt %>%
+    pbmc_small %>%
         distinct(groups) %>%
         ncol() %>%
         expect_equal(1)
 })
 
 test_that("filter", {
-    tt %>%
+    pbmc_small %>%
         filter(groups == "g1") %>%
         ncol() %>%
         expect_equal(44)
 })
 
 test_that("group_by", {
-    tt %>%
+    pbmc_small %>%
         group_by(groups) %>%
         nrow() %>%
         expect_equal(80)
 })
 
 test_that("summarise", {
-    tt %>%
+    pbmc_small %>%
         summarise(mean(nCount_RNA)) %>%
         nrow() %>%
         expect_equal(1)
 })
 
 test_that("mutate", {
-    tt %>%
+    pbmc_small %>%
         mutate(groups = 1) %>%
         distinct(groups) %>%
         nrow() %>%
@@ -84,7 +84,7 @@ test_that("mutate", {
 })
 
 test_that("rename", {
-    tt %>%
+    pbmc_small %>%
         rename(s_score = groups) %>%
         select(s_score) %>%
         ncol() %>%
@@ -92,8 +92,8 @@ test_that("rename", {
 })
 
 test_that("left_join", {
-    tt %>%
-        left_join(tt %>%
+    pbmc_small %>%
+        left_join(pbmc_small %>%
                       distinct(groups) %>%
                       mutate(new_column = 1:2)) %>%
         colData() %>%
@@ -102,8 +102,8 @@ test_that("left_join", {
 })
 
 test_that("inner_join", {
-    tt %>%
-        inner_join(tt %>%
+    pbmc_small %>%
+        inner_join(pbmc_small %>%
                        distinct(groups) %>%
                        mutate(new_column = 1:2) %>%
                        slice(1)) %>%
@@ -112,8 +112,8 @@ test_that("inner_join", {
 })
 
 test_that("right_join", {
-    tt %>%
-        right_join(tt %>%
+    pbmc_small %>%
+        right_join(pbmc_small %>%
                        distinct(groups) %>%
                        mutate(new_column = 1:2) %>%
                        slice(1)) %>%
@@ -122,27 +122,27 @@ test_that("right_join", {
 })
 
 test_that("full_join", {
-    tt %>%
+    pbmc_small %>%
         full_join(tibble::tibble(groups = "g1", other = 1:4)) %>%
         nrow() %>%
         expect_equal(212)
 })
 
 test_that("slice", {
-    tt %>%
+    pbmc_small %>%
         slice(1) %>%
         ncol() %>%
         expect_equal(1)
 })
 
 test_that("select", {
-    tt %>%
+    pbmc_small %>%
         select(cell, orig.ident) %>%
         class() %>%
         as.character() %>%
         expect_equal("SingleCellExperiment")
 
-    tt %>%
+    pbmc_small %>%
         select(orig.ident) %>%
         class() %>%
         as.character() %>%
@@ -151,21 +151,25 @@ test_that("select", {
 })
 
 test_that("sample_n", {
-    tt %>%
+    pbmc_small %>%
         sample_n(50) %>%
         ncol() %>%
         expect_equal(50)
+
+    expect_equal(   pbmc_small %>% sample_n(500, replace = TRUE) %>% ncol,   31  )
 })
 
 test_that("sample_frac", {
-    tt %>%
+    pbmc_small %>%
         sample_frac(0.1) %>%
         ncol() %>%
         expect_equal(8)
+
+    expect_equal(   pbmc_small %>% sample_frac(10, replace = TRUE) %>% ncol,   31  )
 })
 
 test_that("count", {
-    tt %>%
+    pbmc_small %>%
         count(groups) %>%
         nrow() %>%
         expect_equal(2)
