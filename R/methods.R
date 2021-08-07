@@ -1,39 +1,3 @@
-setClass("tidySingleCellExperiment", contains = "SingleCellExperiment")
-
-#' tidy for SingleCellExperiment
-#'
-#' @param object A SingleCellExperiment object
-#'
-#' @return A tidySingleCellExperiment object
-#'
-#' @name tidy
-#'
-#' @examples
-#'
-#' tidySingleCellExperiment::pbmc_small
-#' @export
-tidy <- function(object) {
-    UseMethod("tidy", object)
-}
-
-#' @importFrom methods as
-#' @importFrom lifecycle deprecate_warn
-#'
-#' @param object A SingleCellExperiment object
-#'
-#' @export
-tidy.SingleCellExperiment <- function(object) {
-
-    # DEPRECATE
-    deprecate_warn(
-        when = "1.1.1",
-        what = "tidy()",
-        details = "tidySingleCellExperiment says: tidy() is not needed anymore."
-    )
-
-    object
-}
-
 setMethod(
     f = "show",
     signature = "SingleCellExperiment",
