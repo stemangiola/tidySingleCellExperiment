@@ -1276,7 +1276,7 @@ add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .dro
 
 #' @export
 #' @rdname count
-add_count.tidySingleCellExperiment <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
+add_count.SingleCellExperiment <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
 
     x@meta.data =
         x %>%
