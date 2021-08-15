@@ -1278,7 +1278,7 @@ add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .dro
 #' @rdname count
 add_count.SingleCellExperiment <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
 
-    x@meta.data =
+    colData(x) =
         x %>%
         as_tibble %>%
         dplyr::add_count(..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)  %>%
