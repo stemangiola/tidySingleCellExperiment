@@ -95,7 +95,7 @@ drop_class <- function(var, name) {
 #'
 #'
 #' @noRd
-get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, assay = assays(.data) %>% as.list() %>% tail(1) %>% names ) {
+get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, assay = assays(.data) %>% as.list() %>% tail(1) %>% names,  prefix = "" ) {
 
     # Solve CRAN warnings
     . <- NULL
@@ -142,7 +142,10 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, assay = assay
         ) %>%
         as.matrix() %>%
         t() %>%
-        as_tibble(rownames="cell")
+        as_tibble(rownames="cell") %>%
+
+        # Add prefix
+        setNames(c("cell", sprintf("%s%s", prefix, colnames(.)[-1])))
 }
 
 #' get abundance long
