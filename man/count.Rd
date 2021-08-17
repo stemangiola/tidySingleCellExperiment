@@ -4,7 +4,7 @@
 \alias{count}
 \alias{add_count}
 \alias{add_count.default}
-\alias{add_count.tidySingleCellExperiment}
+\alias{add_count.SingleCellExperiment}
 \title{Count observations by group}
 \usage{
 count(
@@ -34,7 +34,7 @@ add_count(
   .drop = group_by_drop_default(x)
 )
 
-\method{add_count}{tidySingleCellExperiment}(
+\method{add_count}{SingleCellExperiment}(
   x,
   ...,
   wt = NULL,
