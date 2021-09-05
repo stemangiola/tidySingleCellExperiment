@@ -72,6 +72,12 @@ NULL
 as_tibble.SingleCellExperiment <- function(x, ...,
     .name_repair=c("check_unique", "unique", "universal", "minimal"),
     rownames=pkgconfig::get_config("tibble::rownames", NULL)) {
+
+    # Drop complex incompatible columns such as slignshot
+    # which gives to a column the value of an entire object that cannot be represented row-wise
+    colData(x) = colData(x)[,!x@colData %>% lapply(function(x) class(x)[1]) %in% c("PseudotimeOrdering") ,drop=FALSE]
+
+    # Process the remaining colData
     colData(x) %>%
         as.data.frame() %>%
         tibble::as_tibble(rownames=c_(x)$name) %>%
