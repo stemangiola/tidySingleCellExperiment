@@ -59,8 +59,8 @@ NULL
 #'
 #'
 #' @export
-unnest.tidySingleCellExperiment_nested <- function(data, cols, ..., keep_empty=FALSE, ptype=NULL,
-    names_sep=NULL, names_repair="check_unique", .drop, .id, .sep, .preserve) {
+unnest_single_cell_experiment  <-  function(data, cols, ..., keep_empty=FALSE, ptype=NULL,
+                                            names_sep=NULL, names_repair="check_unique", .drop, .id, .sep, .preserve) {
     # Need this otherwise crashes map
     .data_ <- data
 
@@ -75,16 +75,16 @@ unnest.tidySingleCellExperiment_nested <- function(data, cols, ..., keep_empty=F
                 is("SingleCellExperiment") %>%
                 any() ~
 
-            # Do my trick to unnest
-            mutate(., !!cols := imap(
-                !!cols, ~ .x %>%
-                    bind_cols_(
+                # Do my trick to unnest
+                mutate(., !!cols := imap(
+                    !!cols, ~ .x %>%
+                        bind_cols_(
 
-                        # Attach back the columns used for nesting
-                        .data_ %>% select(-!!cols) %>% slice(rep(.y, nrow(as_tibble(.x))))
+                            # Attach back the columns used for nesting
+                            .data_ %>% select(-!!cols) %>% slice(rep(.y, nrow(as_tibble(.x))))
 
-                    )
-            )) %>%
+                        )
+                )) %>%
                 pull(!!cols) %>%
                 reduce(bind_rows),
 
@@ -95,6 +95,15 @@ unnest.tidySingleCellExperiment_nested <- function(data, cols, ..., keep_empty=F
                 add_class("tidySingleCellExperiment_nested")
         )
 }
+
+#' @importFrom rlang quo_name
+#' @importFrom purrr imap
+#'
+#'
+#' @export
+unnest.tidySingleCellExperiment_nested <- unnest_single_cell_experiment
+
+
 
 #' nest
 #'
