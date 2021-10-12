@@ -297,10 +297,17 @@ filter.SingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
     new_meta <- .data %>%
         as_tibble() %>%
         dplyr::filter(..., .preserve=.preserve) # %>% as_meta_data(.data)
-    new_obj <- .data[, new_meta$cell]
-    # colData(new_obj)=new_meta
 
-    new_obj
+    # Try to solve missing colnames
+    if(colnames(.data) %>% is.null()){
+      message("tidySingleCellExperiment says: the input object does not have cell names (colnames(...)). \n Therefore, the cell column in the filtered tibble abstraction will still include an incremental integer vector.")
+      new_meta$cell = as.integer(new_meta$cell)
+
+    }
+
+
+    .data[, new_meta$cell]
+
 }
 
 
