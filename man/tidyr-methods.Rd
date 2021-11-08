@@ -2,14 +2,38 @@
 % Please edit documentation in R/tidyr_methods.R
 \name{unnest}
 \alias{unnest}
+\alias{unnest_single_cell_experiment}
 \alias{nest}
 \alias{extract}
 \title{unnest}
+\usage{
+unnest_single_cell_experiment(
+  data,
+  cols,
+  ...,
+  keep_empty = FALSE,
+  ptype = NULL,
+  names_sep = NULL,
+  names_repair = "check_unique",
+  .drop,
+  .id,
+  .sep,
+  .preserve
+)
+}
 \arguments{
+\item{data}{A tidySingleCellExperiment object}
+
 \item{cols}{<\code{\link[=tidyr_tidy_select]{tidy-select}}> Columns to unnest.
 If you \code{unnest()} multiple columns, parallel entries must be of
 compatible sizes, i.e. they're either equal or length 1 (following the
 standard tidyverse recycling rules).}
+
+\item{...}{Additional arguments passed on to methods.}
+
+\item{keep_empty}{See tidyr::unnest}
+
+\item{ptype}{See tidyr::unnest}
 
 \item{names_sep}{If \code{NULL}, the default, the names will be left
 as is. In \code{nest()}, inner names will come from the former outer names;
@@ -21,25 +45,19 @@ outer and the inner column names, separated by \code{names_sep}. In \code{unnest
 the new inner names will have the outer names (+ \code{names_sep}) automatically
 stripped. This makes \code{names_sep} roughly symmetric between nesting and unnesting.}
 
-\item{keep_empty}{See tidyr::unnest}
-
 \item{names_repair}{See tidyr::unnest}
-
-\item{ptype}{See tidyr::unnest}
 
 \item{.drop}{See tidyr::unnest}
 
 \item{.id}{tidyr::unnest}
 
-\item{sep}{tidyr::unnest}
-
 \item{.preserve}{See tidyr::unnest}
+
+\item{sep}{tidyr::unnest}
 
 \item{.data}{A tbl. (See tidyr)}
 
 \item{.names_sep}{See ?tidyr::nest}
-
-\item{data}{A tidySingleCellExperiment object}
 
 \item{col}{Column name or position. This is passed to
 \code{\link[tidyselect:vars_pull]{tidyselect::vars_pull()}}.
@@ -61,10 +79,10 @@ There should be one group (defined by \verb{()}) for each element of \code{into}
 columns are integer, numeric or logical.
 
 NB: this will cause string \code{"NA"}s to be converted to \code{NA}s.}
-
-\item{...}{Additional arguments passed on to methods.}
 }
 \value{
+A tidySingleCellExperiment objector a tibble depending on input
+
 A tidySingleCellExperiment objector a tibble depending on input
 
 A tidySingleCellExperiment objector a tibble depending on input
@@ -83,6 +101,13 @@ pbmc_small \%>\%
 
     nest(data=-groups) \%>\%
     unnest(data)
+
+
+library(dplyr)
+pbmc_small \%>\%
+
+    nest(data=-groups) \%>\%
+    unnest_single_cell_experiment(data)
 
 
 library(dplyr)
