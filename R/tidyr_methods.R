@@ -185,9 +185,18 @@ NULL
 #'
 #' @export
 nest.SingleCellExperiment <- function(.data, ..., .names_sep = NULL) {
-    my_data__ <- .data
     cols <- enquos(...)
     col_name_data <- names(cols)
+
+    # Deprecation of special column names
+    if(is_sample_feature_deprecated_used(
+      .data,
+      (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+    )){
+      .data= ping_old_special_column_into_metadata(.data)
+    }
+
+    my_data__ = .data
 
     my_data__ %>%
 
@@ -200,7 +209,7 @@ nest.SingleCellExperiment <- function(.data, ..., .names_sep = NULL) {
                 ~ my_data__ %>%
 
                     # Subset cells
-                    filter(cell %in% .x$cell) %>%
+                  filter(!!c_(my_data__)$symbol %in% pull(.x, !!c_(my_data__)$symbol)) %>%
 
                     # Subset columns
                     select(colnames(.x))
@@ -265,6 +274,14 @@ NULL
 extract.SingleCellExperiment <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE,
     convert=FALSE, ...) {
     col <- enquo(col)
+
+    # Deprecation of special column names
+    if(is_sample_feature_deprecated_used(
+      data,
+      c(quo_name(col), into)
+    )){
+      data= ping_old_special_column_into_metadata(data)
+    }
 
     colData(data) <-
         data %>%
@@ -387,6 +404,14 @@ pivot_longer.SingleCellExperiment <- function(data,
 
     message(data_frame_returned_message)
 
+    # Deprecation of special column names
+    if(is_sample_feature_deprecated_used(
+      data,
+      c(quo_names(cols))
+    )){
+      data= ping_old_special_column_into_metadata(data)
+    }
+
     data %>%
         as_tibble() %>%
         tidyr::pivot_longer(!!cols,
@@ -449,10 +474,18 @@ unite.SingleCellExperiment <- function(data, col, ..., sep="_", remove=TRUE, na.
     # Check that we are not modifying a key column
     cols <- enquo(col)
 
+    # Deprecation of special column names
+    if(is_sample_feature_deprecated_used(
+      data,
+      (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+    )){
+      data= ping_old_special_column_into_metadata(data)
+    }
+
     tst <-
         intersect(
             cols %>% quo_names(),
-            get_special_columns(data) %>% c(get_needed_columns())
+            get_special_columns(data) %>% c(get_needed_columns(data))
         ) %>%
         length() %>%
         gt(0) &
@@ -461,7 +494,7 @@ unite.SingleCellExperiment <- function(data, col, ..., sep="_", remove=TRUE, na.
     if (tst) {
         columns =
             get_special_columns(data) %>%
-            c(get_needed_columns()) %>%
+            c(get_needed_columns(data)) %>%
             paste(collapse=", ")
         stop(
             "tidySingleCellExperiment says: you are trying to rename a column that is view only",
@@ -538,10 +571,18 @@ separate.SingleCellExperiment <- function(data, col, into, sep="[^[:alnum:]]+", 
     # Check that we are not modifying a key column
     cols <- enquo(col)
 
+    # Deprecation of special column names
+    if(is_sample_feature_deprecated_used(
+      data,
+      c(quo_names(cols))
+    )){
+      data= ping_old_special_column_into_metadata(data)
+    }
+
     tst <-
         intersect(
             cols %>% quo_names(),
-            get_special_columns(data) %>% c(get_needed_columns())
+            get_special_columns(data) %>% c(get_needed_columns(data))
         ) %>%
         length() %>%
         gt(0) &
@@ -550,7 +591,7 @@ separate.SingleCellExperiment <- function(data, col, into, sep="[^[:alnum:]]+", 
     if (tst) {
         columns =
             get_special_columns(data) %>%
-            c(get_needed_columns()) %>%
+            c(get_needed_columns(data)) %>%
             paste(collapse=", ")
         stop(
             "tidySingleCellExperiment says: you are trying to rename a column that is view only",

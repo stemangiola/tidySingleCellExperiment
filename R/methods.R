@@ -124,9 +124,9 @@ join_features.SingleCellExperiment <-
                     all = all,
                     exclude_zeros = exclude_zeros
                 ),
-                by = "cell"
+                by = c_(.data)$name
             ) %>%
-            select(cell, feature, contains("abundance"), everything())
+            select(!!c_(.data)$symbol, feature, contains("abundance"), everything())
 
         # Shape if wide
         else
@@ -135,6 +135,6 @@ join_features.SingleCellExperiment <-
                 features = features,
                 all = all, ...
             ),
-            by = "cell")
+            by = c_(.data)$name)
 
     }

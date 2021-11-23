@@ -9,7 +9,7 @@
 #' @name join_transcripts
 #' @rdname join_transcripts
 #'
-#' @param .data A tidyseurat object
+#' @param .data A tidySingleCellExperiment object
 #' @param transcripts A vector of transcript identifiers to join
 #' @param all If TRUE return all
 #' @param exclude_zeros If TRUE exclude zero values
@@ -42,7 +42,7 @@ join_transcripts.default <-
            exclude_zeros = FALSE,
            shape = "long", ...)
   {
-    print("tidyseurat says: This function cannot be applied to this object")
+    print("tidySingleCellExperiment says: This function cannot be applied to this object")
   }
 #' @export
 join_transcripts.Seurat <-
@@ -53,7 +53,7 @@ join_transcripts.Seurat <-
            shape = "long", ...)
   {
 
-    deprecate_warn("1.1.2", "join_transcripts()", "tidyseurat::join_features()")
+    deprecate_warn("1.1.2", "join_transcripts()", "tidySingleCellExperiment::join_features()")
 
 
     .data %>%

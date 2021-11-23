@@ -74,7 +74,7 @@ as_tibble.SingleCellExperiment <- function(x, ...,
     rownames=pkgconfig::get_config("tibble::rownames", NULL)) {
     colData(x) %>%
         as.data.frame() %>%
-        tibble::as_tibble(rownames="cell") %>%
+        tibble::as_tibble(rownames=c_(x)$name) %>%
 
 
         # Attach reduced dimensions
