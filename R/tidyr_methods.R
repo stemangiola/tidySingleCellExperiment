@@ -92,7 +92,7 @@ NULL
 #' @param ptype See tidyr::unnest
 #' @param .drop See tidyr::unnest
 #' @param .id tidyr::unnest
-#' @param sep tidyr::unnest
+#' @param .sep tidyr::unnest
 #' @param .preserve See tidyr::unnest
 #'
 #' @return A tidySingleCellExperiment objector a tibble depending on input

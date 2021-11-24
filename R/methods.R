@@ -111,8 +111,8 @@ join_features.SingleCellExperiment <-
              shape = "long", ...) {
 
         # CRAN Note
-        cell = NULL
-        feature= NULL
+        .cell = NULL
+        .feature= NULL
 
         # Shape is long
         if (shape == "long")
@@ -126,7 +126,7 @@ join_features.SingleCellExperiment <-
                 ),
                 by = c_(.data)$name
             ) %>%
-            select(!!c_(.data)$symbol, feature, contains("abundance"), everything())
+            select(!!c_(.data)$symbol, .feature, contains(".abundance"), everything())
 
         # Shape if wide
         else

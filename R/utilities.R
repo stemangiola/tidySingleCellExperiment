@@ -234,17 +234,17 @@ get_abundance_sc_long <- function(.data, features=NULL, all=FALSE, exclude_zeros
                 }, ~ (.)) %>%
                 as.matrix() %>%
                 data.frame(check.names = FALSE) %>%
-                as_tibble(rownames="feature") %>%
+                as_tibble(rownames=".feature") %>%
                 tidyr::pivot_longer(
-                    cols=-feature,
+                    cols=- .feature,
                     names_to=c_(.data)$name,
-                    values_to="abundance" %>% paste(.y, sep="_"),
+                    values_to=".abundance" %>% paste(.y, sep="_"),
                     values_drop_na=TRUE
                 )
             # %>%
             # mutate_if(is.character, as.factor) %>%
         ) %>%
-        Reduce(function(...) full_join(..., by=c("feature", c_(.data)$name)), .)
+        Reduce(function(...) full_join(..., by=c(".feature", c_(.data)$name)), .)
 }
 
 #' @importFrom dplyr select_if
@@ -349,7 +349,7 @@ is_sample_feature_deprecated_used = function(.data, user_columns, use_old_specia
   old_standard_is_used = old_standard_is_used_for_cell
 
   if(old_standard_is_used){
-    warning("tidySingleCellExperiment says: from version 1.3.1, the special columns including cell id (colnames(se)) has changed to \".cell\". This dataset is returned with the old-style vocabulary (feature), however we suggest to update your workflow to reflect the new vocabulary (.cell)")
+    warning("tidySingleCellExperiment says: from version 1.3.1, the special columns including cell id (colnames(se)) has changed to \".cell\". This dataset is returned with the old-style vocabulary (cell), however we suggest to update your workflow to reflect the new vocabulary (.cell)")
 
     use_old_special_names = TRUE
   }
