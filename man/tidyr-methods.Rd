@@ -2,11 +2,26 @@
 % Please edit documentation in R/tidyr_methods.R
 \name{unnest}
 \alias{unnest}
+\alias{unnest.tidySingleCellExperiment_nested}
 \alias{unnest_single_cell_experiment}
 \alias{nest}
 \alias{extract}
 \title{unnest}
 \usage{
+\method{unnest}{tidySingleCellExperiment_nested}(
+  data,
+  cols,
+  ...,
+  keep_empty = FALSE,
+  ptype = NULL,
+  names_sep = NULL,
+  names_repair = "check_unique",
+  .drop,
+  .id,
+  .sep,
+  .preserve
+)
+
 unnest_single_cell_experiment(
   data,
   cols,
