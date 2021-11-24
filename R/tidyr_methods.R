@@ -61,7 +61,10 @@ NULL
 #' @export
 unnest.tidySingleCellExperiment_nested <- function(data, cols, ..., keep_empty=FALSE, ptype=NULL,
                                                    names_sep=NULL, names_repair="check_unique", .drop, .id, .sep, .preserve) {
-  unnest_single_cell_experiment(data, cols, ..., keep_empty=keep_empty, ptype=ptype,
+
+  cols <- enquo(cols)
+
+  unnest_single_cell_experiment(data, !!cols, ..., keep_empty=keep_empty, ptype=ptype,
                                         names_sep=names_sep, names_repair=names_repair, .drop, .id, .sep, .preserve)
   }
 
