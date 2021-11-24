@@ -65,7 +65,7 @@ unnest.tidySingleCellExperiment_nested <- function(data, cols, ..., keep_empty=F
   cols <- enquo(cols)
 
   unnest_single_cell_experiment(data, !!cols, ..., keep_empty=keep_empty, ptype=ptype,
-                                        names_sep=names_sep, names_repair=names_repair, .drop, .id, .sep, .preserve)
+                                        names_sep=names_sep, names_repair=names_repair)
   }
 
 
