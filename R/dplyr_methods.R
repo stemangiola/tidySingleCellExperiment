@@ -318,7 +318,7 @@ filter.SingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
     # Try to solve missing colnames
     if(colnames(.data) %>% is.null()){
       message("tidySingleCellExperiment says: the input object does not have cell names (colnames(...)). \n Therefore, the cell column in the filtered tibble abstraction will still include an incremental integer vector.")
-      new_meta = mew_meta %>% mutate(!!c_(.data)$symbol := as.integer(!!c_(.data)$symbol))
+      new_meta = new_meta %>% mutate(!!c_(.data)$symbol := as.integer(!!c_(.data)$symbol))
 
     }
 

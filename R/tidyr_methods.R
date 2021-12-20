@@ -48,14 +48,14 @@
 #'     nest(data=-groups) %>%
 #'     unnest(data)
 #'
-#' @rdname tidyr-methods
+#' @rdname unnest-methods
 #' @name unnest
 #'
 #' @export
 NULL
 
 
-#' @rdname tidyr-methods
+#' @rdname unnest-methods
 #' @name unnest
 #'
 #' @export
@@ -121,7 +121,7 @@ unnest.tidySingleCellExperiment_nested <- function(data, cols, ..., keep_empty=F
 #'     nest(data=-groups) %>%
 #'     unnest_single_cell_experiment(data)
 #'
-#' @rdname tidyr-methods
+#' @rdname unnest-methods
 #' @name unnest_single_cell_experiment
 #'
 #'
@@ -184,7 +184,7 @@ unnest_single_cell_experiment  <-  function(data, cols, ..., keep_empty=FALSE, p
 #'
 #'     nest(data=-groups) %>%
 #'     unnest(data)
-#' @rdname tidyr-methods
+#' @rdname nest-methods
 #' @name nest
 #'
 #' @export
@@ -268,7 +268,7 @@ nest.SingleCellExperiment <- function(.data, ..., .names_sep = NULL) {
 #'
 #' @importFrom tidyr extract
 #'
-#' @rdname tidyr-methods
+#' @rdname extract-methods
 #' @name extract
 #'
 #' @export
@@ -559,7 +559,7 @@ unite.SingleCellExperiment <- function(data, col, ..., sep="_", remove=TRUE, na.
 #'
 #' @return A tidySingleCellExperiment objector a tibble depending on input
 #'
-#' @rdname unite-methods
+#' @rdname separate-methods
 #' @name separate
 #'
 #' @export
