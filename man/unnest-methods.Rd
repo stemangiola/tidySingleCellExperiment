@@ -3,8 +3,6 @@
 \name{unnest}
 \alias{unnest}
 \alias{unnest_single_cell_experiment}
-\alias{nest}
-\alias{extract}
 \title{unnest}
 \usage{
 unnest_single_cell_experiment(
@@ -22,14 +20,24 @@ unnest_single_cell_experiment(
 )
 }
 \arguments{
-\item{data}{A tidySingleCellExperiment object}
+\item{data}{A tbl. (See tidyr)}
 
 \item{cols}{<\code{\link[=tidyr_tidy_select]{tidy-select}}> Columns to unnest.
 If you \code{unnest()} multiple columns, parallel entries must be of
 compatible sizes, i.e. they're either equal or length 1 (following the
 standard tidyverse recycling rules).}
 
-\item{...}{Additional arguments passed on to methods.}
+\item{...}{<\code{\link[=tidyr_tidy_select]{tidy-select}}> Columns to nest, specified
+using name-variable pairs of the form \code{new_col=c(col1, col2, col3)}.
+The right hand side can be any valid tidy select expression.
+
+\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}:
+previously you could write \code{df \%>\% nest(x, y, z)} and \code{df \%>\% unnest(x, y, z)}. Convert to \code{df \%>\% nest(data=c(x, y, z))}.
+and \code{df \%>\% unnest(c(x, y, z))}.
+
+If you previously created new variable in \code{unnest()} you'll now need to
+do it explicitly with \code{mutate()}. Convert \code{df \%>\% unnest(y=fun(x, y, z))}
+to \code{df \%>\% mutate(y=fun(x, y, z)) \%>\% unnest(y)}.}
 
 \item{keep_empty}{See tidyr::unnest}
 
@@ -54,45 +62,16 @@ stripped. This makes \code{names_sep} roughly symmetric between nesting and unne
 \item{.preserve}{See tidyr::unnest}
 
 \item{sep}{tidyr::unnest}
-
-\item{.data}{A tbl. (See tidyr)}
-
-\item{.names_sep}{See ?tidyr::nest}
-
-\item{col}{Column name or position. This is passed to
-\code{\link[tidyselect:vars_pull]{tidyselect::vars_pull()}}.
-
-This argument is passed by expression and supports
-\link[rlang:nse-force]{quasiquotation} (you can unquote column
-names or column positions).}
-
-\item{into}{Names of new variables to create as character vector.
-Use \code{NA} to omit the variable in the output.}
-
-\item{regex}{a regular expression used to extract the desired values.
-There should be one group (defined by \verb{()}) for each element of \code{into}.}
-
-\item{remove}{If \code{TRUE}, remove input column from output data frame.}
-
-\item{convert}{If \code{TRUE}, will run \code{\link[=type.convert]{type.convert()}} with
-\code{as.is=TRUE} on new columns. This is useful if the component
-columns are integer, numeric or logical.
-
-NB: this will cause string \code{"NA"}s to be converted to \code{NA}s.}
 }
 \value{
 A tidySingleCellExperiment objector a tibble depending on input
 
 A tidySingleCellExperiment objector a tibble depending on input
-
-A tidySingleCellExperiment objector a tibble depending on input
-
-A tidySingleCellExperiment objector a tibble depending on input
 }
 \description{
-Given a regular expression with capturing groups, \code{extract()} turns
-each group into a new column. If the groups don't match, or the input
-is NA, the output will be NA.
+unnest
+
+unnest_single_cell_experiment
 }
 \examples{
 
@@ -109,17 +88,4 @@ pbmc_small \%>\%
     nest(data=-groups) \%>\%
     unnest_single_cell_experiment(data)
 
-
-library(dplyr)
-pbmc_small \%>\%
-
-    nest(data=-groups) \%>\%
-    unnest(data)
-
-pbmc_small \%>\%
-
-    extract(groups, into="g", regex="g([0-9])", convert=TRUE)
-}
-\seealso{
-\code{\link[=separate]{separate()}} to split up by a separator.
 }

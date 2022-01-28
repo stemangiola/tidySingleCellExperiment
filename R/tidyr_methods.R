@@ -48,7 +48,7 @@
 #'     nest(data=-groups) %>%
 #'     unnest(data)
 #'
-#' @rdname tidyr-methods
+#' @rdname unnest-methods
 #' @name unnest
 #'
 #' @export
@@ -105,7 +105,7 @@ NULL
 #'     nest(data=-groups) %>%
 #'     unnest_single_cell_experiment(data)
 #'
-#' @rdname tidyr-methods
+#' @rdname unnest-methods
 #' @name unnest_single_cell_experiment
 #'
 #'
@@ -174,7 +174,7 @@ unnest.tidySingleCellExperiment_nested <- unnest_single_cell_experiment
 #'
 #'     nest(data=-groups) %>%
 #'     unnest(data)
-#' @rdname tidyr-methods
+#' @rdname nest-methods
 #' @name nest
 #'
 #' @export
@@ -249,7 +249,7 @@ nest.SingleCellExperiment <- function(.data, ..., .names_sep = NULL) {
 #'
 #' @importFrom tidyr extract
 #'
-#' @rdname tidyr-methods
+#' @rdname extract-methods
 #' @name extract
 #'
 #' @export
