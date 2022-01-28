@@ -2,8 +2,6 @@ context("dplyr test")
 
 library(magrittr)
 
-pbmc_small <- pbmc_small
-
 test_that("arrange", {
     tt_pca_aranged <-
         pbmc_small %>%
