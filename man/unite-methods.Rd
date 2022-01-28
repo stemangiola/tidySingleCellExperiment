@@ -2,7 +2,6 @@
 % Please edit documentation in R/tidyr_methods.R
 \name{unite}
 \alias{unite}
-\alias{separate}
 \title{Unite multiple columns into one by pasting strings together}
 \arguments{
 \item{data}{A data frame.}
@@ -18,63 +17,25 @@ tidyverse; we support it here for backward compatibility).}
 
 \item{...}{<\code{\link[=tidyr_tidy_select]{tidy-select}}> Columns to unite}
 
+\item{sep}{Separator to use between values.}
+
 \item{na.rm}{If \code{TRUE}, missing values will be remove prior to uniting
 each value.}
 
 \item{remove}{If \code{TRUE}, remove input columns from output data frame.}
-
-\item{sep}{Separator between columns.
-
-If character, \code{sep} is interpreted as a regular expression. The default
-value is a regular expression that matches any sequence of
-non-alphanumeric values.
-
-If numeric, \code{sep} is interpreted as character positions to split at. Positive
-values start at 1 at the far-left of the string; negative value start at -1 at
-the far-right of the string. The length of \code{sep} should be one less than
-\code{into}.}
-
-\item{extra}{If \code{sep} is a character vector, this controls what
-happens when there are too many pieces. There are three valid options:
-\itemize{
-\item "warn" (the default): emit a warning and drop extra values.
-\item "drop": drop any extra values without a warning.
-\item "merge": only splits at most \code{length(into)} times
-}}
-
-\item{fill}{If \code{sep} is a character vector, this controls what
-happens when there are not enough pieces. There are three valid options:
-\itemize{
-\item "warn" (the default): emit a warning and fill from the right
-\item "right": fill with missing values on the right
-\item "left": fill with missing values on the left
-}}
 }
 \value{
-A tidySingleCellExperiment objector a tibble depending on input
-
 A tidySingleCellExperiment objector a tibble depending on input
 }
 \description{
 Convenience function to paste together multiple columns into one.
-
-Given either a regular expression or a vector of character positions,
-\code{separate()} turns a single character column into multiple columns.
 }
 \examples{
 
 pbmc_small \%>\%
 
     unite("new_col", c(orig.ident, groups))
-
-un <- pbmc_small \%>\%
-
-    unite("new_col", c(orig.ident, groups))
-un \%>\% separate(col=new_col, into=c("orig.ident", "groups"))
 }
 \seealso{
 \code{\link[=separate]{separate()}}, the complement.
-
-\code{\link[=unite]{unite()}}, the complement, \code{\link[=extract]{extract()}} which uses regular
-expression capturing groups.
 }

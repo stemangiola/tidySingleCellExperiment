@@ -99,35 +99,36 @@ setMethod("join_features", "SingleCellExperiment",  function(.data,
                                                exclude_zeros = FALSE,
                                                shape = "long", ...)
 {
+        # CRAN Note
+        .cell = NULL
+        .feature= NULL
 
-  # CRAN Note
-  cell = NULL
-  feature= NULL
+        # Shape is long
+        if (shape == "long")
+          .data %>%
+            left_join(
+                get_abundance_sc_long(
+                    .data = .data,
+                    features = features,
+                    all = all,
+                    exclude_zeros = exclude_zeros
+                ),
+                by = c_(.data)$name
+            ) %>%
+            select(!!c_(.data)$symbol, .feature, contains(".abundance"), everything())
 
-  # Shape is long
-  if (shape == "long")
-    .data %>%
-    left_join(
-      get_abundance_sc_long(
-        .data = .data,
-        features = features,
-        all = all,
-        exclude_zeros = exclude_zeros
-      ),
-      by = "cell"
-    ) %>%
-    select(cell, feature, contains("abundance"), everything())
+        # Shape if wide
+        else
+          .data  %>% left_join(get_abundance_sc_wide(
+                .data = .data,
+                features = features,
+                all = all, ...
+            ),
+            by = c_(.data)$name)
 
-  # Shape if wide
-  else
-    .data  %>% left_join(get_abundance_sc_wide(
-      .data = .data,
-      features = features,
-      all = all, ...
-    ),
-    by = "cell")
 
 })
+
 
 
 
