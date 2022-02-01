@@ -20,6 +20,7 @@
   .preserve
 )
 
+
 unnest_single_cell_experiment(
   data,
   cols,
@@ -75,6 +76,7 @@ stripped. This makes \code{names_sep} roughly symmetric between nesting and unne
 \item{.id}{tidyr::unnest}
 
 \item{.sep}{tidyr::unnest}
+
 
 \item{.preserve}{See tidyr::unnest}
 
