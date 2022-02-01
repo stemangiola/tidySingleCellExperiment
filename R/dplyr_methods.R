@@ -63,7 +63,7 @@ arrange.SingleCellExperiment <- function(.data, ..., .by_group=FALSE) {
         as_tibble() %>%
         dplyr::arrange(..., .by_group=.by_group)
 
-    .data[, new_metadata$cell]
+    .data[, pull(new_metadata, !!c_(.data)$symbol)]
 
 }
 
@@ -215,6 +215,14 @@ NULL
 distinct.SingleCellExperiment <- function(.data, ..., .keep_all=FALSE) {
     message(data_frame_returned_message)
 
+  distinct_columns =
+    (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used(.data, distinct_columns)){
+    .data= ping_old_special_column_into_metadata(.data)
+  }
+
     .data %>%
         as_tibble() %>%
         dplyr::distinct(..., .keep_all=.keep_all)
@@ -294,13 +302,29 @@ NULL
 #'
 #' @export
 filter.SingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
-    new_meta <- .data %>%
+
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used(
+    .data,
+    (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+  )){
+    .data= ping_old_special_column_into_metadata(.data)
+  }
+
+  new_meta <- .data %>%
         as_tibble() %>%
         dplyr::filter(..., .preserve=.preserve) # %>% as_meta_data(.data)
-    new_obj <- .data[, new_meta$cell]
-    # colData(new_obj)=new_meta
 
-    new_obj
+    # Try to solve missing colnames
+    if(colnames(.data) %>% is.null()){
+      message("tidySingleCellExperiment says: the input object does not have cell names (colnames(...)). \n Therefore, the cell column in the filtered tibble abstraction will still include an incremental integer vector.")
+      new_meta = new_meta %>% mutate(!!c_(.data)$symbol := as.integer(!!c_(.data)$symbol))
+
+    }
+
+
+    .data[, pull(new_meta, !!c_(.data)$symbol)]
+
 }
 
 
@@ -353,6 +377,14 @@ NULL
 #' @export
 group_by.SingleCellExperiment <- function(.data, ..., .add=FALSE, .drop=group_by_drop_default(.data)) {
     message(data_frame_returned_message)
+
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used(
+    .data,
+    (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+  )){
+    .data= ping_old_special_column_into_metadata(.data)
+  }
 
     .data %>%
         as_tibble() %>%
@@ -440,6 +472,13 @@ NULL
 summarise.SingleCellExperiment <- function(.data, ...) {
     message(data_frame_returned_message)
 
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used(
+    .data,
+    (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+  )){
+    .data= ping_old_special_column_into_metadata(.data)
+  }
 
     .data %>%
         as_tibble() %>%
@@ -547,12 +586,20 @@ mutate.SingleCellExperiment <- function(.data, ...) {
     # Check that we are not modifying a key column
     cols <- enquos(...) %>% names()
 
+    # Deprecation of special column names
+    if(is_sample_feature_deprecated_used(
+      .data,
+      (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+    )){
+      .data= ping_old_special_column_into_metadata(.data)
+    }
+
     tst <-
         intersect(
             cols %>%
                 names(),
             get_special_columns(.data) %>%
-                c(get_needed_columns())
+                c(get_needed_columns(.data))
         ) %>%
         length() %>%
         gt(0)
@@ -635,7 +682,7 @@ rename.SingleCellExperiment <- function(.data, ...) {
             cols %>%
                 names(),
             get_special_columns(.data) %>%
-                c(get_needed_columns())
+                c(get_needed_columns(.data))
         ) %>%
         length() %>%
         gt(0)
@@ -643,7 +690,7 @@ rename.SingleCellExperiment <- function(.data, ...) {
     if (tst) {
         columns =
             get_special_columns(.data) %>%
-            c(get_needed_columns()) %>%
+            c(get_needed_columns(.data)) %>%
             paste(collapse=", ")
         stop(
             "tidySingleCellExperiment says: you are trying to rename a column that is view only",
@@ -735,13 +782,19 @@ NULL
 #' @export
 left_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
+
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used( x, when(by, !is.null(.) ~ by, ~ colnames(y)))){
+    x= ping_old_special_column_into_metadata(x)
+  }
+
     x %>%
         as_tibble() %>%
         dplyr::left_join(y, by=by, copy=copy, suffix=suffix, ...) %>%
         when(
 
             # If duplicated cells returns tibble
-            dplyr::count(., cell) %>%
+            dplyr::count(., !!c_(x)$symbol) %>%
                 filter(n > 1) %>%
                 nrow() %>%
                 gt(0) ~ {
@@ -786,13 +839,19 @@ NULL
 #' @importFrom SummarizedExperiment colData
 #' @export
 inner_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"), ...) {
+
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used( x, when(by, !is.null(.) ~ by, ~ colnames(y)))){
+    x= ping_old_special_column_into_metadata(x)
+  }
+
     x %>%
         as_tibble() %>%
         dplyr::inner_join(y, by=by, copy=copy, suffix=suffix, ...) %>%
         when(
 
             # If duplicated cells returns tibble
-            count(., cell) %>%
+            count(., !!c_(x)$symbol) %>%
                 filter(n > 1) %>%
                 nrow() %>%
                 gt(0) ~ {
@@ -802,7 +861,7 @@ inner_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(
 
             # Otherwise return updated tidySingleCellExperiment
             ~ {
-                new_obj <- x[, .$cell]
+                new_obj <- x[, pull(., c_(x)$name)]
                 colData(new_obj) <- (.) %>% as_meta_data(new_obj)
                 new_obj
             }
@@ -842,13 +901,19 @@ NULL
 #' @export
 right_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
+
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used( x, when(by, !is.null(.) ~ by, ~ colnames(y)))){
+    x= ping_old_special_column_into_metadata(x)
+  }
+
     x %>%
         as_tibble() %>%
         dplyr::right_join(y, by=by, copy=copy, suffix=suffix, ...) %>%
         when(
 
             # If duplicated cells returns tibble
-            count(., cell) %>%
+            count(., !!c_(x)$symbol) %>%
                 filter(n > 1) %>%
                 nrow() %>%
                 gt(0) ~ {
@@ -858,7 +923,7 @@ right_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(
 
             # Otherwise return updated tidySingleCellExperiment
             ~ {
-                new_obj <- x[, .$cell]
+                new_obj <- x[, pull(., c_(x)$name)]
                 colData(new_obj) <- (.) %>% as_meta_data(new_obj)
                 new_obj
             }
@@ -898,13 +963,19 @@ NULL
 #' @export
 full_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(".x", ".y"),
     ...) {
+
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used( x, when(by, !is.null(.) ~ by, ~ colnames(y)))){
+    x= ping_old_special_column_into_metadata(x)
+  }
+
     x %>%
         as_tibble() %>%
         dplyr::full_join(y, by=by, copy=copy, suffix=suffix, ...) %>%
         when(
 
             # If duplicated cells returns tibble
-            count(., cell) %>%
+            count(., !!c_(x)$symbol) %>%
                 filter(n > 1) %>%
                 nrow() %>%
                 gt(0) ~ {
@@ -914,7 +985,7 @@ full_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c("
 
             # Otherwise return updated tidySingleCellExperiment
             ~ {
-                new_obj <- x[, .$cell]
+                new_obj <- x[, pull(., c_(x)$name)]
                 colData(new_obj) <- (.) %>% as_meta_data(x)
                 new_obj
             }
@@ -1058,13 +1129,22 @@ NULL
 #' @importFrom SummarizedExperiment colData
 #' @export
 select.SingleCellExperiment <- function(.data, ...) {
+
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used(
+    .data,
+    (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+  )){
+    .data= ping_old_special_column_into_metadata(.data)
+  }
+
     .data %>%
         as_tibble() %>%
         select_helper(...) %>%
         when(
 
             # If key columns are missing
-            (get_needed_columns() %in% colnames(.)) %>%
+            (get_needed_columns(.data) %in% colnames(.)) %>%
                 all() %>%
                 `!`() ~ {
                 message("tidySingleCellExperiment says: Key columns are missing. A data frame is returned for independent data analysis.")
@@ -1141,19 +1221,19 @@ sample_n.SingleCellExperiment <- function(tbl, size, replace=FALSE,
 
     new_meta = colData(tbl) %>%
         as.data.frame() %>%
-        as_tibble(rownames = "cell") %>%
+        as_tibble(rownames = c_(tbl)$name) %>%
         dplyr::sample_n( size, replace = replace, weight = weight, .env = .env, ...)
 
-    count_cells = new_meta %>% select(cell) %>% count(cell)
+    count_cells = new_meta %>% select(!!c_(tbl)$symbol) %>% count(!!c_(tbl)$symbol)
 
     # If repeted cells
     if(count_cells$n %>% max() %>% gt(1)){
         message("tidySingleCellExperiment says: When sampling with replacement a data frame is returned for independent data analysis.")
         tbl %>%
             as_tibble() %>%
-            right_join(new_meta %>% select(cell),  by = "cell")
+            right_join(new_meta %>% select(!!c_(tbl)$symbol),  by = c_(tbl)$name)
     }  else{
-        new_obj = tbl[,  new_meta %>% pull(cell)]
+        new_obj = tbl[,  new_meta %>% pull(!!c_(tbl)$symbol)]
         new_obj
     }
 }
@@ -1178,19 +1258,19 @@ sample_frac.SingleCellExperiment <- function(tbl, size=1, replace=FALSE,
 
     new_meta = colData(tbl) %>%
         as.data.frame() %>%
-        as_tibble(rownames = "cell") %>%
+        as_tibble(rownames = c_(tbl)$name) %>%
         dplyr::sample_frac( size, replace = replace, weight = weight, .env = .env, ...)
 
-    count_cells = new_meta %>% select(cell) %>% count(cell)
+    count_cells = new_meta %>% select(!!c_(tbl)$symbol) %>% count(!!c_(tbl)$symbol)
 
     # If repeted cells
     if(count_cells$n %>% max() %>% gt(1)){
         message("tidySingleCellExperiment says: When sampling with replacement a data frame is returned for independent data analysis.")
         tbl %>%
             as_tibble() %>%
-            right_join(new_meta %>% select(cell),  by = "cell")
+            right_join(new_meta %>% select(!!c_(tbl)$symbol),  by = c_(tbl)$name)
     }  else{
-        new_obj = tbl[,  new_meta %>% pull(cell)]
+        new_obj = tbl[,  new_meta %>% pull(!!c_(tbl)$symbol)]
         new_obj
     }
 }
@@ -1259,6 +1339,14 @@ count.default <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by
 count.SingleCellExperiment <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by_drop_default(x)) {
     message(data_frame_returned_message)
 
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used(
+    x,
+    (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+  )){
+    x= ping_old_special_column_into_metadata(x)
+  }
+
     x %>%
         as_tibble() %>%
         dplyr::count(..., wt=!!enquo(wt), sort=sort, name=name, .drop=.drop)
@@ -1281,6 +1369,14 @@ add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .dro
 #' @export
 #' @rdname count
 add_count.SingleCellExperiment <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
+
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used(
+    x,
+    (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+  )){
+    x= ping_old_special_column_into_metadata(x)
+  }
 
     colData(x) =
         x %>%
@@ -1334,6 +1430,14 @@ NULL
 pull.SingleCellExperiment <- function(.data, var=-1, name=NULL, ...) {
     var <- enquo(var)
     name <- enquo(name)
+
+    # Deprecation of special column names
+    if(is_sample_feature_deprecated_used(
+      .data,
+      quo_name(var)
+    )){
+      .data= ping_old_special_column_into_metadata(.data)
+    }
 
     .data %>%
         as_tibble() %>%

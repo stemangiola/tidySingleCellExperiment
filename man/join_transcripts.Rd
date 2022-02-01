@@ -14,7 +14,7 @@ join_transcripts(
 )
 }
 \arguments{
-\item{.data}{A tidyseurat object}
+\item{.data}{A tidySingleCellExperiment object}
 
 \item{transcripts}{A vector of transcript identifiers to join}
 

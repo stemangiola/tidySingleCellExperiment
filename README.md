@@ -224,7 +224,7 @@ Here we plot abundance of two features for each group.
 
     pbmc_small_polished %>%
         join_features(features=c("HLA-DRA", "LYZ")) %>%
-        ggplot(aes(groups, abundance_counts + 1, fill=groups)) +
+        ggplot(aes(groups, .abundance_counts + 1, fill=groups)) +
         geom_boxplot(outlier.shape=NA) +
         geom_jitter(aes(size=nCount_RNA), alpha=0.5, width=0.2) +
         scale_y_log10() +
@@ -371,7 +371,7 @@ SingleCellExperiment, tidyverse functions and tidyHeatmap
     pbmc_small_cluster %>%
         join_features(features=marker_genes) %>%
         group_by(label) %>%
-        heatmap(feature, cell, abundance_counts, .scale="column")
+        heatmap(.feature, .cell, .abundance_counts, .scale="column")
 
     ## tidySingleCellExperiment says: A data frame is returned for independent data analysis.
 
