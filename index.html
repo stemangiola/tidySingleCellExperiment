@@ -20,6 +20,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -32,18 +34,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">tidySingleCellExperiment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.4</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -62,7 +58,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/stemangiola/tidySingleCellExperiment/">
+  <a href="https://github.com/stemangiola/tidySingleCellExperiment/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -80,34 +76,34 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<div id="tidysinglecellexperiment---part-of-tidyfeatureomics" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#tidysinglecellexperiment---part-of-tidyfeatureomics" class="anchor"></a>tidySingleCellExperiment - part of tidyfeatureomics</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="tidysinglecellexperiment---part-of-tidyfeatureomics">tidySingleCellExperiment - part of tidyfeatureomics<a class="anchor" aria-label="anchor" href="#tidysinglecellexperiment---part-of-tidyfeatureomics"></a>
+</h1></div>
 <!-- badges: start -->
 
 <p><strong>Brings SingleCellExperiment to the tidyverse!</strong></p>
-<p>Website: <a href="https://stemangiola.github.io/tidySingleCellExperiment/articles/introduction.html">tidySingleCellExperiment</a></p>
+<p>Website: <a href="https://stemangiola.github.io/tidySingleCellExperiment/articles/introduction.html" class="external-link">tidySingleCellExperiment</a></p>
 <p>Please also have a look at</p>
 <ul>
 <li>
-<a href="https://stemangiola.github.io/tidyseurat/">tidyseurat</a> for tidy manipulation of Seurat objects</li>
+<a href="https://stemangiola.github.io/tidyseurat/" class="external-link">tidyseurat</a> for tidy manipulation of Seurat objects</li>
 <li>
-<a href="https://stemangiola.github.io/tidybulk/">tidybulk</a> for tidy bulk RNA-seq data analysis</li>
+<a href="https://stemangiola.github.io/tidybulk/" class="external-link">tidybulk</a> for tidy bulk RNA-seq data analysis</li>
 <li>
-<a href="https://github.com/stemangiola/nanny">nanny</a> for tidy high-level data analysis and manipulation</li>
+<a href="https://github.com/stemangiola/nanny" class="external-link">nanny</a> for tidy high-level data analysis and manipulation</li>
 <li>
-<a href="https://github.com/stemangiola/tidygate">tidygate</a> for adding custom gate information to your tibble</li>
+<a href="https://github.com/stemangiola/tidygate" class="external-link">tidygate</a> for adding custom gate information to your tibble</li>
 <li>
-<a href="https://stemangiola.github.io/tidyHeatmap/">tidyHeatmap</a> for heatmaps produced with tidy principles</li>
+<a href="https://stemangiola.github.io/tidyHeatmap/" class="external-link">tidyHeatmap</a> for heatmaps produced with tidy principles</li>
 </ul>
 </div>
-<div id="introduction" class="section level1">
-<h1 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h1>
-<p>tidySingleCellExperiment provides a bridge between Bioconductor single-cell packages <span class="math display">@<em>a</em><em>m</em><em>e</em><em>z</em><em>q</em><em>u</em><em>i</em><em>t</em><em>a</em>2019<em>o</em><em>r</em><em>c</em><em>h</em><em>e</em><em>s</em><em>t</em><em>r</em><em>a</em><em>t</em><em>i</em><em>n</em><em>g</em></span> and the tidyverse <span class="math display">@<em>w</em><em>i</em><em>c</em><em>k</em><em>h</em><em>a</em><em>m</em>2019<em>w</em><em>e</em><em>l</em><em>c</em><em>o</em><em>m</em><em>e</em></span>. It creates an invisible layer that enables viewing the Bioconductor <em>SingleCellExperiment</em> object as a tidyverse tibble, and provides SingleCellExperiment-compatible <em>dplyr</em>, <em>tidyr</em>, <em>ggplot</em> and <em>plotly</em> functions. This allows users to get the best of both Bioconductor and tidyverse worlds.</p>
-<div id="functionsutilities-available" class="section level2">
-<h2 class="hasAnchor">
-<a href="#functionsutilities-available" class="anchor"></a>Functions/utilities available</h2>
+<div class="section level1">
+<h1 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h1>
+<p>tidySingleCellExperiment provides a bridge between Bioconductor single-cell packages [@amezquita2019orchestrating] and the tidyverse [@wickham2019welcome]. It creates an invisible layer that enables viewing the Bioconductor <em>SingleCellExperiment</em> object as a tidyverse tibble, and provides SingleCellExperiment-compatible <em>dplyr</em>, <em>tidyr</em>, <em>ggplot</em> and <em>plotly</em> functions. This allows users to get the best of both Bioconductor and tidyverse worlds.</p>
+<div class="section level2">
+<h2 id="functionsutilities-available">Functions/utilities available<a class="anchor" aria-label="anchor" href="#functionsutilities-available"></a>
+</h2>
 <table class="table">
 <colgroup>
 <col width="39%">
@@ -134,16 +130,16 @@
 <tbody>
 <tr class="odd">
 <td><code>dplyr</code></td>
-<td>All <code>dplyr</code> tibble functions (e.g. <code><a href="reference/arrange.html">tidySingleCellExperiment::select</a></code>)</td>
+<td>All <code>dplyr</code> tibble functions (e.g. <code><a href="reference/dplyr-methods.html">tidySingleCellExperiment::select</a></code>)</td>
 </tr>
 <tr class="even">
 <td><code>tidyr</code></td>
-<td>All <code>tidyr</code> tibble functions (e.g. <code><a href="reference/pivot_longer.html">tidySingleCellExperiment::pivot_longer</a></code>)</td>
+<td>All <code>tidyr</code> tibble functions (e.g. <code><a href="reference/pivot-methods.html">tidySingleCellExperiment::pivot_longer</a></code>)</td>
 </tr>
 <tr class="odd">
 <td><code>ggplot2</code></td>
 <td>
-<code>ggplot</code> (<code><a href="reference/ggplot.html">tidySingleCellExperiment::ggplot</a></code>)</td>
+<code>ggplot</code> (<code><a href="reference/ggplot2-methods.html">tidySingleCellExperiment::ggplot</a></code>)</td>
 </tr>
 <tr class="even">
 <td><code>plotly</code></td>
@@ -179,9 +175,9 @@
 </tbody>
 </table>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>From Bioconductor (under submission)</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"BiocManager"</span>, <span class="at">quietly=</span><span class="cn">TRUE</span>))</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">"BiocManager"</span>)</span>
@@ -205,9 +201,9 @@
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidySingleCellExperiment)</span></code></pre></div>
 </div>
 </div>
-<div id="create-tidysinglecellexperiment-the-best-of-both-worlds" class="section level1">
-<h1 class="hasAnchor">
-<a href="#create-tidysinglecellexperiment-the-best-of-both-worlds" class="anchor"></a>Create <code>tidySingleCellExperiment</code>, the best of both worlds!</h1>
+<div class="section level1">
+<h1 id="create-tidysinglecellexperiment-the-best-of-both-worlds">Create <code>tidySingleCellExperiment</code>, the best of both worlds!<a class="anchor" aria-label="anchor" href="#create-tidysinglecellexperiment-the-best-of-both-worlds"></a>
+</h1>
 <p>This is a <em>SingleCellExperiment</em> object but it is evaluated as a tibble. So it is compatible both with SingleCellExperiment and tidyverse.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pbmc_small_tidy <span class="ot">&lt;-</span> tidySingleCellExperiment<span class="sc">::</span>pbmc_small </span></code></pre></div>
 <p><strong>It looks like a tibble</strong></p>
@@ -237,9 +233,9 @@
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="do">## List of length 2</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="do">## names(2): counts logcounts</span></span></code></pre></div>
 </div>
-<div id="annotation-polishing" class="section level1">
-<h1 class="hasAnchor">
-<a href="#annotation-polishing" class="anchor"></a>Annotation polishing</h1>
+<div class="section level1">
+<h1 id="annotation-polishing">Annotation polishing<a class="anchor" aria-label="anchor" href="#annotation-polishing"></a>
+</h1>
 <p>We may have a column that contains the directory each run was taken from, such as the “file” column in <code>pbmc_small_tidy</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pbmc_small_tidy<span class="sc">$</span>file[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -275,9 +271,9 @@
 <span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="do">## #   RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, ident &lt;fct&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;,</span></span>
 <span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="do">## #   PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span></code></pre></div>
 </div>
-<div id="preliminary-plots" class="section level1">
-<h1 class="hasAnchor">
-<a href="#preliminary-plots" class="anchor"></a>Preliminary plots</h1>
+<div class="section level1">
+<h1 id="preliminary-plots">Preliminary plots<a class="anchor" aria-label="anchor" href="#preliminary-plots"></a>
+</h1>
 <p>Set colours and theme for plots.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use colourblind-friendly colours</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>friendly_cols <span class="ot">&lt;-</span> dittoSeq<span class="sc">::</span><span class="fu">dittoColors</span>()</span>
@@ -320,7 +316,7 @@
 <p>Here we plot abundance of two features for each group.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>pbmc_small_polished <span class="sc">%&gt;%</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">join_features</span>(<span class="at">features=</span><span class="fu">c</span>(<span class="st">"HLA-DRA"</span>, <span class="st">"LYZ"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(groups, abundance_counts <span class="sc">+</span> <span class="dv">1</span>, <span class="at">fill=</span>groups)) <span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(groups, .abundance_counts <span class="sc">+</span> <span class="dv">1</span>, <span class="at">fill=</span>groups)) <span class="sc">+</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">size=</span>nCount_RNA), <span class="at">alpha=</span><span class="fl">0.5</span>, <span class="at">width=</span><span class="fl">0.2</span>) <span class="sc">+</span></span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
@@ -329,10 +325,10 @@
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="do">## tidySingleCellExperiment says: A data frame is returned for independent data analysis.</span></span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-11-1.png"><!-- --></p>
 </div>
-<div id="preprocess-the-dataset" class="section level1">
-<h1 class="hasAnchor">
-<a href="#preprocess-the-dataset" class="anchor"></a>Preprocess the dataset</h1>
-<p>We can also treat <code>pbmc_small_polished</code> as a <em>SingleCellExperiment</em> object and proceed with data processing with Bioconductor packages, such as <em>scran</em> <span class="math display">@<em>l</em><em>u</em><em>n</em>2016<em>p</em><em>o</em><em>o</em><em>l</em><em>i</em><em>n</em><em>g</em></span> and <em>scater</em> <span class="math display">@<em>m</em><em>c</em><em>c</em><em>a</em><em>r</em><em>t</em><em>h</em><em>y</em>2017<em>s</em><em>c</em><em>a</em><em>t</em><em>e</em><em>r</em></span>.</p>
+<div class="section level1">
+<h1 id="preprocess-the-dataset">Preprocess the dataset<a class="anchor" aria-label="anchor" href="#preprocess-the-dataset"></a>
+</h1>
+<p>We can also treat <code>pbmc_small_polished</code> as a <em>SingleCellExperiment</em> object and proceed with data processing with Bioconductor packages, such as <em>scran</em> [@lun2016pooling] and <em>scater</em> [@mccarthy2017scater].</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify variable genes with scran</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>variable_genes <span class="ot">&lt;-</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    pbmc_small_polished <span class="sc">%&gt;%</span></span>
@@ -382,9 +378,9 @@
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="do">##   +.gg   ggplot2</span></span></code></pre></div>
 <p><img src="reference/figures/pc_plot-1.png"><!-- --></p>
 </div>
-<div id="identify-clusters" class="section level1">
-<h1 class="hasAnchor">
-<a href="#identify-clusters" class="anchor"></a>Identify clusters</h1>
+<div class="section level1">
+<h1 id="identify-clusters">Identify clusters<a class="anchor" aria-label="anchor" href="#identify-clusters"></a>
+</h1>
 <p>We can proceed with cluster identification with <em>scran</em>.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pbmc_small_cluster <span class="ot">&lt;-</span> pbmc_small_pca</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -436,7 +432,7 @@
 <span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="do">## 6 g2     2        11</span></span>
 <span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="do">## 7 g2     3        10</span></span>
 <span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="do">## 8 g2     4         5</span></span></code></pre></div>
-<p>We can identify and visualise cluster markers combining SingleCellExperiment, tidyverse functions and tidyHeatmap <span class="math display">@<em>m</em><em>a</em><em>n</em><em>g</em><em>i</em><em>o</em><em>l</em><em>a</em>2020<em>t</em><em>i</em><em>d</em><em>y</em><em>h</em><em>e</em><em>a</em><em>t</em><em>m</em><em>a</em><em>p</em></span></p>
+<p>We can identify and visualise cluster markers combining SingleCellExperiment, tidyverse functions and tidyHeatmap [@mangiola2020tidyheatmap]</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify top 10 markers per cluster</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>marker_genes <span class="ot">&lt;-</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    pbmc_small_cluster <span class="sc">%&gt;%</span></span>
@@ -451,14 +447,14 @@
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>pbmc_small_cluster <span class="sc">%&gt;%</span></span>
 <span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">join_features</span>(<span class="at">features=</span>marker_genes) <span class="sc">%&gt;%</span></span>
 <span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(label) <span class="sc">%&gt;%</span></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">heatmap</span>(feature, cell, abundance_counts, <span class="at">.scale=</span><span class="st">"column"</span>)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">heatmap</span>(.feature, .cell, .abundance_counts, <span class="at">.scale=</span><span class="st">"column"</span>)</span>
 <span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="do">## tidySingleCellExperiment says: A data frame is returned for independent data analysis.</span></span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-12-1.png"><!-- --></p>
 </div>
-<div id="reduce-dimensions" class="section level1">
-<h1 class="hasAnchor">
-<a href="#reduce-dimensions" class="anchor"></a>Reduce dimensions</h1>
+<div class="section level1">
+<h1 id="reduce-dimensions">Reduce dimensions<a class="anchor" aria-label="anchor" href="#reduce-dimensions"></a>
+</h1>
 <p>We can calculate the first 3 UMAP dimensions using the SingleCellExperiment framework and <em>scater</em>.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>pbmc_small_UMAP <span class="ot">&lt;-</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    pbmc_small_cluster <span class="sc">%&gt;%</span></span>
@@ -472,12 +468,14 @@
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">color=</span><span class="sc">~</span>label,</span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">colors=</span>friendly_cols[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
-<p><img src="reference/figures/plotly.png" alt="plotly screenshot"></p>
+<div class="figure">
+<img src="reference/figures/plotly.png" alt=""><p class="caption">plotly screenshot</p>
 </div>
-<div id="cell-type-prediction" class="section level1">
-<h1 class="hasAnchor">
-<a href="#cell-type-prediction" class="anchor"></a>Cell type prediction</h1>
-<p>We can infer cell type identities using <em>SingleR</em> <span class="math display">@<em>a</em><em>r</em><em>a</em><em>n</em>2019<em>r</em><em>e</em><em>f</em><em>e</em><em>r</em><em>e</em><em>n</em><em>c</em><em>e</em></span> and manipulate the output using tidyverse.</p>
+</div>
+<div class="section level1">
+<h1 id="cell-type-prediction">Cell type prediction<a class="anchor" aria-label="anchor" href="#cell-type-prediction"></a>
+</h1>
+<p>We can infer cell type identities using <em>SingleR</em> [@aran2019reference] and manipulate the output using tidyverse.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get cell type reference data</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>blueprint <span class="ot">&lt;-</span> celldex<span class="sc">::</span><span class="fu">BlueprintEncodeData</span>()</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -583,9 +581,9 @@
 <span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="do">## tidySingleCellExperiment says: A data frame is returned for independent data analysis.</span></span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-16-1.png"><!-- --></p>
 </div>
-<div id="nested-analyses" class="section level1">
-<h1 class="hasAnchor">
-<a href="#nested-analyses" class="anchor"></a>Nested analyses</h1>
+<div class="section level1">
+<h1 id="nested-analyses">Nested analyses<a class="anchor" aria-label="anchor" href="#nested-analyses"></a>
+</h1>
 <p>A powerful tool we can use with tidySingleCellExperiment is tidyverse <code>nest</code>. We can easily perform independent analyses on subsets of the dataset. First we classify cell types into lymphoid and myeloid, and then nest based on the new classification.</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>pbmc_small_nested <span class="ot">&lt;-</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    pbmc_small_cell_type <span class="sc">%&gt;%</span></span>
@@ -646,7 +644,7 @@
 <span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>cell_class) <span class="sc">+</span></span>
 <span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    my_theme</span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-19-1.png"><!-- --></p>
-<p>We can perform a large number of functional analyses on data subsets. For example, we can identify intra-sample cell-cell interactions using <em>SingleCellSignalR</em> <span class="math display">@<em>c</em><em>a</em><em>b</em><em>e</em><em>l</em><em>l</em><em>o</em>2020<em>s</em><em>i</em><em>n</em><em>g</em><em>l</em><em>e</em><em>c</em><em>e</em><em>l</em><em>l</em><em>s</em><em>i</em><em>g</em><em>n</em><em>a</em><em>l</em><em>r</em></span>, and then compare whether interactions are stronger or weaker across conditions. The code below demonstrates how this analysis could be performed. It won’t work with this small example dataset as we have just two samples (one for each condition). But some example output is shown below and you can imagine how you can use tidyverse on the output to perform t-tests and visualisation.</p>
+<p>We can perform a large number of functional analyses on data subsets. For example, we can identify intra-sample cell-cell interactions using <em>SingleCellSignalR</em> [@cabello2020singlecellsignalr], and then compare whether interactions are stronger or weaker across conditions. The code below demonstrates how this analysis could be performed. It won’t work with this small example dataset as we have just two samples (one for each condition). But some example output is shown below and you can imagine how you can use tidyverse on the output to perform t-tests and visualisation.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>pbmc_small_nested_interactions <span class="ot">&lt;-</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    pbmc_small_nested_reanalysed <span class="sc">%&gt;%</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -699,46 +697,56 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from BIOC at <br><a href="https://www.bioconductor.org/packages/tidySingleCellExperiment">https://​www.bioconductor.org/​packages/​tidySingleCellExperiment</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/stemangiola/tidySingleCellExperiment/">https://​github.com/​stemangiola/​tidySingleCellExperiment/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/stemangiola/tidySingleCellExperiment/issues">https://​github.com/​stemangiola/​tidySingleCellExperiment/​issues</a>
-</li>
+<li><a href="https://www.bioconductor.org/packages/tidySingleCellExperiment" class="external-link">View on Bioconductor</a></li>
+<li><a href="https://github.com/stemangiola/tidySingleCellExperiment/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/stemangiola/tidySingleCellExperiment/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
+<li><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing tidySingleCellExperiment</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Stefano Mangiola <br><small class="roles"> Author, maintainer </small>  </li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle:maturing"></a></li>
-<li><a href="https://github.com/stemangiola/tidySingleCellExperiment/actions"><img src="https://github.com/stemangiola/tidySingleCellExperiment/workflows/R-CMD-check-bioc/badge.svg" alt="R build status"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#maturing" class="external-link"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle:maturing"></a></li>
+<li><a href="https://github.com/stemangiola/tidySingleCellExperiment/actions" class="external-link"><img src="https://github.com/stemangiola/tidySingleCellExperiment/workflows/R-CMD-check-bioc/badge.svg" alt="R build status"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Stefano Mangiola.</p>
+  <p></p>
+<p>Developed by Stefano Mangiola.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -746,6 +754,8 @@
 
   
 
+
+  
 
   </body>
 </html>
