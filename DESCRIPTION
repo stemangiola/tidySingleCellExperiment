@@ -9,6 +9,7 @@ Description: tidySingleCellExperiment is an adapter that abstracts the 'SingleCe
 License: GPL-3
 Depends:
     R (>= 4.0.0),
+    ttservice,
     SingleCellExperiment
 Imports:
     SummarizedExperiment,

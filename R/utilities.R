@@ -9,7 +9,7 @@
 to_tib <- function(.data) {
     colData(.data) %>%
         as.data.frame() %>%
-        as_tibble(rownames="cell")
+        as_tibble(rownames=c_(.data)$name)
 }
 
 # Greater than
@@ -142,10 +142,10 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, assay = assay
         ) %>%
         as.matrix() %>%
         t() %>%
-        as_tibble(rownames="cell") %>%
+        as_tibble(rownames=c_(.data)$name) %>%
 
         # Add prefix
-        setNames(c("cell", sprintf("%s%s", prefix, colnames(.)[-1])))
+        setNames(c(c_(.data)$name, sprintf("%s%s", prefix, colnames(.)[-1])))
 }
 
 #' get abundance long
@@ -234,17 +234,17 @@ get_abundance_sc_long <- function(.data, features=NULL, all=FALSE, exclude_zeros
                 }, ~ (.)) %>%
                 as.matrix() %>%
                 data.frame(check.names = FALSE) %>%
-                as_tibble(rownames="feature") %>%
+                as_tibble(rownames=".feature") %>%
                 tidyr::pivot_longer(
-                    cols=-feature,
-                    names_to="cell",
-                    values_to="abundance" %>% paste(.y, sep="_"),
+                    cols=- .feature,
+                    names_to=c_(.data)$name,
+                    values_to=".abundance" %>% paste(.y, sep="_"),
                     values_drop_na=TRUE
                 )
             # %>%
             # mutate_if(is.character, as.factor) %>%
         ) %>%
-        Reduce(function(...) full_join(..., by=c("feature", "cell")), .)
+        Reduce(function(...) full_join(..., by=c(".feature", c_(.data)$name)), .)
 }
 
 #' @importFrom dplyr select_if
@@ -266,7 +266,7 @@ as_meta_data <- function(.data, SingleCellExperiment_object) {
     .data %>%
         select_if(!colnames(.) %in% col_to_exclude) %>%
         # select(-one_of(col_to_exclude)) %>%
-        data.frame(row.names="cell") %>%
+        data.frame(row.names=c_(SingleCellExperiment_object)$name) %>%
         DataFrame()
 }
 
@@ -298,9 +298,9 @@ get_special_datasets <- function(SingleCellExperiment_object, n_dimensions_to_re
     })
 }
 
-get_needed_columns <- function() {
-    # c("cell",  "orig.ident", "nCount_RNA", "nFeature_RNA")
-    c("cell")
+get_needed_columns <- function(.data) {
+
+  c(c_(.data)$name)
 }
 
 #' Convert array of quosure (e.g. c(col_a, col_b)) into character vector
@@ -333,3 +333,53 @@ select_helper <- function(.data, ...) {
 data_frame_returned_message = "tidySingleCellExperiment says: A data frame is returned for independent data analysis."
 duplicated_cell_names = "tidySingleCellExperiment says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis."
 
+# This function is used for the change of special sample column to .sample
+# Check if "sample" is included in the query and is not part of any other existing annotation
+#' @importFrom stringr str_detect
+#' @importFrom stringr regex
+is_sample_feature_deprecated_used = function(.data, user_columns, use_old_special_names = FALSE){
+
+  old_standard_is_used_for_cell =
+    (
+      ( any(str_detect(user_columns  , regex("\\bcell\\b"))) & !any(str_detect(user_columns  , regex("\\W*(\\.cell)\\W*")))  ) |
+        "cell" %in% user_columns
+    ) &
+    !"cell" %in% colnames(colData(.data))
+
+  old_standard_is_used = old_standard_is_used_for_cell
+
+  if(old_standard_is_used){
+    warning("tidySingleCellExperiment says: from version 1.3.1, the special columns including cell id (colnames(se)) has changed to \".cell\". This dataset is returned with the old-style vocabulary (cell), however we suggest to update your workflow to reflect the new vocabulary (.cell)")
+
+    use_old_special_names = TRUE
+  }
+
+  use_old_special_names
+}
+
+get_special_column_name_symbol = function(name){
+  list(name = name, symbol = as.symbol(name))
+}
+
+# Key column names
+#' @importFrom S4Vectors metadata
+#' @importFrom S4Vectors metadata<-
+ping_old_special_column_into_metadata = function(.data){
+
+  metadata(.data)$cell__ = get_special_column_name_symbol("cell")
+
+  .data
+}
+
+get_special_column_name_cell = function(name){
+  list(name = name, symbol = as.symbol(name))
+}
+
+cell__ = get_special_column_name_symbol(".cell")
+
+#' @importFrom S4Vectors metadata
+c_ =  function(x){
+  # Check if old deprecated columns are used
+  if("cell__" %in% names(metadata(x))) cell__ = metadata(x)$cell__
+  return(cell__)
+}
