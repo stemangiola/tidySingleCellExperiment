@@ -19,7 +19,7 @@ data frames into one."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySingleCellExperiment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.1</span>
       </span>
     </div>
 
@@ -28,7 +28,7 @@ data frames into one."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -127,15 +127,15 @@ appears in any of the inputs.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tidySingleCellExperiment says: Key columns are missing. A data frame is returned for independent data analysis.</span>
 <span class="r-in"><span class="va">tt</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="dplyr-methods.html">bind_cols</a></span><span class="op">(</span><span class="va">tt_bind</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> New names:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> * nCount_RNA -&gt; nCount_RNA...2</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> * nFeature_RNA -&gt; nFeature_RNA...3</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> * nCount_RNA -&gt; nCount_RNA...10</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> * nFeature_RNA -&gt; nFeature_RNA...11</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `nCount_RNA` -&gt; `nCount_RNA...2`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `nFeature_RNA` -&gt; `nFeature_RNA...3`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `nCount_RNA` -&gt; `nCount_RNA...10`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `nFeature_RNA` -&gt; `nFeature_RNA...11`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> New names:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> * nCount_RNA...2 -&gt; nCount_RNA...3</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> * nFeature_RNA...3 -&gt; nFeature_RNA...4</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> * nCount_RNA...10 -&gt; nCount_RNA...11</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> * nFeature_RNA...11 -&gt; nFeature_RNA...12</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `nCount_RNA...2` -&gt; `nCount_RNA...3`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `nFeature_RNA...3` -&gt; `nFeature_RNA...4`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `nCount_RNA...10` -&gt; `nCount_RNA...11`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `nFeature_RNA...11` -&gt; `nFeature_RNA...12`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A SingleCellExperiment-tibble abstraction: 80 × 19</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"># Features=230 | Assays=counts, logcounts</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .cell orig.ident nCount_RNA...3 nFeature_RNA...4 RNA_snn_res.0.8</span>
@@ -168,7 +168,8 @@ appears in any of the inputs.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.</p>
 </div>
 
       </footer></div>
