@@ -26,7 +26,6 @@
 #' @export
 #'
 NULL
-NULL
 
 #' @importFrom rlang names2
 #' @importFrom pillar align
@@ -136,9 +135,11 @@ print.SingleCellExperiment <- function(x, ..., n = NULL, width = NULL, n_extra =
 
   x |>
     as_tibble(n_dimensions_to_return = 5) |>
+
     new_data_frame(class = c("tidySingleCellExperiment", "tbl")) %>%
     add_attr( nrow(x),  "number_of_features") %>%
     add_attr( assays(x) %>% names , "assay_names") %>%
+
     print()
 
   invisible(x)
