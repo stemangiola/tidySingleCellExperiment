@@ -1,14 +1,31 @@
 # This file is a replacement of the unexported functions in the tibble package, in order to specify "tibble abstraction in the header"
 
-#' tbl_format_header
+#' Format the header of a tibble
+#'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' For easier customization, the formatting of a tibble is split
+#' into three components: header, body, and footer.
+#' The `tbl_format_header()` method is responsible for formatting the header
+#' of a tibble.
+#'
+#' Override this method if you need to change the appearance
+#' of the entire header.
+#' If you only need to change or extend the components shown in the header,
+#' override or extend [tbl_sum()] for your class which is called by the
+#' default method.
+#'
+#' @importFrom pillar tbl_format_header
+#' @inheritParams tbl_format_body
+#' @inherit tbl_format_body return
 #'
 #' @rdname tbl_format_header-methods
 #' @name tbl_format_header
-#' @importFrom pillar tbl_format_header
-#'
-#' @noRd
 #'
 #' @export
+#'
+NULL
 NULL
 
 #' @importFrom rlang names2
@@ -113,12 +130,13 @@ NULL
 #' @rdname print
 #' @importFrom cli cat_line
 #' @importFrom SingleCellExperiment counts
+#' @importFrom vctrs new_data_frame
 #' @export
 print.SingleCellExperiment <- function(x, ..., n = NULL, width = NULL, n_extra = NULL) {
 
   x |>
     as_tibble(n_dimensions_to_return = 5) |>
-    vctrs::new_data_frame(class = c("tidySingleCellExperiment", "tbl")) %>%
+    new_data_frame(class = c("tidySingleCellExperiment", "tbl")) %>%
     add_attr( nrow(x),  "number_of_features") %>%
     add_attr( assays(x) %>% names , "assay_names") %>%
     print()
