@@ -119,8 +119,8 @@ print.SingleCellExperiment <- function(x, ..., n = NULL, width = NULL, n_extra =
   x |>
     as_tibble(n_dimensions_to_return = 5) |>
     vctrs::new_data_frame(class = c("tidySingleCellExperiment", "tbl")) %>%
-    tidybulk:::add_attr( nrow(x),  "number_of_features") %>%
-    tidybulk:::add_attr( assays(x) %>% names , "assay_names") %>%
+    add_attr( nrow(x),  "number_of_features") %>%
+    add_attr( assays(x) %>% names , "assay_names") %>%
     print()
 
   invisible(x)
