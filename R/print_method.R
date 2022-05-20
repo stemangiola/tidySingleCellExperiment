@@ -25,6 +25,10 @@
 #'
 #' @export
 #'
+<<<<<<< HEAD
+=======
+NULL
+>>>>>>> fix CHECK
 NULL
 
 #' @importFrom rlang names2
