@@ -40,7 +40,7 @@ tbl_format_header.tidySingleCellExperiment <- function(x, setup, ...){
 
       # Add further info single-cell
       append(sprintf(
-        "\033[90m Features=%s | cells=%s | Assays=%s\033[39m",
+        "\033[90m Features=%s | Cells=%s | Assays=%s\033[39m",
         number_of_features,
         nrow(x),
         assay_names %>% paste(collapse=", ")
