@@ -8,7 +8,7 @@ Description: tidySingleCellExperiment is an adapter that abstracts the 'SingleCe
     in the form of tibble and allows the data manipulation, plotting and nesting using 'tidyverse'.
 License: GPL-3
 Depends:
-    R (>= 4.0.0),
+    R (>= 4.1.0),
     ttservice,
     SingleCellExperiment
 Imports:
