@@ -19,7 +19,7 @@ data frames into one."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySingleCellExperiment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.3</span>
       </span>
     </div>
 
@@ -75,6 +75,8 @@ columns will be filled with NA.</p>
 <p>When column-binding, rows are matched by position, so all data
 frames must have the same number of rows. To match by value, not
 position, see mutate-joins.</p></dd>
+
+
 <dt>.id</dt>
 <dd><p>Data frame identifier.</p>
 <p>When <code>.id</code> is supplied, a new column of identifiers is
@@ -83,14 +85,19 @@ are taken from the named arguments to <code><a href="dplyr-methods.html">bind_ro
 list of data frames is supplied, the labels are taken from the
 names of the list. If no names are found a numeric sequence is
 used instead.</p></dd>
+
+
 <dt>add.cell.ids</dt>
 <dd><p>from SingleCellExperiment 3.0 A character vector of
 length(x=c(x, y)). Appends the corresponding values to the start of each
 objects' cell names.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code><a href="dplyr-methods.html">bind_rows()</a></code> and <code><a href="dplyr-methods.html">bind_cols()</a></code> return the same type as
+    
+
+<p><code><a href="dplyr-methods.html">bind_rows()</a></code> and <code><a href="dplyr-methods.html">bind_cols()</a></code> return the same type as
 the first input, either a data frame, <code>tbl_df</code>, or <code>grouped_df</code>.</p>
     </div>
     <div id="details">
@@ -101,9 +108,9 @@ appears in any of the inputs.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">`%&gt;%`</span> <span class="op">&lt;-</span> <span class="fu">magrittr</span><span class="fu">::</span><span class="va">`%&gt;%`</span></span>
-<span class="r-in"><span class="va">tt</span> <span class="op">&lt;-</span> <span class="va">pbmc_small</span></span>
-<span class="r-in"><span class="fu"><a href="dplyr-methods.html">bind_rows</a></span><span class="op">(</span><span class="va">tt</span>, <span class="va">tt</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">`%&gt;%`</span> <span class="op">&lt;-</span> <span class="fu">magrittr</span><span class="fu">::</span><span class="va">`%&gt;%`</span></span></span>
+<span class="r-in"><span><span class="va">tt</span> <span class="op">&lt;-</span> <span class="va">pbmc_small</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="dplyr-methods.html">bind_rows</a></span><span class="op">(</span><span class="va">tt</span>, <span class="va">tt</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>tidySingleCellExperiment says: you have duplicated cell names, they will be made unique.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A SingleCellExperiment-tibble abstraction: 160 × 17</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># </span><span style="color: #555555;">Features=230 | Cells=160 | Assays=counts, logcounts</span></span>
@@ -122,10 +129,10 @@ appears in any of the inputs.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 150 more rows, and 10 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ident &lt;fct&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">tt_bind</span> <span class="op">&lt;-</span> <span class="va">tt</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="dplyr-methods.html">select</a></span><span class="op">(</span><span class="va">nCount_RNA</span>, <span class="va">nFeature_RNA</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">tt_bind</span> <span class="op">&lt;-</span> <span class="va">tt</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="dplyr-methods.html">select</a></span><span class="op">(</span><span class="va">nCount_RNA</span>, <span class="va">nFeature_RNA</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tidySingleCellExperiment says: Key columns are missing. A data frame is returned for independent data analysis.</span>
-<span class="r-in"><span class="va">tt</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="dplyr-methods.html">bind_cols</a></span><span class="op">(</span><span class="va">tt_bind</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">tt</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="dplyr-methods.html">bind_cols</a></span><span class="op">(</span><span class="va">tt_bind</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> New names:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `nCount_RNA` -&gt; `nCount_RNA...2`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `nFeature_RNA` -&gt; `nFeature_RNA...3`</span>
@@ -168,7 +175,7 @@ appears in any of the inputs.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

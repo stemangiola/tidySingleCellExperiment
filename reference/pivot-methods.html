@@ -21,7 +21,7 @@ Learn more in vignette("pivot").'><!-- mathjax --><script src="https://cdnjs.clo
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySingleCellExperiment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.3</span>
       </span>
     </div>
 
@@ -72,9 +72,13 @@ decreasing the number of columns. The inverse transformation is
     <h2>Arguments</h2>
     <dl><dt>data</dt>
 <dd><p>A data frame to pivot.</p></dd>
+
+
 <dt>cols</dt>
 <dd><p>&lt;<code>tidy-select</code>&gt; Columns to pivot into
 longer format.</p></dd>
+
+
 <dt>names_to</dt>
 <dd><p>A string specifying the name of the column to create
 from the data stored in the column names of <code>data</code>.</p>
@@ -84,9 +88,13 @@ values you can take advantage of:</p><ul><li><p><code>NA</code> will discard tha
 <li><p><code>.value</code> indicates that component of the name defines the name of the
 column containing the cell values, overriding <code>values_to</code>.</p></li>
 </ul></dd>
+
+
 <dt>names_prefix</dt>
 <dd><p>A regular expression used to remove matching text
 from the start of each variable name.</p></dd>
+
+
 <dt>names_sep, names_pattern</dt>
 <dd><p>If <code>names_to</code> contains multiple values,
 these arguments control how the column name is broken up.</p>
@@ -98,28 +106,38 @@ expression containing matching groups (<code>()</code>).</p>
 <p>If these arguments do not give you enough control, use
 <code>pivot_longer_spec()</code> to create a spec object and process manually as
 needed.</p></dd>
+
+
 <dt>names_repair</dt>
 <dd><p>What happens if the output has invalid column names?
 The default, <code>"check_unique"</code> is to error if the columns are duplicated.
 Use <code>"minimal"</code> to allow duplicates in the output, or <code>"unique"</code> to
 de-duplicated by adding numeric suffixes. See <code><a href="https://vctrs.r-lib.org/reference/vec_as_names.html" class="external-link">vctrs::vec_as_names()</a></code>
 for more options.</p></dd>
+
+
 <dt>values_to</dt>
 <dd><p>A string specifying the name of the column to create
 from the data stored in cell values. If <code>names_to</code> is a character
 containing the special <code>.value</code> sentinel, this value will be ignored,
 and the name of the value column will be derived from part of the
 existing column names.</p></dd>
+
+
 <dt>values_drop_na</dt>
 <dd><p>If <code>TRUE</code>, will drop rows that contain only <code>NA</code>s
 in the <code>value_to</code> column. This effectively converts explicit missing values
 to implicit missing values, and should generally be used only when missing
 values in <code>data</code> were created by its structure.</p></dd>
+
+
 <dt>names_transform, values_transform</dt>
 <dd><p>A list of column name-function pairs.
 Use these arguments if you need to change the type of specific columns.
 For example, <code>names_transform=list(week=as.integer)</code> would convert
 a character week variable to an integer.</p></dd>
+
+
 <dt>names_ptypes, values_ptypes</dt>
 <dd><p>A list of column name-prototype pairs.
 A prototype (or ptype for short) is a zero-length vector (like <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>
@@ -129,12 +147,17 @@ you expect.</p>
 <p>If not specified, the type of the columns generated from <code>names_to</code> will
 be character, and the type of the variables generated from <code>values_to</code>
 will be the common type of the input columns used to generate them.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments passed on to methods.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A tidySingleCellExperiment objector a tibble depending on input</p>
+    
+
+<p>A tidySingleCellExperiment objector a tibble depending on input</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -146,12 +169,12 @@ under active development.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># See vignette("pivot") for examples and explanation</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in"></span>
-<span class="r-in">    <span class="fu">pivot_longer</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">orig.ident</span>, <span class="va">groups</span><span class="op">)</span>, names_to<span class="op">=</span><span class="st">"name"</span>, values_to<span class="op">=</span><span class="st">"value"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># See vignette("pivot") for examples and explanation</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>    <span class="fu">pivot_longer</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">orig.ident</span>, <span class="va">groups</span><span class="op">)</span>, names_to<span class="op">=</span><span class="st">"name"</span>, values_to<span class="op">=</span><span class="st">"value"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tidySingleCellExperiment says: A data frame is returned for independent data analysis.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 160 × 31</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .cell     nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents RNA_snn_res.1</span>
@@ -186,7 +209,7 @@ under active development.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

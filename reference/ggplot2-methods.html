@@ -20,7 +20,7 @@ subsequent layers unless specifically overridden."><!-- mathjax --><script src="
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySingleCellExperiment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.3</span>
       </span>
     </div>
 
@@ -72,17 +72,26 @@ subsequent layers unless specifically overridden.</p>
 <dd><p>Default dataset to use for plot. If not already a data.frame,
 will be converted to one by <code><a href="https://ggplot2.tidyverse.org/reference/fortify.html" class="external-link">fortify()</a></code>. If not specified,
 must be supplied in each layer added to the plot.</p></dd>
+
+
 <dt>mapping</dt>
 <dd><p>Default list of aesthetic mappings to use for plot.
 If not specified, must be supplied in each layer added to the plot.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Other arguments passed on to methods. Not currently used.</p></dd>
+
+
 <dt>environment</dt>
 <dd><p>DEPRECATED. Used prior to tidy evaluation.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A ggplot</p>
+    
+
+<p>A ggplot</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -105,13 +114,13 @@ is often the case in complex graphics.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">tidySingleCellExperiment</span><span class="fu">::</span><span class="va"><a href="pbmc_small.html">pbmc_small</a></span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in"></span>
-<span class="r-in">    <span class="fu">tidySingleCellExperiment</span><span class="fu">::</span><span class="fu">ggplot</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">groups</span>, <span class="va">nCount_RNA</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">tidySingleCellExperiment</span><span class="fu">::</span><span class="va"><a href="pbmc_small.html">pbmc_small</a></span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>    <span class="fu">tidySingleCellExperiment</span><span class="fu">::</span><span class="fu">ggplot</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">groups</span>, <span class="va">nCount_RNA</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="ggplot2-methods-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -127,7 +136,7 @@ is often the case in complex graphics.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySingleCellExperiment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.3</span>
       </span>
     </div>
 
@@ -64,6 +64,8 @@
     <h2>Arguments</h2>
     <dl><dt>data</dt>
 <dd><p>A data frame.</p></dd>
+
+
 <dt>col</dt>
 <dd><p>The name of the new column, as a string or symbol.</p>
 <p>This argument is passed by expression and supports
@@ -72,19 +74,30 @@ and symbols). The name is captured from the expression with
 <code><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">rlang::ensym()</a></code> (note that this kind of interface where
 symbols do not represent actual objects is now discouraged in the
 tidyverse; we support it here for backward compatibility).</p></dd>
+
+
 <dt>...</dt>
 <dd><p>&lt;<code>tidy-select</code>&gt; Columns to unite</p></dd>
+
+
 <dt>sep</dt>
 <dd><p>Separator to use between values.</p></dd>
+
+
 <dt>na.rm</dt>
 <dd><p>If <code>TRUE</code>, missing values will be remove prior to uniting
 each value.</p></dd>
+
+
 <dt>remove</dt>
 <dd><p>If <code>TRUE</code>, remove input columns from output data frame.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A tidySingleCellExperiment objector a tibble depending on input</p>
+    
+
+<p>A tidySingleCellExperiment objector a tibble depending on input</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -93,10 +106,10 @@ each value.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in"></span>
-<span class="r-in">    <span class="fu">unite</span><span class="op">(</span><span class="st">"new_col"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">orig.ident</span>, <span class="va">groups</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>    <span class="fu">unite</span><span class="op">(</span><span class="st">"new_col"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">orig.ident</span>, <span class="va">groups</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A SingleCellExperiment-tibble abstraction: 80 × 16</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># </span><span style="color: #555555;">Features=230 | Cells=80 | Assays=counts, logcounts</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .cell          new_col  nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents</span>
@@ -128,7 +141,7 @@ each value.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

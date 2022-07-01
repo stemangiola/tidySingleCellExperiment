@@ -28,7 +28,7 @@ Only the first 5 reduced dimensions are displayed, while all of them are queriab
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySingleCellExperiment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.3</span>
       </span>
     </div>
 
@@ -79,34 +79,45 @@ available by setting the options described below.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for SingleCellExperiment</span>
-<span class="fu">print</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, n <span class="op">=</span> <span class="cn">NULL</span>, width <span class="op">=</span> <span class="cn">NULL</span>, n_extra <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for SingleCellExperiment</span></span>
+<span><span class="fu">print</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, n <span class="op">=</span> <span class="cn">NULL</span>, width <span class="op">=</span> <span class="cn">NULL</span>, n_extra <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>Object to format or print.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Other arguments passed on to individual methods.</p></dd>
+
+
 <dt>n</dt>
 <dd><p>Number of rows to show. If <code>NULL</code>, the default, will print all rows
 if less than option <code>tibble.print_max</code>. Otherwise, will print
 <code>tibble.print_min</code> rows.</p></dd>
+
+
 <dt>width</dt>
 <dd><p>Width of text output to generate. This defaults to <code>NULL</code>, which
 means use <code>getOption("tibble.width")</code> or (if also <code>NULL</code>)
 <code>getOption("width")</code>; the latter displays only the columns that fit on one
 screen. You can also set <code>options(tibble.width = Inf)</code> to override this
 default and always print all columns.</p></dd>
+
+
 <dt>n_extra</dt>
 <dd><p>Number of extra columns to print abbreviated information for,
 if the width is too small for the entire tibble. If <code>NULL</code>, the default,
 will print information about at most <code>tibble.max_extra_cols</code> extra columns.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Nothing</p>
+    
+
+<p>Nothing</p>
     </div>
     <div id="package-options">
     <h2>Package options</h2>
@@ -127,8 +138,8 @@ Default: 100.</p></li>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="va">pbmc_small</span>  <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">print</span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pbmc_small</span>  <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">print</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A SingleCellExperiment-tibble abstraction: 80 × 17</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># </span><span style="color: #555555;">Features=230 | Cells=80 | Assays=counts, logcounts</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups</span>
@@ -160,7 +171,7 @@ Default: 100.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

@@ -40,7 +40,7 @@ as soon as it becomes available."><!-- mathjax --><script src="https://cdnjs.clo
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySingleCellExperiment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.3</span>
       </span>
     </div>
 
@@ -112,21 +112,34 @@ as soon as it becomes available.</p>
 into this column and the <code>row.names</code> attribute is deleted.
 Read more in <a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a>.</p></li>
 </ul></dd>
+
+
 <dt>.name_repair</dt>
 <dd><p>see tidyr</p>
 <p>For compatibility only, do not use for new code.</p></dd>
+
+
 <dt>x</dt>
 <dd><p>An object to glimpse at.</p></dd>
+
+
 <dt>width</dt>
 <dd><p>Width of output: defaults to the setting of the option
 <code>tibble.width</code> (if finite) or the width of the console.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Unused, for extensibility.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A tibble
-x original x is (invisibly) returned, allowing <code>glimpse()</code> to be
+    
+
+<p>A tibble</p>
+
+
+<p>x original x is (invisibly) returned, allowing <code>glimpse()</code> to be
 used within a data pipe line.</p>
     </div>
     <div id="row-names">
@@ -164,9 +177,9 @@ values. Name repair is implemented using <code><a href="https://vctrs.r-lib.org/
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in"></span>
-<span class="r-in">    <span class="fu">as_tibble</span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>    <span class="fu">as_tibble</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 80 × 31</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
@@ -185,7 +198,7 @@ values. Name repair is implemented using <code><a href="https://vctrs.r-lib.org/
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_6 &lt;dbl&gt;, PC_7 &lt;dbl&gt;, PC_8 &lt;dbl&gt;, PC_9 &lt;dbl&gt;, PC_10 &lt;dbl&gt;, PC_11 &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_12 &lt;dbl&gt;, PC_13 &lt;dbl&gt;, PC_14 &lt;dbl&gt;, PC_15 &lt;dbl&gt;, PC_16 &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_17 &lt;dbl&gt;, PC_18 &lt;dbl&gt;, PC_19 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span>
-<span class="r-in"><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="va">tidy</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">glimpse</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="va">tidy</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">glimpse</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`tidy()` was deprecated in tidySingleCellExperiment 1.1.1.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> tidySingleCellExperiment says: tidy() is not needed anymore.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span>
@@ -203,8 +216,8 @@ values. Name repair is implemented using <code><a href="https://vctrs.r-lib.org/
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..@ NAMES              : NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..@ elementMetadata    :Formal class 'DFrame' [package "S4Vectors"] with 6 slots</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..@ metadata           : list()</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -219,7 +232,7 @@ values. Name repair is implemented using <code><a href="https://vctrs.r-lib.org/
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>
