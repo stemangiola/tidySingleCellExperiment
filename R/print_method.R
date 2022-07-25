@@ -25,10 +25,6 @@
 #'
 #' @export
 #'
-<<<<<<< HEAD
-=======
-NULL
->>>>>>> fix CHECK
 NULL
 
 
