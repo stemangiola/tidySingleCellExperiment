@@ -51,7 +51,6 @@ Utilities | Description
 
 ## Installation
 
-From Bioconductor (under submission)
 ```{r, eval=FALSE}
 if (!requireNamespace("BiocManager", quietly=TRUE))
     install.packages("BiocManager")
@@ -59,19 +58,12 @@ if (!requireNamespace("BiocManager", quietly=TRUE))
 BiocManager::install("tidySingleCellExperiment")
 ```
 
-From GitHub
-```{r, eval=FALSE}
-devtools::install_github("stemangiola/tidySingleCellExperiment")
-```
-
-
 Load libraries used in this vignette.
 
 ```{r message=FALSE}
 # Bioconductor single-cell packages
 library(scater)
 library(scran)
-library(EnsDb.Hsapiens.v86)
 library(SingleR)
 library(SingleCellSignalR)
 
@@ -101,7 +93,7 @@ pbmc_small_tidy
 **But it is a SingleCellExperiment object after all**
 
 ```{r}
-assays(pbmc_small_tidy)
+assay(pbmc_small_tidy)
 ```
 
 # Annotation polishing
@@ -134,7 +126,7 @@ Set colours and theme for plots.
 friendly_cols <- dittoSeq::dittoColors()
 
 # Set theme
-my_theme <-
+custom_theme <-
     list(
         scale_fill_manual(values=friendly_cols),
         scale_color_manual(values=friendly_cols),
@@ -162,7 +154,7 @@ Here we plot number of features per cell.
 pbmc_small_polished %>%
     tidySingleCellExperiment::ggplot(aes(nFeature_RNA, fill=groups)) +
     geom_histogram() +
-    my_theme
+    custom_theme
 ```
 
 Here we plot total features per cell.
@@ -172,7 +164,7 @@ pbmc_small_polished %>%
     tidySingleCellExperiment::ggplot(aes(groups, nCount_RNA, fill=groups)) +
     geom_boxplot(outlier.shape=NA) +
     geom_jitter(width=0.1) +
-    my_theme
+    custom_theme
 ```
 
 Here we plot abundance of two features for each group.
@@ -184,79 +176,23 @@ pbmc_small_polished %>%
     geom_boxplot(outlier.shape=NA) +
     geom_jitter(aes(size=nCount_RNA), alpha=0.5, width=0.2) +
     scale_y_log10() +
-    my_theme
-```
-
-# Quality control
-
-We can quality control for each sample in an intuitive way using nest function and Bioconductor utilities
-
-```{r}
-
-location <- mapIds(
-	EnsDb.Hsapiens.v86, 
-	keys=rownames(pbmc_small_polished), 
-	column="SEQNAME",
-	keytype="SYMBOL"
-)
-
-counts_mito = 
-	pbmc_small_polished %>%
-	
-	nest(data = -sample) %>%
-	mutate(data = map(
-		data, 
-		~ .x %>%
-			
-			# Join mitochondrion statistics
-			left_join(
-				scuttle::perCellQCMetrics(., subsets=list(Mito=which(location=="MT"))) %>%
-					as_tibble(rownames="cell"),
-				by="cell"
-			) %>%
-			
-			# Label cells
-			mutate(high_mitochondrion = isOutlier(subsets_Mito_percent, type="higher")) 
-	)) %>%
-	unnest(data) 
-	
-plot_QC = 
-	counts_mito %>%
-	pivot_longer(c(detected , sum, subsets_Mito_percent)) %>%
-	ggplot(aes(x=sample,y=value,
-						 color = high_mitochondrion, 
-						 alpha=high_mitochondrion,
-						 size= high_mitochondrion
-	)) +
-	ggbeeswarm::geom_quasirandom() +
-	facet_wrap(~name, scale="free_y") +
-	
-	# Customisation
-	scale_color_manual(values=c("black", "#e11f28")) +
-	scale_size_discrete(range = c(0, 2)) +
-	my_theme
-
-counts_alive =
-	counts_mito %>% 
-	filter(!high_mitochondrion)
-
-
+    custom_theme
 ```
 
 # Preprocess the dataset
 
-We can also treat `cunts_alive` as a *SingleCellExperiment* object and proceed with data processing with Bioconductor packages, such as *scran* [@lun2016pooling] and *scater* [@mccarthy2017scater].
+We can also treat `pbmc_small_polished` as a *SingleCellExperiment* object and proceed with data processing with Bioconductor packages, such as *scran* [@lun2016pooling] and *scater* [@mccarthy2017scater].
 
 ```{r preprocess}
 # Identify variable genes with scran
 variable_genes <-
-    counts_alive %>%
+    pbmc_small_polished %>%
     modelGeneVar() %>%
     getTopHVGs(prop=0.1)
 
 # Perform PCA with scater
 pbmc_small_pca <-
-    counts_alive %>%
+    pbmc_small_polished %>%
     runPCA(subset_row=variable_genes)
 
 pbmc_small_pca
@@ -270,7 +206,7 @@ pbmc_small_pca %>%
     as_tibble() %>%
     select(contains("PC"), everything()) %>%
     GGally::ggpairs(columns=1:5, ggplot2::aes(colour=groups)) +
-    my_theme
+    custom_theme
 ```
 
 # Identify clusters 
@@ -334,7 +270,6 @@ And we can plot the result in 3D using plotly.
 
 ```{r umap plot, eval=FALSE}
 pbmc_small_UMAP %>%
-
     plot_ly(
         x=~`UMAP1`,
         y=~`UMAP2`,
@@ -344,28 +279,33 @@ pbmc_small_UMAP %>%
     )
 ```
 
+
 ![plotly screenshot](man/figures/plotly.png)
 
 # Cell type prediction
 
 We can infer cell type identities using *SingleR* [@aran2019reference] and manipulate the output using tidyverse.
 
-```{r}
+```{r eval=FALSE}
 # Get cell type reference data
 blueprint <- celldex::BlueprintEncodeData()
 
 # Infer cell identities
 cell_type_df <-
-    pbmc_small_UMAP@assays@data$logcounts %>%
-    Matrix::Matrix(sparse=TRUE) %>%
-    SingleR(
-        ref=blueprint,
-        labels=blueprint$label.main
+
+    assays(pbmc_small_UMAP)$logcounts %>%
+    Matrix::Matrix(sparse = TRUE) %>%
+    SingleR::SingleR(
+        ref = blueprint,
+        labels = blueprint$label.main,
+        method = "single"
     ) %>%
     as.data.frame() %>%
     as_tibble(rownames="cell") %>%
     select(cell, first.labels)
+```
 
+```{r}
 # Join UMAP and cell type info
 pbmc_small_cell_type <-
     pbmc_small_UMAP %>%
@@ -399,7 +339,7 @@ pbmc_small_cell_type %>%
     ggplot(aes(UMAP1, UMAP2, color=label)) +
     geom_point() +
     facet_wrap(~classifier) +
-    my_theme
+    custom_theme
 ```
 
 We can easily plot gene correlation per cell category, adding multi-layer annotations.
@@ -417,7 +357,7 @@ pbmc_small_cell_type %>%
     facet_wrap(~first.labels, scales="free") +
     scale_x_log10() +
     scale_y_log10() +
-    my_theme
+    custom_theme
 ```
 
 #  Nested analyses
@@ -478,7 +418,7 @@ pbmc_small_nested_reanalysed %>%
     ggplot(aes(UMAP1, UMAP2, color=cluster)) +
     geom_point() +
     facet_wrap(~cell_class) +
-    my_theme
+    custom_theme
 ```
 
 We can perform a large number of functional analyses on data subsets. For example, we can identify intra-sample cell-cell interactions using *SingleCellSignalR* [@cabello2020singlecellsignalr], and then compare whether interactions are stronger or weaker across conditions. The code below demonstrates how this analysis could be performed. It won't work with this small example dataset as we have just two samples (one for each condition). But some example output is shown below and you can imagine how you can use tidyverse on the output to perform t-tests and visualisation.
@@ -498,8 +438,8 @@ pbmc_small_nested_interactions <-
     tidySingleCellExperiment::mutate(interactions=map(data, ~ {
 
         # Produce variables. Yuck!
-        cluster <- .x@colData$integrated_clusters
-        data <- data.frame(.x@assays@data %>% as.list() %>% .[[1]] %>% as.matrix())
+        cluster <- colData(.x)$integrated_clusters
+        data <- data.frame(assays(.x) %>% as.list() %>% .[[1]] %>% as.matrix())
 
         # Ligand/Receptor analysis using SingleCellSignalR
         data %>%
@@ -508,7 +448,6 @@ pbmc_small_nested_interactions <-
             `individual-networks` %>%
             map_dfr(~ bind_rows(as_tibble(.x)))
     }))
-
 
 pbmc_small_nested_interactions %>%
     select(-data) %>%

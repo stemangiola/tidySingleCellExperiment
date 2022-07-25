@@ -1,4 +1,4 @@
-tidySingleCellExperiment - part of tidyfeatureomics
+tidySingleCellExperiment - part of tidytranscriptomics
 ================
 
 <!-- badges: start -->
@@ -26,112 +26,1040 @@ Please also have a look at
 -   [tidyHeatmap](https://stemangiola.github.io/tidyHeatmap/) for
     heatmaps produced with tidy principles
 
-Introduction
-============
+# Introduction
 
-tidySingleCellExperiment provides a bridge between Bioconductor single-cell packages
-\[@amezquita2019orchestrating\] and the tidyverse
+tidySingleCellExperiment provides a bridge between Bioconductor
+single-cell packages \[@amezquita2019orchestrating\] and the tidyverse
 \[@wickham2019welcome\]. It creates an invisible layer that enables
 viewing the Bioconductor *SingleCellExperiment* object as a tidyverse
 tibble, and provides SingleCellExperiment-compatible *dplyr*, *tidyr*,
 *ggplot* and *plotly* functions. This allows users to get the best of
 both Bioconductor and tidyverse worlds.
 
-Functions/utilities available
------------------------------
+## Functions/utilities available
 
-| SingleCellExperiment-compatible Functions | Description                                                       |
-|-------------------------------------------|-------------------------------------------------------------------|
+| SingleCellExperiment-compatible Functions | Description                                                                        |
+|-------------------------------------------|------------------------------------------------------------------------------------|
 | `all`                                     | After all `tidySingleCellExperiment` is a SingleCellExperiment object, just better |
 
-| tidyverse Packages | Description                                                 |
-|--------------------|-------------------------------------------------------------|
+| tidyverse Packages | Description                                                                  |
+|--------------------|------------------------------------------------------------------------------|
 | `dplyr`            | All `dplyr` tibble functions (e.g. `tidySingleCellExperiment::select`)       |
 | `tidyr`            | All `tidyr` tibble functions (e.g. `tidySingleCellExperiment::pivot_longer`) |
 | `ggplot2`          | `ggplot` (`tidySingleCellExperiment::ggplot`)                                |
 | `plotly`           | `plot_ly` (`tidySingleCellExperiment::plot_ly`)                              |
 
-| Utilities          | Description                                                      |
-|--------------------|------------------------------------------------------------------|
-| `tidy`             | Add `tidySingleCellExperiment` invisible layer over a SingleCellExperiment object |
-| `as_tibble`        | Convert cell-wise information to a `tbl_df`                      |
-| `join_features` | Add feature-wise information, returns a `tbl_df`              |
+| Utilities       | Description                                                                       |
+|-----------------|-----------------------------------------------------------------------------------|
+| `tidy`          | Add `tidySingleCellExperiment` invisible layer over a SingleCellExperiment object |
+| `as_tibble`     | Convert cell-wise information to a `tbl_df`                                       |
+| `join_features` | Add feature-wise information, returns a `tbl_df`                                  |
 
-Installation
-------------
+## Installation
 
-From Bioconductor (under submission)
+``` r
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
 
-    if (!requireNamespace("BiocManager", quietly=TRUE))
-        install.packages("BiocManager")
-
-    BiocManager::install("tidySingleCellExperiment")
-
-From GitHub
-
-    devtools::install_github("stemangiola/tidySingleCellExperiment")
+BiocManager::install("tidySingleCellExperiment")
+```
 
 Load libraries used in this vignette.
 
-    # Bioconductor single-cell packages
-    library(scater)
-    library(scran)
-    library(SingleR)
-    library(SingleCellSignalR)
+``` r
+# Bioconductor single-cell packages
+library(scater)
+library(scran)
+library(SingleR)
+library(SingleCellSignalR)
 
-    # Tidyverse-compatible packages
-    library(ggplot2)
-    library(purrr)
-    library(tidyHeatmap)
+# Tidyverse-compatible packages
+library(ggplot2)
+library(purrr)
+library(tidyHeatmap)
 
-    # Both
-    library(tidySingleCellExperiment)
+# Both
+library(tidySingleCellExperiment)
+```
 
-Create `tidySingleCellExperiment`, the best of both worlds!
-==========================================
+# Create `tidySingleCellExperiment`, the best of both worlds!
 
 This is a *SingleCellExperiment* object but it is evaluated as a tibble.
 So it is compatible both with SingleCellExperiment and tidyverse.
 
-    pbmc_small_tidy <- tidySingleCellExperiment::pbmc_small 
+``` r
+pbmc_small_tidy <- tidySingleCellExperiment::pbmc_small 
+```
 
 **It looks like a tibble**
 
-    pbmc_small_tidy
+``` r
+pbmc_small_tidy
+```
 
-    ## # A tibble: 80 x 17
-    ##    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
-    ##    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
-    ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
-    ##  2 CATG… SeuratPro…         85           52 0               A             g1    
-    ##  3 GAAC… SeuratPro…         87           50 1               B             g2    
-    ##  4 TGAC… SeuratPro…        127           56 0               A             g2    
-    ##  5 AGTC… SeuratPro…        173           53 0               A             g2    
-    ##  6 TCTG… SeuratPro…         70           48 0               A             g1    
-    ##  7 TGGT… SeuratPro…         64           36 0               A             g1    
-    ##  8 GCAG… SeuratPro…         72           45 0               A             g1    
-    ##  9 GATA… SeuratPro…         52           36 0               A             g1    
-    ## 10 AATG… SeuratPro…        100           41 0               A             g1    
-    ## # … with 70 more rows, and 10 more variables: RNA_snn_res.1 <fct>, file <chr>,
-    ## #   ident <fct>, PC_1 <dbl>, PC_2 <dbl>, PC_3 <dbl>, PC_4 <dbl>, PC_5 <dbl>,
-    ## #   tSNE_1 <dbl>, tSNE_2 <dbl>
+    ## # A SingleCellExperiment-tibble abstraction: 80 × 17
+    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
+    ##    .cell      orig.…¹ nCoun…² nFeat…³ RNA_s…⁴ lette…⁵ groups RNA_s…⁶ file  ident
+    ##    <chr>      <fct>     <dbl>   <int> <fct>   <fct>   <chr>  <fct>   <chr> <fct>
+    ##  1 ATGCCAGAA… Seurat…      70      47 0       A       g2     0       ../d… 0    
+    ##  2 CATGGCCTG… Seurat…      85      52 0       A       g1     0       ../d… 0    
+    ##  3 GAACCTGAT… Seurat…      87      50 1       B       g2     0       ../d… 0    
+    ##  4 TGACTGGAT… Seurat…     127      56 0       A       g2     0       ../d… 0    
+    ##  5 AGTCAGACT… Seurat…     173      53 0       A       g2     0       ../d… 0    
+    ##  6 TCTGATACA… Seurat…      70      48 0       A       g1     0       ../d… 0    
+    ##  7 TGGTATCTA… Seurat…      64      36 0       A       g1     0       ../d… 0    
+    ##  8 GCAGCTCTG… Seurat…      72      45 0       A       g1     0       ../d… 0    
+    ##  9 GATATAACA… Seurat…      52      36 0       A       g1     0       ../d… 0    
+    ## 10 AATGTTGAC… Seurat…     100      41 0       A       g1     0       ../d… 0    
+    ## # … with 70 more rows, 7 more variables: PC_1 <dbl>, PC_2 <dbl>, PC_3 <dbl>,
+    ## #   PC_4 <dbl>, PC_5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>, and abbreviated
+    ## #   variable names ¹​orig.ident, ²​nCount_RNA, ³​nFeature_RNA, ⁴​RNA_snn_res.0.8,
+    ## #   ⁵​letter.idents, ⁶​RNA_snn_res.1
+    ## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
 **But it is a SingleCellExperiment object after all**
 
-    pbmc_small_tidy@assays
+``` r
+assay(pbmc_small_tidy)
+```
 
-    ## An object of class "SimpleAssays"
-    ## Slot "data":
-    ## List of length 2
-    ## names(2): counts logcounts
+    ## 230 x 80 sparse Matrix of class "dgCMatrix"
 
-Annotation polishing
-====================
+    ##    [[ suppressing 80 column names 'ATGCCAGAACGACT', 'CATGGCCTGTGCAT', 'GAACCTGATGAACC' ... ]]
+
+    ##                                                                               
+    ## MS4A1         . .  .  .  . . .  . .  .  2  2  4 4  2  3 3  4  2  3  .  .  .  .
+    ## CD79B         1 .  .  .  . . .  . .  1  2  4  3 3  2  3 1  2  2  5  .  .  .  .
+    ## CD79A         . .  .  .  . . .  . .  .  .  5  2 2  5  8 1  5  5 12  .  .  1  .
+    ## HLA-DRA       . 1  .  .  1 1 .  1 .  . 14 28 18 7 15 28 7 26 10 16  7 22  . 10
+    ## TCL1A         . .  .  .  . . .  . .  .  3  .  2 4  .  . 3  3  3  2  .  .  .  .
+    ## HLA-DQB1      1 .  .  .  . . .  . .  .  1  6  2 2  2  8 2  2  1  2  .  3  .  .
+    ## HVCN1         . .  .  .  . . .  . .  .  3  1  . .  2  . 2  1  1  2  1  .  1  .
+    ## HLA-DMB       . .  .  .  . . .  . .  .  .  4  1 1  2  2 1  2  .  1  .  1  .  1
+    ## LTB           3 7 11 13  3 4 6  4 2 21  2  9  2 4  4  . 3  6  5  7  1  .  .  1
+    ## LINC00926     . .  .  .  . . .  . .  .  .  2  . 1  1  1 .  .  1  .  .  .  .  .
+    ## FCER2         . .  .  .  . . .  . .  .  .  1  1 .  .  . 1  1  .  1  .  .  .  .
+    ## SP100         1 .  1  1  . . .  . .  1  .  3  2 .  1  2 2  .  1  .  .  .  1  .
+    ## NCF1          . .  .  .  . . .  . .  .  1  .  1 .  .  . 1  2  2  .  .  .  1  .
+    ## PPP3CC        . .  .  .  . 1 .  . .  .  .  1  . 1  .  3 .  .  1  .  .  .  .  .
+    ## EAF2          . .  .  .  . . .  . .  .  3  .  1 .  1  1 .  .  .  .  .  .  .  .
+    ## PPAPDC1B      . .  .  .  . . .  . .  .  .  3  . 1  .  . .  1  .  2  .  .  .  .
+    ## CD19          . .  .  .  . . .  . .  .  .  1  . 2  .  1 .  .  1  .  .  .  .  .
+    ## KIAA0125      . .  .  .  . . .  . .  .  .  1  . .  1  . .  1  .  3  .  .  .  .
+    ## CYB561A3      . .  .  .  . . .  . .  .  .  .  . .  .  1 2  1  .  1  .  .  .  .
+    ## CD180         . .  .  .  . . .  . .  .  1  .  . .  .  1 1  1  .  .  .  .  .  .
+    ## RP11-693J15.5 . .  .  .  . . .  . .  .  1  .  1 1  .  . .  .  1  .  .  .  .  .
+    ## FAM96A        . 1  .  .  . . .  . .  .  1  .  . .  2  . .  2  1  .  .  .  .  .
+    ## CXCR4         1 1  .  6  . 2 4  1 .  4  2  .  4 1  .  . 4  2  6  2  3  .  .  .
+    ## STX10         . .  1  .  . 1 .  1 .  .  2  .  . .  2  . .  .  1  1  .  .  .  1
+    ## SNHG7         . 2  .  .  . . .  . .  1  .  1  1 .  2  3 .  1  .  1  .  .  .  .
+    ## NT5C          . .  .  .  . . .  . .  .  2  2  1 .  .  . 1  .  1  1  .  .  .  .
+    ## BANK1         . 1  .  .  . . .  . .  .  .  4  . .  1  1 .  1  .  .  .  .  .  .
+    ## IGLL5         . .  .  .  . . .  . .  .  1  . 15 .  .  . . 23  .  .  .  .  .  .
+    ## CD200         . .  .  .  . . .  . .  .  1  .  . 1  .  . .  1  .  .  .  .  .  .
+    ## FCRLA         . .  .  .  . . .  . .  .  1  .  . .  .  1 1  .  .  1  .  .  .  .
+    ## CD3D          4 4  4  5  4 4 3  2 2  2  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## NOSIP         . 3  2  2  3 1 1  3 2  1  .  .  . .  .  2 .  .  .  .  .  2  .  .
+    ## SAFB2         . 1  .  1  . 1 1  . .  1  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## CD2           1 .  2  2  . 1 .  1 2  1  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## IL7R          5 2  1  2  2 . 1 12 .  9  .  .  . .  1  . .  .  1  .  1  .  .  .
+    ## PIK3IP1       . .  1  .  . 2 3  2 3  .  .  .  1 .  .  1 .  .  .  1  .  .  .  .
+    ## MPHOSPH6      1 1  .  .  . . 1  1 1  1  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## KHDRBS1       . 1  1  1 36 . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## MAL           1 1  .  1  . . .  1 .  1  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## CCR7          . 5  .  .  2 . 1  1 .  1  .  .  . .  .  . .  .  .  1  .  .  .  .
+    ## THYN1         . 2  1  1  . 2 1  . 1  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## TAF7          . 2  .  2  1 2 .  2 3  1  1  1  . .  .  . .  .  .  .  .  .  .  .
+    ## LDHB          3 2  1  6  5 3 4  . 1  6  .  1  . .  .  . 2  .  1  .  1  2  .  2
+    ## TMEM123       3 3  .  4  2 1 1  2 1  1  .  1  1 .  .  . 1  3  1  1  .  .  .  .
+    ## CCDC104       . .  .  2  . 1 .  1 .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## EPC1          1 .  1  .  . 1 .  1 1  1  .  .  . .  1  1 .  .  1  .  .  .  .  .
+    ## EIF4A2        3 1  2  5  2 4 3  2 3  .  .  2  1 1  5  . .  1  .  .  .  .  .  .
+    ## CD3E          . 2  1  4  3 1 3  4 2  .  .  .  . .  .  . .  1  1  1  1  .  .  .
+    ## TMUB1         1 .  .  .  . 1 1  1 .  .  .  .  . .  .  . .  .  .  .  1  .  .  .
+    ## BLOC1S4       1 .  2  .  2 . .  . 1  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## ACSM3         1 2  .  .  1 . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## TMEM204       1 .  .  .  . . .  1 .  1  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## SRSF7         2 .  1  1 54 2 1  1 1  3  1  2  . 1  .  . .  .  .  .  .  2  .  .
+    ## ACAP1         . .  1  2  . 1 2  2 .  1  .  1  . .  .  . .  .  .  .  .  .  .  .
+    ## TNFAIP8       1 3  2  3  2 . .  . 1  .  .  .  . .  1  1 .  .  1  1  .  .  .  .
+    ## CD7           2 2  2  3  2 1 .  . 3  .  .  1  . .  .  . .  .  .  .  .  .  .  .
+    ## TAGAP         1 1  1  1  . . .  1 2  .  .  .  . .  .  . 1  .  .  .  .  .  .  .
+    ## DNAJB1        2 .  .  2  . . 2  1 1  1  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## ASNSD1        1 .  .  1  . 1 1  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## S1PR4         . .  .  .  . . .  . .  .  .  .  . .  1  1 .  1  .  .  .  .  .  .
+    ## CTSW          . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  1  .  .  .  .  .
+    ## GZMK          . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  1  .  .  .  .  .
+    ## NKG7          . .  .  .  1 . .  . .  .  .  .  . 2  .  . .  1  .  .  2  1  .  .
+    ## IL32          1 .  9  8  1 . 3  3 .  3  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## DNAJC2        . .  .  .  . 1 .  . .  .  .  .  1 .  .  . .  1  .  .  .  .  .  .
+    ## LYAR          . 1  1  1  3 . .  . .  .  .  .  . .  .  . 2  .  .  .  .  .  .  .
+    ## CST7          . .  .  .  1 . .  . .  .  .  1  . .  .  . .  .  .  .  1  .  .  .
+    ## LCK           . 3  2  .  1 1 2  . .  2  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## CCL5          . .  .  2  . . 1  . .  .  .  .  . .  .  . .  .  .  .  .  1  .  .
+    ## HNRNPH1       . .  .  .  . . .  1 .  .  .  .  . .  .  1 .  .  .  .  .  .  .  .
+    ## SSR2          . 2  2  4  1 1 .  . .  6  .  1  . .  1  1 .  1  .  .  .  .  .  .
+    ## DLGAP1-AS1    . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## GIMAP1        . 2  .  .  . . .  1 .  2  .  .  . .  .  . .  .  .  .  .  1  1  1
+    ## MMADHC        . .  .  .  1 . .  . .  .  .  2  . .  .  . .  .  .  1  .  .  1  .
+    ## ZNF76         . .  .  1  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  1  .  .
+    ## CD8A          . 1  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## PTPN22        . .  .  .  . . .  . .  .  .  .  . .  .  1 .  .  .  .  .  .  .  .
+    ## GYPC          1 2  2  .  . 1 .  . 2  1  .  .  . .  .  . .  .  .  2  .  .  .  .
+    ## HNRNPF        . .  .  1  . 1 .  1 2  .  .  2  1 .  1  . .  1  .  1  1  .  .  .
+    ## RPL7L1        . .  .  .  . . .  . .  .  .  .  1 .  .  . .  .  .  .  .  1  .  .
+    ## KLRG1         . .  .  .  . . .  . 1  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## CRBN          1 .  .  .  . . .  . .  .  .  1  . .  1  . .  .  .  .  .  .  .  .
+    ## SATB1         . .  .  .  . . .  1 .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## SIT1          . .  .  .  . . .  . .  .  1  .  . .  .  . .  .  .  .  .  .  .  .
+    ## PMPCB         . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## NRBP1         . .  .  1  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## TCF7          . .  1  .  1 . .  . 1  .  .  1  . .  .  . .  .  .  .  .  .  .  .
+    ## HNRNPA3       . .  .  1  2 . .  . .  .  1  1  . .  .  . .  .  1  .  2  .  .  .
+    ## S100A8        . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  . 18  5 25  5
+    ## S100A9        . 1  1  .  . . .  1 .  .  .  .  . .  .  . .  .  .  . 30 12 51 22
+    ## LYZ           1 1  1  .  . 1 .  . 1  .  1  4  . 1  .  . .  1  1  . 50 29 25 49
+    ## CD14          . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  1  2  2  4
+    ## FCN1          1 1  .  .  . . .  . 1  .  1  .  . .  .  . .  .  .  . 10  6  5  9
+    ## TYROBP        . .  .  2  . . 1  . 1  .  .  .  . .  .  . .  .  .  . 14 13  3 10
+    ## ASGR1         . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  3  2  .  .
+    ## NFKBIA        . .  1  1  . . .  . .  4  .  1  1 .  1  . .  .  1  1  3 13  5  .
+    ## TYMP          . .  .  .  1 . .  . .  .  .  .  . .  .  . .  .  .  .  4  7  1  6
+    ## CTSS          1 1  .  .  1 2 .  1 1  1  1  .  1 .  .  . 1  2  .  2 15  9  1  5
+    ## TSPO          . .  .  .  1 1 1  . .  1  .  1  . .  .  1 1  .  .  .  1  2  6  .
+    ## RBP7          . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  1  .  .  .  1  .
+    ## CTSB          . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  1  .  4
+    ## LGALS1        1 .  1  2  1 . .  . .  .  .  .  . .  .  . .  .  .  .  2 14 10  8
+    ## FPR1          . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  1  1  1  .
+    ## VSTM1         . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  1  .  .
+    ## BLVRA         . .  1  .  . . .  . .  .  .  1  . .  .  . 1  .  .  .  1  3  1  2
+    ## MPEG1         . .  .  .  . . .  . .  .  .  .  1 .  .  . .  .  .  .  1  1  .  1
+    ## BID           1 .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  2 27  .  1
+    ## SMCO4         . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  1  1  .  2
+    ## CFD           . 1  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  3  4  2  1
+    ## LINC00936     . .  .  1  . . .  . 1  .  .  1  . .  .  . .  .  .  .  5  1  .  .
+    ## LGALS2        . .  .  .  . . 1  . .  .  .  .  . .  .  . .  .  .  . 12  6  2  1
+    ## MS4A6A        . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  1  1
+    ## FCGRT         . 1  .  .  . . .  . .  1  .  .  . .  .  . .  .  .  .  2  .  .  1
+    ## LGALS3        . 1  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  4  .  4
+    ## NUP214        . 1  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## SCO2          . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  1  1  .
+    ## IL17RA        . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  1  .  .  .
+    ## IFI6          1 .  .  .  . . .  1 .  .  .  .  . .  .  . .  .  .  .  5  3  .  .
+    ## HLA-DPA1      . .  .  .  . . .  . .  .  3  8  2 2  5  9 .  5  1  5  . 13  2  1
+    ## FCER1A        . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## CLEC10A       . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## HLA-DMA       . .  1  .  . . .  . .  .  .  1  . .  .  4 1  1  .  1  .  4  1  1
+    ## RGS1          . .  .  .  . . 1  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## HLA-DPB1      . .  .  .  . . .  . .  .  4 10  4 4  8 23 7  .  4  6  . 18  1  2
+    ## HLA-DQA1      . .  .  1  . . .  . .  .  .  4  4 1  .  8 1  5  .  1  1  5  .  .
+    ## RNF130        . .  .  .  1 . .  . .  .  .  .  . .  .  . .  .  .  .  .  1  .  .
+    ## HLA-DRB5      . .  .  .  . . 1  . .  .  1  4  3 .  4  8 1  2  2  4  .  8  1  1
+    ## HLA-DRB1      . .  .  .  . . .  . .  .  2 10  6 1  5 16 5 11  5  8  2 12  1  5
+    ## CST3          . .  .  .  . 1 .  . .  .  .  .  . .  .  . .  .  1  1 13 28 15 11
+    ## IL1B          . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  4  .  .  .
+    ## POP7          . .  .  .  1 . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  1  .
+    ## HLA-DQA2      . .  .  .  . . .  . .  .  .  2  . .  1  . 1  1  .  .  .  2  .  .
+    ## CD1C          . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## GSTP1         . .  1  .  1 . .  . .  .  .  .  . .  .  3 .  1  .  .  2  3  1  6
+    ## EIF3G         1 1  1  1  2 . .  1 .  2  .  1  . .  .  2 .  .  .  .  .  .  1  .
+    ## VPS28         . .  .  3  . . .  . 1  .  .  .  1 .  2  . .  .  .  .  .  .  .  1
+    ## LY86          . .  .  .  . . .  . .  .  1  1  . 1  .  . .  2  1  1  .  .  .  .
+    ## ZFP36L1       . .  1  .  1 1 .  . .  .  .  .  . .  1  . .  .  .  1  .  1  .  .
+    ## ZNF330        . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## ANXA2         . .  .  .  1 1 .  . .  1  .  1  1 .  .  1 .  .  .  .  1  3  .  3
+    ## GRN           . 1  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  4  1  1  .
+    ## CFP           . .  .  .  . . .  . 1  .  .  .  . .  .  . .  .  .  .  .  7  1  1
+    ## HSP90AA1      2 .  1  2  3 2 2  1 .  3  .  .  1 .  .  2 4  .  .  1  .  .  .  .
+    ## FUOM          . .  .  .  . . .  . .  1  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## LST1          . .  .  3  2 1 .  . .  .  .  .  . .  .  . .  .  1  .  3  6  1  4
+    ## AIF1          2 .  1  .  . . 2  1 .  .  .  .  . .  1  . .  .  .  1  5  7  6  5
+    ## PSAP          . .  2  .  3 2 .  . .  .  .  .  . .  2  . .  .  .  .  6  5  1  5
+    ## YWHAB         . .  .  1  1 . .  1 .  1  .  .  2 .  1  . .  1  1  .  1  .  .  1
+    ## MYO1G         . .  2  1  . 1 .  . .  .  .  1  1 .  1  . .  .  .  .  .  1  1  .
+    ## SAT1          . 1  .  .  . 1 1  1 1  2  .  1  . .  2  5 .  .  .  .  4 15  8  5
+    ## RGS2          . .  1  1  . . .  . .  .  .  .  . .  .  . .  .  .  .  3  .  .  .
+    ## SERPINA1      . .  .  .  . . .  . .  .  .  .  . .  .  1 .  .  .  .  6  4  .  2
+    ## IFITM3        . .  1  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  1  5  .  .
+    ## FCGR3A        . .  .  .  1 . .  1 .  .  .  1  . .  .  . .  .  .  .  1  1  .  .
+    ## LILRA3        . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## S100A11       2 .  1  2  1 . .  1 1  .  .  1  . .  .  . .  .  .  .  2 10  4  2
+    ## FCER1G        . .  1  .  . . .  . .  .  .  .  . .  .  1 .  .  .  .  6  3  4  6
+    ## TNFRSF1B      . .  .  .  . . .  . .  .  .  1  . .  .  . .  .  .  .  .  1  .  .
+    ## IFITM2        3 .  3  3  1 3 3  1 .  3  .  1  2 .  1  . .  .  2  3  6  4  .  .
+    ## WARS          1 .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  2  .  .
+    ## IFI30         . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## MS4A7         . .  .  1  . . .  . .  .  .  2  . .  .  . .  .  .  .  .  .  .  .
+    ## C5AR1         . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  1  1  .  .
+    ## HCK           . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  1  .  .
+    ## COTL1         . .  4  2  1 2 .  1 1  3  .  2  . .  .  1 .  1  .  .  6 15  2  4
+    ## LGALS9        . .  .  1  . . .  . .  .  .  .  . .  .  . .  .  .  .  1  1  .  .
+    ## CD68          . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  2  4  .
+    ## RP11-290F20.3 . .  1  .  . . .  . .  .  .  .  . .  .  . .  1  .  .  .  .  .  .
+    ## RHOC          . .  .  1  1 . .  . .  .  .  .  . .  .  1 .  .  .  .  .  1  .  .
+    ## CARD16        1 1  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  2  1  1  1
+    ## LRRC25        . .  .  .  . . .  . .  .  .  .  . 1  .  . .  .  .  .  1  .  .  .
+    ## COPS6         . .  1  .  . . 1  . 1  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## ADAR          . .  .  1  1 . .  . .  .  .  1  . 1  .  . .  .  1  .  .  1  1  .
+    ## PPBP          . .  1  .  . . .  . .  .  .  1  . .  .  . .  .  .  .  .  .  .  .
+    ## GPX1          . .  .  1  1 1 .  1 .  1  .  1  1 .  1  . 1  .  .  .  4  5  3  5
+    ## TPM4          . .  .  .  1 . .  1 .  .  .  .  . .  .  . .  1  .  .  .  .  .  .
+    ## PF4           . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## SDPR          . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## NRGN          . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  1  .  .  .
+    ## SPARC         . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## GNG11         . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## CLU           . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## HIST1H2AC     . .  .  .  . . .  . .  .  .  .  . .  .  . .  1  .  .  .  .  .  .
+    ## NCOA4         . 1  .  .  . . .  . 1  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## GP9           . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## FERMT3        . 1  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## ODC1          1 .  .  .  . 1 .  . .  .  .  .  . .  1  1 .  .  .  .  .  .  .  .
+    ## CD9           . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  3
+    ## RUFY1         . .  .  .  . . .  . .  .  .  .  . .  1  . .  .  .  1  .  .  .  .
+    ## TUBB1         . 1  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## TALDO1        1 2  .  .  2 . .  . .  .  .  .  . .  1  2 .  .  .  .  1  1  2  3
+    ## TREML1        . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## NGFRAP1       . .  .  .  . 1 .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## PGRMC1        . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## CA2           . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## ITGA2B        . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## MYL9          . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## TMEM40        . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## PARVB         . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## PTCRA         . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## ACRBP         1 .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## TSC22D1       . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## VDAC3         . .  .  1  . . 1  . .  1  . 29  . .  .  . .  .  .  .  .  .  .  .
+    ## GZMB          . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  1  .  .  .
+    ## GZMA          . .  .  .  . . 1  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## GNLY          . .  .  1  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## FGFBP2        . .  .  .  . . .  . .  .  .  .  1 .  .  . .  .  .  .  .  .  .  .
+    ## AKR1C3        . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## CCL4          . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  1  .  .  .
+    ## PRF1          . 1  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## GZMH          . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## XBP1          1 .  1  1  2 . .  1 .  .  .  1  . .  1  . .  .  .  .  1  .  .  .
+    ## GZMM          . 1  .  .  1 1 .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## PTGDR         . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## IGFBP7        . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## TTC38         . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## KLRD1         . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## ARHGDIA       . 1  .  .  . . .  . .  .  .  .  . .  .  1 .  .  1  .  .  .  .  .
+    ## IL2RB         . .  .  .  . . .  . .  .  .  .  . .  .  . .  1  .  .  .  .  .  .
+    ## CLIC3         . .  .  .  . . .  . .  .  .  .  1 .  .  . .  .  .  .  .  .  .  .
+    ## PPP1R18       . 1  .  .  . 1 .  . .  1  .  .  1 .  1  . .  .  1  .  .  2  .  .
+    ## CD247         . 1  1  .  2 1 .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## ALOX5AP       1 .  .  .  1 . .  1 .  .  1  .  . .  .  2 1  .  1  .  .  .  .  .
+    ## XCL2          . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## C12orf75      . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## RARRES3       1 .  .  3  . 1 1  . 1  .  .  2  . .  1  . .  .  .  .  .  .  .  .
+    ## PCMT1         . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  1
+    ## LAMP1         1 .  .  .  . . 1  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## SPON2         . 1  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ## S100B         . .  .  .  . . .  . .  .  .  .  . .  .  . .  .  .  .  .  .  .  .
+    ##                                                                               
+    ## MS4A1          1  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## CD79B          .  .  .  .  .  1  1  .  2  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## CD79A          .  .  .  1  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## HLA-DRA        6  .  4  3  7 13  .  1  .  .  1  .  1  1  .  .  .  .  . .  .  1
+    ## TCL1A          .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## HLA-DQB1       .  .  1  .  1  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## HVCN1          .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## HLA-DMB        .  .  .  .  2  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## LTB            1  .  .  .  .  1  1  .  .  1  .  .  .  .  .  .  .  1  1 1  7  1
+    ## LINC00926      .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## FCER2          .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## SP100          .  .  .  .  .  .  .  .  .  .  1  1  .  .  .  .  .  .  . .  1  .
+    ## NCF1           1  .  .  .  .  1  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## PPP3CC         .  .  .  .  .  .  .  .  .  .  .  1  .  .  1  .  .  .  . .  .  .
+    ## EAF2           .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## PPAPDC1B       .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## CD19           .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## KIAA0125       .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## CYB561A3       .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## CD180          .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## RP11-693J15.5  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## FAM96A         .  .  .  .  .  .  1  .  .  .  .  .  .  .  .  .  .  .  . 1  .  .
+    ## CXCR4          .  .  1  .  .  .  .  .  .  .  .  1  .  .  4  .  7  1  3 .  6  1
+    ## STX10          .  .  .  1  .  .  .  1  .  1  .  .  .  .  .  .  .  .  . .  1  .
+    ## SNHG7          .  .  .  .  .  1  .  .  .  .  .  .  .  1  .  .  .  .  . .  1  .
+    ## NT5C           .  .  .  .  .  .  .  .  1  .  1  .  .  .  .  1  .  .  . .  .  3
+    ## BANK1          .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## IGLL5          .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## CD200          .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## FCRLA          .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## CD3D           1  .  .  .  .  .  .  7  .  .  .  .  1  .  1  .  .  2  3 .  3 15
+    ## NOSIP          1  .  .  .  .  .  1  .  1  1  .  .  .  2  .  .  1  .  . .  .  .
+    ## SAFB2          .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## CD2            .  .  .  .  .  .  .  2  .  .  .  .  .  .  .  2  .  .  . .  .  .
+    ## IL7R           .  1  .  .  .  1  2  .  .  .  .  .  .  .  .  .  .  1  3 1  1  1
+    ## PIK3IP1        .  .  .  .  .  1  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## MPHOSPH6       .  .  1  .  .  .  .  .  .  .  .  .  .  1  .  .  .  .  . .  .  .
+    ## KHDRBS1        .  .  .  .  1  .  1  .  .  .  1  .  .  .  .  .  .  .  . .  .  .
+    ## MAL            .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## CCR7           .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## THYN1          1  .  .  .  .  .  .  .  .  .  .  1  .  .  .  .  .  .  . .  1  .
+    ## TAF7           .  .  .  .  1  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  1
+    ## LDHB           1  .  1  .  .  .  .  .  .  2  2  .  1  .  .  .  2  1  4 .  4  4
+    ## TMEM123        3  .  .  .  .  1  .  .  .  .  .  .  .  .  .  .  2  2  . 1  .  .
+    ## CCDC104        .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  1  .
+    ## EPC1           .  .  .  .  .  .  1  .  .  .  .  .  .  .  .  1  .  .  . .  .  .
+    ## EIF4A2         1  .  1  1  .  1  2  2  .  2  .  .  .  1  3  1  1  .  . 1  2  .
+    ## CD3E           .  .  .  .  .  .  .  1  .  1  .  .  .  .  1  .  1  .  2 .  1  2
+    ## TMUB1          .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  1  .  . .  .  .
+    ## BLOC1S4        .  .  .  .  .  1  .  .  .  .  .  1  1  .  .  .  .  .  . .  .  .
+    ## ACSM3          .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## TMEM204        .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## SRSF7          1  .  .  .  .  3  1  .  1 15  .  .  .  .  .  1  2  1  3 1  .  1
+    ## ACAP1          .  .  .  .  .  .  .  .  .  1  .  .  .  1  .  1  .  .  1 .  .  .
+    ## TNFAIP8        1  .  .  1  .  .  .  .  .  1  .  .  1  .  .  .  .  .  1 .  .  .
+    ## CD7            .  .  .  .  .  .  3  .  1  1  1  3  4  2  1  1  2  1  4 .  2  .
+    ## TAGAP          1  .  1  1  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  2
+    ## DNAJB1         .  .  .  .  1  .  .  .  .  1  .  .  2  .  .  .  .  1  . .  .  .
+    ## ASNSD1         .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## S1PR4          1  .  .  .  1  .  1  .  .  .  .  .  1  1  1  .  .  1  1 1  .  .
+    ## CTSW           .  .  .  .  .  .  1  3  2  3  2  4  8  6  1 11  1  4  1 2  1  2
+    ## GZMK           .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  1  .  2 1  2  .
+    ## NKG7           .  .  1  .  .  1 35 14 12 30 20 27 28 10 25 27 31 22  7 2  4 14
+    ## IL32           .  .  .  .  .  .  .  2  .  5  4  .  .  .  .  7  8  5  5 .  7  1
+    ## DNAJC2         1  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  1  . .  .  .
+    ## LYAR           .  .  .  .  .  .  .  .  .  .  .  2  .  .  1  1  .  1  1 2 47  .
+    ## CST7           .  .  .  .  .  .  4  4  2  7  2  4  3  3  2  5  2  3  1 1  .  2
+    ## LCK            .  .  .  .  .  .  .  1  .  2  1  1  1  2  1  .  1  1  2 .  1  2
+    ## CCL5           .  .  .  .  .  1  .  2  5 14  . 29  1  7  5 25  . 14 27 3 13 17
+    ## HNRNPH1        .  .  .  .  .  .  .  .  .  1  .  .  .  .  .  .  1  .  1 .  .  1
+    ## SSR2           3  .  1  .  1  .  .  2  .  .  1  .  1  .  1  2  1  2  1 1  1  2
+    ## DLGAP1-AS1     .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  1  .  . .  1  .
+    ## GIMAP1         1  .  .  .  .  .  .  .  1  1  .  2  .  1  1  1  1  .  2 1  .  .
+    ## MMADHC         .  .  .  .  .  .  .  .  .  .  .  1  .  .  .  1  1  2  . 1  1  1
+    ## ZNF76          .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  1  .  . .  1  .
+    ## CD8A           .  .  .  .  .  .  .  .  1  .  .  .  .  .  .  .  .  .  3 .  1  3
+    ## PTPN22         .  .  .  .  1  .  .  .  .  .  .  .  .  .  .  .  .  1  . .  .  .
+    ## GYPC           .  .  .  .  1  .  1  1  .  1  1  .  .  1  .  1  .  1  3 .  1  .
+    ## HNRNPF         1  .  .  .  .  1  .  .  .  .  .  1  1  1  2  1  1  2  1 1  1  .
+    ## RPL7L1         .  .  1  .  .  .  .  .  1  .  .  .  .  .  .  .  .  1  . 1  .  1
+    ## KLRG1          .  .  .  .  .  .  .  .  .  .  2  .  .  3  .  2  .  1  . .  .  .
+    ## CRBN           .  .  .  .  .  1  1  1  1  .  .  .  .  .  .  2  1  1  . 1  1  1
+    ## SATB1          .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  1  1  1 .  .  .
+    ## SIT1           .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  1 1  1  2
+    ## PMPCB          .  .  .  .  .  .  .  1  1  1  .  .  .  .  .  .  1  .  . .  2  1
+    ## NRBP1          .  .  .  .  .  1  .  .  .  .  .  .  2  .  .  .  .  1  . 1  1  .
+    ## TCF7           .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  1  .  .  1 1  2  .
+    ## HNRNPA3        .  .  .  .  .  .  .  .  .  2  2  1  1  1  1  .  2  1  2 .  2  1
+    ## S100A8        25  6 24 40 16 11  1  .  .  .  .  1  .  .  .  .  .  .  . .  .  .
+    ## S100A9        85  3 54 55 35 17  .  .  .  1  1  .  1  .  .  .  .  .  . .  .  .
+    ## LYZ           98 11 59 28 34 16  .  .  1  .  2  .  .  1  .  .  .  1  1 .  .  .
+    ## CD14           1  .  1  1  3  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## FCN1           7  1  1  2  8  7  .  .  .  .  .  .  .  1  .  .  .  .  . .  .  .
+    ## TYROBP        16  4 13 12 19 12  3  .  4  3  6  7  3  4  5 15  2  .  1 1  .  .
+    ## ASGR1          1  .  1  .  1  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## NFKBIA        11  .  2  3  5 10  .  1  .  1  .  1  .  .  .  .  5  1  1 .  .  .
+    ## TYMP           5  1  6  4  5  1  .  .  .  2  .  .  .  .  .  1  .  .  . .  .  .
+    ## CTSS           7  3  4  4 11  7  .  .  1  .  .  .  1  .  .  4  1  1  . .  1  .
+    ## TSPO          36  1  5  .  3  5  1  .  .  .  .  .  1  1  1  .  1  1  . .  2  .
+    ## RBP7           2  1  4  1  1  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## CTSB           1  1  7  1  1  2  .  .  .  .  .  .  1  .  .  .  .  .  . .  .  .
+    ## LGALS1        11  4  6  7 22 37  3  4  9  6  1  3 14  2  1  4  1  3  . .  .  .
+    ## FPR1           1  1  1  1  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## VSTM1          1  .  1  2  .  1  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## BLVRA          .  1  .  1  1  3  .  .  .  1  .  .  .  .  .  .  .  .  1 .  .  .
+    ## MPEG1          1  1  .  .  2  1  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## BID            1  1  .  .  1  1  .  .  .  .  .  .  .  1  .  .  .  .  . .  .  .
+    ## SMCO4          1  .  1  .  2  1  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## CFD            1  .  .  2 15  2  .  .  .  .  .  .  .  .  .  .  .  1  . .  .  .
+    ## LINC00936      1  1  .  .  2  1  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## LGALS2         6  .  .  .  5  2  .  .  .  .  .  .  .  .  .  .  .  .  1 .  .  .
+    ## MS4A6A         2  2  1  3  .  1  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## FCGRT         14  1  2  .  1  2  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## LGALS3         4  1  3  .  2  .  .  .  .  .  .  1  .  .  .  .  .  .  . .  .  .
+    ## NUP214         1  1  3  2  1  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## SCO2           .  .  .  2  .  5  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## IL17RA         1  1  1  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## IFI6           3  .  1  5  .  4  .  .  .  .  1  .  1  1  2  .  .  .  . .  .  .
+    ## HLA-DPA1       .  1  .  .  7  6  .  1  .  2  .  .  1  .  .  .  .  .  . .  1  3
+    ## FCER1A         .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  1  .  . .  .  .
+    ## CLEC10A        .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## HLA-DMA        .  .  .  .  1  2  .  .  .  .  1  .  .  .  .  .  .  .  . .  .  .
+    ## RGS1           .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## HLA-DPB1       .  3  .  1  7  7  2  4  .  .  .  .  .  .  .  .  .  4  . .  1  2
+    ## HLA-DQA1       .  .  .  .  .  1  .  .  .  .  .  .  .  .  .  .  .  1  . .  .  .
+    ## RNF130         2  .  .  1  1  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## HLA-DRB5       .  .  .  .  4  1  .  1  .  .  .  .  .  .  .  .  .  .  . .  .  1
+    ## HLA-DRB1       1  .  3  .  5  3  .  2  .  1  .  .  .  .  1  .  .  .  . .  .  3
+    ## CST3          13  7 37  5 20 18  1  .  .  .  .  .  1  1  .  .  .  .  . .  .  .
+    ## IL1B           .  1  .  .  2  3  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## POP7           .  .  .  .  1  .  .  .  .  .  .  .  .  .  .  1  .  .  1 .  .  .
+    ## HLA-DQA2       .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  1  . .  .  .
+    ## CD1C           .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## GSTP1          5  1  3  1  4  2  1  2  .  1  2  .  1  2  .  1  2  .  . .  .  .
+    ## EIF3G          2  .  .  1  2  1  3  .  1  .  3  .  .  1  .  3  1  1  . .  .  .
+    ## VPS28          2  .  1  1  1  .  .  .  1  1  1  .  1  1  1  1  .  .  . .  .  .
+    ## LY86           2  .  .  .  1  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## ZFP36L1        .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  1  . .  .  .
+    ## ZNF330         .  .  .  .  .  .  .  1  .  .  .  .  .  .  .  .  1  .  . .  .  .
+    ## ANXA2          1  1  1  .  2  3  1  .  .  4  1  .  4  1  .  1  .  .  1 .  .  .
+    ## GRN            1  .  5  1  .  2  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## CFP            1  .  2  .  2  1  .  .  .  .  1  .  .  .  .  .  .  .  . .  .  .
+    ## HSP90AA1       .  .  .  .  3  3  1  4  5  1  1  .  1  .  .  .  .  .  . 2  .  1
+    ## FUOM           .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## LST1           8  3  5  .  7 13  .  .  .  .  .  1  .  .  .  .  .  .  . .  .  .
+    ## AIF1           4  3  1  2 10 12  1  .  .  .  .  .  .  .  .  .  .  .  . .  2  .
+    ## PSAP           3  2  1  1  6  4  .  1  2  .  1  .  1  1  .  .  3  1  . .  1  .
+    ## YWHAB          2  .  .  1  2  .  2  .  1  1  .  1  .  1  .  2  .  1  1 .  .  1
+    ## MYO1G          .  .  .  .  2  .  1  .  1  .  .  .  .  .  1  1  1  1  . .  1  1
+    ## SAT1           4  2  8  2 11 18  3  .  .  .  .  .  1  .  1  1  .  1  3 .  .  .
+    ## RGS2           3  .  1  1  1  1  .  1  .  .  .  .  .  .  .  .  1  .  1 .  .  .
+    ## SERPINA1       .  .  1  .  3  3  .  .  .  .  .  .  1  .  .  .  .  .  . .  .  .
+    ## IFITM3         .  2  4  1  2  7  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## FCGR3A         .  .  .  .  .  1  6  2  2  1  .  1  2  1  2  6  2  .  . .  .  .
+    ## LILRA3         .  .  .  .  1  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## S100A11        2  2  1  6  5  6  6  .  .  .  .  .  1  1  .  .  1  .  . .  1  1
+    ## FCER1G         1  2  4  4  9  8  8  .  3  1  2  5  6  6  1  6  3  .  . .  .  .
+    ## TNFRSF1B       1  .  .  .  .  .  .  .  .  .  .  .  1  .  1  .  .  .  . .  .  .
+    ## IFITM2         1  1  .  1  3  6  8  2  3  5  2  1  5  1  3  2  7  4  2 2  5  1
+    ## WARS           .  .  .  .  1  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  1  .
+    ## IFI30          1  .  .  2  .  2  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## MS4A7          2  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## C5AR1          .  .  .  1  1  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## HCK            .  .  1  .  3  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## COTL1          7  3  6  .  4 20  .  1  1  .  .  .  1  .  .  .  1  2  . .  5  1
+    ## LGALS9         .  .  .  .  .  .  .  .  .  1  1  .  .  .  .  .  .  .  . .  .  .
+    ## CD68           .  .  3  .  1  3  .  1  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## RP11-290F20.3  .  .  .  .  2  1  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## RHOC           .  .  .  .  .  1  2  .  .  1  .  1  3  1  1  2  .  .  . .  .  .
+    ## CARD16         1  1  1  .  .  2  .  2  1  .  .  .  .  .  .  .  .  .  . .  .  1
+    ## LRRC25         .  .  .  1  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## COPS6          .  .  .  .  .  .  .  .  1  .  .  .  1  .  .  3  .  1  . .  .  .
+    ## ADAR           .  .  1  .  .  1  .  .  .  .  .  .  .  .  .  .  .  .  . 1  .  .
+    ## PPBP           1  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## GPX1          12  1 15  2  3  1  .  1  .  .  .  .  2  .  1  .  .  .  . 1  1  .
+    ## TPM4           1  .  1  .  .  .  2  1  .  .  .  .  1  1  1  .  .  .  . .  .  .
+    ## PF4            .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## SDPR           .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## NRGN           .  .  .  .  .  2  .  .  .  .  .  1  .  .  .  .  .  .  . .  .  .
+    ## SPARC          .  .  .  .  .  1  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## GNG11          .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## CLU            .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## HIST1H2AC      .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## NCOA4          .  1  .  .  1  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## GP9            .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## FERMT3         .  .  .  1  1  .  1  .  .  .  .  .  .  1  .  .  .  1  . 1  .  .
+    ## ODC1           .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## CD9            .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## RUFY1          .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  1  .  .  . .  .  .
+    ## TUBB1          .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## TALDO1         5  1  2  .  3  2  .  .  .  .  .  .  .  .  .  2  1  .  . .  .  .
+    ## TREML1         .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## NGFRAP1        .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## PGRMC1         .  .  .  .  .  .  1  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## CA2            .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## ITGA2B         .  .  .  .  .  1  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## MYL9           .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## TMEM40         .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## PARVB          .  .  1  .  .  1  .  .  .  .  .  .  .  .  .  .  .  1  . .  .  .
+    ## PTCRA          .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## ACRBP          .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## TSC22D1        .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . .  .  .
+    ## VDAC3          1  .  .  .  .  1  .  .  .  .  .  .  2  .  .  1  1  .  . .  .  .
+    ## GZMB           1  .  .  .  .  . 27  2  1 10  8  5 10  7  4 11  3  .  . .  .  .
+    ## GZMA           .  .  .  .  .  .  2  5  3  4 10  8 12 10  3 13  1  8  2 1  .  .
+    ## GNLY           .  .  .  .  .  . 35  . 15  3 29 11 22 15 18 18 10  .  . 3  .  .
+    ## FGFBP2         .  .  1  .  .  .  5  3  9  2  6  3  6  8  2  5  4  1  . .  .  2
+    ## AKR1C3         .  .  .  .  .  .  7  .  1  1  .  1  5  4  1  1  .  .  . .  .  .
+    ## CCL4           .  .  .  .  .  .  5  3  1  .  3  1  1  2  1  1  3  .  . .  .  .
+    ## PRF1           .  .  .  .  .  . 14  1  4  9  7 10 10  2  4  7  6 13  . .  .  .
+    ## GZMH           .  .  .  .  .  .  .  3  5  7  1  .  3  1  .  2  6  .  . .  .  .
+    ## XBP1           .  .  .  .  .  .  1  1  2  2  4  1  .  2  1  3  1  .  . .  .  .
+    ## GZMM           .  .  .  .  .  .  .  4  2  1  1  2  3  2  2  6  2  1  . .  1  .
+    ## PTGDR          .  .  .  .  .  .  .  1  1  1  .  .  1  .  1 51  .  .  . .  1  .
+    ## IGFBP7         .  .  1  .  1  .  4  .  .  3  .  1  7  4  .  3  1  .  . .  .  .
+    ## TTC38          .  .  .  .  .  .  2  1  1  1  .  .  1  .  1  1  1  .  . .  .  .
+    ## KLRD1          .  .  .  .  1  .  1  .  1  1  .  1  2  2  1  .  1  .  1 .  .  .
+    ## ARHGDIA        .  .  1  1  1  .  1  1  1  1  1  .  1  .  1 25  1  .  . .  .  .
+    ## IL2RB          .  .  .  .  .  .  1  .  .  .  2  1  1  1  .  3  .  .  . .  .  .
+    ## CLIC3          .  .  .  .  .  .  3  .  4  .  1  2  3  .  1  .  .  .  . .  .  .
+    ## PPP1R18        .  .  .  1  .  .  2  2  1  1  1  1  3  .  3  1  .  1  2 .  .  1
+    ## CD247          .  .  .  .  .  1  3  1  1  3  .  2  2  .  1  1  2  1  . .  .  .
+    ## ALOX5AP        .  .  .  1  .  .  3  .  2  1  1  3  1  2  1  2  .  2  . .  .  .
+    ## XCL2           .  .  .  .  .  .  .  1  3  2  .  .  .  .  1  2  .  1  . .  .  .
+    ## C12orf75       .  .  .  .  .  .  4  1  .  1  .  .  4  2  1  2  .  1  . .  .  .
+    ## RARRES3        .  .  1  .  .  .  7  3  2  .  1  3  3  5  .  1  .  2  1 1  .  2
+    ## PCMT1          .  1  .  .  .  2  1  . 58  .  .  1  .  2  1  .  .  1  . .  .  .
+    ## LAMP1          .  .  .  .  .  .  .  .  1  2  1  3  2  1  2  1  .  1  . 1  .  .
+    ## SPON2          1  .  .  .  .  .  3  5  1  3  .  .  1  2  .  2  3  .  . .  .  .
+    ## S100B          .  .  .  .  .  .  .  .  .  . 10  .  .  1  .  1  .  .  . .  .  .
+    ##                                                                               
+    ## MS4A1          . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## CD79B          . .  .  .  1  .  1  1  2  2  .  .  3  .   .  .  .  4   1   .  .
+    ## CD79A          . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  8   .   .  .
+    ## HLA-DRA        1 1  .  . 10 10  4  1  6 28 10 13  5  8 108 93 41 42 138  77 76
+    ## TCL1A          . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  4   .   .  .
+    ## HLA-DQB1       . .  .  .  .  1  1  .  2  .  .  1  1  .  21 21  3  5  11  11 10
+    ## HVCN1          . .  .  .  .  .  .  .  .  1  .  .  1  .   .  .  .  .   .   .  .
+    ## HLA-DMB        . .  .  .  .  .  .  1  1  .  .  1  .  1   3  2  1  4   5   2  1
+    ## LTB            . 1  5  3  1  2  .  .  1  1  1  1  2  1   .  1  .  5   .   .  .
+    ## LINC00926      . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## FCER2          . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## SP100          . .  .  .  .  .  .  .  1  .  1  .  .  .   1  .  .  3   1   .  .
+    ## NCF1           . .  .  .  .  .  .  .  .  .  .  1  .  .   .  .  .  .   .   .  .
+    ## PPP3CC         . 1  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## EAF2           . .  .  .  1  .  .  .  1  .  .  .  .  .   1  .  .  .   1   .  1
+    ## PPAPDC1B       . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  1   .   .  .
+    ## CD19           . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## KIAA0125       . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## CYB561A3       . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## CD180          . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## RP11-693J15.5  . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  1   .   .  .
+    ## FAM96A         . .  .  .  .  .  .  .  1  1  1  1  .  .   2  .  .  .   .   1  .
+    ## CXCR4          . 1  .  1  .  1  .  1  .  .  .  .  1  2  12  3  1  3   .   1  2
+    ## STX10          . .  .  .  1  .  .  .  .  .  .  1  .  .   .  .  .  .   .   .  .
+    ## SNHG7          . .  .  .  .  .  .  .  .  .  .  .  .  1   .  2  1  1   .   .  .
+    ## NT5C           . .  .  .  .  .  .  .  .  .  .  .  .  .   1  .  1  1   1   .  .
+    ## BANK1          . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## IGLL5          . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## CD200          . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## FCRLA          . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  2   .   .  .
+    ## CD3D           1 3  6  4  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## NOSIP          1 .  .  1  .  2  .  .  .  1  1  .  .  .   1  1  .  .   .   1  .
+    ## SAFB2          . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## CD2            2 .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   2   1  .
+    ## IL7R           . 2  .  2  .  .  .  .  .  .  .  .  .  .   1  1  1  .   1   .  .
+    ## PIK3IP1        . 1  .  1  .  .  .  .  1  .  .  .  .  .   .  .  .  .   .   .  .
+    ## MPHOSPH6       . .  .  .  1  .  1  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## KHDRBS1        . .  2  .  .  .  .  .  .  .  1  .  1  .   1  .  .  .   1   .  1
+    ## MAL            . .  .  .  .  1  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## CCR7           . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## THYN1          . 1  .  .  1  .  .  .  .  .  .  .  .  .   1  .  .  .   .   .  .
+    ## TAF7           1 .  .  .  .  .  .  .  .  2  3  .  .  1   .  .  1  1   1   1  .
+    ## LDHB           . .  .  2  .  .  1  .  .  2  .  1  .  1   2  .  .  5   2   2  .
+    ## TMEM123        . 1  .  .  1  1  .  1  1  .  .  .  .  1   .  .  .  2   3   1  .
+    ## CCDC104        . .  .  .  .  .  .  .  .  .  .  .  .  .   1  .  .  .   .   .  .
+    ## EPC1           . .  .  .  .  .  .  .  .  2  .  .  .  1   .  .  .  .   .   .  .
+    ## EIF4A2         2 3  .  1  .  2  .  .  2  .  1  .  2  1   4  .  .  4   2   4  1
+    ## CD3E           . 1  5  2  .  .  .  .  .  .  .  .  .  .   1  .  .  .   .   .  .
+    ## TMUB1          . .  .  .  1  .  .  .  .  .  .  1  .  .   .  1  .  .   .   .  .
+    ## BLOC1S4        . .  .  .  .  1  .  .  .  .  1  .  .  .   .  .  .  .   .   1  .
+    ## ACSM3          . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## TMEM204        . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## SRSF7          1 1  .  1  .  1  .  .  .  1  .  3  1  .   .  2  1  1   3   .  1
+    ## ACAP1          . .  .  3  .  .  .  .  .  .  .  .  .  .   .  .  .  .   1   .  .
+    ## TNFAIP8        . .  .  .  1  .  .  .  .  1  .  .  .  1   .  1  1  .   4   .  2
+    ## CD7            . .  .  1  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## TAGAP          . .  .  .  .  1  .  .  .  .  .  .  .  .   .  1  .  .   .   .  .
+    ## DNAJB1         . .  .  1  1  1  1  .  .  .  1  .  .  1   .  2  .  2   .   1  .
+    ## ASNSD1         . .  .  1  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## S1PR4          1 . 39  .  .  .  .  .  .  .  1  .  .  2   3  .  .  2   .   .  1
+    ## CTSW           2 1  5  1  .  .  .  .  .  .  .  .  .  .   .  .  1  .   1   .  .
+    ## GZMK           . 2  .  3  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## NKG7          16 4 29  8  5  3  .  .  .  .  5  .  .  .   .  1  .  .   1   3  .
+    ## IL32           6 7  6  1  .  .  .  .  .  .  1  1  .  .   .  .  .  .   1   .  .
+    ## DNAJC2         1 1  1  1  .  .  .  .  .  .  1  .  .  1   .  .  .  1   .   1  .
+    ## LYAR           1 1  1  1  .  2  .  .  .  .  2  .  1  .   .  .  .  .   .   1  .
+    ## CST7           8 4  5  2  .  .  .  .  .  .  .  .  .  .   .  .  .  .   1   1  .
+    ## LCK            1 1  1  1  .  .  .  .  .  .  1  .  .  .   .  .  .  .   .   .  .
+    ## CCL5           7 3 16 12  3  1  .  .  .  .  .  .  .  .   .  1  .  .   1   1  .
+    ## HNRNPH1        . 1  1  .  .  .  .  .  .  .  .  .  .  .   2  .  .  .   1   .  .
+    ## SSR2           4 1  2  4  2  1  .  .  2  .  3  1  3  1   .  2  3  .   1   3  2
+    ## DLGAP1-AS1     . .  1  1  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## GIMAP1         1 1 17  .  .  .  1  .  1  .  1  .  2  .   1  .  .  1   1   .  .
+    ## MMADHC         . 1  1  .  1  .  .  .  .  .  .  .  .  .   1  .  .  1   2   2  .
+    ## ZNF76          1 .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## CD8A           3 .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## PTPN22         . 1  1  2  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## GYPC           . 7  .  1  .  .  .  .  .  .  .  .  .  .   .  .  1  .   .   .  .
+    ## HNRNPF         1 2  .  2  .  1  .  .  .  .  1  1  .  1   .  .  1  1   .   .  2
+    ## RPL7L1         . 1  1  .  .  .  .  .  .  .  .  .  .  .   1  .  .  .   .   1  1
+    ## KLRG1          1 4  1  1  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## CRBN           1 .  1  .  .  .  .  .  .  .  .  .  2  .   1  .  1  .   1   .  .
+    ## SATB1          . .  . 13  .  .  .  .  .  .  .  .  .  .   1  .  .  .   .   .  .
+    ## SIT1           . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## PMPCB          . 1  .  .  .  1  .  .  .  1  .  .  .  .   .  .  .  .   1   .  .
+    ## NRBP1          . 1  1  .  .  .  .  .  .  .  .  .  .  .   1  .  .  .   .   .  .
+    ## TCF7           . .  .  1  .  .  .  .  .  .  .  .  .  1   1  .  .  .   .   .  1
+    ## HNRNPA3        . 1  2  .  .  1  .  .  .  2  1  1  .  1   1  .  .  .   1   4  .
+    ## S100A8         . .  .  .  2  2  .  4  3  .  1  1  2  .   .  2  .  2   1   9  1
+    ## S100A9         . .  .  . 20  6  1  . 10  4  8  6  .  .   .  .  1 10   .  41 11
+    ## LYZ            . 1  .  . 41  4  3  3 14 17  7  6  9  6  76 20 24 79  53  53 87
+    ## CD14           . .  .  .  .  .  .  .  .  1  .  .  .  .   .  .  .  2   2   1  1
+    ## FCN1           1 .  .  2 13  7  5  1  4  3  1  1  2  .   .  .  3  1   2   4  6
+    ## TYROBP         . .  .  . 11 21  2  5 21 13 16  9 16 17   2  8  6  9  11  14 10
+    ## ASGR1          . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  1   .   1  .
+    ## NFKBIA         1 .  1  .  2  2  2  .  2  1  1  1  2  9   2  2  .  1   1   6  1
+    ## TYMP           . .  .  .  6  5  1  1  6  4  3  2  4  5   1  3  2  5  14  11  3
+    ## CTSS           . .  .  .  8  8  7  3 10 15 18 19  4 17   5  3  1  5   .   3  6
+    ## TSPO           1 .  .  .  2  4  .  1  2  3  6  4  2  5   1  .  .  4   2   5 10
+    ## RBP7           . .  .  .  1  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## CTSB           . .  1  .  4  .  1  .  1  .  3  .  .  2   1  1  .  2   .   2  2
+    ## LGALS1         1 .  1  .  5 12  4  2 16 10  6  2 12 16   8 13 21  9  20  10 23
+    ## FPR1           . .  .  .  .  .  .  .  2  .  1  .  2  1   .  .  .  .   .   2  1
+    ## VSTM1          . .  .  .  .  .  .  .  1  .  .  .  .  1   .  .  .  .   .   .  .
+    ## BLVRA          . 1  .  .  .  .  .  .  2  2  5  1  2  .   1  .  1  .   .   .  1
+    ## MPEG1          . .  .  .  .  .  .  .  .  .  1  .  .  .   .  .  1  .   2   1  .
+    ## BID            . .  .  .  1  1  1  .  3  6  1  2  2  4   2  2  2  2   .   .  3
+    ## SMCO4          . .  .  .  .  1  1  .  1  2  1  1  .  .   .  .  .  .   .   .  .
+    ## CFD            . .  .  .  4  5  2  .  .  5  2  3  2  3   .  .  .  .   1   2  .
+    ## LINC00936      . .  .  .  .  .  .  .  1  .  .  1  3  1   2  1  1  .   3   1  1
+    ## LGALS2         . .  .  .  3  .  .  .  .  .  .  .  .  .   3 10  1  2   3   4  4
+    ## MS4A6A         . .  .  .  .  .  1  .  .  .  .  .  .  .   4  1  .  7   7   .  2
+    ## FCGRT          . .  .  .  3  2  .  1  3  1  1  .  1  1   3  1  .  2   2   3  3
+    ## LGALS3         . 1  .  .  2  2  .  .  4  2  .  2  1  .   .  5  1  .   6   2  7
+    ## NUP214         . .  .  .  .  .  .  .  2  .  1  2  .  .   .  .  1  1   .   1  .
+    ## SCO2           . .  .  .  1  .  .  .  1  1  .  .  1  2   .  .  2  .   1   .  .
+    ## IL17RA         . .  .  .  1  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## IFI6           . .  1  .  .  2  .  1  1  3  1  3  .  2   .  4  .  2   6   2  5
+    ## HLA-DPA1       . .  1  . 12  4  2  1  5  5  7 14  5 11  75 52 11 19  54  23 45
+    ## FCER1A         . .  .  .  .  .  .  .  .  .  .  .  .  .  16  1  2  4   8   5  8
+    ## CLEC10A        . .  .  .  .  .  .  .  .  .  .  .  .  .   .  5  2  4   2   3  6
+    ## HLA-DMA        . .  .  .  1  .  .  .  .  4  .  .  .  .   6  6  5  4   6   5  6
+    ## RGS1           . .  .  .  .  .  .  .  .  .  .  .  .  .   3  3  1  3   .   1  3
+    ## HLA-DPB1       . .  .  .  8  3  5  2  3  7  6  5  9  4 102 78 23 25  69  24 43
+    ## HLA-DQA1       . .  .  .  .  2  .  .  .  1  1  2  .  .  25 39  5  2  16   6 11
+    ## RNF130         . .  .  .  .  .  .  1  .  .  1  1  2  2   2  2  .  1   1   1  6
+    ## HLA-DRB5       . .  .  .  4  5  .  .  3  3  6  3  6  2  11 26  5  2  31  21 21
+    ## HLA-DRB1       . .  .  .  8  4  .  .  7  7 13  6  6  4  50 53 10  9  68  36 49
+    ## CST3           . 1  .  . 16 32  7  9 11 17 33 10 15 25  61 31 25 14  58 112 37
+    ## IL1B           . .  .  .  .  .  .  .  .  .  .  .  1  .   1  8  .  3   1   2  3
+    ## POP7           . .  .  .  .  .  .  .  .  .  2  1  .  .   .  1  1 33   .   .  .
+    ## HLA-DQA2       . .  .  .  .  .  .  .  .  .  1  2  .  .   7  9  1  .   6   1  4
+    ## CD1C           . .  .  .  .  .  .  .  .  .  .  .  .  .   2  5  .  .   3   3  .
+    ## GSTP1          . .  1  .  4  1  2  .  1  5  .  .  1  1   9  4  5  7   2   5 12
+    ## EIF3G          2 1  1  1  3  3  .  1  2  2  .  1  2  .   1  .  1  2   1   .  1
+    ## VPS28          . .  .  .  1  1  .  1  .  .  .  2  3  .   4  3  .  1   .   1 38
+    ## LY86           . .  .  .  .  .  .  .  .  .  .  2  .  .   2  .  3  2   3   1  2
+    ## ZFP36L1        . 1  .  .  .  .  .  .  .  1  .  .  .  .   .  .  .  1   1   . 21
+    ## ZNF330         . .  .  .  .  .  .  .  .  .  .  .  .  .   2  .  .  .   .   .  .
+    ## ANXA2          1 1  .  2  9  3  1  .  4  2  3  2  .  6   5  1  5  1  22  10  9
+    ## GRN            . .  .  .  2  .  1  1  2  3  .  1  1  3   6  1  .  2   5   4  8
+    ## CFP            . .  .  .  2  1  3  .  .  1  1  .  3  2   4  .  2  .   1  39  1
+    ## HSP90AA1       . 1  3  .  3  1  .  .  .  1  .  .  1  1   3  1  .  2  64   2  3
+    ## FUOM           . .  .  .  .  .  .  .  .  .  .  .  .  .   .  4  1  .   1   .  .
+    ## LST1           . .  .  . 15 17  8 11 18 13 36 17 12 27  12  7  7  4   8  10  4
+    ## AIF1           . .  .  .  7 12  7  6 32 33 12 19 18 29   6  7  1  3  11   7  9
+    ## PSAP           . 1  2  1  8  8  6  2  9  9 10  8  5 10   1  2  1  6   6   4  4
+    ## YWHAB          2 2  1  1  2  2  1  . 50  1  1  1  3  1   5  .  .  .   2   5  4
+    ## MYO1G          . .  1  .  .  1  .  .  3  3  1 27  1  1   .  .  .  .   .   .  2
+    ## SAT1           . .  2  1 21 25  6 10 26 26 16 15 11 22  10  5  5 16   2   3 16
+    ## RGS2           1 .  .  .  2  3 16  .  1 11  3  5  4  6   8  1  1  .   .   .  1
+    ## SERPINA1       . .  .  .  2  1  1  1  3  4  5  5  3  6   1  1  .  3   .   1  .
+    ## IFITM3         . .  .  .  5  3  4  1 11  9  2  5  7 10   . 12  2  1   3   4  4
+    ## FCGR3A         1 .  .  .  .  5  1  2 14  4 18  9  5 11   .  .  .  .   .   .  1
+    ## LILRA3         . .  .  .  1  1  3  .  .  1  1  .  1  1   .  .  .  .   .   .  .
+    ## S100A11        . 1  .  . 17 13  1  2  9 12 14  8  7 13   5  4  5  3  11   9  9
+    ## FCER1G         . .  .  . 12 12  2  4 35 16 24  9  9 30   8  8  3  3  13   8  7
+    ## TNFRSF1B       . .  .  .  .  2  1  .  3  4  1  2  1  1   .  .  .  .   .   1  .
+    ## IFITM2         1 4  1  2  5 10  1  4 17  8 33  8 14 19   4  7  4  3   2   2  .
+    ## WARS           . .  .  1  .  2  2  1  1  .  3  1  1  2   .  .  .  .   .   2  1
+    ## IFI30          . .  .  .  3  3  .  1  2  1  6  1  5  6   6  .  3  1   1   3  3
+    ## MS4A7          . .  .  .  .  5  1  .  2  4  3  1  .  2   .  .  1  .   .   .  .
+    ## C5AR1          . .  .  .  2  4  2  1  1  3  .  1  .  .   .  .  .  1   .   .  .
+    ## HCK            . .  .  .  1  2  .  1  .  3  1  2  3  5   .  1  .  .   1   1  .
+    ## COTL1          . .  2  .  9 20  9  3  6  9 91 11 18 18  18  2  9 11  12  11  7
+    ## LGALS9         . .  .  .  2  3  .  .  6  .  .  3  .  3   .  .  1  1   .   1  .
+    ## CD68           . .  .  .  6  4  1  .  4  3  .  4  2  8   .  .  .  .   1   1  .
+    ## RP11-290F20.3  . .  .  .  .  5  .  .  4  .  5  2  1  4   .  .  .  .   .   .  .
+    ## RHOC           1 1  .  .  1  6  .  1  1  2  7  2  6  3   2  .  1  .   2   .  .
+    ## CARD16         1 .  .  .  2  2  .  2  2  1  .  6  3  6   1  .  .  1   2   1  .
+    ## LRRC25         . .  .  .  1  .  1  .  1  6  4  1  .  2   .  1  1  .   .   .  1
+    ## COPS6          . .  1  .  . 26  .  .  2  2  1  .  .  1   .  .  .  1   1   1  1
+    ## ADAR           . .  .  .  .  .  1  1  2 25  .  1  .  .   .  .  .  .   .   .  .
+    ## PPBP           . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## GPX1           1 2  .  .  5  3  .  .  1  1  .  1  1  2   6  7  2  6  24  16 28
+    ## TPM4           . .  .  .  2  .  .  .  .  .  .  .  .  1   1  .  .  .   1   2  1
+    ## PF4            . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  1  .   .   .  .
+    ## SDPR           . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## NRGN           . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   2  .
+    ## SPARC          . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## GNG11          . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## CLU            . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## HIST1H2AC      . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## NCOA4          . .  .  .  .  .  1  .  .  .  1  .  .  2   1  1  .  .   1   .  .
+    ## GP9            . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## FERMT3         . .  .  .  1  1  .  .  1  .  .  .  .  2   .  .  .  2   .   .  1
+    ## ODC1           . .  .  .  1  .  .  .  .  .  1  .  .  .   .  .  .  .   2   .  1
+    ## CD9            . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## RUFY1          . .  .  .  .  1  .  .  .  .  .  .  .  .   1  .  .  .   .   .  .
+    ## TUBB1          . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## TALDO1         . .  1  .  1  2  .  .  .  2  2  2  1  2   1  .  .  1   3   1  3
+    ## TREML1         . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## NGFRAP1        . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## PGRMC1         . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## CA2            . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## ITGA2B         . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## MYL9           . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## TMEM40         . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## PARVB          . .  .  .  .  .  .  .  .  1  .  .  .  .   .  .  .  .   .   .  .
+    ## PTCRA          . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## ACRBP          . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## TSC22D1        . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## VDAC3          . .  1  .  .  1  .  .  .  .  .  .  .  2   1  .  .  .   .   .  .
+    ## GZMB           6 .  2  .  .  1  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## GZMA           . 3  3  2  .  .  .  .  .  .  .  .  1  .   .  .  .  .   .   .  .
+    ## GNLY           4 1  3  .  .  .  .  .  .  .  1  .  .  1   .  .  1  .   .   .  .
+    ## FGFBP2         9 .  3  .  .  .  .  1  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## AKR1C3         . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## CCL4           . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## PRF1           6 .  5  3  .  .  .  .  .  .  .  .  1  .   .  .  1  .   .   .  .
+    ## GZMH          10 .  9  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## XBP1           1 1  .  .  .  .  .  .  .  .  .  .  .  .   1  .  .  1   .   .  2
+    ## GZMM           3 2  .  1  .  .  .  .  .  .  .  .  .  .   1  .  .  .   .   .  .
+    ## PTGDR          . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## IGFBP7         . .  .  .  1  .  .  1  .  .  .  .  1  1   .  .  .  1   3   2  .
+    ## TTC38          . .  .  .  .  .  .  .  1  .  .  .  .  .   .  .  .  .   .   .  .
+    ## KLRD1          . .  1  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## ARHGDIA        . .  .  .  2  .  1  .  .  3  2  1  .  .   1  .  1  1   1   2  4
+    ## IL2RB          . 1  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## CLIC3          . .  .  .  .  1  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## PPP1R18        . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   1   1  .
+    ## CD247          1 .  1  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## ALOX5AP        . 1  .  .  .  .  .  .  1  .  .  .  .  .   .  .  .  .   1   1  .
+    ## XCL2           . .  1  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ## C12orf75       . .  .  1  .  .  .  .  .  .  .  .  .  .   1  .  .  .   .   .  1
+    ## RARRES3        2 .  1  1  .  .  .  .  2  .  .  .  .  .   .  1  .  .   2   1  1
+    ## PCMT1          1 .  .  .  .  1  .  .  2  .  1  .  .  .   2  .  .  .   4   2  1
+    ## LAMP1          1 2  .  1  .  1  .  .  .  .  .  .  .  3   .  .  .  .   .   .  1
+    ## SPON2          3 1  3  .  .  .  .  .  .  .  .  .  .  .   1  1  .  .   .   .  .
+    ## S100B          . .  .  .  .  .  .  .  .  .  .  .  .  .   .  .  .  .   .   .  .
+    ##                                                      
+    ## MS4A1          1  .   .  .  .  .  .  .  .  .  .  .  .
+    ## CD79B          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## CD79A          .  1   .  .  .  .  .  .  .  .  .  .  .
+    ## HLA-DRA       15 19 104  1  .  .  .  2  1  1  .  2  7
+    ## TCL1A          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## HLA-DQB1       1  2  11  .  .  .  .  .  .  .  .  .  1
+    ## HVCN1          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## HLA-DMB        1  1   5  .  .  .  .  .  .  .  .  .  .
+    ## LTB            .  1   4  .  .  1  .  .  .  .  .  .  .
+    ## LINC00926      .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## FCER2          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## SP100          .  .   1  .  .  .  .  .  .  .  .  .  .
+    ## NCF1           .  .   .  .  .  .  .  .  .  .  .  .  1
+    ## PPP3CC         .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## EAF2           .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## PPAPDC1B       .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## CD19           .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## KIAA0125       .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## CYB561A3       .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## CD180          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## RP11-693J15.5  .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## FAM96A         .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## CXCR4          .  .   2  .  .  .  .  .  .  .  .  .  .
+    ## STX10          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## SNHG7          .  .   .  .  .  .  .  .  1  .  .  .  .
+    ## NT5C           .  1   .  .  .  .  .  .  .  .  .  .  1
+    ## BANK1          .  1   .  .  .  .  .  .  1  .  .  .  .
+    ## IGLL5          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## CD200          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## FCRLA          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## CD3D           .  .   1  .  .  .  .  .  .  .  .  .  .
+    ## NOSIP          1  .   1  .  .  .  .  .  .  .  .  .  .
+    ## SAFB2          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## CD2            .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## IL7R           1  .   .  .  .  .  .  .  1  .  .  .  .
+    ## PIK3IP1        .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## MPHOSPH6       .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## KHDRBS1        .  .   2  .  .  .  .  .  .  .  .  .  .
+    ## MAL            .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## CCR7           .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## THYN1          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## TAF7           1  .   .  .  .  .  .  .  .  .  .  .  1
+    ## LDHB           1  2   .  1  .  .  .  .  1  .  .  .  1
+    ## TMEM123        .  .   .  .  .  .  .  .  .  .  1  .  1
+    ## CCDC104        .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## EPC1           .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## EIF4A2         .  .   1  .  .  .  .  .  .  .  .  .  .
+    ## CD3E           .  .   1  .  .  .  .  .  .  .  .  1  .
+    ## TMUB1          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## BLOC1S4        .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## ACSM3          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## TMEM204        .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## SRSF7          5 13   2  .  .  .  .  .  .  .  .  .  .
+    ## ACAP1          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## TNFAIP8        .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## CD7            .  .   1  .  .  .  .  .  .  .  .  .  .
+    ## TAGAP          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## DNAJB1         .  1   .  .  .  .  .  .  .  .  .  .  .
+    ## ASNSD1         .  .   .  .  .  .  .  .  .  .  .  .  1
+    ## S1PR4          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## CTSW           .  1   .  .  .  .  .  .  .  .  .  .  .
+    ## GZMK           .  .   1  .  .  .  .  .  .  .  .  .  .
+    ## NKG7           1  .   1  .  .  .  .  .  .  .  .  .  .
+    ## IL32           .  .   .  .  .  .  .  .  .  .  .  .  1
+    ## DNAJC2         .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## LYAR           .  .   .  .  .  1  .  .  .  .  .  .  .
+    ## CST7           .  .   1  .  .  .  .  .  .  .  .  .  .
+    ## LCK            .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## CCL5           .  .   .  8  5  4 10 11 30  8  5  9  2
+    ## HNRNPH1        .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## SSR2           .  4   2  .  .  .  .  .  .  .  .  .  .
+    ## DLGAP1-AS1     .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## GIMAP1         1  .   .  .  .  .  .  .  .  .  .  .  .
+    ## MMADHC         .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## ZNF76          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## CD8A           .  .   1  .  .  .  .  .  .  .  .  .  .
+    ## PTPN22         .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## GYPC           .  .   2  .  .  .  .  .  .  .  .  .  .
+    ## HNRNPF         .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## RPL7L1         .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## KLRG1          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## CRBN           .  .   .  .  .  1  .  .  .  .  .  .  .
+    ## SATB1          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## SIT1           .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## PMPCB          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## NRBP1          .  .   .  .  .  .  1  .  .  .  .  .  .
+    ## TCF7           .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## HNRNPA3        1  .   2  .  .  .  .  .  .  .  .  .  .
+    ## S100A8        23  4   .  .  1  .  .  .  1  .  .  .  2
+    ## S100A9        32 17   .  3  .  .  .  .  .  .  .  .  7
+    ## LYZ           76 42 114  3  1  1  .  1  .  .  .  . 22
+    ## CD14           1  .   .  .  .  .  .  .  .  .  .  .  .
+    ## FCN1           1  .   .  .  .  .  .  .  .  .  .  .  .
+    ## TYROBP        10  6   7  .  .  .  .  .  .  .  .  . 14
+    ## ASGR1          .  1   1  .  .  .  .  .  .  .  .  .  .
+    ## NFKBIA         3  2   4  .  .  .  .  .  .  .  .  .  6
+    ## TYMP           4  8   4  .  .  .  .  .  .  .  .  .  2
+    ## CTSS           2  .   3  1  .  .  .  .  .  .  .  .  3
+    ## TSPO           6  4   2  .  .  .  .  .  2  .  .  .  3
+    ## RBP7           .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## CTSB           1  .   .  .  .  .  .  1  .  .  .  .  1
+    ## LGALS1         5 28  13  .  .  .  .  1  .  .  .  . 10
+    ## FPR1           .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## VSTM1          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## BLVRA          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## MPEG1          1  .   .  .  .  .  .  .  1  .  .  .  .
+    ## BID            1  .   2  .  .  .  .  .  .  .  .  .  .
+    ## SMCO4          1  .   .  .  .  .  .  .  .  .  .  .  .
+    ## CFD            .  .   .  .  .  .  .  .  .  .  .  .  3
+    ## LINC00936      1  1   1  .  .  .  .  .  .  .  .  .  1
+    ## LGALS2         1  3   6  .  .  .  .  .  .  .  .  .  3
+    ## MS4A6A         1  2   .  .  .  .  .  .  .  .  .  .  1
+    ## FCGRT          1  4   3  .  .  .  .  .  .  .  .  .  2
+    ## LGALS3         2  2   .  .  .  .  .  .  1  .  .  .  1
+    ## NUP214         1  .   .  .  .  .  .  .  .  .  .  .  1
+    ## SCO2           .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## IL17RA         .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## IFI6           1  .   .  .  .  .  .  .  .  .  .  .  4
+    ## HLA-DPA1      10 23  37  .  .  .  .  .  .  .  .  .  5
+    ## FCER1A         4  7   .  .  .  .  .  .  .  .  .  .  .
+    ## CLEC10A        4  2   1  .  .  .  .  .  .  .  .  .  1
+    ## HLA-DMA        5  3   5  .  .  .  .  .  .  .  .  .  1
+    ## RGS1           .  1   2  .  .  .  .  .  .  .  .  .  .
+    ## HLA-DPB1       8 10  50  1  .  .  .  .  .  .  .  .  5
+    ## HLA-DQA1       3  4   9  .  .  .  .  .  .  .  .  .  .
+    ## RNF130         3  5   1  .  .  .  .  .  .  .  .  .  .
+    ## HLA-DRB5       2  3  10  .  .  .  .  .  .  .  .  .  1
+    ## HLA-DRB1       3  9  26  .  .  .  .  .  .  .  .  .  4
+    ## CST3          18 29 125  5  1  .  .  5  1  3  .  . 16
+    ## IL1B           6  1   .  .  .  1  .  .  .  .  .  .  5
+    ## POP7           .  1   3  .  .  .  .  .  .  .  .  .  .
+    ## HLA-DQA2       1  .   5  .  .  .  .  .  .  .  .  .  .
+    ## CD1C           .  .   1  .  .  .  .  .  .  .  .  .  .
+    ## GSTP1          7 10  18  .  .  .  .  1  .  .  .  .  4
+    ## EIF3G          1  3  43  .  .  .  .  .  .  .  .  .  3
+    ## VPS28          .  .   1  .  .  1  .  .  2  .  .  .  2
+    ## LY86           .  1   8  1  .  .  .  .  .  .  .  .  .
+    ## ZFP36L1        .  1   .  .  .  .  .  .  .  .  .  .  .
+    ## ZNF330         1 32   .  .  .  .  .  .  .  .  .  .  .
+    ## ANXA2          1  3   3  .  .  .  .  .  .  .  .  .  4
+    ## GRN            2  4   5  .  1  .  .  .  .  .  .  .  .
+    ## CFP            3  5   1  .  .  .  .  .  .  .  .  .  1
+    ## HSP90AA1       1  1   1  .  .  .  .  .  .  .  .  .  .
+    ## FUOM           1  .   .  .  .  .  .  .  .  .  .  .  .
+    ## LST1           2  6   6  .  .  .  .  .  .  .  .  .  7
+    ## AIF1           4  1   4  .  .  .  .  1  .  .  .  .  5
+    ## PSAP           2  2   7  .  .  1  1  1  .  .  .  .  1
+    ## YWHAB          .  1   3  .  .  .  .  .  .  .  .  .  1
+    ## MYO1G          2  1   2  .  .  .  .  .  .  .  .  .  1
+    ## SAT1           3  4   5  3  4  2  6  3 17  3  6  4  3
+    ## RGS2           1  1   2  .  .  .  .  .  .  .  .  .  .
+    ## SERPINA1       .  .   1  .  .  .  .  .  .  .  .  .  2
+    ## IFITM3         .  .   1  .  .  .  .  .  .  .  .  .  1
+    ## FCGR3A         .  1   .  .  .  .  .  .  .  .  .  .  .
+    ## LILRA3         .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## S100A11        4  5   2  .  .  .  .  .  .  .  .  .  1
+    ## FCER1G         5  8   3  .  .  .  1  .  .  .  1  .  4
+    ## TNFRSF1B       .  .   2  .  .  .  .  .  .  .  .  .  .
+    ## IFITM2         1  6   4  .  .  .  .  1  1  .  .  .  1
+    ## WARS           .  1   .  .  .  .  .  .  .  .  .  .  .
+    ## IFI30          .  1   4  .  .  .  .  .  .  .  .  .  1
+    ## MS4A7          .  1   1  .  .  .  .  .  .  .  .  .  .
+    ## C5AR1          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## HCK            .  1   4  .  .  .  .  .  .  .  .  .  1
+    ## COTL1          5  4  25  1  2  .  3  .  2  3  .  4  7
+    ## LGALS9         1  1   1  .  .  .  .  .  .  .  .  .  .
+    ## CD68           .  .   1  .  .  .  .  1  .  .  1  1  1
+    ## RP11-290F20.3  .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## RHOC           .  .   .  .  .  .  .  .  .  .  1  .  .
+    ## CARD16         1  .   1  .  .  .  .  .  .  .  .  .  .
+    ## LRRC25         1  .   2  .  .  .  .  .  .  .  .  .  1
+    ## COPS6          .  1   .  .  .  .  .  .  .  .  .  .  1
+    ## ADAR           .  1   .  .  .  .  .  .  .  .  .  .  .
+    ## PPBP           .  .   . 43 41 36 55 58 54 66 34 30  6
+    ## GPX1           3  6   3 18  8 12 18 18 28 11 13 16  9
+    ## TPM4           .  1   1  4  4  2  2  2 15  2  1  3  2
+    ## PF4            .  .   . 14 11 14 18 23 62  9 14  6  .
+    ## SDPR           .  .   1 11  3 13  8  8 29  3  6  5  2
+    ## NRGN           .  .   .  1  5  3  3  2  7  3  1  1  2
+    ## SPARC          .  .   .  8  3  2  2  3  9  3  3  4  2
+    ## GNG11          .  .   .  6  5  9 10  7 23 12  6 11  1
+    ## CLU            .  .   . 14  5  8 11 15  6  4  3  5  2
+    ## HIST1H2AC      .  .   .  5  3  5  5  2 42  2  1  2  1
+    ## NCOA4          .  .   .  8  2  . 12  8  7  3  2  6  .
+    ## GP9            .  .   .  1  3  3  2  3 11  6  5  3  .
+    ## FERMT3         .  .   1  2  5  4  4  1  6  .  4  .  1
+    ## ODC1           .  .   .  3  .  1  2  1 14  2  .  4  1
+    ## CD9            .  .   .  6  4  4  3  4  3  4 20  5  .
+    ## RUFY1          .  .   .  3  3  2  3  2  9  .  .  1  .
+    ## TUBB1          .  .   .  4  3  5  2 14 32  2  .  8  .
+    ## TALDO1         1  1   2  2  .  1  2  1 10 37  .  2  3
+    ## TREML1         .  .   .  3  .  2  7  4  .  1  3  5  2
+    ## NGFRAP1        .  .   .  4  1  2  .  2  3  1  2  4  .
+    ## PGRMC1         .  .   .  4  1  .  4  2  6  2  2  .  .
+    ## CA2            1  .   .  3  1  4  1  3  8  . 13  2  .
+    ## ITGA2B         .  .   .  5  1  4  2  4  1  4  1  .  .
+    ## MYL9           .  .   .  4  .  3  4  8  1  2  .  .  1
+    ## TMEM40         .  .   .  .  .  3  1  1  2  1  2  3  .
+    ## PARVB          .  .   .  5  4  1  4  .  .  1  .  .  .
+    ## PTCRA          .  .   .  2  .  4  .  . 20  2  2  1  .
+    ## ACRBP          .  .   .  1  .  1  .  . 25  .  3  1  1
+    ## TSC22D1        .  .   .  .  .  6  1  . 26  1  .  .  1
+    ## VDAC3          .  .   .  . 41  .  .  2  1  .  1  1  1
+    ## GZMB           .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## GZMA           .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## GNLY           .  .   1  .  .  .  .  .  .  .  .  .  .
+    ## FGFBP2         .  .   1  .  .  .  .  .  .  .  .  .  .
+    ## AKR1C3         .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## CCL4           .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## PRF1           .  .   .  .  .  .  .  1  .  .  .  .  .
+    ## GZMH           .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## XBP1           .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## GZMM           .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## PTGDR          .  .   .  .  .  .  .  .  1  .  .  .  .
+    ## IGFBP7         .  1   .  .  .  .  .  .  .  .  .  .  .
+    ## TTC38          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## KLRD1          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## ARHGDIA        1  .   .  .  .  .  .  .  1  .  .  .  .
+    ## IL2RB          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## CLIC3          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## PPP1R18        .  .   1  .  .  .  .  .  .  .  .  .  1
+    ## CD247          .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## ALOX5AP        .  1   .  .  .  .  .  .  .  .  .  .  .
+    ## XCL2           .  .   .  .  .  .  .  .  .  .  .  .  .
+    ## C12orf75       .  .   .  .  .  .  2  .  .  .  .  .  .
+    ## RARRES3        .  .   .  .  .  1  .  .  1  .  .  .  .
+    ## PCMT1          .  3   1  .  .  .  .  .  .  .  .  .  .
+    ## LAMP1          .  .   .  .  .  .  .  .  1  .  .  .  .
+    ## SPON2          1  .   .  .  .  .  .  .  .  .  .  .  .
+    ## S100B          .  .   .  .  .  .  .  .  .  .  .  .  .
+
+# Annotation polishing
 
 We may have a column that contains the directory each run was taken
 from, such as the “file” column in `pbmc_small_tidy`.
 
-    pbmc_small_tidy$file[1:5]
+``` r
+pbmc_small_tidy$file[1:5]
+```
 
     ## [1] "../data/sample2/outs/filtered_feature_bc_matrix/"
     ## [2] "../data/sample1/outs/filtered_feature_bc_matrix/"
@@ -143,68 +1071,76 @@ We may want to extract the run/sample name out of it into a separate
 column. Tidyverse `extract` can be used to convert a character column
 into multiple columns using regular expression groups.
 
-    # Create sample column
-    pbmc_small_polished <-
-        pbmc_small_tidy %>%
-        extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove=FALSE)
+``` r
+# Create sample column
+pbmc_small_polished <-
+    pbmc_small_tidy %>%
+    extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove=FALSE)
 
-    # Reorder to have sample column up front
-    pbmc_small_polished %>%
-        select(sample, everything())
+# Reorder to have sample column up front
+pbmc_small_polished %>%
+    select(sample, everything())
+```
 
-    ## # A tibble: 80 x 18
-    ##    cell  sample orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
-    ##    <chr> <chr>  <fct>           <dbl>        <int> <fct>           <fct>        
-    ##  1 ATGC… sampl… SeuratPro…         70           47 0               A            
-    ##  2 CATG… sampl… SeuratPro…         85           52 0               A            
-    ##  3 GAAC… sampl… SeuratPro…         87           50 1               B            
-    ##  4 TGAC… sampl… SeuratPro…        127           56 0               A            
-    ##  5 AGTC… sampl… SeuratPro…        173           53 0               A            
-    ##  6 TCTG… sampl… SeuratPro…         70           48 0               A            
-    ##  7 TGGT… sampl… SeuratPro…         64           36 0               A            
-    ##  8 GCAG… sampl… SeuratPro…         72           45 0               A            
-    ##  9 GATA… sampl… SeuratPro…         52           36 0               A            
-    ## 10 AATG… sampl… SeuratPro…        100           41 0               A            
-    ## # … with 70 more rows, and 11 more variables: groups <chr>,
-    ## #   RNA_snn_res.1 <fct>, file <chr>, ident <fct>, PC_1 <dbl>, PC_2 <dbl>,
-    ## #   PC_3 <dbl>, PC_4 <dbl>, PC_5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>
+    ## # A SingleCellExperiment-tibble abstraction: 80 × 18
+    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
+    ##    .cell     sample orig.…¹ nCoun…² nFeat…³ RNA_s…⁴ lette…⁵ groups RNA_s…⁶ file 
+    ##    <chr>     <chr>  <fct>     <dbl>   <int> <fct>   <fct>   <chr>  <fct>   <chr>
+    ##  1 ATGCCAGA… sampl… Seurat…      70      47 0       A       g2     0       ../d…
+    ##  2 CATGGCCT… sampl… Seurat…      85      52 0       A       g1     0       ../d…
+    ##  3 GAACCTGA… sampl… Seurat…      87      50 1       B       g2     0       ../d…
+    ##  4 TGACTGGA… sampl… Seurat…     127      56 0       A       g2     0       ../d…
+    ##  5 AGTCAGAC… sampl… Seurat…     173      53 0       A       g2     0       ../d…
+    ##  6 TCTGATAC… sampl… Seurat…      70      48 0       A       g1     0       ../d…
+    ##  7 TGGTATCT… sampl… Seurat…      64      36 0       A       g1     0       ../d…
+    ##  8 GCAGCTCT… sampl… Seurat…      72      45 0       A       g1     0       ../d…
+    ##  9 GATATAAC… sampl… Seurat…      52      36 0       A       g1     0       ../d…
+    ## 10 AATGTTGA… sampl… Seurat…     100      41 0       A       g1     0       ../d…
+    ## # … with 70 more rows, 8 more variables: ident <fct>, PC_1 <dbl>, PC_2 <dbl>,
+    ## #   PC_3 <dbl>, PC_4 <dbl>, PC_5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>, and
+    ## #   abbreviated variable names ¹​orig.ident, ²​nCount_RNA, ³​nFeature_RNA,
+    ## #   ⁴​RNA_snn_res.0.8, ⁵​letter.idents, ⁶​RNA_snn_res.1
+    ## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
-Preliminary plots
-=================
+# Preliminary plots
 
 Set colours and theme for plots.
 
-    # Use colourblind-friendly colours
-    friendly_cols <- dittoSeq::dittoColors()
+``` r
+# Use colourblind-friendly colours
+friendly_cols <- dittoSeq::dittoColors()
 
-    # Set theme
-    my_theme <-
-        list(
-            scale_fill_manual(values=friendly_cols),
-            scale_color_manual(values=friendly_cols),
-            theme_bw() +
-                theme(
-                    panel.border=element_blank(),
-                    axis.line=element_line(),
-                    panel.grid.major=element_line(size=0.2),
-                    panel.grid.minor=element_line(size=0.1),
-                    text=element_text(size=12),
-                    legend.position="bottom",
-                    aspect.ratio=1,
-                    strip.background=element_blank(),
-                    axis.title.x=element_text(margin=margin(t=10, r=10, b=10, l=10)),
-                    axis.title.y=element_text(margin=margin(t=10, r=10, b=10, l=10))
-                )
-        )
+# Set theme
+custom_theme <-
+    list(
+        scale_fill_manual(values=friendly_cols),
+        scale_color_manual(values=friendly_cols),
+        theme_bw() +
+            theme(
+                panel.border=element_blank(),
+                axis.line=element_line(),
+                panel.grid.major=element_line(size=0.2),
+                panel.grid.minor=element_line(size=0.1),
+                text=element_text(size=12),
+                legend.position="bottom",
+                aspect.ratio=1,
+                strip.background=element_blank(),
+                axis.title.x=element_text(margin=margin(t=10, r=10, b=10, l=10)),
+                axis.title.y=element_text(margin=margin(t=10, r=10, b=10, l=10))
+            )
+    )
+```
 
 We can treat `pbmc_small_polished` as a tibble for plotting.
 
 Here we plot number of features per cell.
 
-    pbmc_small_polished %>%
-        tidySingleCellExperiment::ggplot(aes(nFeature_RNA, fill=groups)) +
-        geom_histogram() +
-        my_theme
+``` r
+pbmc_small_polished %>%
+    tidySingleCellExperiment::ggplot(aes(nFeature_RNA, fill=groups)) +
+    geom_histogram() +
+    custom_theme
+```
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
@@ -212,45 +1148,50 @@ Here we plot number of features per cell.
 
 Here we plot total features per cell.
 
-    pbmc_small_polished %>%
-        tidySingleCellExperiment::ggplot(aes(groups, nCount_RNA, fill=groups)) +
-        geom_boxplot(outlier.shape=NA) +
-        geom_jitter(width=0.1) +
-        my_theme
+``` r
+pbmc_small_polished %>%
+    tidySingleCellExperiment::ggplot(aes(groups, nCount_RNA, fill=groups)) +
+    geom_boxplot(outlier.shape=NA) +
+    geom_jitter(width=0.1) +
+    custom_theme
+```
 
 ![](man/figures/plot2-1.png)<!-- -->
 
 Here we plot abundance of two features for each group.
 
-    pbmc_small_polished %>%
-        join_features(features=c("HLA-DRA", "LYZ")) %>%
-        ggplot(aes(groups, .abundance_counts + 1, fill=groups)) +
-        geom_boxplot(outlier.shape=NA) +
-        geom_jitter(aes(size=nCount_RNA), alpha=0.5, width=0.2) +
-        scale_y_log10() +
-        my_theme
+``` r
+pbmc_small_polished %>%
+    join_features(features=c("HLA-DRA", "LYZ")) %>%
+    ggplot(aes(groups, .abundance_counts + 1, fill=groups)) +
+    geom_boxplot(outlier.shape=NA) +
+    geom_jitter(aes(size=nCount_RNA), alpha=0.5, width=0.2) +
+    scale_y_log10() +
+    custom_theme
+```
 
-    ## tidySingleCellExperiment says: A data frame is returned for independent data analysis.
+    ## tidySingleCellExperiment says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.
 
-![](man/figures/unnamed-chunk-11-1.png)<!-- -->
+![](man/figures/unnamed-chunk-10-1.png)<!-- -->
 
-Preprocess the dataset
-======================
+# Preprocess the dataset
 
 We can also treat `pbmc_small_polished` as a *SingleCellExperiment*
 object and proceed with data processing with Bioconductor packages, such
 as *scran* \[@lun2016pooling\] and *scater* \[@mccarthy2017scater\].
 
-    # Identify variable genes with scran
-    variable_genes <-
-        pbmc_small_polished %>%
-        modelGeneVar() %>%
-        getTopHVGs(prop=0.1)
+``` r
+# Identify variable genes with scran
+variable_genes <-
+    pbmc_small_polished %>%
+    modelGeneVar() %>%
+    getTopHVGs(prop=0.1)
 
-    # Perform PCA with scater
-    pbmc_small_pca <-
-        pbmc_small_polished %>%
-        runPCA(subset_row=variable_genes)
+# Perform PCA with scater
+pbmc_small_pca <-
+    pbmc_small_polished %>%
+    runPCA(subset_row=variable_genes)
+```
 
     ## Warning in check_numbers(k = k, nu = nu, nv = nv, limit = min(dim(x)) - : more
     ## singular values/vectors requested than available
@@ -259,35 +1200,46 @@ as *scran* \[@lun2016pooling\] and *scater* \[@mccarthy2017scater\].
     ## TRUE, : You're computing too large a percentage of total singular values, use a
     ## standard svd instead.
 
-    pbmc_small_pca
+    ## Warning in (function (A, nv = 5, nu = nv, maxit = 1000, work = nv + 7, reorth
+    ## = TRUE, : did not converge--results might be invalid!; try increasing work or
+    ## maxit
 
-    ## # A tibble: 80 x 18
-    ##    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
-    ##    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
-    ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
-    ##  2 CATG… SeuratPro…         85           52 0               A             g1    
-    ##  3 GAAC… SeuratPro…         87           50 1               B             g2    
-    ##  4 TGAC… SeuratPro…        127           56 0               A             g2    
-    ##  5 AGTC… SeuratPro…        173           53 0               A             g2    
-    ##  6 TCTG… SeuratPro…         70           48 0               A             g1    
-    ##  7 TGGT… SeuratPro…         64           36 0               A             g1    
-    ##  8 GCAG… SeuratPro…         72           45 0               A             g1    
-    ##  9 GATA… SeuratPro…         52           36 0               A             g1    
-    ## 10 AATG… SeuratPro…        100           41 0               A             g1    
-    ## # … with 70 more rows, and 11 more variables: RNA_snn_res.1 <fct>, file <chr>,
-    ## #   sample <chr>, ident <fct>, PC1 <dbl>, PC2 <dbl>, PC3 <dbl>, PC4 <dbl>,
-    ## #   PC5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>
+``` r
+pbmc_small_pca
+```
 
-If a tidyverse-compatible package is not included in the tidySingleCellExperiment
-collection, we can use `as_tibble` to permanently convert `tidySingleCellExperiment` into
-a tibble.
+    ## # A SingleCellExperiment-tibble abstraction: 80 × 18
+    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
+    ##    .cell     orig.…¹ nCoun…² nFeat…³ RNA_s…⁴ lette…⁵ groups RNA_s…⁶ file  sample
+    ##    <chr>     <fct>     <dbl>   <int> <fct>   <fct>   <chr>  <fct>   <chr> <chr> 
+    ##  1 ATGCCAGA… Seurat…      70      47 0       A       g2     0       ../d… sampl…
+    ##  2 CATGGCCT… Seurat…      85      52 0       A       g1     0       ../d… sampl…
+    ##  3 GAACCTGA… Seurat…      87      50 1       B       g2     0       ../d… sampl…
+    ##  4 TGACTGGA… Seurat…     127      56 0       A       g2     0       ../d… sampl…
+    ##  5 AGTCAGAC… Seurat…     173      53 0       A       g2     0       ../d… sampl…
+    ##  6 TCTGATAC… Seurat…      70      48 0       A       g1     0       ../d… sampl…
+    ##  7 TGGTATCT… Seurat…      64      36 0       A       g1     0       ../d… sampl…
+    ##  8 GCAGCTCT… Seurat…      72      45 0       A       g1     0       ../d… sampl…
+    ##  9 GATATAAC… Seurat…      52      36 0       A       g1     0       ../d… sampl…
+    ## 10 AATGTTGA… Seurat…     100      41 0       A       g1     0       ../d… sampl…
+    ## # … with 70 more rows, 8 more variables: ident <fct>, PC1 <dbl>, PC2 <dbl>,
+    ## #   PC3 <dbl>, PC4 <dbl>, PC5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>, and
+    ## #   abbreviated variable names ¹​orig.ident, ²​nCount_RNA, ³​nFeature_RNA,
+    ## #   ⁴​RNA_snn_res.0.8, ⁵​letter.idents, ⁶​RNA_snn_res.1
+    ## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
-    # Create pairs plot with GGally
-    pbmc_small_pca %>%
-        as_tibble() %>%
-        select(contains("PC"), everything()) %>%
-        GGally::ggpairs(columns=1:5, ggplot2::aes(colour=groups)) +
-        my_theme
+If a tidyverse-compatible package is not included in the
+tidySingleCellExperiment collection, we can use `as_tibble` to
+permanently convert `tidySingleCellExperiment` into a tibble.
+
+``` r
+# Create pairs plot with GGally
+pbmc_small_pca %>%
+    as_tibble() %>%
+    select(contains("PC"), everything()) %>%
+    GGally::ggpairs(columns=1:5, ggplot2::aes(colour=groups)) +
+    custom_theme
+```
 
     ## Registered S3 method overwritten by 'GGally':
     ##   method from   
@@ -295,53 +1247,61 @@ a tibble.
 
 ![](man/figures/pc_plot-1.png)<!-- -->
 
-Identify clusters
-=================
+# Identify clusters
 
 We can proceed with cluster identification with *scran*.
 
-    pbmc_small_cluster <- pbmc_small_pca
+``` r
+pbmc_small_cluster <- pbmc_small_pca
 
-    # Assign clusters to the 'colLabels' of the SummarizedExperiment object
-    colLabels(pbmc_small_cluster) <-
-        pbmc_small_pca %>%
-        buildSNNGraph(use.dimred="PCA") %>%
-        igraph::cluster_walktrap() %$%
-        membership %>%
-        as.factor()
+# Assign clusters to the 'colLabels' of the SingleCellExperiment object
+colLabels(pbmc_small_cluster) <-
+    pbmc_small_pca %>%
+    buildSNNGraph(use.dimred="PCA") %>%
+    igraph::cluster_walktrap() %$%
+    membership %>%
+    as.factor()
+```
 
     ## Warning in (function (to_check, X, clust_centers, clust_info, dtype, nn, :
     ## detected tied distances to neighbors, see ?'BiocNeighbors-ties'
 
-    # Reorder columns
-    pbmc_small_cluster %>% select(label, everything())
+``` r
+# Reorder columns
+pbmc_small_cluster %>% select(label, everything())
+```
 
-    ## # A tibble: 80 x 19
-    ##    cell  label orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
-    ##    <chr> <fct> <fct>           <dbl>        <int> <fct>           <fct>        
-    ##  1 ATGC… 2     SeuratPro…         70           47 0               A            
-    ##  2 CATG… 2     SeuratPro…         85           52 0               A            
-    ##  3 GAAC… 2     SeuratPro…         87           50 1               B            
-    ##  4 TGAC… 1     SeuratPro…        127           56 0               A            
-    ##  5 AGTC… 2     SeuratPro…        173           53 0               A            
-    ##  6 TCTG… 2     SeuratPro…         70           48 0               A            
-    ##  7 TGGT… 1     SeuratPro…         64           36 0               A            
-    ##  8 GCAG… 2     SeuratPro…         72           45 0               A            
-    ##  9 GATA… 2     SeuratPro…         52           36 0               A            
-    ## 10 AATG… 2     SeuratPro…        100           41 0               A            
-    ## # … with 70 more rows, and 12 more variables: groups <chr>,
-    ## #   RNA_snn_res.1 <fct>, file <chr>, sample <chr>, ident <fct>, PC1 <dbl>,
-    ## #   PC2 <dbl>, PC3 <dbl>, PC4 <dbl>, PC5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>
+    ## # A SingleCellExperiment-tibble abstraction: 80 × 19
+    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
+    ##    .cell      label orig.…¹ nCoun…² nFeat…³ RNA_s…⁴ lette…⁵ groups RNA_s…⁶ file 
+    ##    <chr>      <fct> <fct>     <dbl>   <int> <fct>   <fct>   <chr>  <fct>   <chr>
+    ##  1 ATGCCAGAA… 2     Seurat…      70      47 0       A       g2     0       ../d…
+    ##  2 CATGGCCTG… 2     Seurat…      85      52 0       A       g1     0       ../d…
+    ##  3 GAACCTGAT… 2     Seurat…      87      50 1       B       g2     0       ../d…
+    ##  4 TGACTGGAT… 1     Seurat…     127      56 0       A       g2     0       ../d…
+    ##  5 AGTCAGACT… 2     Seurat…     173      53 0       A       g2     0       ../d…
+    ##  6 TCTGATACA… 2     Seurat…      70      48 0       A       g1     0       ../d…
+    ##  7 TGGTATCTA… 1     Seurat…      64      36 0       A       g1     0       ../d…
+    ##  8 GCAGCTCTG… 2     Seurat…      72      45 0       A       g1     0       ../d…
+    ##  9 GATATAACA… 2     Seurat…      52      36 0       A       g1     0       ../d…
+    ## 10 AATGTTGAC… 2     Seurat…     100      41 0       A       g1     0       ../d…
+    ## # … with 70 more rows, 9 more variables: sample <chr>, ident <fct>, PC1 <dbl>,
+    ## #   PC2 <dbl>, PC3 <dbl>, PC4 <dbl>, PC5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>, and
+    ## #   abbreviated variable names ¹​orig.ident, ²​nCount_RNA, ³​nFeature_RNA,
+    ## #   ⁴​RNA_snn_res.0.8, ⁵​letter.idents, ⁶​RNA_snn_res.1
+    ## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
 And interrogate the output as if it was a regular tibble.
 
-    # Count number of cells for each cluster per group
-    pbmc_small_cluster %>%
-        tidySingleCellExperiment::count(groups, label)
+``` r
+# Count number of cells for each cluster per group
+pbmc_small_cluster %>%
+    tidySingleCellExperiment::count(groups, label)
+```
 
     ## tidySingleCellExperiment says: A data frame is returned for independent data analysis.
 
-    ## # A tibble: 8 x 3
+    ## # A tibble: 8 × 3
     ##   groups label     n
     ##   <chr>  <fct> <int>
     ## 1 g1     1        12
@@ -357,145 +1317,175 @@ We can identify and visualise cluster markers combining
 SingleCellExperiment, tidyverse functions and tidyHeatmap
 \[@mangiola2020tidyheatmap\]
 
-    # Identify top 10 markers per cluster
-    marker_genes <-
-        pbmc_small_cluster %>%
-        findMarkers(groups=pbmc_small_cluster$label) %>%
-        as.list() %>%
-        map(~ .x %>%
-            head(10) %>%
-            rownames()) %>%
-        unlist()
-
-    # Plot heatmap
+``` r
+# Identify top 10 markers per cluster
+marker_genes <-
     pbmc_small_cluster %>%
-        join_features(features=marker_genes) %>%
-        group_by(label) %>%
-        heatmap(.feature, .cell, .abundance_counts, .scale="column")
+    findMarkers(groups=pbmc_small_cluster$label) %>%
+    as.list() %>%
+    map(~ .x %>%
+        head(10) %>%
+        rownames()) %>%
+    unlist()
 
-    ## tidySingleCellExperiment says: A data frame is returned for independent data analysis.
+# Plot heatmap
+pbmc_small_cluster %>%
+    join_features(features=marker_genes) %>%
+    group_by(label) %>%
+    heatmap(.feature, .cell, .abundance_counts, .scale="column")
+```
 
-![](man/figures/unnamed-chunk-12-1.png)<!-- -->
+    ## tidySingleCellExperiment says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.
 
-Reduce dimensions
-=================
+    ## tidyHeatmap says: (once per session) from release 1.7.0 the scaling is set to "none" by default. Please use scale = "row", "column" or "both" to apply scaling
+
+    ## Warning: The `.scale` argument of `heatmap()` is deprecated as of tidyHeatmap 1.7.0.
+    ## Please use scale (without dot prefix) instead: heatmap(scale = ...)
+    ## This warning is displayed once every 8 hours.
+    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+
+![](man/figures/unnamed-chunk-11-1.png)<!-- -->
+
+# Reduce dimensions
 
 We can calculate the first 3 UMAP dimensions using the
 SingleCellExperiment framework and *scater*.
 
-    pbmc_small_UMAP <-
-        pbmc_small_cluster %>%
-        runUMAP(ncomponents=3)
+``` r
+pbmc_small_UMAP <-
+    pbmc_small_cluster %>%
+    runUMAP(ncomponents=3)
+```
 
 And we can plot the result in 3D using plotly.
 
-    pbmc_small_UMAP %>%
-        plot_ly(
-            x=~`UMAP1`,
-            y=~`UMAP2`,
-            z=~`UMAP3`,
-            color=~label,
-            colors=friendly_cols[1:4]
-        )
+``` r
+pbmc_small_UMAP %>%
+    plot_ly(
+        x=~`UMAP1`,
+        y=~`UMAP2`,
+        z=~`UMAP3`,
+        color=~label,
+        colors=friendly_cols[1:4]
+    )
+```
 
 ![plotly screenshot](man/figures/plotly.png)
 
-Cell type prediction
-====================
+# Cell type prediction
 
 We can infer cell type identities using *SingleR* \[@aran2019reference\]
 and manipulate the output using tidyverse.
 
-    # Get cell type reference data
-    blueprint <- celldex::BlueprintEncodeData()
+``` r
+# Get cell type reference data
+blueprint <- celldex::BlueprintEncodeData()
 
-    ## snapshotDate(): 2020-09-04
+# Infer cell identities
+cell_type_df <-
 
-    ## see ?celldex and browseVignettes('celldex') for documentation
+    assays(pbmc_small_UMAP)$logcounts %>%
+    Matrix::Matrix(sparse = TRUE) %>%
+    SingleR::SingleR(
+        ref = blueprint,
+        labels = blueprint$label.main,
+        method = "single"
+    ) %>%
+    as.data.frame() %>%
+    as_tibble(rownames="cell") %>%
+    select(cell, first.labels)
+```
 
-    ## loading from cache
+``` r
+# Join UMAP and cell type info
+pbmc_small_cell_type <-
+    pbmc_small_UMAP %>%
+    left_join(cell_type_df, by="cell")
+```
 
-    ## see ?celldex and browseVignettes('celldex') for documentation
+    ## Warning in is_sample_feature_deprecated_used(x, when(by, !is.null(.) ~ by, :
+    ## tidySingleCellExperiment says: from version 1.3.1, the special columns including
+    ## cell id (colnames(se)) has changed to ".cell". This dataset is returned with
+    ## the old-style vocabulary (cell), however we suggest to update your workflow to
+    ## reflect the new vocabulary (.cell)
 
-    ## loading from cache
+``` r
+# Reorder columns
+pbmc_small_cell_type %>%
+    tidySingleCellExperiment::select(cell, first.labels, everything())
+```
 
-    # Infer cell identities
-    cell_type_df <-
-        pbmc_small_UMAP@assays@data$logcounts %>%
-        Matrix::Matrix(sparse=TRUE) %>%
-        SingleR(
-            ref=blueprint,
-            labels=blueprint$label.main
-        ) %>%
-        as.data.frame() %>%
-        as_tibble(rownames="cell") %>%
-        select(cell, first.labels)
+    ## Warning in is_sample_feature_deprecated_used(.data, (enquos(..., .ignore_empty
+    ## = "all") %>% : tidySingleCellExperiment says: from version 1.3.1, the special
+    ## columns including cell id (colnames(se)) has changed to ".cell". This dataset is
+    ## returned with the old-style vocabulary (cell), however we suggest to update your
+    ## workflow to reflect the new vocabulary (.cell)
 
-    # Join UMAP and cell type info
-    pbmc_small_cell_type <-
-        pbmc_small_UMAP %>%
-        left_join(cell_type_df, by="cell")
-
-    # Reorder columns
-    pbmc_small_cell_type %>%
-        tidySingleCellExperiment::select(cell, first.labels, everything())
-
-    ## # A tibble: 80 x 23
-    ##    cell  first.labels orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8
-    ##    <chr> <chr>        <fct>           <dbl>        <int> <fct>          
-    ##  1 ATGC… CD4+ T-cells SeuratPro…         70           47 0              
-    ##  2 CATG… CD8+ T-cells SeuratPro…         85           52 0              
-    ##  3 GAAC… CD8+ T-cells SeuratPro…         87           50 1              
-    ##  4 TGAC… CD4+ T-cells SeuratPro…        127           56 0              
-    ##  5 AGTC… CD4+ T-cells SeuratPro…        173           53 0              
-    ##  6 TCTG… CD4+ T-cells SeuratPro…         70           48 0              
-    ##  7 TGGT… CD4+ T-cells SeuratPro…         64           36 0              
-    ##  8 GCAG… CD4+ T-cells SeuratPro…         72           45 0              
-    ##  9 GATA… CD8+ T-cells SeuratPro…         52           36 0              
-    ## 10 AATG… CD4+ T-cells SeuratPro…        100           41 0              
-    ## # … with 70 more rows, and 17 more variables: letter.idents <fct>,
-    ## #   groups <chr>, RNA_snn_res.1 <fct>, file <chr>, sample <chr>, ident <fct>,
+    ## # A SingleCellExperiment-tibble abstraction: 80 × 23
+    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
+    ##    cell     first…¹ orig.…² nCoun…³ nFeat…⁴ RNA_s…⁵ lette…⁶ groups RNA_s…⁷ file 
+    ##    <chr>    <chr>   <fct>     <dbl>   <int> <fct>   <fct>   <chr>  <fct>   <chr>
+    ##  1 ATGCCAG… CD4+ T… Seurat…      70      47 0       A       g2     0       ../d…
+    ##  2 CATGGCC… CD8+ T… Seurat…      85      52 0       A       g1     0       ../d…
+    ##  3 GAACCTG… CD8+ T… Seurat…      87      50 1       B       g2     0       ../d…
+    ##  4 TGACTGG… CD4+ T… Seurat…     127      56 0       A       g2     0       ../d…
+    ##  5 AGTCAGA… CD4+ T… Seurat…     173      53 0       A       g2     0       ../d…
+    ##  6 TCTGATA… CD4+ T… Seurat…      70      48 0       A       g1     0       ../d…
+    ##  7 TGGTATC… CD4+ T… Seurat…      64      36 0       A       g1     0       ../d…
+    ##  8 GCAGCTC… CD4+ T… Seurat…      72      45 0       A       g1     0       ../d…
+    ##  9 GATATAA… CD4+ T… Seurat…      52      36 0       A       g1     0       ../d…
+    ## 10 AATGTTG… CD4+ T… Seurat…     100      41 0       A       g1     0       ../d…
+    ## # … with 70 more rows, 13 more variables: sample <chr>, ident <fct>,
     ## #   label <fct>, PC1 <dbl>, PC2 <dbl>, PC3 <dbl>, PC4 <dbl>, PC5 <dbl>,
-    ## #   tSNE_1 <dbl>, tSNE_2 <dbl>, UMAP1 <dbl>, UMAP2 <dbl>, UMAP3 <dbl>
+    ## #   tSNE_1 <dbl>, tSNE_2 <dbl>, UMAP1 <dbl>, UMAP2 <dbl>, UMAP3 <dbl>, and
+    ## #   abbreviated variable names ¹​first.labels, ²​orig.ident, ³​nCount_RNA,
+    ## #   ⁴​nFeature_RNA, ⁵​RNA_snn_res.0.8, ⁶​letter.idents, ⁷​RNA_snn_res.1
+    ## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
 We can easily summarise the results. For example, we can see how cell
 type classification overlaps with cluster classification.
 
-    # Count number of cells for each cell type per cluster
-    pbmc_small_cell_type %>%
-        count(label, first.labels)
+``` r
+# Count number of cells for each cell type per cluster
+pbmc_small_cell_type %>%
+    count(label, first.labels)
+```
 
     ## tidySingleCellExperiment says: A data frame is returned for independent data analysis.
 
-    ## # A tibble: 9 x 3
-    ##   label first.labels     n
-    ##   <fct> <chr>        <int>
-    ## 1 1     CD4+ T-cells     2
-    ## 2 1     CD8+ T-cells     8
-    ## 3 1     NK cells        12
-    ## 4 2     B-cells         10
-    ## 5 2     CD4+ T-cells     5
-    ## 6 2     CD8+ T-cells     3
-    ## 7 2     Monocytes        7
-    ## 8 3     Monocytes       24
-    ## 9 4     Erythrocytes     9
+    ## # A tibble: 11 × 3
+    ##    label first.labels     n
+    ##    <fct> <chr>        <int>
+    ##  1 1     CD4+ T-cells     2
+    ##  2 1     CD8+ T-cells     8
+    ##  3 1     NK cells        12
+    ##  4 2     B-cells         10
+    ##  5 2     CD4+ T-cells     6
+    ##  6 2     CD8+ T-cells     2
+    ##  7 2     Macrophages      1
+    ##  8 2     Monocytes        6
+    ##  9 3     Macrophages      1
+    ## 10 3     Monocytes       23
+    ## 11 4     Erythrocytes     9
 
 We can easily reshape the data for building information-rich faceted
 plots.
 
-    pbmc_small_cell_type %>%
+``` r
+pbmc_small_cell_type %>%
 
-        # Reshape and add classifier column
-        pivot_longer(
-            cols=c(label, first.labels),
-            names_to="classifier", values_to="label"
-        ) %>%
+    # Reshape and add classifier column
+    pivot_longer(
+        cols=c(label, first.labels),
+        names_to="classifier", values_to="label"
+    ) %>%
 
-        # UMAP plots for cell type and cluster
-        ggplot(aes(UMAP1, UMAP2, color=label)) +
-        geom_point() +
-        facet_wrap(~classifier) +
-        my_theme
+    # UMAP plots for cell type and cluster
+    ggplot(aes(UMAP1, UMAP2, color=label)) +
+    geom_point() +
+    facet_wrap(~classifier) +
+    custom_theme
+```
 
     ## tidySingleCellExperiment says: A data frame is returned for independent data analysis.
 
@@ -504,96 +1494,121 @@ plots.
 We can easily plot gene correlation per cell category, adding
 multi-layer annotations.
 
-    pbmc_small_cell_type %>%
+``` r
+pbmc_small_cell_type %>%
 
-        # Add some mitochondrial abundance values
-        mutate(mitochondrial=rnorm(dplyr::n())) %>%
+    # Add some mitochondrial abundance values
+    mutate(mitochondrial=rnorm(dplyr::n())) %>%
 
-        # Plot correlation
-        join_features(features=c("CST3", "LYZ"), shape="wide") %>%
-        ggplot(aes(CST3 + 1, LYZ + 1, color=groups, size=mitochondrial)) +
-        geom_point() +
-        facet_wrap(~first.labels, scales="free") +
-        scale_x_log10() +
-        scale_y_log10() +
-        my_theme
+    # Plot correlation
+    join_features(features=c("CST3", "LYZ"), shape="wide") %>%
+    ggplot(aes(CST3 + 1, LYZ + 1, color=groups, size=mitochondrial)) +
+    geom_point() +
+    facet_wrap(~first.labels, scales="free") +
+    scale_x_log10() +
+    scale_y_log10() +
+    custom_theme
+```
 
-    ## tidySingleCellExperiment says: A data frame is returned for independent data analysis.
+    ## Warning in is_sample_feature_deprecated_used(x, when(by, !is.null(.) ~ by, :
+    ## tidySingleCellExperiment says: from version 1.3.1, the special columns including
+    ## cell id (colnames(se)) has changed to ".cell". This dataset is returned with
+    ## the old-style vocabulary (cell), however we suggest to update your workflow to
+    ## reflect the new vocabulary (.cell)
 
 ![](man/figures/unnamed-chunk-16-1.png)<!-- -->
 
-Nested analyses
-===============
+# Nested analyses
 
-A powerful tool we can use with tidySingleCellExperiment is tidyverse `nest`. We can
-easily perform independent analyses on subsets of the dataset. First we
-classify cell types into lymphoid and myeloid, and then nest based on
-the new classification.
+A powerful tool we can use with tidySingleCellExperiment is tidyverse
+`nest`. We can easily perform independent analyses on subsets of the
+dataset. First we classify cell types into lymphoid and myeloid, and
+then nest based on the new classification.
 
-    pbmc_small_nested <-
-        pbmc_small_cell_type %>%
-        filter(first.labels != "Erythrocytes") %>%
-        mutate(cell_class=dplyr::if_else(`first.labels` %in% c("Macrophages", "Monocytes"), "myeloid", "lymphoid")) %>%
-        nest(data=-cell_class)
+``` r
+pbmc_small_nested <-
+    pbmc_small_cell_type %>%
+    filter(first.labels != "Erythrocytes") %>%
+    mutate(cell_class=dplyr::if_else(`first.labels` %in% c("Macrophages", "Monocytes"), "myeloid", "lymphoid")) %>%
+    nest(data=-cell_class)
+```
 
-    pbmc_small_nested
+    ## Warning in is_sample_feature_deprecated_used(.data, (enquos(..., .ignore_empty
+    ## = "all") %>% : tidySingleCellExperiment says: from version 1.3.1, the special
+    ## columns including cell id (colnames(se)) has changed to ".cell". This dataset is
+    ## returned with the old-style vocabulary (cell), however we suggest to update your
+    ## workflow to reflect the new vocabulary (.cell)
 
-    ## # A tibble: 2 x 2
-    ##   cell_class data     
-    ##   <chr>      <list>   
-    ## 1 lymphoid   <tidySingleCellExperiment>
-    ## 2 myeloid    <tidySingleCellExperiment>
+    ## Warning in is_sample_feature_deprecated_used(.data, (enquos(..., .ignore_empty
+    ## = "all") %>% : tidySingleCellExperiment says: from version 1.3.1, the special
+    ## columns including cell id (colnames(se)) has changed to ".cell". This dataset is
+    ## returned with the old-style vocabulary (cell), however we suggest to update your
+    ## workflow to reflect the new vocabulary (.cell)
+
+``` r
+pbmc_small_nested
+```
+
+    ## # A tibble: 2 × 2
+    ##   cell_class data           
+    ##   <chr>      <list>         
+    ## 1 lymphoid   <SnglCllE[,40]>
+    ## 2 myeloid    <SnglCllE[,31]>
 
 Now we can independently for the lymphoid and myeloid subsets (i) find
 variable features, (ii) reduce dimensions, and (iii) cluster using both
 tidyverse and SingleCellExperiment seamlessly.
 
-    pbmc_small_nested_reanalysed <-
-        pbmc_small_nested %>%
-        mutate(data=map(
-            data, ~ {
-                .x <- runPCA(.x, subset_row=variable_genes)
+``` r
+pbmc_small_nested_reanalysed <-
+    pbmc_small_nested %>%
+    mutate(data=map(
+        data, ~ {
+            .x <- runPCA(.x, subset_row=variable_genes)
 
-                variable_genes <-
-                    .x %>%
-                    modelGeneVar() %>%
-                    getTopHVGs(prop=0.3)
+            variable_genes <-
+                .x %>%
+                modelGeneVar() %>%
+                getTopHVGs(prop=0.3)
 
-                colLabels(.x) <-
-                    .x %>%
-                    buildSNNGraph(use.dimred="PCA") %>%
-                    igraph::cluster_walktrap() %$%
-                    membership %>%
-                    as.factor()
+            colLabels(.x) <-
+                .x %>%
+                buildSNNGraph(use.dimred="PCA") %>%
+                igraph::cluster_walktrap() %$%
+                membership %>%
+                as.factor()
 
-                .x %>% runUMAP(ncomponents=3)
-            }
-        ))
+            .x %>% runUMAP(ncomponents=3)
+        }
+    ))
 
-    pbmc_small_nested_reanalysed
+pbmc_small_nested_reanalysed
+```
 
-    ## # A tibble: 2 x 2
-    ##   cell_class data     
-    ##   <chr>      <list>   
-    ## 1 lymphoid   <tidySingleCellExperiment>
-    ## 2 myeloid    <tidySingleCellExperiment>
+    ## # A tibble: 2 × 2
+    ##   cell_class data           
+    ##   <chr>      <list>         
+    ## 1 lymphoid   <SnglCllE[,40]>
+    ## 2 myeloid    <SnglCllE[,31]>
 
 We can then unnest and plot the new classification.
 
-    pbmc_small_nested_reanalysed %>%
+``` r
+pbmc_small_nested_reanalysed %>%
 
-        # Convert to tibble otherwise SingleCellExperiment drops reduced dimensions when unifying data sets.
-        mutate(data=map(data, ~ .x %>% as_tibble())) %>%
-        unnest(data) %>%
+    # Convert to tibble otherwise SingleCellExperiment drops reduced dimensions when unifying data sets.
+    mutate(data=map(data, ~ .x %>% as_tibble())) %>%
+    unnest(data) %>%
 
-        # Define unique clusters
-        unite("cluster", c(cell_class, label), remove=FALSE) %>%
+    # Define unique clusters
+    unite("cluster", c(cell_class, label), remove=FALSE) %>%
 
-        # Plotting
-        ggplot(aes(UMAP1, UMAP2, color=cluster)) +
-        geom_point() +
-        facet_wrap(~cell_class) +
-        my_theme
+    # Plotting
+    ggplot(aes(UMAP1, UMAP2, color=cluster)) +
+    geom_point() +
+    facet_wrap(~cell_class) +
+    custom_theme
+```
 
 ![](man/figures/unnamed-chunk-19-1.png)<!-- -->
 
@@ -607,52 +1622,57 @@ each condition). But some example output is shown below and you can
 imagine how you can use tidyverse on the output to perform t-tests and
 visualisation.
 
-    pbmc_small_nested_interactions <-
-        pbmc_small_nested_reanalysed %>%
+``` r
+pbmc_small_nested_interactions <-
+    pbmc_small_nested_reanalysed %>%
 
-        # Unnest based on cell category
-        unnest(data) %>%
+    # Unnest based on cell category
+    unnest(data) %>%
 
-        # Create unambiguous clusters
-        mutate(integrated_clusters=first.labels %>% as.factor() %>% as.integer()) %>%
+    # Create unambiguous clusters
+    mutate(integrated_clusters=first.labels %>% as.factor() %>% as.integer()) %>%
 
-        # Nest based on sample
-        tidySingleCellExperiment::nest(data=-sample) %>%
-        tidySingleCellExperiment::mutate(interactions=map(data, ~ {
+    # Nest based on sample
+    tidySingleCellExperiment::nest(data=-sample) %>%
+    tidySingleCellExperiment::mutate(interactions=map(data, ~ {
 
-            # Produce variables. Yuck!
-            cluster <- .x@colData$integrated_clusters
-            data <- data.frame(.x@assays@data %>% as.list() %>% .[[1]] %>% as.matrix())
+        # Produce variables. Yuck!
+        cluster <- colData(.x)$integrated_clusters
+        data <- data.frame(assays(.x) %>% as.list() %>% .[[1]] %>% as.matrix())
 
-            # Ligand/Receptor analysis using SingleCellSignalR
-            data %>%
-                cell_signaling(genes=rownames(data), cluster=cluster) %>%
-                inter_network(data=data, signal=., genes=rownames(data), cluster=cluster) %$%
-                `individual-networks` %>%
-                map_dfr(~ bind_rows(as_tibble(.x)))
-        }))
+        # Ligand/Receptor analysis using SingleCellSignalR
+        data %>%
+            cell_signaling(genes=rownames(data), cluster=cluster) %>%
+            inter_network(data=data, signal=., genes=rownames(data), cluster=cluster) %$%
+            `individual-networks` %>%
+            map_dfr(~ bind_rows(as_tibble(.x)))
+    }))
 
-    pbmc_small_nested_interactions %>%
-        select(-data) %>%
-        unnest(interactions)
+pbmc_small_nested_interactions %>%
+    select(-data) %>%
+    unnest(interactions)
+```
 
 If the dataset was not so small, and interactions could be identified,
 you would see something like below.
 
-    tidySingleCellExperiment::pbmc_small_nested_interactions
+``` r
+tidySingleCellExperiment::pbmc_small_nested_interactions
+```
 
-    ## # A tibble: 100 x 9
-    ##    sample ligand receptor ligand.name receptor.name origin destination
-    ##    <chr>  <chr>  <chr>    <chr>       <chr>         <chr>  <chr>      
-    ##  1 sampl… clust… cluster… PTMA        VIPR1         clust… cluster 2  
-    ##  2 sampl… clust… cluster… B2M         KLRD1         clust… cluster 2  
-    ##  3 sampl… clust… cluster… IL16        CD4           clust… cluster 2  
-    ##  4 sampl… clust… cluster… HLA-B       KLRD1         clust… cluster 2  
-    ##  5 sampl… clust… cluster… CALM1       VIPR1         clust… cluster 2  
-    ##  6 sampl… clust… cluster… HLA-E       KLRD1         clust… cluster 2  
-    ##  7 sampl… clust… cluster… GNAS        VIPR1         clust… cluster 2  
-    ##  8 sampl… clust… cluster… B2M         HFE           clust… cluster 2  
-    ##  9 sampl… clust… cluster… PTMA        VIPR1         clust… cluster 3  
-    ## 10 sampl… clust… cluster… CALM1       VIPR1         clust… cluster 3  
-    ## # … with 90 more rows, and 2 more variables: interaction.type <chr>,
-    ## #   LRscore <dbl>
+    ## # A tibble: 100 × 9
+    ##    sample  ligand         recep…¹ ligan…² recep…³ origin desti…⁴ inter…⁵ LRscore
+    ##    <chr>   <chr>          <chr>   <chr>   <chr>   <chr>  <chr>   <chr>     <dbl>
+    ##  1 sample1 cluster 1.PTMA cluste… PTMA    VIPR1   clust… cluste… paracr…   0.723
+    ##  2 sample1 cluster 1.B2M  cluste… B2M     KLRD1   clust… cluste… paracr…   0.684
+    ##  3 sample1 cluster 1.IL16 cluste… IL16    CD4     clust… cluste… paracr…   0.659
+    ##  4 sample1 cluster 1.HLA… cluste… HLA-B   KLRD1   clust… cluste… paracr…   0.643
+    ##  5 sample1 cluster 1.CAL… cluste… CALM1   VIPR1   clust… cluste… paracr…   0.616
+    ##  6 sample1 cluster 1.HLA… cluste… HLA-E   KLRD1   clust… cluste… paracr…   0.585
+    ##  7 sample1 cluster 1.GNAS cluste… GNAS    VIPR1   clust… cluste… paracr…   0.582
+    ##  8 sample1 cluster 1.B2M  cluste… B2M     HFE     clust… cluste… paracr…   0.548
+    ##  9 sample1 cluster 1.PTMA cluste… PTMA    VIPR1   clust… cluste… paracr…   0.704
+    ## 10 sample1 cluster 1.CAL… cluste… CALM1   VIPR1   clust… cluste… paracr…   0.594
+    ## # … with 90 more rows, and abbreviated variable names ¹​receptor, ²​ligand.name,
+    ## #   ³​receptor.name, ⁴​destination, ⁵​interaction.type
+    ## # ℹ Use `print(n = ...)` to see more rows
