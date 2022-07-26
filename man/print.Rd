@@ -51,7 +51,7 @@ Only the first 5 reduced dimensions are displayed, while all of them are queriab
 
 The following options are used by the tibble and pillar packages
 to format and print \code{tbl_df} objects.
-Used by the formatting workhorse \code{trunc_mat()} and, therefore,
+Used by the formatting workhorse \code{trunc_mat()} and therefore,
 indirectly, by \code{print.tbl()}.
 \itemize{
 \item \code{tibble.print_max}: Row number threshold: Maximum number of rows printed.
