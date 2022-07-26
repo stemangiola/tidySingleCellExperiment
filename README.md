@@ -1,4 +1,4 @@
-tidySingleCellExperiment - part of tidyfeatureomics
+tidySingleCellExperiment - part of tidytranscriptomics
 ================
 
 <!-- badges: start -->
