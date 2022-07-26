@@ -1,56 +1,23 @@
-setClass("tidySingleCellExperiment", contains = "SingleCellExperiment")
-
-#' tidy for SingleCellExperiment
-#'
-#' @param object A SingleCellExperiment object
-#'
-#' @return A tidySingleCellExperiment object
-#'
-#' @name tidy
-#'
-#' @examples
-#'
-#' tidySingleCellExperiment::pbmc_small
-#' @export
-tidy <- function(object) {
-    UseMethod("tidy", object)
-}
-
-#' @importFrom methods as
-#' @importFrom lifecycle deprecate_warn
-#'
-#' @param object A SingleCellExperiment object
-#'
-#' @export
-tidy.SingleCellExperiment <- function(object) {
-
-    # DEPRECATE
-    deprecate_warn(
-        when = "1.1.1",
-        what = "tidy()",
-        details = "tidySingleCellExperiment says: tidy() is not needed anymore."
-    )
-
-    object
-}
 
 setMethod(
     f = "show",
     signature = "SingleCellExperiment",
     definition = function(object) {
-        if (isTRUE(x = getOption(x = "restore_SingleCellExperiment_show", default = FALSE))) {
-            f <- getMethod(
-                f = "show",
-                signature = "SingleCellExperiment",
-                where = asNamespace(ns = "SingleCellExperiment")
+        if (
+          isTRUE(x = getOption(x = "restore_SingleCellExperiment_show", default = FALSE))
+        ) {
+            f <-getMethod(
+              f = "show",
+              signature = "SummarizedExperiment",
+              where = asNamespace(ns = "SummarizedExperiment")
             )
             f(object = object)
-        } else {
-            object %>%
-                print()
-        }
+
+        } else {  print(object)  }
     }
 )
+
+setClass("tidySingleCellExperiment", contains = "SingleCellExperiment")
 
 #' Extract and join information for features.
 #'
@@ -129,6 +96,40 @@ setMethod("join_features", "SingleCellExperiment",  function(.data,
 
 })
 
+
+#' tidy for SingleCellExperiment
+#'
+#' @param object A SingleCellExperiment object
+#'
+#' @return A tidySingleCellExperiment object
+#'
+#' @name tidy
+#'
+#' @examples
+#'
+#' tidySingleCellExperiment::pbmc_small
+#' @export
+tidy <- function(object) {
+  UseMethod("tidy", object)
+}
+
+#' @importFrom methods as
+#' @importFrom lifecycle deprecate_warn
+#'
+#' @param object A SingleCellExperiment object
+#'
+#' @export
+tidy.SingleCellExperiment <- function(object) {
+
+  # DEPRECATE
+  deprecate_warn(
+    when = "1.1.1",
+    what = "tidy()",
+    details = "tidySingleCellExperiment says: tidy() is not needed anymore."
+  )
+
+  object
+}
 
 
 
