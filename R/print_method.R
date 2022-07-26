@@ -26,7 +26,6 @@
 #' @export
 #'
 NULL
-NULL
 
 #' @importFrom rlang names2
 #' @importFrom pillar align
@@ -63,6 +62,7 @@ tbl_format_header.tidySingleCellExperiment <- function(x, setup, ...){
         assay_names %>% paste(collapse=", ")
       ), after = 1)
   }
+
   style_subtle(pillar___format_comment(header, width = setup$width))
 
 }
@@ -91,7 +91,7 @@ tbl_format_header.tidySingleCellExperiment <- function(x, setup, ...){
 #'
 #' The following options are used by the tibble and pillar packages
 #' to format and print `tbl_df` objects.
-#' Used by the formatting workhorse `trunc_mat()` and, therefore,
+#' Used by the formatting workhorse `trunc_mat()` and therefore,
 #' indirectly, by `print.tbl()`.
 #'
 #' * `tibble.print_max`: Row number threshold: Maximum number of rows printed.
@@ -135,19 +135,15 @@ NULL
 print.SingleCellExperiment <- function(x, ..., n = NULL, width = NULL, n_extra = NULL) {
 
   x |>
-    as_tibble(n_dimensions_to_return = 5) |>
+    as_tibble(n_dimensions_to_return = 5 ) |>
+
     new_data_frame(class = c("tidySingleCellExperiment", "tbl")) %>%
     add_attr( nrow(x),  "number_of_features") %>%
     add_attr( assays(x) %>% names , "assay_names") %>%
+
     print()
 
   invisible(x)
 }
-
-
-
-
-
-
 
 
