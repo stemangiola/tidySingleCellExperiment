@@ -90,7 +90,7 @@ pbmc_small_tidy
 **But it is a SingleCellExperiment object after all**
 
 ```{r}
-assay(pbmc_small_tidy)
+assay(pbmc_small_tidy, "counts")[1:5, 1:5]
 ```
 
 # Annotation polishing
