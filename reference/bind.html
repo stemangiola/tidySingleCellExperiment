@@ -19,7 +19,7 @@ data frames into one."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySingleCellExperiment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.5</span>
       </span>
     </div>
 
@@ -130,7 +130,6 @@ appears in any of the inputs.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;, and abbreviated</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   variable names ¹​orig.ident, ²​nCount_RNA, ³​nFeature_RNA, ⁴​RNA_snn_res.0.8,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁵​letter.idents, ⁶​RNA_snn_res.1</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">tt_bind</span> <span class="op">&lt;-</span> <span class="va">tt</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="dplyr-methods.html">select</a></span><span class="op">(</span><span class="va">nCount_RNA</span>, <span class="va">nFeature_RNA</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tidySingleCellExperiment says: Key columns are missing. A data frame is returned for independent data analysis.</span>
@@ -164,7 +163,6 @@ appears in any of the inputs.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;, and abbreviated variable names</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ¹​orig.ident, ²​nCount_RNA...3, ³​nFeature_RNA...4, ⁴​RNA_snn_res.0.8,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁵​letter.idents, ⁶​RNA_snn_res.1</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span>
 </code></pre></div>
     </div>
   </div>
