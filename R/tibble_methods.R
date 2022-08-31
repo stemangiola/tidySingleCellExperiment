@@ -61,6 +61,7 @@
 #'     as_tibble()
 NULL
 
+
 #' @export
 #' @importFrom purrr reduce
 #' @importFrom purrr map
@@ -82,20 +83,7 @@ as_tibble.SingleCellExperiment <- function(x, ...,
 
             # Only if I have reduced dimensions and special datasets
             ncol(x@int_colData@listData$reducedDims) > 0 ~ (.) %>% dplyr::bind_cols(
-                get_special_datasets(x, ...) %>%
-                    map(~ .x %>% when(
-
-                        # If row == 1 do a trick
-                        dim(.) %>% is.null() ~ {
-                            (.) %>%
-                                tibble::enframe() %>%
-                                spread(name, value)
-                        },
-
-                        # Otherwise continue normally
-                        ~ as_tibble(.)
-                    )) %>%
-                    reduce(dplyr::bind_cols)
+              special_datasets_to_tibble(x, ...)
             ),
 
             # Otherwise skip

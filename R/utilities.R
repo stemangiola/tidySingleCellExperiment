@@ -261,7 +261,19 @@ as_meta_data <- function(.data, SingleCellExperiment_object) {
     # Solve CRAN warnings
     . <- NULL
 
-    col_to_exclude <- get_special_columns(SingleCellExperiment_object)
+    col_to_exclude <-
+
+      # special_datasets_to_tibble(SingleCellExperiment_object) |>
+      # colnames()
+      get_special_columns(SingleCellExperiment_object) |>
+
+
+      # I need this in case we have multiple reduced dimension data frames with overlapping names of the columns.
+      # For example multiple PCA versions
+      vctrs::vec_as_names(repair = "unique") |>
+
+    # To avoid name change by the bind_cols of as_tibble
+    str_replace_all("\\.\\.\\.", "___")
 
     .data_df =
       .data %>%
@@ -404,4 +416,28 @@ c_ =  function(x){
 add_attr = function(var, attribute, name) {
   attr(var, name) <- attribute
   var
+}
+
+special_datasets_to_tibble = function(.singleCellExperiment, ...){
+  x =
+    .singleCellExperiment |>
+    get_special_datasets(...) %>%
+    map(~ .x %>% when(
+
+      # If row == 1 do a trick
+      dim(.) %>% is.null() ~ {
+        (.) %>%
+          tibble::enframe() %>%
+          spread(name, value)
+      },
+
+      # Otherwise continue normally
+      ~ as_tibble(.)
+    )) %>%
+    reduce(dplyr::bind_cols)
+
+  # To avoid name change by the bind_cols of as_tibble
+  colnames(x) = colnames(x) |> str_replace_all("\\.\\.\\.", "___")
+
+  x
 }
