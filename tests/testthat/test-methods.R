@@ -13,3 +13,19 @@ test_that("join_features",{
 
 
 })
+
+
+test_that("duplicated PCA matrices",{
+
+  pbmc_small@int_colData@listData$reducedDims$PCA2 = pbmc_small@int_colData@listData$reducedDims$PCA
+
+  pbmc_small %>%
+    mutate(aa = 1) |>
+    as_tibble() |>
+    ncol() |>
+    expect_equal(
+      (pbmc_small |> as_tibble() |> ncol()) + 1
+    )
+
+
+})
