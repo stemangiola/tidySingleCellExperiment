@@ -263,11 +263,17 @@ as_meta_data <- function(.data, SingleCellExperiment_object) {
 
     col_to_exclude <- get_special_columns(SingleCellExperiment_object)
 
-    .data %>%
-        select_if(!colnames(.) %in% col_to_exclude) %>%
-        # select(-one_of(col_to_exclude)) %>%
-        data.frame(row.names=c_(SingleCellExperiment_object)$name) %>%
-        DataFrame()
+    .data_df =
+      .data %>%
+      select_if(!colnames(.) %in% col_to_exclude) %>%
+      data.frame()
+
+    # Set row names in a robust way. the argument row.names of the data.frame function does not work for 1-row data frames
+    rownames(.data_df) = .data_df |> pull(!!c_(SingleCellExperiment_object)$symbol)
+    .data_df = .data_df |> select(-!!c_(SingleCellExperiment_object)$symbol)
+
+    .data_df %>% DataFrame()
+
 }
 
 #' @importFrom purrr map_chr
