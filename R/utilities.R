@@ -273,7 +273,7 @@ as_meta_data <- function(.data, SingleCellExperiment_object) {
       vctrs::vec_as_names(repair = "unique") |>
 
     # To avoid name change by the bind_cols of as_tibble
-    str_replace_all("\\.\\.\\.", "___")
+    trick_to_avoid_renaming_of_already_unique_columns_by_dplyr()
 
     .data_df =
       .data %>%
@@ -437,7 +437,12 @@ special_datasets_to_tibble = function(.singleCellExperiment, ...){
     reduce(dplyr::bind_cols)
 
   # To avoid name change by the bind_cols of as_tibble
-  colnames(x) = colnames(x) |> str_replace_all("\\.\\.\\.", "___")
+  colnames(x) = colnames(x) |> trick_to_avoid_renaming_of_already_unique_columns_by_dplyr()
 
   x
+}
+
+#' @importFrom stringr str_replace_all
+trick_to_avoid_renaming_of_already_unique_columns_by_dplyr = function(x){
+  x |> str_replace_all("\\.\\.\\.", "___")
 }
