@@ -21,7 +21,7 @@ Learn more in vignette("pivot").'><!-- mathjax --><script src="https://cdnjs.clo
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySingleCellExperiment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.2</span>
       </span>
     </div>
 
@@ -79,14 +79,32 @@ decreasing the number of columns. The inverse transformation is
 longer format.</p></dd>
 
 
+<dt>cols_vary</dt>
+<dd><p>When pivoting <code>cols</code> into longer format, how should the
+output rows be arranged relative to their original row number?</p><ul><li><p><code>"fastest"</code>, the default, keeps individual rows from <code>cols</code> close
+together in the output. This often produces intuitively ordered output
+when you have at least one key column from <code>data</code> that is not involved in
+the pivoting process.</p></li>
+<li><p><code>"slowest"</code> keeps individual columns from <code>cols</code> close together in the
+output. This often produces intuitively ordered output when you utilize
+all of the columns from <code>data</code> in the pivoting process.</p></li>
+</ul></dd>
+
+
 <dt>names_to</dt>
-<dd><p>A string specifying the name of the column to create
-from the data stored in the column names of <code>data</code>.</p>
-<p>Can be a character vector, creating multiple columns, if <code>names_sep</code>
-or <code>names_pattern</code> is provided. In this case, there are two special
-values you can take advantage of:</p><ul><li><p><code>NA</code> will discard that component of the name.</p></li>
-<li><p><code>.value</code> indicates that component of the name defines the name of the
-column containing the cell values, overriding <code>values_to</code>.</p></li>
+<dd><p>A character vector specifying the new column or columns to
+create from the information stored in the column names of <code>data</code> specified
+by <code>cols</code>.</p><ul><li><p>If length 0, or if <code>NULL</code> is supplied, no columns will be created.</p></li>
+<li><p>If length 1, a single column will be created which will contain the
+column names specified by <code>cols</code>.</p></li>
+<li><p>If length &gt;1, multiple columns will be created. In this case, one of
+<code>names_sep</code> or <code>names_pattern</code> must be supplied to specify how the
+column names should be split. There are also two additional character
+values you can take advantage of:</p><ul><li><p><code>NA</code> will discard the corresponding component of the column name.</p></li>
+<li><p><code>".value"</code> indicates that the corresponding component of the column
+name defines the name of the output column containing the cell values,
+overriding <code>values_to</code> entirely.</p></li>
+</ul></li>
 </ul></dd>
 
 
@@ -132,21 +150,25 @@ values in <code>data</code> were created by its structure.</p></dd>
 
 
 <dt>names_transform, values_transform</dt>
-<dd><p>A list of column name-function pairs.
-Use these arguments if you need to change the type of specific columns.
-For example, <code>names_transform=list(week=as.integer)</code> would convert
-a character week variable to an integer.</p></dd>
-
-
-<dt>names_ptypes, values_ptypes</dt>
-<dd><p>A list of column name-prototype pairs.
-A prototype (or ptype for short) is a zero-length vector (like <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>
-or <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>) that defines the type, class, and attributes of a vector.
-Use these arguments to confirm that the created columns are the types that
-you expect.</p>
+<dd><p>Optionally, a list of column
+name-function pairs. Alternatively, a single function can be supplied,
+which will be applied to all columns. Use these arguments if you need to
+change the types of specific columns. For example, <code>names_transform = list(week = as.integer)</code> would convert a character variable called <code>week</code>
+to an integer.</p>
 <p>If not specified, the type of the columns generated from <code>names_to</code> will
 be character, and the type of the variables generated from <code>values_to</code>
 will be the common type of the input columns used to generate them.</p></dd>
+
+
+<dt>names_ptypes, values_ptypes</dt>
+<dd><p>Optionally, a list of column name-prototype
+pairs. Alternatively, a single empty prototype can be supplied, which will
+be applied to all columns. A prototype (or ptype for short) is a
+zero-length vector (like <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> or <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>) that defines the type,
+class, and attributes of a vector. Use these arguments if you want to
+confirm that the created columns are the types that you expect. Note that
+if you want to change (instead of confirm) the types of specific columns,
+you should use <code>names_transform</code> or <code>values_transform</code> instead.</p></dd>
 
 
 <dt>...</dt>
@@ -209,7 +231,7 @@ under active development.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
