@@ -1278,6 +1278,7 @@ sample_frac.SingleCellExperiment <- function(tbl, size=1, replace=FALSE,
 
 #' Count observations by group
 #'
+#' @importFrom dplyr count
 #'
 #' @description
 #' `count()` lets you quickly count the unique values of one or more variables:
@@ -1311,30 +1312,19 @@ sample_frac.SingleCellExperiment <- function(tbl, size=1, replace=FALSE,
 #' An object of the same type as `.data`. `count()` and `add_count()`
 #' group transiently, so the output has the same groups as the input.
 #' @export
+#'
+#' @rdname dplyr-methods
+#' @name count
+#'
 #' @examples
+#'
 #'
 #' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
 #'
 #'     count(groups)
-count <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by_drop_default(x)) {
-    UseMethod("count")
-}
+NULL
 
-#' @export
-count.default <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by_drop_default(x)) {
-    if (!missing(...)) {
-        out <- dplyr::group_by(x, ..., .add=TRUE, .drop=.drop)
-    }
-    else {
-        out <- x
-    }
-    out <- dplyr::tally(out, wt=!!enquo(wt), sort=sort, name=name)
-    if (is.data.frame(x)) {
-        out <- dplyr::dplyr_reconstruct(out, x)
-    }
-    out
-}
 #' @export
 count.SingleCellExperiment <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by_drop_default(x)) {
     message(data_frame_returned_message)
@@ -1352,22 +1342,18 @@ count.SingleCellExperiment <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .
         dplyr::count(..., wt=!!enquo(wt), sort=sort, name=name, .drop=.drop)
 }
 
-#' @export
-#' @rdname count
-add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
-    UseMethod("add_count")
-}
 
 #' @export
-#' @rdname count
-add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
-
-    dplyr::add_count(x=x, ..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)
-
-}
+#'
+#'
+#' @importFrom dplyr add_count
+#'
+#' @name add_count
+#'
+#' @rdname dplyr-methods
+NULL
 
 #' @export
-#' @rdname count
 add_count.SingleCellExperiment <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
 
   # Deprecation of special column names
@@ -1378,15 +1364,17 @@ add_count.SingleCellExperiment <- function(x, ..., wt = NULL, sort = FALSE, name
     x= ping_old_special_column_into_metadata(x)
   }
 
-    colData(x) =
-        x %>%
-        as_tibble %>%
-        dplyr::add_count(..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)  %>%
-        as_meta_data(x)
+  colData(x) =
+    x %>%
+    as_tibble %>%
+    dplyr::add_count(..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)  %>%
+    as_meta_data(x)
 
-    x
+  x
 
 }
+
+
 
 #' Extract a single column
 #'
