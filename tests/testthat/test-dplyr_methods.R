@@ -177,5 +177,5 @@ test_that("add count", {
   pbmc_small %>%
     add_count(groups) %>%
     nrow() %>%
-    expect_equal(2)
+    expect_equal(80)
 })
