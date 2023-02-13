@@ -60,6 +60,15 @@ It was easier to remove the deprecated .env argument.
 ... was in a suboptimal position.
 
 
+count() lets you quickly count the unique values of one or more variables:
+df %&amp;gt;% count(a, b) is roughly equivalent to
+df %&amp;gt;% group_by(a, b) %&amp;gt;% summarise(n=n()).
+count() is paired with tally(), a lower-level helper that is equivalent
+to df %&amp;gt;% summarise(n=n()). Supply wt to perform weighted counts,
+switching the summary from n=n() to n=sum(wt).
+add_count() are add_tally() are equivalents to count() and tally()
+but use mutate() instead of summarise() so that they add a new column
+with group-wise counts.
 pull() is similar to $. It's mostly useful because it looks a little
 nicer in pipes, it also works with remote data frames, and it can optionally
 name the output."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -80,7 +89,7 @@ name the output."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySingleCellExperiment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.3</span>
       </span>
     </div>
 
@@ -174,7 +183,16 @@ single table verbs which use <code>.data</code>.</p></li>
 undocumented.</p></li>
 <li><p>It was easier to remove the deprecated <code>.env</code> argument.</p></li>
 <li><p><code>...</code> was in a suboptimal position.</p></li>
-</ul><p><code>pull()</code> is similar to <code>$</code>. It's mostly useful because it looks a little
+</ul><p><code>count()</code> lets you quickly count the unique values of one or more variables:
+<code>df %&gt;% count(a, b)</code> is roughly equivalent to
+<code>df %&gt;% group_by(a, b) %&gt;% summarise(n=n())</code>.
+<code>count()</code> is paired with <code>tally()</code>, a lower-level helper that is equivalent
+to <code>df %&gt;% summarise(n=n())</code>. Supply <code>wt</code> to perform weighted counts,
+switching the summary from <code>n=n()</code> to <code>n=sum(wt)</code>.</p>
+<p><code>add_count()</code> are <code>add_tally()</code> are equivalents to <code>count()</code> and <code>tally()</code>
+but use <code>mutate()</code> instead of <code>summarise()</code> so that they add a new column
+with group-wise counts.</p>
+<p><code>pull()</code> is similar to <code>$</code>. It's mostly useful because it looks a little
 nicer in pipes, it also works with remote data frames, and it can optionally
 name the output.</p>
     </div>
@@ -231,17 +249,8 @@ creating a new grouping variable called <code>add</code>, and conflicts with
 our naming conventions.</p></dd>
 
 
-<dt>.drop</dt>
-<dd><p>When <code>.drop=TRUE</code>, empty groups are dropped. See
-<code>group_by_drop_default()</code> for what the default value is for this argument.</p></dd>
-
-
 <dt>.data</dt>
 <dd><p>Input data frame.</p></dd>
-
-
-<dt>x</dt>
-<dd><p>tbls to join. (See dplyr)</p></dd>
 
 
 <dt>y</dt>
@@ -286,6 +295,28 @@ the input. Weights are automatically standardised to sum to 1.</p></dd>
 
 <dt>.env</dt>
 <dd><p>DEPRECATED.</p></dd>
+
+
+<dt>x</dt>
+<dd><p>A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr).</p></dd>
+
+
+<dt>wt</dt>
+<dd><p>&lt;<code>data-masking</code>&gt; Frequency weights.
+Can be <code>NULL</code> or a variable:</p><ul><li><p>If <code>NULL</code> (the default), counts the number of rows in each group.</p></li>
+<li><p>If a variable, computes <code>sum(wt)</code> for each group.</p></li>
+</ul></dd>
+
+
+<dt>sort</dt>
+<dd><p>If <code>TRUE</code>, will show the largest groups at the top.</p></dd>
+
+
+<dt>.drop</dt>
+<dd><p>For <code>count()</code>: if <code>FALSE</code> will include counts for empty groups
+(i.e. for levels of factors that don't exist in the data). Deprecated in
+<code>add_count()</code> since it didn't actually affect the output.</p></dd>
 
 
 <dt>name</dt>
@@ -373,6 +404,12 @@ order. Columns will be renamed if <code>new_name=old_name</code> form is used.</
 <li><p>Data frame attributes are preserved.</p></li>
 <li><p>Groups are maintained; you can't select off grouping variables.</p></li>
 </ul><p>A tidySingleCellExperiment object</p>
+
+
+<p>An object of the same type as <code>.data</code>. <code>count()</code> and <code>add_count()</code></p>
+
+
+<p>group transiently, so the output has the same groups as the input.</p>
 
 
 <p>A vector the same size as <code>.data</code>.</p>
@@ -708,7 +745,7 @@ to renaming a set of variables with a function.</p>
 <span class="r-in"><span><span class="va">tt</span> <span class="op">&lt;-</span> <span class="va">pbmc_small</span></span></span>
 <span class="r-in"><span><span class="va">tt</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">left_join</span><span class="op">(</span><span class="va">tt</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">distinct</span><span class="op">(</span><span class="va">groups</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">mutate</span><span class="op">(</span>new_column<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tidySingleCellExperiment says: A data frame is returned for independent data analysis.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining, by = "groups"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(groups)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A SingleCellExperiment-tibble abstraction: 80 × 18</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># </span><span style="color: #555555;">Features=230 | Cells=80 | Assays=counts, logcounts</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .cell      orig.…¹ nCoun…² nFeat…³ RNA_s…⁴ lette…⁵ groups RNA_s…⁶ file  ident</span>
@@ -732,7 +769,7 @@ to renaming a set of variables with a function.</p>
 <span class="r-in"><span><span class="va">tt</span> <span class="op">&lt;-</span> <span class="va">pbmc_small</span></span></span>
 <span class="r-in"><span><span class="va">tt</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">inner_join</span><span class="op">(</span><span class="va">tt</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">distinct</span><span class="op">(</span><span class="va">groups</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">mutate</span><span class="op">(</span>new_column<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">slice</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tidySingleCellExperiment says: A data frame is returned for independent data analysis.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining, by = "groups"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(groups)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A SingleCellExperiment-tibble abstraction: 36 × 18</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># </span><span style="color: #555555;">Features=230 | Cells=36 | Assays=counts, logcounts</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .cell      orig.…¹ nCoun…² nFeat…³ RNA_s…⁴ lette…⁵ groups RNA_s…⁶ file  ident</span>
@@ -757,7 +794,7 @@ to renaming a set of variables with a function.</p>
 <span class="r-in"><span><span class="va">tt</span> <span class="op">&lt;-</span> <span class="va">pbmc_small</span></span></span>
 <span class="r-in"><span><span class="va">tt</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">right_join</span><span class="op">(</span><span class="va">tt</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">distinct</span><span class="op">(</span><span class="va">groups</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">mutate</span><span class="op">(</span>new_column<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">slice</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tidySingleCellExperiment says: A data frame is returned for independent data analysis.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining, by = "groups"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(groups)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A SingleCellExperiment-tibble abstraction: 36 × 18</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># </span><span style="color: #555555;">Features=230 | Cells=36 | Assays=counts, logcounts</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .cell      orig.…¹ nCoun…² nFeat…³ RNA_s…⁴ lette…⁵ groups RNA_s…⁶ file  ident</span>
@@ -781,7 +818,7 @@ to renaming a set of variables with a function.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">tt</span> <span class="op">&lt;-</span> <span class="va">pbmc_small</span></span></span>
 <span class="r-in"><span><span class="va">tt</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">full_join</span><span class="op">(</span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>groups<span class="op">=</span><span class="st">"g1"</span>, other<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining, by = "groups"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(groups)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tidySingleCellExperiment says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 212 × 32</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .cell      orig.…¹ nCoun…² nFeat…³ RNA_s…⁴ lette…⁵ groups RNA_s…⁶ file  ident</span>
@@ -848,16 +885,16 @@ to renaming a set of variables with a function.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># </span><span style="color: #555555;">Features=230 | Cells=50 | Assays=counts, logcounts</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .cell      orig.…¹ nCoun…² nFeat…³ RNA_s…⁴ lette…⁵ groups RNA_s…⁶ file  ident</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> CTAACGGAA… Seurat…     189      53 0       A       g1     0       ../d… 0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> CTAAACCTC… Seurat…     246      59 0       A       g1     0       ../d… 0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> GTAAGCACT… Seurat…      67      33 0       A       g2     2       ../d… 2    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> CATCAGGAT… Seurat…     353      80 1       B       g1     1       ../d… 1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> TTGAGGACT… Seurat…     787      88 0       A       g1     2       ../d… 2    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> CGGCACGAA… Seurat…      94      55 0       A       g2     0       ../d… 0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> CGTAGCCTG… Seurat…     371      75 1       B       g1     1       ../d… 1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> GGTGGAGAT… Seurat…     204      52 0       A       g1     0       ../d… 0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> ATTCAGCTC… Seurat…     212      38 0       A       g2     0       ../d… 0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> TCCACTCTG… Seurat…     361      76 1       B       g2     1       ../d… 1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> CATGCGCTA… Seurat…     443      81 0       A       g1     0       ../d… 0    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> TTGAGGACT… Seurat…     787      88 0       A       g1     2       ../d… 2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> GTTGACGAT… Seurat…     221      67 0       A       g2     0       ../d… 0    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> ATTGTAGAT… Seurat…     745      84 1       B       g2     1       ../d… 1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> ATTACCTGC… Seurat…     463      77 1       B       g1     1       ../d… 1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> TGACTGGAT… Seurat…     127      56 0       A       g2     0       ../d… 0    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> TTGGTACTG… Seurat…     135      45 0       A       g1     2       ../d… 2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> GCAGCTCTG… Seurat…      72      45 0       A       g1     0       ../d… 0    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> CTAAACCTG… Seurat…     168      44 0       A       g1     2       ../d… 2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> GACGCTCTC… Seurat…     202      30 0       A       g2     0       ../d… 0    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 40 more rows, 7 more variables: PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;, and abbreviated</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   variable names ¹​orig.ident, ²​nCount_RNA, ³​nFeature_RNA, ⁴​RNA_snn_res.0.8,</span></span>
@@ -869,18 +906,30 @@ to renaming a set of variables with a function.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># </span><span style="color: #555555;">Features=230 | Cells=8 | Assays=counts, logcounts</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .cell       orig.…¹ nCoun…² nFeat…³ RNA_s…⁴ lette…⁵ groups RNA_s…⁶ file  ident</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> GGTGGAGATT… Seurat…     204      52 0       A       g1     0       ../d… 0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> GGCATATGCT… Seurat…     126      53 0       A       g1     0       ../d… 0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> ATGCCAGAAC… Seurat…      70      47 0       A       g2     0       ../d… 0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> CATGAGACAC… Seurat…      51      26 0       A       g2     2       ../d… 2    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> GGCATATGGG… Seurat…     172      29 0       A       g1     0       ../d… 0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> TTGGTACTGA… Seurat…     135      45 0       A       g1     2       ../d… 2    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> GTTGACGATA… Seurat…     221      67 0       A       g2     0       ../d… 0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> ATAGGAGAAA… Seurat…     406      74 1       B       g1     1       ../d… 1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> TTGCATTGAG… Seurat…     104      40 0       A       g2     2       ../d… 2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> CTTCATGACC… Seurat…      41      32 0       A       g2     0       ../d… 0    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> AGGTCATGAG… Seurat…      62      31 0       A       g2     2       ../d… 2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> CTAGGTGATG… Seurat…     324      76 1       B       g1     1       ../d… 1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> TCCACTCTGA… Seurat…     361      76 1       B       g2     1       ../d… 1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> GCGTAAACAC… Seurat…     754      83 0       A       g1     2       ../d… 2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> CTAACGGAAC… Seurat…     189      53 0       A       g1     0       ../d… 0    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> ATCATCTGAC… Seurat…     168      37 0       A       g2     0       ../d… 0    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 7 more variables: PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;, and abbreviated variable names</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ¹​orig.ident, ²​nCount_RNA, ³​nFeature_RNA, ⁴​RNA_snn_res.0.8, ⁵​letter.idents,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁶​RNA_snn_res.1</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">`%&gt;%`</span> <span class="op">&lt;-</span> <span class="fu">magrittr</span><span class="fu">::</span><span class="va">`%&gt;%`</span></span></span>
+<span class="r-in"><span><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>    <span class="fu">count</span><span class="op">(</span><span class="va">groups</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> tidySingleCellExperiment says: A data frame is returned for independent data analysis.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   groups     n</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> g1        44</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> g2        36</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">`%&gt;%`</span> <span class="op">&lt;-</span> <span class="fu">magrittr</span><span class="fu">::</span><span class="va">`%&gt;%`</span></span></span>
 <span class="r-in"><span><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
