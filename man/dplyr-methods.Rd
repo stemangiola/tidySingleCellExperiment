@@ -19,6 +19,8 @@
 \alias{select}
 \alias{sample_n}
 \alias{sample_frac}
+\alias{count}
+\alias{add_count}
 \alias{pull}
 \title{Arrange rows by column values}
 \usage{
@@ -59,12 +61,7 @@ This argument was previously called \code{add}, but that prevented
 creating a new grouping variable called \code{add}, and conflicts with
 our naming conventions.}
 
-\item{.drop}{When \code{.drop=TRUE}, empty groups are dropped. See
-\code{\link[=group_by_drop_default]{group_by_drop_default()}} for what the default value is for this argument.}
-
 \item{.data}{Input data frame.}
-
-\item{x}{tbls to join. (See dplyr)}
 
 \item{y}{tbls to join. (See dplyr)}
 
@@ -91,6 +88,22 @@ This must evaluate to a vector of non-negative numbers the same length as
 the input. Weights are automatically standardised to sum to 1.}
 
 \item{.env}{DEPRECATED.}
+
+\item{x}{A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr).}
+
+\item{wt}{<\code{\link[=dplyr_data_masking]{data-masking}}> Frequency weights.
+Can be \code{NULL} or a variable:
+\itemize{
+\item If \code{NULL} (the default), counts the number of rows in each group.
+\item If a variable, computes \code{sum(wt)} for each group.
+}}
+
+\item{sort}{If \code{TRUE}, will show the largest groups at the top.}
+
+\item{.drop}{For \code{count()}: if \code{FALSE} will include counts for empty groups
+(i.e. for levels of factors that don't exist in the data). Deprecated in
+\code{add_count()} since it didn't actually affect the output.}
 
 \item{name}{An optional parameter that specifies the column to be used
 as names for a named vector. Specified in a similar manner as \code{var}.}
@@ -194,6 +207,9 @@ order. Columns will be renamed if \code{new_name=old_name} form is used.
 
 A tidySingleCellExperiment object
 
+An object of the same type as \code{.data}. \code{count()} and \code{add_count()}
+group transiently, so the output has the same groups as the input.
+
 A vector the same size as \code{.data}.
 }
 \description{
@@ -270,6 +286,17 @@ undocumented.
 \item It was easier to remove the deprecated \code{.env} argument.
 \item \code{...} was in a suboptimal position.
 }
+
+\code{count()} lets you quickly count the unique values of one or more variables:
+\code{df \%>\% count(a, b)} is roughly equivalent to
+\code{df \%>\% group_by(a, b) \%>\% summarise(n=n())}.
+\code{count()} is paired with \code{tally()}, a lower-level helper that is equivalent
+to \code{df \%>\% summarise(n=n())}. Supply \code{wt} to perform weighted counts,
+switching the summary from \code{n=n()} to \code{n=sum(wt)}.
+
+\code{add_count()} are \code{add_tally()} are equivalents to \code{count()} and \code{tally()}
+but use \code{mutate()} instead of \code{summarise()} so that they add a new column
+with group-wise counts.
 
 \code{pull()} is similar to \code{$}. It's mostly useful because it looks a little
 nicer in pipes, it also works with remote data frames, and it can optionally
@@ -545,6 +572,12 @@ pbmc_small \%>\%
 pbmc_small \%>\%
 
     sample_frac(0.1)
+
+
+`\%>\%` <- magrittr::`\%>\%`
+pbmc_small \%>\%
+
+    count(groups)
 
 `\%>\%` <- magrittr::`\%>\%`
 pbmc_small \%>\%

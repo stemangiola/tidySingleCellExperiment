@@ -172,3 +172,10 @@ test_that("count", {
         nrow() %>%
         expect_equal(2)
 })
+
+test_that("add count", {
+  pbmc_small %>%
+    add_count(groups) %>%
+    nrow() %>%
+    expect_equal(230)
+})
