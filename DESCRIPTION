@@ -31,7 +31,8 @@ Imports:
     pillar,
     stringr,
     cli,
-    fansi
+    fansi,
+    Matrix
 Suggests:
     BiocStyle,
     testthat,
@@ -44,7 +45,6 @@ Suggests:
     tidyHeatmap,
     igraph,
     GGally,
-    Matrix,
     uwot,
     celldex,
     dittoSeq,

@@ -131,5 +131,67 @@ tidy.SingleCellExperiment <- function(object) {
   object
 }
 
-
-
+#' Aggregate cells
+#'
+#' @description Combine cells into groups based on shared variables and aggregate feature counts.
+#'
+#' @importFrom magrittr "%>%"
+#' @importFrom rlang enquo
+#' @importFrom tibble enframe
+#' @importFrom Matrix rowSums
+#'
+#' @name aggregate_cells
+#' @rdname aggregate_cells
+#' 
+#' @param .data A tidySingleCellExperiment object
+#' @param .sample A vector of variables by which cells are aggregated
+#' @param slot The slot to which the function is applied
+#' @param assays The assay to which the function is applied
+#' @param aggregation_function The method of cell-feature value aggregation
+#' 
+#' @return A SummarizedExperiment object
+#' 
+#' @examples 
+#' data("pbmc_small")
+#' pbmc_small_pseudo_bulk <- pbmc_small |>
+#'   aggregate_cells(c(groups, ident), assays = "counts")
+#'
+#' @export
+aggregate_cells <- function(.data, .sample = NULL, slot = "data", assays = NULL, aggregation_function = rowSums) {
+  
+  .sample = enquo(.sample)
+  
+  # Subset only wanted assays
+  if(!is.null(assays)){
+    .data@assays@data = .data@assays@data[assays]
+  }
+  
+  .data %>%
+    
+    nest(data = -!!.sample) %>%
+    mutate(.aggregated_cells = as.integer(map(data, ~ ncol(.x)))) %>% 
+    mutate(data = map(data, ~ 
+                        
+                        # loop over assays
+                        map2(
+                          as.list(assays(.x)), names(.x@assays),
+                          
+                          # Get counts
+                          ~  .x %>%
+                            aggregation_function(na.rm = T) %>%
+                            enframe(
+                              name  = "feature",
+                              value = sprintf("%s", .y)
+                            ) %>%
+                            mutate(feature = as.character(feature)) 
+                        ) %>%
+                        Reduce(function(...) full_join(..., by=c("feature")), .)
+                      
+    )) %>%
+    left_join(.data %>% as_tibble() %>% subset(!!.sample), by = quo_names(.sample)) %>%
+    unnest(data) %>%
+    
+    drop_class("tidySingleCellExperiment_nested") |> 
+    
+    as_SummarizedExperiment(.sample = !!.sample, .transcript = feature, .abundance = !!as.symbol(names(.data@assays)))
+}

@@ -446,3 +446,79 @@ special_datasets_to_tibble = function(.singleCellExperiment, ...){
 trick_to_avoid_renaming_of_already_unique_columns_by_dplyr = function(x){
   x |> str_replace_all("\\.\\.\\.", "___")
 }
+
+#' Get specific annotation columns
+#'
+#' @keywords internal
+#' @noRd
+#' 
+#' @importFrom rlang enquo
+#' @importFrom purrr map
+#' @importFrom dplyr distinct_at
+#' @importFrom magrittr equals
+#' 
+#' @param .data A tibble
+#' @param .col A vector of column names
+#' 
+#' @return A character
+get_specific_annotation_columns = function(.data, .col){
+  
+  # Comply with CRAN NOTES
+  . = NULL
+  
+  # Make col names
+  .col = enquo(.col)
+  
+  # x-annotation df
+  n_x = .data %>% distinct_at(vars(!!.col)) %>% nrow
+  
+  # element wise columns
+  .data %>%
+    select(-!!.col) %>%
+    colnames %>%
+    map(
+      ~
+        .x %>%
+        when(
+          .data %>%
+            distinct_at(vars(!!.col, .x)) %>%
+            nrow %>%
+            equals(n_x) ~ (.),
+          ~ NULL
+        )
+    ) %>%
+    
+    # Drop NULL
+    {	(.)[lengths((.)) != 0]	} %>%
+    unlist
+}
+
+#' Subset columns
+#'
+#' @keywords internal
+#' @noRd
+#' 
+#' @importFrom rlang enquo
+#' 
+#' @param .data A tibble
+#' @param .column A vector of column names
+#'
+#' @return A tibble
+subset = function(.data, .column)	{
+
+  # Make col names
+  .column = enquo(.column)
+  
+  # Check if column present
+  if(quo_names(.column) %in% colnames(.data) %>% all %>% `!`)
+    stop("nanny says: some of the .column specified do not exist in the input data frame.")
+  
+  .data %>%
+    
+    # Selecting the right columns
+    select(	!!.column,	get_specific_annotation_columns(.data, !!.column)	) %>%
+    distinct()
+}
+
+feature__ = get_special_column_name_symbol(".feature")
+sample__ = get_special_column_name_symbol(".sample")
