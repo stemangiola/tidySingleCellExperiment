@@ -56,20 +56,6 @@ as_SummarizedExperiment = function(.data,
   .transcript = col_names$.transcript
   .abundance = col_names$.abundance
   
-  # Check if package is installed, otherwise install
-  if (find.package("SummarizedExperiment", quiet = TRUE) %>% length %>% equals(0)) {
-    message("Installing SummarizedExperiment")
-    if (!requireNamespace("BiocManager", quietly = TRUE))
-      install.packages("BiocManager", repos = "https://cloud.r-project.org")
-    BiocManager::install("SummarizedExperiment", ask = FALSE)
-  }
-  if (find.package("S4Vectors", quiet = TRUE) %>% length %>% equals(0)) {
-    message("Installing S4Vectors")
-    if (!requireNamespace("BiocManager", quietly = TRUE))
-      install.packages("BiocManager", repos = "https://cloud.r-project.org")
-    BiocManager::install("S4Vectors", ask = FALSE)
-  }
-  
   # If present get the scaled abundance
   .abundance_scaled =
     .data %>%
@@ -341,8 +327,6 @@ get_x_y_annotation_columns = function(.data, .horizontal, .vertical, .abundance,
 #' @examples
 #'
 #' tibble(.feature = "CD3G", count=1) |> as_matrix(rownames=.feature)
-#'
-#' @export
 as_matrix <- function(tbl,
                       rownames = NULL,
                       do_check = TRUE) {
