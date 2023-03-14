@@ -222,7 +222,7 @@ nest.SingleCellExperiment <- function(.data, ..., .names_sep = NULL) {
                   filter(!!c_(my_data__)$symbol %in% pull(.x, !!c_(my_data__)$symbol)) %>%
 
                     # Subset columns
-                    select(colnames(.x))
+                    select(all_of(colnames(.x)))
             )
         ) %>%
 
