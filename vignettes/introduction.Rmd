@@ -460,7 +460,7 @@ tidySingleCellExperiment::pbmc_small_nested_interactions
 
 #  Aggregating cells 
 
-Sometimes, it is necessary to aggregate the expression data from a group of cells into a single value. For example, when comparing groups of cells across different samples. Cells within a sample are not independent of each other and treating them as such may result in over optimistic p-values.
+Sometimes, it is necessary to aggregate the expression data from a group of cells into a single value. For example, when comparing groups of cells across different samples. Cells within a sample are not independent of each other and treating them as such may result in over-optimistic p-values.
 
 In tidySingleCellExperiment, cell aggregation can be achieved using the `aggregate_cells` function.
  
