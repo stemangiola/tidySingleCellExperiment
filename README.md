@@ -49,11 +49,13 @@ both Bioconductor and tidyverse worlds.
 | `ggplot2`          | `ggplot` (`tidySingleCellExperiment::ggplot`)                                |
 | `plotly`           | `plot_ly` (`tidySingleCellExperiment::plot_ly`)                              |
 
-| Utilities       | Description                                                                       |
-|-----------------|-----------------------------------------------------------------------------------|
-| `tidy`          | Add `tidySingleCellExperiment` invisible layer over a SingleCellExperiment object |
-| `as_tibble`     | Convert cell-wise information to a `tbl_df`                                       |
-| `join_features` | Add feature-wise information, returns a `tbl_df`                                  |
+| Utilities        | Description                                                                       |
+|------------------|-----------------------------------------------------------------------------------|
+| `tidy`           | Add `tidySingleCellExperiment` invisible layer over a SingleCellExperiment object |
+| `as_tibble`      | Convert cell-wise information to a `tbl_df`                                       |
+| `join_features`  | Add feature-wise information, returns a `tbl_df`                                  |
+| `aggregate_cells`| Aggregate cell gene-transcription abundance as pseudobulk tissue                  |
+
 
 ## Installation
 
@@ -98,7 +100,7 @@ pbmc_small_tidy
 ```
 
     ## # A SingleCellExperiment-tibble abstraction: 80 × 17
-    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
+    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
     ##    .cell      orig.…¹ nCoun…² nFeat…³ RNA_s…⁴ lette…⁵ groups RNA_s…⁶ file  ident
     ##    <chr>      <fct>     <dbl>   <int> <fct>   <fct>   <chr>  <fct>   <chr> <fct>
     ##  1 ATGCCAGAA… Seurat…      70      47 0       A       g2     0       ../d… 0    
@@ -168,7 +170,7 @@ pbmc_small_polished %>%
 ```
 
     ## # A SingleCellExperiment-tibble abstraction: 80 × 18
-    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
+    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
     ##    .cell     sample orig.…¹ nCoun…² nFeat…³ RNA_s…⁴ lette…⁵ groups RNA_s…⁶ file 
     ##    <chr>     <chr>  <fct>     <dbl>   <int> <fct>   <fct>   <chr>  <fct>   <chr>
     ##  1 ATGCCAGA… sampl… Seurat…      70      47 0       A       g2     0       ../d…
@@ -290,7 +292,7 @@ pbmc_small_pca
 ```
 
     ## # A SingleCellExperiment-tibble abstraction: 80 × 18
-    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
+    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
     ##    .cell     orig.…¹ nCoun…² nFeat…³ RNA_s…⁴ lette…⁵ groups RNA_s…⁶ file  sample
     ##    <chr>     <fct>     <dbl>   <int> <fct>   <fct>   <chr>  <fct>   <chr> <chr> 
     ##  1 ATGCCAGA… Seurat…      70      47 0       A       g2     0       ../d… sampl…
@@ -353,7 +355,7 @@ pbmc_small_cluster %>% select(label, everything())
 ```
 
     ## # A SingleCellExperiment-tibble abstraction: 80 × 19
-    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
+    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
     ##    .cell      label orig.…¹ nCoun…² nFeat…³ RNA_s…⁴ lette…⁵ groups RNA_s…⁶ file 
     ##    <chr>      <fct> <fct>     <dbl>   <int> <fct>   <fct>   <chr>  <fct>   <chr>
     ##  1 ATGCCAGAA… 2     Seurat…      70      47 0       A       g2     0       ../d…
@@ -503,7 +505,7 @@ pbmc_small_cell_type %>%
     ## workflow to reflect the new vocabulary (.cell)
 
     ## # A SingleCellExperiment-tibble abstraction: 80 × 23
-    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
+    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
     ##    cell     first…¹ orig.…² nCoun…³ nFeat…⁴ RNA_s…⁵ lette…⁶ groups RNA_s…⁷ file 
     ##    <chr>    <chr>   <fct>     <dbl>   <int> <fct>   <fct>   <chr>  <fct>   <chr>
     ##  1 ATGCCAG… CD4+ T… Seurat…      70      47 0       A       g2     0       ../d…
@@ -757,3 +759,32 @@ tidySingleCellExperiment::pbmc_small_nested_interactions
     ## # … with 90 more rows, and abbreviated variable names ¹​receptor, ²​ligand.name,
     ## #   ³​receptor.name, ⁴​destination, ⁵​interaction.type
     ## # ℹ Use `print(n = ...)` to see more rows
+
+#  Aggregating cells 
+
+Sometimes, it is necessary to aggregate the gene-transcript abundance from a group of cells into a single value. For example, when comparing groups of cells across different samples with fixed-effect models.
+
+In tidySingleCellExperiment, cell aggregation can be achieved using the `aggregate_cells` function.
+ 
+``` r
+pbmc_small_tidy %>%
+  aggregate_cells(groups, assays = "counts")
+```
+
+    ## # A SummarizedExperiment-tibble abstraction: 460 × 2
+    ## # Features=230 | Samples=2 | Assays=counts
+    ##    .feature .sample counts groups .aggregated_cells orig.ident    file                 feature
+    ##    <chr>    <chr>    <dbl> <chr>              <int> <fct>         <chr>                <chr>
+    ##  1 ACAP1    g1           9 g1                    44 SeuratProject ../data/sample1/out… ACAP1
+    ##  2 ACRBP    g1          29 g1                    44 SeuratProject ../data/sample1/out… ACRBP
+    ##  3 ACSM3    g1           2 g1                    44 SeuratProject ../data/sample1/out… ACSM3
+    ##  4 ADAR     g1          33 g1                    44 SeuratProject ../data/sample1/out… ADAR
+    ##  5 AIF1     g1         209 g1                    44 SeuratProject ../data/sample1/out… AIF1
+    ##  6 AKR1C3   g1          14 g1                    44 SeuratProject ../data/sample1/out… AKR1C3
+    ##  7 ALOX5AP  g1          19 g1                    44 SeuratProject ../data/sample1/out… ALOX5AP
+    ##  8 ANXA2    g1          87 g1                    44 SeuratProject ../data/sample1/out… ANXA2
+    ##  9 ARHGDIA  g1          23 g1                    44 SeuratProject ../data/sample1/out… ARHGDIA
+    ## 10 ASGR1    g1           9 g1                    44 SeuratProject ../data/sample1/out… ASGR1
+    ## # … with 40 more rows
+    ## # ℹ Use `print(n = ...)` to see more rows
+
