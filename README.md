@@ -54,7 +54,7 @@ both Bioconductor and tidyverse worlds.
 | `tidy`           | Add `tidySingleCellExperiment` invisible layer over a SingleCellExperiment object |
 | `as_tibble`      | Convert cell-wise information to a `tbl_df`                                       |
 | `join_features`  | Add feature-wise information, returns a `tbl_df`                                  |
-| `aggregate_cells`| Aggregate expression data within cell groups                                      |
+| `aggregate_cells`| Aggregate cell gene-transcription abundance as pseudobulk tissue                  |
 
 
 ## Installation
@@ -762,7 +762,7 @@ tidySingleCellExperiment::pbmc_small_nested_interactions
 
 #  Aggregating cells 
 
-Sometimes, it is necessary to aggregate the expression data from a group of cells into a single value. For example, when comparing groups of cells across different samples. Cells within a sample are not independent of each other and treating them as such may result in over-optimistic p-values.
+Sometimes, it is necessary to aggregate the gene-transcript abundance from a group of cells into a single value. For example, when comparing groups of cells across different samples with fixed-effect models.
 
 In tidySingleCellExperiment, cell aggregation can be achieved using the `aggregate_cells` function.
  
