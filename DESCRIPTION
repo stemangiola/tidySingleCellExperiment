@@ -1,7 +1,7 @@
 Type: Package
 Package: tidySingleCellExperiment
 Title: Brings SingleCellExperiment to the Tidyverse 
-Version: 1.9.5
+Version: 1.9.6
 Authors@R: c(person("Stefano", "Mangiola", email = "mangiolastefano@gmail.com",
                   role = c("aut", "cre")) )
 Description: tidySingleCellExperiment is an adapter that abstracts the 'SingleCellExperiment' container 
