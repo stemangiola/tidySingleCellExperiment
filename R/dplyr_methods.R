@@ -485,7 +485,8 @@ summarise.SingleCellExperiment <- function(.data, ...) {
         dplyr::summarise(...)
 }
 
-#' @rdname summarise
+#' @rdname dplyr-methods
+#' @name summarise
 #' @export
 summarize <- summarise
 

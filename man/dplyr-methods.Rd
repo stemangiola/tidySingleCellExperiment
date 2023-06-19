@@ -8,6 +8,7 @@
 \alias{filter}
 \alias{group_by}
 \alias{summarise}
+\alias{summarize}
 \alias{mutate}
 \alias{rename}
 \alias{rowwise}
@@ -27,6 +28,8 @@
 bind_rows(..., .id = NULL, add.cell.ids = NULL)
 
 bind_cols(..., .id = NULL)
+
+summarize(.data, ..., .by = NULL, .groups = NULL)
 }
 \arguments{
 \item{...}{For use by methods.}
@@ -44,6 +47,10 @@ used instead.}
 length(x=c(x, y)). Appends the corresponding values to the start of each
 objects' cell names.}
 
+\item{.data}{Input data frame.}
+
+\item{.by}{A character vector of variables to join by. (See dplyr)}
+
 \item{.by_group}{If TRUE, will sort first by grouping variable. Applies to
 grouped data frames only.}
 
@@ -60,8 +67,6 @@ override existing groups. To add to the existing groups, use
 This argument was previously called \code{add}, but that prevented
 creating a new grouping variable called \code{add}, and conflicts with
 our naming conventions.}
-
-\item{.data}{Input data frame.}
 
 \item{y}{tbls to join. (See dplyr)}
 
