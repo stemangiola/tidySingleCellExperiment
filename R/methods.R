@@ -139,7 +139,8 @@ tidy.SingleCellExperiment <- function(object) {
 #' @importFrom rlang enquo
 #' @importFrom tibble enframe
 #' @importFrom Matrix rowSums
-#'
+#' @importFrom ttservice aggregate_cells
+#' 
 #' @name aggregate_cells
 #' @rdname aggregate_cells
 #' 
@@ -157,7 +158,20 @@ tidy.SingleCellExperiment <- function(object) {
 #'   aggregate_cells(c(groups, ident), assays = "counts")
 #'
 #' @export
-aggregate_cells <- function(.data, .sample = NULL, slot = "data", assays = NULL, aggregation_function = rowSums) {
+NULL
+
+#' aggregate_cells
+#'
+#' @docType methods
+#' @rdname aggregate_cells
+#'
+#' @return An object containing the information for the specified features
+#'
+setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
+                                                    .sample = NULL, 
+                                                    slot = "data",
+                                                    assays = NULL, 
+                                                    aggregation_function = Matrix::rowSums){
   
   .sample = enquo(.sample)
   
@@ -191,7 +205,7 @@ aggregate_cells <- function(.data, .sample = NULL, slot = "data", assays = NULL,
     left_join(.data %>% as_tibble() %>% subset(!!.sample), by = quo_names(.sample)) %>%
     unnest(data) %>%
     
-    drop_class("tidySingleCellExperiment_nested") |> 
+    drop_class("tidySingleCellExperiment_nested") %>%
     
     as_SummarizedExperiment(.sample = !!.sample, .transcript = feature, .abundance = !!as.symbol(names(.data@assays)))
-}
+})
