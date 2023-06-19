@@ -179,3 +179,10 @@ test_that("add count", {
     nrow() %>%
     expect_equal(230)
 })
+
+test_that("summarize alias", {
+  pbmc_small %>%
+    summarize(nCount_RNA = mean(nCount_RNA))  %>%
+    nrow() %>%
+    expect_equal(1)
+})

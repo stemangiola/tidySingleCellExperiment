@@ -485,6 +485,11 @@ summarise.SingleCellExperiment <- function(.data, ...) {
         dplyr::summarise(...)
 }
 
+#' @rdname dplyr-methods
+#' @name summarise
+#' @export
+summarize <- summarise
+
 
 #' Create, modify, and delete columns
 #'
