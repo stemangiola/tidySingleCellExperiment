@@ -28,7 +28,7 @@
 \value{
 A SummarizedExperiment object
 
-An object containing the information.for the specified features
+An object containing the information for the specified features
 }
 \description{
 Combine cells into groups based on shared variables and aggregate feature counts.
