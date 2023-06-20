@@ -3,8 +3,6 @@
 #' @keywords internal
 #' @noRd
 #'
-#' @import dplyr
-#' @import tidyr
 #' @importFrom purrr as_mapper
 #' @importFrom magrittr equals
 #'
