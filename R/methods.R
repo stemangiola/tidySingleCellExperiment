@@ -1,4 +1,5 @@
 
+#' @importFrom methods getMethod
 setMethod(
     f = "show",
     signature = "SingleCellExperiment",
@@ -54,6 +55,9 @@ setClass("tidySingleCellExperiment", contains = "SingleCellExperiment")
 NULL
 
 #' join_features
+#'
+#' @importFrom dplyr contains
+#' @importFrom dplyr everything
 #'
 #' @docType methods
 #' @rdname join_features
@@ -173,6 +177,9 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
                                                     assays = NULL, 
                                                     aggregation_function = Matrix::rowSums){
   
+  # Fix NOTEs
+  feature = NULL
+  
   .sample = enquo(.sample)
   
   # Subset only wanted assays
@@ -192,7 +199,7 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
                           
                           # Get counts
                           ~  .x %>%
-                            aggregation_function(na.rm = T) %>%
+                            aggregation_function(na.rm = TRUE) %>%
                             enframe(
                               name  = "feature",
                               value = sprintf("%s", .y)

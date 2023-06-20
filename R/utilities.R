@@ -84,6 +84,7 @@ drop_class <- function(var, name) {
 #' @importFrom magrittr "%$%"
 #' @importFrom utils tail
 #' @importFrom SummarizedExperiment assays
+#' @importFrom stats setNames
 #'
 #' @param .data A tidySingleCellExperiment
 #' @param features A character
@@ -456,6 +457,7 @@ trick_to_avoid_renaming_of_already_unique_columns_by_dplyr = function(x){
 #' @importFrom purrr map
 #' @importFrom dplyr distinct_at
 #' @importFrom magrittr equals
+#' @importFrom dplyr vars
 #' 
 #' @param .data A tibble
 #' @param .col A vector of column names

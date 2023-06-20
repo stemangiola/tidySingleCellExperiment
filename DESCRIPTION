@@ -9,7 +9,7 @@ Description: tidySingleCellExperiment is an adapter that abstracts the 'SingleCe
 License: GPL-3
 Depends:
     R (>= 4.1.0),
-    ttservice,
+    ttservice (>= 0.3.6),
     SingleCellExperiment
 Imports:
     SummarizedExperiment,
@@ -32,7 +32,8 @@ Imports:
     stringr,
     cli,
     fansi,
-    Matrix
+    Matrix,
+    stats
 Suggests:
     BiocStyle,
     testthat,
@@ -47,8 +48,7 @@ Suggests:
     GGally,
     uwot,
     celldex,
-    dittoSeq,
-    EnsDb.Hsapiens.v86
+    dittoSeq
 VignetteBuilder: 
     knitr
 RdMacros:

@@ -45,6 +45,10 @@ as_SummarizedExperiment = function(.data,
                                     .transcript = NULL,
                                     .abundance = NULL) {
   
+  # Fix NOTES
+  . = NULL
+  assay = NULL
+  
   # Get column names
   .sample = enquo(.sample)
   .transcript = enquo(.transcript)
@@ -165,23 +169,27 @@ get_sample_transcript_counts = function(.data, .sample, .transcript, .abundance)
   if( quo_is_symbolic(.sample) ) .sample = .sample
   else if(".sample" %in% (.data %>% get_tt_columns() %>% names))
     .sample =  get_tt_columns(.data)$.sample
-  else my_stop()
+  else stop()
   
   if( quo_is_symbolic(.transcript) ) .transcript = .transcript
   else if(".transcript" %in% (.data %>% get_tt_columns() %>% names))
     .transcript =  get_tt_columns(.data)$.transcript
-  else my_stop()
+  else stop()
   
   if(  quo_is_symbolic(.abundance) ) .abundance = .abundance
   else if(".abundance" %in% (.data %>% get_tt_columns() %>% names))
     .abundance = get_tt_columns(.data)$.abundance
-  else my_stop()
+  else stop()
   
   list(.sample = .sample, .transcript = .transcript, .abundance = .abundance)
   
 }
 
 get_tt_columns = function(.data){
+  
+  # Fix NOTES
+  tt_columns = NULL
+  
   if(
     .data %>% attr("internals") %>% is.list() &&
     "tt_columns" %in% names(.data %>% attr("internals"))
@@ -311,8 +319,6 @@ get_x_y_annotation_columns = function(.data, .horizontal, .vertical, .abundance,
 #' @keywords internal
 #' @noRd
 #'
-#' @import dplyr
-#' @import tidyr
 #' @importFrom magrittr set_rownames
 #' @importFrom rlang quo_is_null
 #'
@@ -328,6 +334,10 @@ get_x_y_annotation_columns = function(.data, .horizontal, .vertical, .abundance,
 as_matrix <- function(tbl,
                       rownames = NULL,
                       do_check = TRUE) {
+  
+  # Fix NOTEs
+  variable = NULL
+  
   rownames = enquo(rownames)
   tbl %>%
     
