@@ -87,7 +87,7 @@ arrange.SingleCellExperiment <- function(.data, ..., .by_group=FALSE) {
 #'
 #'   When column-binding, rows are matched by position, so all data
 #'   frames must have the same number of rows. To match by value, not
-#'   position, see [mutate-joins].
+#'   position, see mutate-joins.
 #' @param .id Data frame identifier.
 #'
 #'   When `.id` is supplied, a new column of identifiers is
@@ -96,36 +96,24 @@ arrange.SingleCellExperiment <- function(.data, ..., .by_group=FALSE) {
 #'   list of data frames is supplied, the labels are taken from the
 #'   names of the list. If no names are found a numeric sequence is
 #'   used instead.
-#' @param add.cell.ids from SingleCellExperiment 3.0 A character vector of
-#'   length(x=c(x, y)). Appends the corresponding values to the start of each
-#'   objects' cell names.
+#' @param add.cell.ids from Seurat 3.0 A character vector of length(x = c(x, y)). Appends the corresponding values to the start of each objects' cell names.
+#'
+#' @importFrom ttservice bind_rows
 #'
 #' @return `bind_rows()` and `bind_cols()` return the same type as
 #'   the first input, either a data frame, `tbl_df`, or `grouped_df`.
 #' @examples
-#' `%>%` <- magrittr::`%>%`
-#' tt <- pbmc_small
-#' bind_rows(tt, tt)
+#' `%>%` = magrittr::`%>%`
+#' tt = pbmc_small
+#' bind_rows(    tt, tt  )
 #'
-#' tt_bind <- tt %>% select(nCount_RNA, nFeature_RNA)
+#' tt_bind = tt %>% select(nCount_RNA ,nFeature_RNA)
 #' tt %>% bind_cols(tt_bind)
-#' @name bind
+#'
+#' @export
+#' 
+#' @name bind_rows
 NULL
-
-#' @rdname dplyr-methods
-#'
-#' @inheritParams bind
-#'
-#' @export
-#'
-bind_rows <- function(..., .id=NULL, add.cell.ids=NULL) {
-    UseMethod("bind_rows")
-}
-
-#' @export
-bind_rows.default <- function(..., .id=NULL, add.cell.ids=NULL) {
-    dplyr::bind_rows(..., .id=.id)
-}
 
 #' @importFrom rlang dots_values
 #' @importFrom rlang flatten_if
@@ -155,7 +143,7 @@ bind_rows.SingleCellExperiment <- function(..., .id=NULL, add.cell.ids=NULL) {
 bind_cols_ = function(..., .id=NULL) {
     tts <- tts <- flatten_if(dots_values(...), is_spliced)
 
-    colData(tts[[1]]) <- dplyr::bind_cols(colData(tts[[1]]) %>% as.data.frame(),
+    colData(tts[[1]]) <- bind_cols(colData(tts[[1]]) %>% as.data.frame(),
                                           tts[[2]], .id=.id) %>% DataFrame()
 
     tts[[1]]
@@ -163,17 +151,13 @@ bind_cols_ = function(..., .id=NULL) {
 
 #' @export
 #'
-#' @inheritParams bind
+#' @importFrom ttservice bind_cols
+#' @inheritParams bind_cols
+#' 
+#' @name bind_cols
 #'
 #' @rdname dplyr-methods
-bind_cols <- function(..., .id=NULL) {
-    UseMethod("bind_cols")
-}
-
-#' @export
-bind_cols.default <- function(..., .id=NULL) {
-    dplyr::bind_cols(..., .id=.id)
-}
+NULL
 
 #' @importFrom rlang dots_values
 #' @importFrom rlang flatten_if

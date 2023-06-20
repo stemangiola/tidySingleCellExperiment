@@ -434,7 +434,7 @@ special_datasets_to_tibble = function(.singleCellExperiment, ...){
       # Otherwise continue normally
       ~ as_tibble(.)
     )) %>%
-    reduce(dplyr::bind_cols)
+    reduce(bind_cols)
 
   # To avoid name change by the bind_cols of as_tibble
   colnames(x) = colnames(x) |> trick_to_avoid_renaming_of_already_unique_columns_by_dplyr()
