@@ -82,7 +82,7 @@ as_tibble.SingleCellExperiment <- function(x, ...,
         when(
 
             # Only if I have reduced dimensions and special datasets
-            ncol(x@int_colData@listData$reducedDims) > 0 ~ (.) %>% dplyr::bind_cols(
+            ncol(x@int_colData@listData$reducedDims) > 0 ~ (.) %>% bind_cols(
               special_datasets_to_tibble(x, ...)
             ),
 
