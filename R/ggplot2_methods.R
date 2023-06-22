@@ -41,7 +41,6 @@
 #' @rdname ggplot2-methods
 #' @name ggplot
 #'
-#' @export
 #' @examples
 #'
 #' library(ggplot2)

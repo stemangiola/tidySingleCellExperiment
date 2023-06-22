@@ -7,7 +7,7 @@
 \alias{filter}
 \alias{group_by}
 \alias{summarise}
-\alias{summarize}
+\alias{summarize.SingleCellExperiment}
 \alias{mutate}
 \alias{rename}
 \alias{rowwise}
@@ -24,14 +24,12 @@
 \alias{pull}
 \title{Arrange rows by column values}
 \usage{
-summarize(.data, ..., .by = NULL, .groups = NULL)
+summarize.SingleCellExperiment(.data, ...)
 }
 \arguments{
 \item{.data}{Input data frame.}
 
 \item{...}{For use by methods.}
-
-\item{.by}{A character vector of variables to join by. (See dplyr)}
 
 \item{.by_group}{If TRUE, will sort first by grouping variable. Applies to
 grouped data frames only.}

@@ -54,7 +54,6 @@
 #' @rdname tibble-methods
 #' @name as_tibble
 #'
-#' @export
 #' @examples
 #' pbmc_small %>%
 #'
@@ -121,7 +120,6 @@ as_tibble.SingleCellExperiment <- function(x, ...,
 #' @rdname tibble-methods
 #' @name glimpse
 #'
-#' @export
 #' @examples
 #' pbmc_small %>% tidy %>% glimpse()
 #'

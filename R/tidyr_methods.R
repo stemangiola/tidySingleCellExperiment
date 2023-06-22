@@ -51,7 +51,6 @@
 #' @rdname unnest-methods
 #' @name unnest
 #'
-#' @export
 NULL
 
 
@@ -187,7 +186,6 @@ unnest_single_cell_experiment  <-  function(data, cols, ..., keep_empty=FALSE, p
 #' @rdname nest-methods
 #' @name nest
 #'
-#' @export
 NULL
 
 #' @importFrom rlang enquos
@@ -258,7 +256,7 @@ nest.SingleCellExperiment <- function(.data, ..., .names_sep = NULL) {
 #'   NB: this will cause string `"NA"`s to be converted to `NA`s.
 #' @param ... Additional arguments passed on to methods.
 #' @seealso [separate()] to split up by a separator.
-#' @export
+#' 
 #' @examples
 #'
 #' pbmc_small %>%
@@ -271,7 +269,6 @@ nest.SingleCellExperiment <- function(.data, ..., .names_sep = NULL) {
 #' @rdname extract-methods
 #' @name extract
 #'
-#' @export
 NULL
 
 #' @importFrom SummarizedExperiment colData
@@ -410,7 +407,6 @@ extract.SingleCellExperiment <- function(data, col, into, regex="([[:alnum:]]+)"
 #' @rdname pivot-methods
 #' @name pivot_longer
 #'
-#' @export
 #' @examples
 #' # See vignette("pivot") for examples and explanation
 #'
@@ -486,7 +482,6 @@ pivot_longer.SingleCellExperiment <- function(data,
 #' @rdname unite-methods
 #' @name unite
 #'
-#' @export
 #' @examples
 #'
 #' pbmc_small %>%
@@ -580,7 +575,6 @@ unite.SingleCellExperiment <- function(data, col, ..., sep="_", remove=TRUE, na.
 #' @rdname separate-methods
 #' @name separate
 #'
-#' @export
 #' @examples
 #'
 #' un <- pbmc_small %>%

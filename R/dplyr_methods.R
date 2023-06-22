@@ -34,7 +34,7 @@
 #' individual methods for extra arguments and differences in behaviour.
 #'
 #' The following methods are currently available in loaded packages:
-#' @export
+#' 
 #' @param .data A data frame, data frame extension (e.g. a tibble), or a
 #'   lazy data frame (e.g. from dbplyr or dtplyr). See *Methods*, below, for
 #'   more details.
@@ -110,7 +110,6 @@ arrange.SingleCellExperiment <- function(.data, ..., .by_group=FALSE) {
 #' tt_bind = tt %>% select(nCount_RNA ,nFeature_RNA)
 #' tt %>% bind_cols(tt_bind)
 #'
-#' @export
 #' 
 #' @name bind_rows
 NULL
@@ -149,7 +148,7 @@ bind_cols_ = function(..., .id=NULL) {
     tts[[1]]
 }
 
-#' @export
+
 #'
 #' @importFrom ttservice bind_cols
 #' @inheritParams bind_cols
@@ -190,7 +189,6 @@ bind_cols.SingleCellExperiment <- bind_cols_
 #' @rdname dplyr-methods
 #' @name distinct
 #'
-#' @export
 NULL
 
 #' @inheritParams distinct
@@ -279,7 +277,6 @@ distinct.SingleCellExperiment <- function(.data, ..., .keep_all=FALSE) {
 #' @rdname dplyr-methods
 #' @name filter
 #'
-#' @export
 NULL
 
 #' @inheritParams filter
@@ -355,7 +352,6 @@ filter.SingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
 #' @rdname dplyr-methods
 #' @name group_by
 #'
-#' @export
 NULL
 
 #' @export
@@ -449,7 +445,6 @@ group_by.SingleCellExperiment <- function(.data, ..., .add=FALSE, .drop=group_by
 #' @name summarise
 #'
 #'
-#' @export
 NULL
 
 #' @export
@@ -472,7 +467,7 @@ summarise.SingleCellExperiment <- function(.data, ...) {
 #' @rdname dplyr-methods
 #' @name summarise
 #' @export
-summarize <- summarise
+summarize.SingleCellExperiment <- summarise.SingleCellExperiment
 
 
 #' Create, modify, and delete columns
@@ -560,7 +555,6 @@ summarize <- summarise
 #' @rdname dplyr-methods
 #' @name mutate
 #'
-#' @export
 NULL
 
 
@@ -644,7 +638,6 @@ mutate.SingleCellExperiment <- function(.data, ...) {
 #'
 #' The following methods are currently available in loaded packages:
 #' @family single table verbs
-#' @export
 #' @examples
 #' `%>%` <- magrittr::`%>%`
 #' pbmc_small %>%
@@ -654,7 +647,6 @@ mutate.SingleCellExperiment <- function(.data, ...) {
 #' @rdname dplyr-methods
 #' @name rename
 #'
-#' @export
 NULL
 
 #' @importFrom tidyselect eval_select
@@ -725,7 +717,6 @@ rename.SingleCellExperiment <- function(.data, ...) {
 #' @rdname dplyr-methods
 #' @name rowwise
 #'
-#' @export
 NULL
 
 #' @export
@@ -758,7 +749,6 @@ rowwise.SingleCellExperiment <- function(data, ...) {
 #' @rdname dplyr-methods
 #' @name left_join
 #'
-#' @export
 #'
 #' @examples
 #' `%>%` <- magrittr::`%>%`
@@ -822,7 +812,6 @@ left_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c("
 #' @rdname dplyr-methods
 #' @name inner_join
 #'
-#' @export
 NULL
 
 #' @importFrom SummarizedExperiment colData
@@ -883,7 +872,6 @@ inner_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(
 #' @rdname dplyr-methods
 #' @name right_join
 #'
-#' @export
 NULL
 
 #' @importFrom SummarizedExperiment colData
@@ -946,7 +934,6 @@ right_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(
 #' @rdname dplyr-methods
 #' @name full_join
 #'
-#' @export
 NULL
 
 #' @export
@@ -1045,7 +1032,6 @@ full_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c("
 #' @rdname dplyr-methods
 #' @name slice
 #'
-#' @export
 #' @examples
 #'
 #' `%>%` <- magrittr::`%>%`
@@ -1112,7 +1098,6 @@ slice.SingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
 #' @rdname dplyr-methods
 #' @name select
 #'
-#' @export
 NULL
 
 #' @importFrom SummarizedExperiment colData
@@ -1199,7 +1184,6 @@ select.SingleCellExperiment <- function(.data, ...) {
 #' @rdname dplyr-methods
 #' @name sample_n
 #'
-#' @export
 NULL
 
 #' @importFrom SummarizedExperiment colData
@@ -1236,7 +1220,6 @@ sample_n.SingleCellExperiment <- function(tbl, size, replace=FALSE,
 #' @rdname dplyr-methods
 #' @name sample_frac
 #'
-#' @export
 NULL
 
 #' @importFrom SummarizedExperiment colData
@@ -1300,7 +1283,6 @@ sample_frac.SingleCellExperiment <- function(tbl, size=1, replace=FALSE,
 #' @return
 #' An object of the same type as `.data`. `count()` and `add_count()`
 #' group transiently, so the output has the same groups as the input.
-#' @export
 #'
 #' @rdname dplyr-methods
 #' @name count
@@ -1332,7 +1314,7 @@ count.SingleCellExperiment <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .
 }
 
 
-#' @export
+
 #'
 #'
 #' @importFrom dplyr add_count
@@ -1391,7 +1373,6 @@ add_count.SingleCellExperiment <- function(x, ..., wt = NULL, sort = FALSE, name
 #' @rdname dplyr-methods
 #' @name pull
 #'
-#' @export
 #'
 #' @importFrom ellipsis check_dots_used
 #'
