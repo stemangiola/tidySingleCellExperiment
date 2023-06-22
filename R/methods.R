@@ -50,7 +50,6 @@ setClass("tidySingleCellExperiment", contains = "SingleCellExperiment")
 #' join_features(features = c("HLA-DRA", "LYZ"))
 #'
 #'
-#' @export
 #'
 NULL
 
@@ -161,7 +160,6 @@ tidy.SingleCellExperiment <- function(object) {
 #' pbmc_small_pseudo_bulk <- pbmc_small |>
 #'   aggregate_cells(c(groups, ident), assays = "counts")
 #'
-#' @export
 NULL
 
 #' aggregate_cells
