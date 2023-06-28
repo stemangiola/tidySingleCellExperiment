@@ -34,7 +34,7 @@
 #' individual methods for extra arguments and differences in behaviour.
 #'
 #' The following methods are currently available in loaded packages:
-#' 
+#'
 #' @param .data A data frame, data frame extension (e.g. a tibble), or a
 #'   lazy data frame (e.g. from dbplyr or dtplyr). See *Methods*, below, for
 #'   more details.
@@ -110,7 +110,7 @@ arrange.SingleCellExperiment <- function(.data, ..., .by_group=FALSE) {
 #' tt_bind = tt %>% select(nCount_RNA ,nFeature_RNA)
 #' tt %>% bind_cols(tt_bind)
 #'
-#' 
+#'
 #' @name bind_rows
 NULL
 
@@ -152,7 +152,7 @@ bind_cols_ = function(..., .id=NULL) {
 #'
 #' @importFrom ttservice bind_cols
 #' @inheritParams bind_cols
-#' 
+#'
 #' @name bind_cols
 #'
 #' @rdname dplyr-methods
@@ -249,6 +249,9 @@ distinct.SingleCellExperiment <- function(.data, ..., .keep_all=FALSE) {
 #'   terms of the variables in `.data`.
 #'   Multiple conditions are combined with `&`. Only rows where the
 #'   condition evaluates to `TRUE` are kept.
+#'  @param .by <tidy-select> Optionally, a selection of columns to group by for just this operation,
+#'  functioning as an alternative to group_by().
+#'  For details and examples, see ?dplyr_by.
 #' @param .preserve when `FALSE` (the default), the grouping structure
 #'   is recalculated based on the resulting data, otherwise it is kept as is.
 #' @return
@@ -282,7 +285,7 @@ NULL
 #' @inheritParams filter
 #'
 #' @export
-filter.SingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
+filter.SingleCellExperiment <- function(.data, ..., .by = NULL, .preserve = FALSE) {
 
   # Deprecation of special column names
   if(is_sample_feature_deprecated_used(
@@ -1007,6 +1010,11 @@ full_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c("
 #'   If `n` is greater than the number of rows in the group (or `prop > 1`),
 #'   the result will be silently truncated to the group size. If the
 #'   `prop`ortion of a group size is not an integer, it is rounded down.
+#'  @param .by <tidy-select> Optionally, a selection of columns to group by for just this operation,
+#'  functioning as an alternative to group_by().
+#'  For details and examples, see ?dplyr_by.
+#' @param .preserve when `FALSE` (the default), the grouping structure
+#'   is recalculated based on the resulting data, otherwise it is kept as is.
 #' @return
 #' An object of the same type as `.data`. The output has the following
 #' properties:
@@ -1042,7 +1050,7 @@ NULL
 
 #' @importFrom SummarizedExperiment colData
 #' @export
-slice.SingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
+slice.SingleCellExperiment <- function(.data, ..., .by = NULL, .preserve = FALSE) {
     new_meta <- dplyr::slice(colData(.data) %>% as.data.frame(), ..., .preserve=.preserve)
     new_obj <- .data[, rownames(new_meta)]
     # colData(new_obj)=new_meta

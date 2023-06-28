@@ -24,7 +24,7 @@
 \alias{pull}
 \title{Arrange rows by column values}
 \usage{
-summarize.SingleCellExperiment(.data, ...)
+\method{summarize}{SingleCellExperiment}(.data, ...)
 }
 \arguments{
 \item{.data}{Input data frame.}
@@ -36,9 +36,6 @@ grouped data frames only.}
 
 \item{.keep_all}{If TRUE, keep all variables in .data. If a combination
 of ... is not distinct, this keeps the first row of values. (See dplyr)}
-
-\item{.preserve}{when \code{FALSE} (the default), the grouping structure
-is recalculated based on the resulting data, otherwise it is kept as is.}
 
 \item{.add}{When \code{FALSE}, the default, \code{group_by()} will
 override existing groups. To add to the existing groups, use
@@ -58,6 +55,9 @@ then y will be copied into the same src as x. (See dplyr)}
 \item{suffix}{If there are non-joined duplicate variables in x and y, these
 suffixes will be added to the output to disambiguate them. Should be a
 character vector of length 2. (See dplyr)}
+
+\item{.preserve}{when \code{FALSE} (the default), the grouping structure
+is recalculated based on the resulting data, otherwise it is kept as is.}
 
 \item{tbl}{A data.frame.}
 
