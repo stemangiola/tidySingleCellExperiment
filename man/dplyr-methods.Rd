@@ -7,6 +7,7 @@
 \alias{filter}
 \alias{group_by}
 \alias{summarise}
+\alias{summarize}
 \alias{summarize.SingleCellExperiment}
 \alias{mutate}
 \alias{rename}
