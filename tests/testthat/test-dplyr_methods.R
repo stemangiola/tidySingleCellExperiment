@@ -3,18 +3,19 @@ context("dplyr test")
 library(magrittr)
 
 test_that("arrange", {
+  
+  expect_warning(
     tt_pca_aranged <-
         pbmc_small %>%
         arrange(groups) %>%
         scater::logNormCounts() %>%
-        scater::runPCA()
+        scater::runPCA())
 
+    expect_warning(
     tt_pca <-
         pbmc_small %>%
         scater::logNormCounts() %>%
-        scater::runPCA()
-
-
+        scater::runPCA())
 
     expect_equal(
         reducedDims(tt_pca_aranged)$PCA[sort(colnames(tt_pca_aranged)), 1:3] %>% abs() %>% head(),
@@ -24,13 +25,15 @@ test_that("arrange", {
 })
 
 test_that("bind_rows", {
-    tt_bind <- bind_rows(pbmc_small, pbmc_small)
+    expect_warning(
+        tt_bind <- pbmc_small %>%
+            bind_rows(pbmc_small))
 
     tt_bind %>%
-        select(cell) %>%
+        select(.cell) %>%
         tidySingleCellExperiment:::to_tib() %>%
-        dplyr::count(cell) %>%
-        dplyr::count(n) %>%
+        dplyr::count(.cell) %>%
+        dplyr::count(n, name="m") %>%
         nrow() %>%
         expect_equal(1)
 })
@@ -135,7 +138,7 @@ test_that("slice", {
 
 test_that("select", {
     pbmc_small %>%
-        select(cell, orig.ident) %>%
+        select(.cell, orig.ident) %>%
         class() %>%
         as.character() %>%
         expect_equal("SingleCellExperiment")

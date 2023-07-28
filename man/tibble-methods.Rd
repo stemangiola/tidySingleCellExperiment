@@ -6,55 +6,51 @@
 \title{Coerce lists, matrices, and more to data frames}
 \arguments{
 \item{rownames}{How to treat existing row names of a data frame or matrix:
-\itemize{
-\item \code{NULL}: remove row names. This is the default.
-\item \code{NA}: keep row names.
-\item A string: the name of a new column. Existing rownames are transferred
-into this column and the \code{row.names} attribute is deleted.
-Read more in \link{rownames}.
-}}
+ * `NULL`: remove row names. This is the default.
+ * `NA`: keep row names.
+ * A string: the name of a new column. Existing rownames are transferred
+   into this column and the `row.names` attribute is deleted.
+Read more in [rownames].}
 
 \item{.name_repair}{see tidyr
 
-For compatibility only, do not use for new code.}
+  For compatibility only, do not use for new code.}
 
 \item{x}{An object to glimpse at.}
 
 \item{width}{Width of output: defaults to the setting of the option
-\code{tibble.width} (if finite) or the width of the console.}
+`tibble.width` (if finite) or the width of the console.}
 
 \item{...}{Unused, for extensibility.}
 }
 \value{
 A tibble
 
-x original x is (invisibly) returned, allowing \code{glimpse()} to be
-used within a data pipe line.
+x original x is (invisibly) returned, allowing `glimpse()` to be
+  used within a data pipe line.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#maturing}{\figure{lifecycle-maturing.svg}{options: alt='[Maturing]'}}}{\strong{[Maturing]}}
+`r lifecycle::badge("maturing")`
 
-\code{as_tibble()} turns an existing object, such as a data frame or
-matrix, into a so-called tibble, a data frame with class \code{\link{tbl_df}}. This is
-in contrast with \code{\link[=tibble]{tibble()}}, which builds a tibble from individual columns.
-\code{as_tibble()} is to \code{\link[=tibble]{tibble()}} as \code{\link[base:as.data.frame]{base::as.data.frame()}} is to
-\code{\link[base:data.frame]{base::data.frame()}}.
+`as_tibble()` turns an existing object, such as a data frame or
+matrix, into a so-called tibble, a data frame with class [`tbl_df`]. This is
+in contrast with [tibble()], which builds a tibble from individual columns.
+`as_tibble()` is to [`tibble()`] as [base::as.data.frame()] is to
+[base::data.frame()].
 
-\code{as_tibble()} is an S3 generic, with methods for:
-\itemize{
-\item \code{\link[base:data.frame]{data.frame}}: Thin wrapper around the \code{list} method
-that implements tibble's treatment of \link{rownames}.
-\item \code{\link[methods:StructureClasses]{matrix}}, \code{\link[stats:poly]{poly}},
-\code{\link[stats:ts]{ts}}, \code{\link[base:table]{table}}
-\item Default: Other inputs are first coerced with \code{\link[base:as.data.frame]{base::as.data.frame()}}.
-}
+`as_tibble()` is an S3 generic, with methods for:
+* [`data.frame`][base::data.frame()]: Thin wrapper around the `list` method
+  that implements tibble's treatment of [rownames].
+* [`matrix`][methods::matrix-class], [`poly`][stats::poly()],
+  [`ts`][stats::ts()], [`table`][base::table()]
+* Default: Other inputs are first coerced with [base::as.data.frame()].
 
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#maturing}{\figure{lifecycle-maturing.svg}{options: alt='[Maturing]'}}}{\strong{[Maturing]}}
+`r lifecycle::badge("maturing")`
 
-\code{glimpse()} is like a transposed version of \code{print()}:
+`glimpse()` is like a transposed version of `print()`:
 columns run down the page, and data runs across.
 This makes it possible to see every column in a data frame.
-It's a little like \code{\link[=str]{str()}} applied to a data frame
+It's a little like [str()] applied to a data frame
 but it tries to show you as much data as possible.
 (And it always shows the underlying data, even when applied
 to a remote data source.)
@@ -67,24 +63,24 @@ as soon as it becomes available.
 The default behavior is to silently remove row names.
 
 New code should explicitly convert row names to a new column using the
-\code{rownames} argument.
+`rownames` argument.
 
 For existing code that relies on the retention of row names, call
-\code{pkgconfig::set_config("tibble::rownames"=NA)} in your script or in your
-package's \code{\link[=.onLoad]{.onLoad()}}  function.
+`pkgconfig::set_config("tibble::rownames"=NA)` in your script or in your
+package's [.onLoad()]  function.
 }
 
 \section{Life cycle}{
 
-Using \code{as_tibble()} for vectors is superseded as of version 3.0.0,
-prefer the more expressive maturing \code{as_tibble_row()} and
-\code{as_tibble_col()} variants for new code.
+Using `as_tibble()` for vectors is superseded as of version 3.0.0,
+prefer the more expressive maturing `as_tibble_row()` and
+`as_tibble_col()` variants for new code.
 }
 
 \section{S3 methods}{
 
-\code{glimpse} is an S3 generic with a customised method for \code{tbl}s and
-\code{data.frames}, and a default method that calls \code{\link[=str]{str()}}.
+`glimpse` is an S3 generic with a customised method for `tbl`s and
+`data.frames`, and a default method that calls [str()].
 }
 
 \examples{
@@ -96,7 +92,7 @@ pbmc_small \%>\% tidy \%>\% glimpse()
 
 }
 \seealso{
-\code{\link[=tibble]{tibble()}} constructs a tibble from individual columns. \code{\link[=enframe]{enframe()}}
-converts a named vector to a tibble with a column of names and column of
-values. Name repair is implemented using \code{\link[vctrs:vec_as_names]{vctrs::vec_as_names()}}.
+[tibble()] constructs a tibble from individual columns. [enframe()]
+  converts a named vector to a tibble with a column of names and column of
+  values. Name repair is implemented using [vctrs::vec_as_names()].
 }

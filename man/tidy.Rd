@@ -2,20 +2,23 @@
 % Please edit documentation in R/methods.R
 \name{tidy}
 \alias{tidy}
-\title{tidy for SingleCellExperiment}
+\alias{tidy.SingleCellExperiment}
+\title{tidy for `SingleCellExperiment`}
 \usage{
 tidy(object)
+
+\method{tidy}{SingleCellExperiment}(object)
 }
 \arguments{
-\item{object}{A SingleCellExperiment object}
+\item{object}{A `SingleCellExperiment` object.}
 }
 \value{
-A tidySingleCellExperiment object
+A `tidySingleCellExperiment` object.
 }
 \description{
-tidy for SingleCellExperiment
+tidy for `SingleCellExperiment`
 }
 \examples{
-
 tidySingleCellExperiment::pbmc_small
+
 }

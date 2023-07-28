@@ -5,7 +5,7 @@
 \title{Create a new ggplot from a tidySingleCellExperiment object}
 \arguments{
 \item{.data}{Default dataset to use for plot. If not already a data.frame,
-will be converted to one by \code{\link[=fortify]{fortify()}}. If not specified,
+will be converted to one by [fortify()]. If not specified,
 must be supplied in each layer added to the plot.}
 
 \item{mapping}{Default list of aesthetic mappings to use for plot.
@@ -19,15 +19,16 @@ If not specified, must be supplied in each layer added to the plot.}
 A ggplot
 }
 \description{
-\code{ggplot()} initializes a ggplot object. It can be used to
+`ggplot()` initializes a ggplot object. It can be used to
 declare the input data frame for a graphic and to specify the
 set of plot aesthetics intended to be common throughout all
 subsequent layers unless specifically overridden.
 }
 \details{
-\code{ggplot()} is used to construct the initial plot object,
-and is almost always followed by \code{+} to add component to the
-plot. There are three common ways to invoke \code{ggplot()}:
+`ggplot()` is used to construct the initial plot object,
+and is almost always followed by `+` to add component to the
+plot. There are three common ways to invoke `ggplot()`:
+
 
 The first method is recommended if all layers use the same
 data and the same set of aesthetics, although this method
@@ -37,7 +38,7 @@ method specifies the default data frame to use for the plot,
 but no aesthetics are defined up front. This is useful when
 one data frame is used predominantly as layers are added,
 but the aesthetics may vary from one layer to another. The
-third method initializes a skeleton \code{ggplot} object which
+third method initializes a skeleton `ggplot` object which
 is fleshed out as layers are added. This method is useful when
 multiple data frames are used to produce different layers, as
 is often the case in complex graphics.

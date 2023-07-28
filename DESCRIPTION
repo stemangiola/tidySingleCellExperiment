@@ -1,11 +1,19 @@
 Type: Package
 Package: tidySingleCellExperiment
 Title: Brings SingleCellExperiment to the Tidyverse 
-Version: 1.11.3
-Authors@R: c(person("Stefano", "Mangiola", email = "mangiolastefano@gmail.com",
-                  role = c("aut", "cre")) )
-Description: tidySingleCellExperiment is an adapter that abstracts the 'SingleCellExperiment' container 
-    in the form of a tibble and allows the data manipulation, plotting and nesting using 'tidyverse'.
+Version: 1.11.4
+Authors@R: c(person("Stefano", "Mangiola", 
+    email="mangiolastefano@gmail.com",
+    role=c("aut", "cre")))
+Description: 'tidySingleCellExperiment' is an adapter that abstracts
+    the 'SingleCellExperiment' container in the form of a 'tibble'.
+    This allows *tidy* data manipulation, nesting, and plotting.
+    For example, a 'tidySingleCellExperiment' is directly compatible
+    with functions from 'tidyverse' packages `dplyr` and `tidyr`,
+    as well as plotting with `ggplot2` and `plotly`.
+    In addition, the package provides various utility
+    functions specific to single-cell omics data analysis
+    (e.g., aggregation of cell-level data to pseudobulks).
 License: GPL-3
 Depends:
     R (>= 4.1.0),
@@ -38,7 +46,7 @@ Suggests:
     BiocStyle,
     testthat,
     knitr,
-    markdown,
+    rmarkdown,
     SingleCellSignalR,
     SingleR,
     scater,
@@ -58,6 +66,5 @@ biocViews: AssayDomain, Infrastructure, RNASeq, DifferentialExpression, GeneExpr
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
-Roxygen: list(markdown = TRUE)
 URL: https://github.com/stemangiola/tidySingleCellExperiment
 BugReports: https://github.com/stemangiola/tidySingleCellExperiment/issues
