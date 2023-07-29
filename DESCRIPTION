@@ -17,13 +17,11 @@ Description: 'tidySingleCellExperiment' is an adapter that abstracts
 License: GPL-3
 Depends:
     R (>= 4.1.0),
-    ttservice (>= 0.3.6),
     SingleCellExperiment
 Imports:
     SummarizedExperiment,
-    dplyr,
+    dplyr, tidyr, ttservice (>= 0.3.6),
     tibble,
-    tidyr,
     ggplot2,
     plotly,
     magrittr,
