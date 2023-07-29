@@ -10,7 +10,7 @@
 #'     
 #' @importFrom purrr map
 #' @importFrom rlang quo_name
-#' @importFrom ggplot2 aes ggplot
+#' @importFrom ggplot2 ggplot
 #' @export
 ggplot.SingleCellExperiment <- function(data=NULL, mapping=aes(), ..., environment=parent.frame()) {
 
