@@ -50,11 +50,9 @@ pbmc_small |>
 }
 \seealso{
 Other single table verbs: 
-\code{\link[dplyr]{arrange}()},
-\code{\link[dplyr]{filter}()},
-\code{\link[dplyr]{mutate}()},
-\code{\link[dplyr]{reframe}()},
-\code{\link[dplyr]{select}()},
-\code{\link[dplyr]{slice}()},
-\code{\link[dplyr]{summarise}()}
+\code{\link{arrange.SingleCellExperiment}()},
+\code{\link{mutate.SingleCellExperiment}()},
+\code{\link{slice.SingleCellExperiment}()},
+\code{\link{summarise.SingleCellExperiment}()}
 }
+\concept{single table verbs}

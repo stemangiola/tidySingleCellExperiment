@@ -1,6 +1,6 @@
-#' @name arrange
 #' @rdname arrange
 #' @inherit dplyr::arrange
+#' @family single table verbs
 #' 
 #' @examples
 #' pbmc_small |> 
@@ -134,6 +134,7 @@ filter.SingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
 
 #' @rdname group_by
 #' @inherit dplyr::group_by
+#' @seealso \code{}
 #'
 #' @examples
 #' pbmc_small |> 
@@ -162,6 +163,7 @@ group_by.SingleCellExperiment <- function(.data, ..., .add=FALSE, .drop=group_by
 #' @rdname summarise
 #' @aliases summarize
 #' @inherit dplyr::summarise
+#' @family single table verbs
 #' 
 #' @examples
 #' pbmc_small |> 
@@ -193,6 +195,7 @@ summarize.SingleCellExperiment <- summarise.SingleCellExperiment
 
 #' @rdname mutate
 #' @inherit dplyr::mutate
+#' @family single table verbs
 #'
 #' @examples
 #' pbmc_small |> 
@@ -250,6 +253,7 @@ mutate.SingleCellExperiment <- function(.data, ...) {
 
 #' @rdname rename
 #' @inherit dplyr::rename
+#' @family single table verbs
 #'
 #' @examples
 #' pbmc_small |> 
@@ -483,9 +487,11 @@ full_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c("
 }
 
 #' @rdname slice
+#' @aliases slice_head slice_tail 
+#'   slice_sample slice_min slice_max
 #' @inherit dplyr::slice
-#' @aliases slice_head slice_tail slice_sample slice_min slice_max
-#'
+#' @family single table verbs
+#' 
 #' @examples
 #' pbmc_small |> slice(1)
 #'
