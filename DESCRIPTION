@@ -20,7 +20,7 @@ Depends:
     SingleCellExperiment
 Imports:
     SummarizedExperiment,
-    dplyr, tidyr, ttservice (>= 0.3.6),
+    dplyr, tidyr, ttservice,
     tibble,
     ggplot2,
     plotly,
