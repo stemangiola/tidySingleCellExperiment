@@ -1,5 +1,3 @@
-# [HLC:] 'ttservice' required for 'bind_cols/rows', and
-# needs to come before 'dplyr' to assure correct import
 core <- c("dplyr", "tidyr", "ttservice", "ggplot2")
 
 core_unloaded <- function() {
