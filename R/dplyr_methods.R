@@ -264,6 +264,7 @@ mutate.SingleCellExperiment <- function(.data, ...) {
 #' @importFrom SummarizedExperiment colData<-
 #' @importFrom tidyselect eval_select
 #' @importFrom dplyr rename
+#' @export rename.SingleCellExperiment
 #' @export
 rename.SingleCellExperiment <- function(.data, ...) {
 
