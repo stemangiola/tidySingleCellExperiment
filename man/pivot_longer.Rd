@@ -129,8 +129,7 @@ under active development.
 }
 \examples{
 # See vignette("pivot") for examples and explanation
-library(dplyr)
-pbmc_small \%>\% pivot_longer(
+pbmc_small |> pivot_longer(
   cols=c(orig.ident, groups),
   names_to="name", values_to="value")
 

@@ -41,7 +41,6 @@ life a little easier.
 }
 
 \examples{
-`\%>\%` <- magrittr::`\%>\%`
 # TODO
 
 }

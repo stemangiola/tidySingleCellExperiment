@@ -2,8 +2,8 @@
 % Please edit documentation in R/dplyr_methods.R
 \name{count.SingleCellExperiment}
 \alias{count.SingleCellExperiment}
-\alias{add_count}
 \alias{add_count.SingleCellExperiment}
+\alias{add_count}
 \title{Count the observations in each group}
 \usage{
 \method{count}{SingleCellExperiment}(
@@ -65,7 +65,6 @@ but use \code{mutate()} instead of \code{summarise()} so that they add a new col
 with group-wise counts.
 }
 \examples{
-`\%>\%` <- magrittr::`\%>\%`
-pbmc_small \%>\% count(groups)
+pbmc_small |> count(groups)
     
 }

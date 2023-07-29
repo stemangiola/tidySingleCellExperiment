@@ -3,9 +3,8 @@
 #' @aliases unnest_single_cell_experiment
 #' 
 #' @examples
-#' library(dplyr)
-#' pbmc_small %>%
-#'     nest(data=-groups) %>%
+#' pbmc_small |> 
+#'     nest(data=-groups) |> 
 #'     unnest(data)
 #'
 #' @importFrom tidyr unnest
@@ -22,8 +21,10 @@ unnest.tidySingleCellExperiment_nested <- function(data, cols, ..., keep_empty=F
 
 #' @rdname unnest
 #' @importFrom tidyr unnest
+#' @importFrom rlang quo_name 
+#' @importFrom rlang enquo 
+#' @importFrom purrr reduce
 #' @importFrom purrr when
-#' @importFrom rlang quo_name
 #' @importFrom purrr imap
 #' @export
 unnest_single_cell_experiment  <-  function(data, cols, ..., keep_empty=FALSE, ptype=NULL,
@@ -67,9 +68,8 @@ unnest_single_cell_experiment  <-  function(data, cols, ..., keep_empty=FALSE, p
 #' @inherit tidyr::nest
 #'
 #' @examples
-#' library(dplyr)
-#' pbmc_small %>%
-#'     nest(data=-groups) %>%
+#' pbmc_small |> 
+#'     nest(data=-groups) |> 
 #'     unnest(data)
 #'     
 #' @importFrom tidyr nest
@@ -116,7 +116,7 @@ nest.SingleCellExperiment <- function(.data, ..., .names_sep = NULL) {
 #' @inherit tidyr::extract
 #' 
 #' @examples
-#' pbmc_small %>% 
+#' pbmc_small|>
 #'   extract(groups, 
 #'     into="g", 
 #'     regex="g([0-9])", 
@@ -154,8 +154,7 @@ extract.SingleCellExperiment <- function(data, col, into, regex="([[:alnum:]]+)"
 #' @export
 #' @examples
 #' # See vignette("pivot") for examples and explanation
-#' library(dplyr)
-#' pbmc_small %>% pivot_longer(
+#' pbmc_small |> pivot_longer(
 #'   cols=c(orig.ident, groups),
 #'   names_to="name", values_to="value")
 #' 
@@ -203,7 +202,9 @@ pivot_longer.SingleCellExperiment <- function(data,
 #' @inherit tidyr::unite
 #' 
 #' @examples
-#' pbmc_small %>% unite("new_col", c(orig.ident, groups))
+#' pbmc_small |> unite(
+#'   col="new_col", 
+#'   c(orig.ident, groups))
 #'     
 #' @importFrom SummarizedExperiment colData
 #' @importFrom SummarizedExperiment colData<-
@@ -257,8 +258,8 @@ unite.SingleCellExperiment <- function(data, col, ..., sep="_", remove=TRUE, na.
 #' @inherit tidyr::separate
 #' 
 #' @examples
-#' un <- pbmc_small %>% unite("new_col", c(orig.ident, groups))
-#' un %>% separate(col=new_col, into=c("orig.ident", "groups"))
+#' un <- pbmc_small |> unite("new_col", c(orig.ident, groups))
+#' un |> separate(new_col, c("orig.ident", "groups"))
 #' 
 #' @importFrom SummarizedExperiment colData
 #' @importFrom SummarizedExperiment colData<-

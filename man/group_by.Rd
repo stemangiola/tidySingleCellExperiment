@@ -90,8 +90,7 @@ also force calls to \code{\link[dplyr:arrange]{arrange()}} to use the system loc
 }
 
 \examples{
-`\%>\%` <- magrittr::`\%>\%`
-pbmc_small \%>\%
+pbmc_small |> 
     group_by(groups)
     
 }

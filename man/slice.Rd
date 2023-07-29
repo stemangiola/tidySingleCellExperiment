@@ -85,8 +85,7 @@ Methods available in currently loaded packages:
 }
 
 \examples{
-`\%>\%` <- magrittr::`\%>\%`
-pbmc_small \%>\% slice(1)
+pbmc_small |> slice(1)
 
 }
 \seealso{

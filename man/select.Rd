@@ -246,8 +246,7 @@ To take the difference between two selections, combine the \code{&} and
 }
 
 \examples{
-`\%>\%` <- magrittr::`\%>\%`
-pbmc_small \%>\% select(cell, orig.ident)
+pbmc_small |> select(cell, orig.ident)
 
 }
 \seealso{

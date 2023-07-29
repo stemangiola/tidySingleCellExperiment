@@ -98,8 +98,7 @@ Methods available in currently loaded packages:
 }
 
 \examples{
-`\%>\%` <- magrittr::`\%>\%`
-pbmc_small \%>\%
+pbmc_small |> 
     mutate(nFeature_RNA=1)
 
 }

@@ -51,7 +51,6 @@ The following methods are currently available in loaded packages:
 }
 
 \examples{
-`\%>\%` <- magrittr::`\%>\%`
-pbmc_small \%>\% pull(groups)
+pbmc_small |> pull(groups)
     
 }

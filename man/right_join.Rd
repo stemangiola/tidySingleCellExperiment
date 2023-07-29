@@ -157,12 +157,10 @@ Methods available in currently loaded packages:
 }
 
 \examples{
-`\%>\%` <- magrittr::`\%>\%`
 tt <- pbmc_small
-
-tt \%>\% right_join(tt \%>\% 
-  distinct(groups) \%>\% 
-  mutate(new_column=1:2) \%>\% 
+tt |> right_join(tt |> 
+  distinct(groups) |> 
+  mutate(new_column=1:2) |> 
   slice(1))
 
 }

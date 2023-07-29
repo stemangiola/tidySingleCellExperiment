@@ -31,7 +31,9 @@ each value.}
 Convenience function to paste together multiple columns into one.
 }
 \examples{
-pbmc_small \%>\% unite("new_col", c(orig.ident, groups))
+pbmc_small |> unite(
+  col="new_col", 
+  c(orig.ident, groups))
     
 }
 \seealso{

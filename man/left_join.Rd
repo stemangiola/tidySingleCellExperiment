@@ -160,19 +160,15 @@ Methods available in currently loaded packages:
 }
 
 \examples{
-`\%>\%` <- magrittr::`\%>\%`
 tt <- pbmc_small
-
-tt \%>\% left_join(tt \%>\% 
-  distinct(groups) \%>\% 
+tt |> left_join(tt |>  
+  distinct(groups) |> 
   mutate(new_column=1:2))
 
-`\%>\%` <- magrittr::`\%>\%`
 tt <- pbmc_small
-
-tt \%>\% inner_join(tt \%>\% 
-  distinct(groups) \%>\% 
-  mutate(new_column=1:2) \%>\% 
+tt |> inner_join(tt |> 
+  distinct(groups) |>  
+  mutate(new_column=1:2) |> 
   slice(1))
 
 }

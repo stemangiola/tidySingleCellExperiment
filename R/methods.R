@@ -1,4 +1,3 @@
-
 #' @importFrom methods getMethod
 setMethod(
     f = "show",
@@ -20,7 +19,7 @@ setMethod(
 
 setClass("tidySingleCellExperiment", contains = "SingleCellExperiment")
 
-#' @name join_features
+#' @rdname join_features
 #' @inherit ttservice::join_features
 #'
 #' @return A `tidySingleCellExperiment` object

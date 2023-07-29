@@ -48,8 +48,7 @@ The following methods are currently available in loaded packages:
 }
 
 \examples{
-`\%>\%` <- magrittr::`\%>\%`
-pbmc_small \%>\%
+pbmc_small |> 
     distinct(groups)
 
 }

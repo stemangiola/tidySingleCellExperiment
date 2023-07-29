@@ -50,8 +50,7 @@ undocumented.
 }
 }
 \examples{
-`\%>\%` <- magrittr::`\%>\%`
-pbmc_small \%>\% sample_n(50)
-pbmc_small \%>\% sample_frac(0.1)
+pbmc_small |> sample_n(50)
+pbmc_small |> sample_frac(0.1)
 
 }

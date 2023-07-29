@@ -77,9 +77,8 @@ represent what you are nesting by.
 }
 
 \examples{
-library(dplyr)
-pbmc_small \%>\%
-    nest(data=-groups) \%>\%
+pbmc_small |> 
+    nest(data=-groups) |> 
     unnest(data)
     
 }

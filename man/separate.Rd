@@ -75,8 +75,8 @@ Given either a regular expression or a vector of character positions,
 \code{separate()} turns a single character column into multiple columns.
 }
 \examples{
-un <- pbmc_small \%>\% unite("new_col", c(orig.ident, groups))
-un \%>\% separate(col=new_col, into=c("orig.ident", "groups"))
+un <- pbmc_small |> unite("new_col", c(orig.ident, groups))
+un |> separate(new_col, c("orig.ident", "groups"))
 
 }
 \seealso{

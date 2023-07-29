@@ -157,10 +157,8 @@ Methods available in currently loaded packages:
 }
 
 \examples{
-`\%>\%` <- magrittr::`\%>\%`
 tt <- pbmc_small
-
-tt \%>\% full_join(tibble::tibble(groups="g1", other=1:4))
+tt |> full_join(tibble::tibble(groups="g1", other=1:4))
 
 }
 \seealso{

@@ -3,8 +3,7 @@
 #' @inherit dplyr::arrange
 #' 
 #' @examples
-#' `%>%` <- magrittr::`%>%`
-#' pbmc_small %>%
+#' pbmc_small |> 
 #'     arrange(nFeature_RNA)
 #'     
 #' @importFrom tibble as_tibble
@@ -26,12 +25,11 @@ arrange.SingleCellExperiment <- function(.data, ..., .by_group=FALSE) {
 #' @inherit ttservice::bind_rows
 #' 
 #' @examples
-#' `%>%` <- magrittr::`%>%`
 #' tt <- pbmc_small
-#' ttservice::bind_rows(tt, tt)
+#' bind_rows(tt, tt)
 #'
-#' tt_bind <- tt %>% select(nCount_RNA, nFeature_RNA)
-#' tt %>% ttservice::bind_cols(tt_bind)
+#' tt_bind <- tt |> select(nCount_RNA, nFeature_RNA)
+#' tt |> bind_cols(tt_bind)
 #' 
 #' @importFrom rlang flatten_if
 #' @importFrom rlang is_spliced
@@ -75,8 +73,7 @@ bind_cols.SingleCellExperiment <- bind_cols_
 #' @inherit dplyr::distinct
 #' 
 #' @examples
-#' `%>%` <- magrittr::`%>%`
-#' pbmc_small %>%
+#' pbmc_small |> 
 #'     distinct(groups)
 #'
 #' @importFrom dplyr distinct
@@ -101,8 +98,7 @@ distinct.SingleCellExperiment <- function(.data, ..., .keep_all=FALSE) {
 #' @inherit dplyr::filter
 #' 
 #' @examples
-#' `%>%` <- magrittr::`%>%`
-#' pbmc_small %>%
+#' pbmc_small |> 
 #'     filter(groups == "g1")
 #'
 #' # Learn more in ?dplyr_tidy_eval
@@ -140,8 +136,7 @@ filter.SingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
 #' @inherit dplyr::group_by
 #'
 #' @examples
-#' `%>%` <- magrittr::`%>%`
-#' pbmc_small %>%
+#' pbmc_small |> 
 #'     group_by(groups)
 #'     
 #' @importFrom dplyr group_by_drop_default
@@ -169,8 +164,7 @@ group_by.SingleCellExperiment <- function(.data, ..., .add=FALSE, .drop=group_by
 #' @inherit dplyr::summarise
 #' 
 #' @examples
-#' `%>%` <- magrittr::`%>%`
-#' pbmc_small %>%
+#' pbmc_small |> 
 #'     summarise(mean(nCount_RNA))
 #'
 #' @importFrom dplyr summarise
@@ -201,8 +195,7 @@ summarize.SingleCellExperiment <- summarise.SingleCellExperiment
 #' @inherit dplyr::mutate
 #'
 #' @examples
-#' `%>%` <- magrittr::`%>%`
-#' pbmc_small %>%
+#' pbmc_small |> 
 #'     mutate(nFeature_RNA=1)
 #'
 #' @importFrom SummarizedExperiment colData
@@ -259,8 +252,7 @@ mutate.SingleCellExperiment <- function(.data, ...) {
 #' @inherit dplyr::rename
 #'
 #' @examples
-#' `%>%` <- magrittr::`%>%`
-#' pbmc_small %>%
+#' pbmc_small |> 
 #'     rename(s_score=nFeature_RNA)
 #'
 #' @importFrom SummarizedExperiment colData
@@ -305,7 +297,6 @@ rename.SingleCellExperiment <- function(.data, ...) {
 #' @inherit dplyr::rowwise
 #'
 #' @examples
-#' `%>%` <- magrittr::`%>%`
 #' # TODO
 #'
 #' @importFrom dplyr rowwise
@@ -322,11 +313,9 @@ rowwise.SingleCellExperiment <- function(data, ...) {
 #' @inherit dplyr::left_join
 #'
 #' @examples
-#' `%>%` <- magrittr::`%>%`
 #' tt <- pbmc_small
-#'
-#' tt %>% left_join(tt %>% 
-#'   distinct(groups) %>% 
+#' tt |> left_join(tt |>  
+#'   distinct(groups) |> 
 #'   mutate(new_column=1:2))
 #'
 #' @importFrom SummarizedExperiment colData
@@ -367,12 +356,10 @@ left_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c("
 #' @inherit dplyr::left_join
 #'
 #' @examples
-#' `%>%` <- magrittr::`%>%`
 #' tt <- pbmc_small
-#'
-#' tt %>% inner_join(tt %>% 
-#'   distinct(groups) %>% 
-#'   mutate(new_column=1:2) %>% 
+#' tt |> inner_join(tt |> 
+#'   distinct(groups) |>  
+#'   mutate(new_column=1:2) |> 
 #'   slice(1))
 #'
 #' @importFrom SummarizedExperiment colData
@@ -413,12 +400,10 @@ inner_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(
 #' @inherit dplyr::right_join
 #'
 #' @examples
-#' `%>%` <- magrittr::`%>%`
 #' tt <- pbmc_small
-#'
-#' tt %>% right_join(tt %>% 
-#'   distinct(groups) %>% 
-#'   mutate(new_column=1:2) %>% 
+#' tt |> right_join(tt |> 
+#'   distinct(groups) |> 
+#'   mutate(new_column=1:2) |> 
 #'   slice(1))
 #'
 #' @importFrom SummarizedExperiment colData
@@ -460,10 +445,8 @@ right_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(
 #' @inherit dplyr::full_join
 #'
 #' @examples
-#' `%>%` <- magrittr::`%>%`
 #' tt <- pbmc_small
-#'
-#' tt %>% full_join(tibble::tibble(groups="g1", other=1:4))
+#' tt |> full_join(tibble::tibble(groups="g1", other=1:4))
 #'
 #' @importFrom dplyr full_join
 #' @importFrom dplyr pull
@@ -504,8 +487,7 @@ full_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c("
 #' @aliases slice_head slice_tail slice_sample slice_min slice_max
 #'
 #' @examples
-#' `%>%` <- magrittr::`%>%`
-#' pbmc_small %>% slice(1)
+#' pbmc_small |> slice(1)
 #'
 #' @importFrom SummarizedExperiment colData
 #' @importFrom dplyr slice
@@ -522,11 +504,11 @@ slice.SingleCellExperiment <- function(.data, ..., .by=NULL, .preserve=FALSE) {
 #' @inherit dplyr::select
 #'
 #' @examples
-#' `%>%` <- magrittr::`%>%`
-#' pbmc_small %>% select(cell, orig.ident)
+#' pbmc_small |> select(cell, orig.ident)
 #' 
 #' @importFrom SummarizedExperiment colData
-#' @importFrom dplyr slice
+#' @importFrom dplyr select
+#' @export select.SingleCellExperiment
 #' @export
 select.SingleCellExperiment <- function(.data, ...) {
 
@@ -564,9 +546,8 @@ select.SingleCellExperiment <- function(.data, ...) {
 #' @inherit dplyr::sample_n
 #' 
 #' @examples
-#' `%>%` <- magrittr::`%>%`
-#' pbmc_small %>% sample_n(50)
-#' pbmc_small %>% sample_frac(0.1)
+#' pbmc_small |> sample_n(50)
+#' pbmc_small |> sample_frac(0.1)
 #' 
 #' @importFrom SummarizedExperiment colData
 #' @importFrom dplyr sample_n
@@ -622,12 +603,10 @@ sample_frac.SingleCellExperiment <- function(tbl, size=1, replace=FALSE,
 }
 
 #' @rdname count
-#' @aliases add_count
 #' @inherit dplyr::count
 #' 
 #' @examples
-#' `%>%` <- magrittr::`%>%`
-#' pbmc_small %>% count(groups)
+#' pbmc_small |> count(groups)
 #'     
 #' @importFrom dplyr count
 #' @export
@@ -648,6 +627,7 @@ count.SingleCellExperiment <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .
 }
 
 #' @rdname count
+#' @aliases add_count
 #' @importFrom dplyr add_count
 #' @export
 add_count.SingleCellExperiment <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
@@ -674,8 +654,7 @@ add_count.SingleCellExperiment <- function(x, ..., wt = NULL, sort = FALSE, name
 #' @inherit dplyr::pull
 #' 
 #' @examples
-#' `%>%` <- magrittr::`%>%`
-#' pbmc_small %>% pull(groups)
+#' pbmc_small |> pull(groups)
 #'     
 #' @importFrom ellipsis check_dots_used
 #' @importFrom dplyr pull
