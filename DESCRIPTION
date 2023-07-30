@@ -27,6 +27,7 @@ Imports:
     magrittr,
     rlang,
     purrr,
+    pkgconfig,
     lifecycle,
     methods,
     utils,

@@ -5,6 +5,7 @@
 #' pbmc_small |> as_tibble()
 #' 
 #' @importFrom tibble as_tibble
+#' @importFrom pkgconfig get_config
 #' @importFrom SummarizedExperiment colData
 #' @export
 as_tibble.SingleCellExperiment <- function(x, ...,
