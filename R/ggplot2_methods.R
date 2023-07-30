@@ -10,7 +10,7 @@
 #'     
 #' @importFrom purrr map
 #' @importFrom rlang quo_name
-#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 aes ggplot
 #' @export
 ggplot.SingleCellExperiment <- function(data=NULL, mapping=aes(), ..., environment=parent.frame()) {
 
@@ -26,3 +26,6 @@ ggplot.SingleCellExperiment <- function(data=NULL, mapping=aes(), ..., environme
         as_tibble() %>%
         ggplot2::ggplot(mapping=mapping)
 }
+
+# addressing R CMD CHECK NOTE "no visible global function definition for 'aes'"
+globalVariables("aes", "tidySingleCellExperiment")
