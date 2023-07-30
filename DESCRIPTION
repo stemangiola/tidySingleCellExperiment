@@ -16,11 +16,11 @@ Description: 'tidySingleCellExperiment' is an adapter that abstracts
     (e.g., aggregation of cell-level data to pseudobulks).
 License: GPL-3
 Depends:
-    R (>= 4.1.0),
+    R (>= 4.3.0),
     SingleCellExperiment
 Imports:
-    SummarizedExperiment,
     dplyr, tidyr, ttservice,
+    SummarizedExperiment,
     tibble,
     ggplot2,
     plotly,
@@ -60,7 +60,8 @@ VignetteBuilder:
 RdMacros:
     lifecycle
 Biarch: true
-biocViews: AssayDomain, Infrastructure, RNASeq, DifferentialExpression, GeneExpression, Normalization, Clustering, QualityControl, Sequencing
+biocViews: AssayDomain, Infrastructure, RNASeq, DifferentialExpression, 
+    GeneExpression, Normalization, Clustering, QualityControl, Sequencing
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
