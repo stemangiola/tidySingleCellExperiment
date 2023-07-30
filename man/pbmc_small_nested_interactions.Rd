@@ -5,18 +5,18 @@
 \alias{pbmc_small_nested_interactions}
 \title{Intercellular ligand-receptor interactions for 38 ligands from a single cell RNA-seq cluster.}
 \format{
-A tibble containing 100 rows and 9 columns. Cells are a subsample of
-the PBMC dataset of 2,700 single cells. Cell interactions were identified with SingleCellSignalR.
+A tibble containing 100 rows and 9 columns. Cells are a subsample of 
+        the PBMC dataset of 2,700 single cells. Cell interactions were identified with SingleCellSignalR.
 \describe{
-\item{sample}{sample identifier}
-\item{ligand}{cluster and ligand identifier}
-\item{receptor}{cluster and receptor identifier}
-\item{ligand.name}{ligand name}
-\item{receptor.name}{receptor name}
-\item{origin}{cluster containing ligand}
-\item{destination}{cluster containing receptor}
-\item{interaction.type}{type of interation, paracrine or autocrine}
-\item{LRscore}{interaction score}
+  \item{sample}{sample identifier}
+  \item{ligand}{cluster and ligand identifier}
+  \item{receptor}{cluster and receptor identifier}
+  \item{ligand.name}{ligand name}
+  \item{receptor.name}{receptor name}
+  \item{origin}{cluster containing ligand}
+  \item{destination}{cluster containing receptor}
+  \item{interaction.type}{type of interation, paracrine or autocrine}
+  \item{LRscore}{interaction score}
 }
 }
 \source{
@@ -26,7 +26,7 @@ the PBMC dataset of 2,700 single cells. Cell interactions were identified with S
 data(pbmc_small_nested_interactions)
 }
 \description{
-A dataset containing ligand-receptor interactions withibn a sample. There are 38 ligands from a single cell cluster versus
+A dataset containing ligand-receptor interactions withibn a sample. There are 38 ligands from a single cell cluster versus 
 35 receptors in 6 other clusters.
 }
 \keyword{datasets}

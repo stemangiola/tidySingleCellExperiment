@@ -31,80 +31,80 @@ plot_ly(
 )
 }
 \arguments{
-\item{data}{A data frame (optional) or \link[crosstalk:SharedData]{crosstalk::SharedData} object.}
+\item{data}{A data frame (optional) or [crosstalk::SharedData] object.}
 
-\item{...}{Arguments (i.e., attributes) passed along to the trace \code{type}.
-See \code{\link[=schema]{schema()}} for a list of acceptable attributes for a given trace \code{type}
-(by going to \code{traces} -> \code{type} -> \code{attributes}). Note that attributes
+\item{...}{Arguments (i.e., attributes) passed along to the trace `type`.
+See [schema()] for a list of acceptable attributes for a given trace `type`
+(by going to `traces` -> `type` -> `attributes`). Note that attributes
 provided at this level may override other arguments
-(e.g. \code{plot_ly(x=1:10, y=1:10, color=I("red"), marker=list(color="blue"))}).}
+(e.g. `plot_ly(x=1:10, y=1:10, color=I("red"), marker=list(color="blue"))`).}
 
 \item{type}{A character string specifying the trace type
-(e.g. \code{"scatter"}, \code{"bar"}, \code{"box"}, etc).
-If specified, it \emph{always} creates a trace, otherwise}
+  (e.g. `"scatter"`, `"bar"`, `"box"`, etc).
+If specified, it *always* creates a trace, otherwise}
 
 \item{name}{Values mapped to the trace's name attribute. Since a trace can
-only have one name, this argument acts very much like \code{split} in that it
+only have one name, this argument acts very much like `split` in that it
 creates one trace for every unique value.}
 
 \item{color}{Values mapped to relevant 'fill-color' attribute(s)
-(e.g. \href{https://plot.ly/r/reference#scatter-fillcolor}{fillcolor},
-\href{https://plot.ly/r/reference#scatter-marker-color}{marker.color},
-\href{https://plot.ly/r/reference/#scatter-textfont-color}{textfont.color}, etc.).
+(e.g. [fillcolor](https://plot.ly/r/reference#scatter-fillcolor),
+[marker.color](https://plot.ly/r/reference#scatter-marker-color),
+[textfont.color](https://plot.ly/r/reference/#scatter-textfont-color), etc.).
 The mapping from data values to color codes may be controlled using
-\code{colors} and \code{alpha}, or avoided altogether via \code{\link[=I]{I()}}
-(e.g., \code{color=I("red")}).
-Any color understood by \code{\link[grDevices:col2rgb]{grDevices::col2rgb()}} may be used in this way.}
+`colors` and `alpha`, or avoided altogether via [I()]
+  (e.g., `color=I("red")`).
+Any color understood by [grDevices::col2rgb()] may be used in this way.}
 
 \item{colors}{Either a colorbrewer2.org palette name
-(e.g. "YlOrRd" or "Blues"),
+  (e.g. "YlOrRd" or "Blues"),
 or a vector of colors to interpolate in hexadecimal "#RRGGBB" format,
-or a color interpolation function like \code{colorRamp()}.}
+or a color interpolation function like `colorRamp()`.}
 
-\item{alpha}{A number between 0 and 1 specifying the alpha channel applied to \code{color}.
-Defaults to 0.5 when mapping to \href{https://plot.ly/r/reference#scatter-fillcolor}{fillcolor} and 1 otherwise.}
+\item{alpha}{A number between 0 and 1 specifying the alpha channel applied to `color`.
+Defaults to 0.5 when mapping to [fillcolor](https://plot.ly/r/reference#scatter-fillcolor) and 1 otherwise.}
 
-\item{stroke}{Similar to \code{color}, but values are mapped to relevant 'stroke-color' attribute(s)
-(e.g., \href{https://plot.ly/r/reference#scatter-marker-line-color}{marker.line.color}
-and \href{https://plot.ly/r/reference#scatter-line-color}{line.color}
-for filled polygons). If not specified, \code{stroke} inherits from \code{color}.}
+\item{stroke}{Similar to `color`, but values are mapped to relevant 'stroke-color' attribute(s)
+(e.g., [marker.line.color](https://plot.ly/r/reference#scatter-marker-line-color)
+ and [line.color](https://plot.ly/r/reference#scatter-line-color)
+for filled polygons). If not specified, `stroke` inherits from `color`.}
 
-\item{strokes}{Similar to \code{colors}, but controls the \code{stroke} mapping.}
+\item{strokes}{Similar to `colors`, but controls the `stroke` mapping.}
 
-\item{alpha_stroke}{Similar to \code{alpha}, but applied to \code{stroke}.}
+\item{alpha_stroke}{Similar to `alpha`, but applied to `stroke`.}
 
 \item{size}{(Numeric) values mapped to relevant 'fill-size' attribute(s)
-(e.g., \href{https://plot.ly/r/reference#scatter-marker-size}{marker.size},
-\href{https://plot.ly/r/reference#scatter-textfont-size}{textfont.size},
-and \href{https://plot.ly/r/reference#scatter-error_x-width}{error_x.width}).
+(e.g., [marker.size](https://plot.ly/r/reference#scatter-marker-size),
+[textfont.size](https://plot.ly/r/reference#scatter-textfont-size),
+and [error_x.width](https://plot.ly/r/reference#scatter-error_x-width)).
 The mapping from data values to symbols may be controlled using
-\code{sizes}, or avoided altogether via \code{\link[=I]{I()}} (e.g., \code{size=I(30)}).}
+`sizes`, or avoided altogether via [I()] (e.g., `size=I(30)`).}
 
-\item{sizes}{A numeric vector of length 2 used to scale \code{size} to pixels.}
+\item{sizes}{A numeric vector of length 2 used to scale `size` to pixels.}
 
 \item{span}{(Numeric) values mapped to relevant 'stroke-size' attribute(s)
 (e.g.,
-\href{https://plot.ly/r/reference#scatter-marker-line-width}{marker.line.width},
-\href{https://plot.ly/r/reference#scatter-line-width}{line.width} for filled polygons,
-and \href{https://plot.ly/r/reference#scatter-error_x-thickness}{error_x.thickness})
+[marker.line.width](https://plot.ly/r/reference#scatter-marker-line-width),
+[line.width](https://plot.ly/r/reference#scatter-line-width) for filled polygons,
+and [error_x.thickness](https://plot.ly/r/reference#scatter-error_x-thickness))
 The mapping from data values to symbols may be controlled using
-\code{spans}, or avoided altogether via \code{\link[=I]{I()}} (e.g., \code{span=I(30)}).}
+`spans`, or avoided altogether via [I()] (e.g., `span=I(30)`).}
 
-\item{spans}{A numeric vector of length 2 used to scale \code{span} to pixels.}
+\item{spans}{A numeric vector of length 2 used to scale `span` to pixels.}
 
-\item{symbol}{(Discrete) values mapped to \href{https://plot.ly/r/reference#scatter-marker-symbol}{marker.symbol}.
+\item{symbol}{(Discrete) values mapped to [marker.symbol](https://plot.ly/r/reference#scatter-marker-symbol).
 The mapping from data values to symbols may be controlled using
-\code{symbols}, or avoided altogether via \code{\link[=I]{I()}} (e.g., \code{symbol=I("pentagon")}).
-Any \link{pch} value or \href{https://plot.ly/r/reference#scatter-marker-symbol}{symbol name} may be used in this way.}
+`symbols`, or avoided altogether via [I()] (e.g., `symbol=I("pentagon")`).
+Any [pch] value or [symbol name](https://plot.ly/r/reference#scatter-marker-symbol) may be used in this way.}
 
-\item{symbols}{A character vector of \link{pch} values or \href{https://plot.ly/r/reference#scatter-marker-symbol}{symbol names}.}
+\item{symbols}{A character vector of [pch] values or [symbol names](https://plot.ly/r/reference#scatter-marker-symbol).}
 
-\item{linetype}{(Discrete) values mapped to \href{https://plot.ly/r/reference#scatter-line-dash}{line.dash}.
+\item{linetype}{(Discrete) values mapped to [line.dash](https://plot.ly/r/reference#scatter-line-dash).
 The mapping from data values to symbols may be controlled using
-\code{linetypes}, or avoided altogether via \code{\link[=I]{I()}} (e.g., \code{linetype=I("dash")}).
-Any \code{lty} (see \link{par}) value or \href{https://plot.ly/r/reference#scatter-line-dash}{dash name} may be used in this way.}
+`linetypes`, or avoided altogether via [I()] (e.g., `linetype=I("dash")`).
+Any `lty` (see [par]) value or [dash name](https://plot.ly/r/reference#scatter-line-dash) may be used in this way.}
 
-\item{linetypes}{A character vector of \code{lty} values or \href{https://plot.ly/r/reference#scatter-line-dash}{dash names}}
+\item{linetypes}{A character vector of `lty` values or [dash names](https://plot.ly/r/reference#scatter-line-dash)}
 
 \item{split}{(Discrete) values used to create multiple traces (one trace per value).}
 
@@ -115,28 +115,28 @@ Any \code{lty} (see \link{par}) value or \href{https://plot.ly/r/reference#scatt
 \item{height}{Height in pixels (optional, defaults to automatic sizing).}
 
 \item{source}{a character string of length 1. Match the value of this string
-with the source argument in \code{\link[=event_data]{event_data()}} to retrieve the
+with the source argument in [event_data()] to retrieve the
 event data corresponding to a specific plot (shiny apps can have multiple plots).}
 }
 \value{
 A plotly
 }
 \description{
-This function maps R objects to \href{https://plot.ly/javascript/}{plotly.js},
+This function maps R objects to [plotly.js](https://plot.ly/javascript/),
 an (MIT licensed) web-based interactive charting library. It provides
 abstractions for doing common things (e.g. mapping data values to
-fill colors (via \code{color}) or creating \link{animation}s (via \code{frame})) and sets
+fill colors (via `color`) or creating [animation]s (via `frame`)) and sets
 some different defaults to make the interface feel more 'R-like'
-(i.e., closer to \code{\link[=plot]{plot()}} and \code{\link[ggplot2:qplot]{ggplot2::qplot()}}).
+(i.e., closer to [plot()] and [ggplot2::qplot()]).
 }
 \details{
-Unless \code{type} is specified, this function just initiates a plotly
+Unless `type` is specified, this function just initiates a plotly
 object with 'global' attributes that are passed onto downstream uses of
-\code{\link[=add_trace]{add_trace()}} (or similar). A \link{formula} must always be used when
-referencing column name(s) in \code{data} (e.g. \code{plot_ly(mtcars, x=~wt)}).
+[add_trace()] (or similar). A [formula] must always be used when
+referencing column name(s) in `data` (e.g. `plot_ly(mtcars, x=~wt)`).
 Formulas are optional when supplying values directly, but they do
 help inform default axis/scale titles
-(e.g., \code{plot_ly(x=mtcars$wt)} vs \code{plot_ly(x=~mtcars$wt)})
+(e.g., `plot_ly(x=mtcars$wt)` vs `plot_ly(x=~mtcars$wt)`)
 }
 \examples{
 \dontrun{
@@ -178,18 +178,18 @@ add_paths(p, linetype=~Species)
 
 }
 \references{
-\url{https://plotly-r.com/overview.html}
+<https://plotly-r.com/overview.html>
 }
 \seealso{
 \itemize{
-\item For initializing a plotly-geo object: \code{\link[=plot_geo]{plot_geo()}}
-\item For initializing a plotly-mapbox object: \code{\link[=plot_mapbox]{plot_mapbox()}}
-\item For translating a ggplot2 object to a plotly object: \code{\link[=ggplotly]{ggplotly()}}
-\item For modifying any plotly object: \code{\link[=layout]{layout()}}, \code{\link[=add_trace]{add_trace()}}, \code{\link[=style]{style()}}
-\item For linked brushing: \code{\link[=highlight]{highlight()}}
-\item For arranging multiple plots: \code{\link[=subplot]{subplot()}}, \code{\link[crosstalk:bscols]{crosstalk::bscols()}}
-\item For inspecting plotly objects: \code{\link[=plotly_json]{plotly_json()}}
-\item For quick, accurate, and searchable plotly.js reference: \code{\link[=schema]{schema()}}
+ \item For initializing a plotly-geo object: [plot_geo()]
+ \item For initializing a plotly-mapbox object: [plot_mapbox()]
+ \item For translating a ggplot2 object to a plotly object: [ggplotly()]
+ \item For modifying any plotly object: [layout()], [add_trace()], [style()]
+ \item For linked brushing: [highlight()]
+ \item For arranging multiple plots: [subplot()], [crosstalk::bscols()]
+ \item For inspecting plotly objects: [plotly_json()]
+ \item For quick, accurate, and searchable plotly.js reference: [schema()]
 }
 }
 \author{
