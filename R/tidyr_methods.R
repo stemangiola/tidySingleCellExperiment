@@ -1,63 +1,14 @@
-#' unnest
+#' @rdname unnest
+#' @inherit tidyr::unnest
+#' @aliases unnest_single_cell_experiment
+#' 
+#' @examples
+#' pbmc_small |> 
+#'     nest(data=-groups) |> 
+#'     unnest(data)
 #'
 #' @importFrom tidyr unnest
 #' @importFrom purrr when
-#'
-#' @param data A tbl. (See tidyr)
-#' @param cols <[`tidy-select`][tidyr_tidy_select]> Columns to unnest.
-#'   If you `unnest()` multiple columns, parallel entries must be of
-#'   compatible sizes, i.e. they're either equal or length 1 (following the
-#'   standard tidyverse recycling rules).
-#' @param ... <[`tidy-select`][tidyr_tidy_select]> Columns to nest, specified
-#'   using name-variable pairs of the form `new_col=c(col1, col2, col3)`.
-#'   The right hand side can be any valid tidy select expression.
-#'
-#'   \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}:
-#'   previously you could write `df %>% nest(x, y, z)` and `df %>%
-#'   unnest(x, y, z)`. Convert to `df %>% nest(data=c(x, y, z))`.
-#'   and `df %>% unnest(c(x, y, z))`.
-#'
-#'   If you previously created new variable in `unnest()` you'll now need to
-#'   do it explicitly with `mutate()`. Convert `df %>% unnest(y=fun(x, y, z))`
-#'   to `df %>% mutate(y=fun(x, y, z)) %>% unnest(y)`.
-#' @param names_sep If `NULL`, the default, the names will be left
-#'   as is. In `nest()`, inner names will come from the former outer names;
-#'   in `unnest()`, the new outer names will come from the inner names.
-#'
-#'   If a string, the inner and outer names will be used together. In `nest()`,
-#'   the names of the new outer columns will be formed by pasting together the
-#'   outer and the inner column names, separated by `names_sep`. In `unnest()`,
-#'   the new inner names will have the outer names (+ `names_sep`) automatically
-#'   stripped. This makes `names_sep` roughly symmetric between nesting and unnesting.
-#' @param keep_empty See tidyr::unnest
-#' @param names_repair See tidyr::unnest
-#' @param ptype See tidyr::unnest
-#' @param .drop See tidyr::unnest
-#' @param .id tidyr::unnest
-#' @param sep tidyr::unnest
-#' @param .preserve See tidyr::unnest
-#'
-#'
-#' @return A tidySingleCellExperiment objector a tibble depending on input
-#'
-#' @examples
-#'
-#' library(dplyr)
-#' pbmc_small %>%
-#'
-#'     nest(data=-groups) %>%
-#'     unnest(data)
-#'
-#' @rdname unnest-methods
-#' @name unnest
-#'
-#' @export
-NULL
-
-
-#' @rdname unnest-methods
-#' @name unnest
-#'
 #' @export
 unnest.tidySingleCellExperiment_nested <- function(data, cols, ..., keep_empty=FALSE, ptype=NULL,
                                                    names_sep=NULL, names_repair="check_unique", .drop, .id, .sep, .preserve) {
@@ -68,64 +19,13 @@ unnest.tidySingleCellExperiment_nested <- function(data, cols, ..., keep_empty=F
                                         names_sep=names_sep, names_repair=names_repair)
   }
 
-
-
-#' unnest_single_cell_experiment
-#'
+#' @rdname unnest
 #' @importFrom tidyr unnest
+#' @importFrom rlang quo_name 
+#' @importFrom rlang enquo 
+#' @importFrom purrr reduce
 #' @importFrom purrr when
-#' @importFrom rlang quo_name
 #' @importFrom purrr imap
-#'
-#' @param data A tbl. (See tidyr)
-#' @param cols <[`tidy-select`][tidyr_tidy_select]> Columns to unnest.
-#'   If you `unnest()` multiple columns, parallel entries must be of
-#'   compatible sizes, i.e. they're either equal or length 1 (following the
-#'   standard tidyverse recycling rules).
-#' @param ... <[`tidy-select`][tidyr_tidy_select]> Columns to nest, specified
-#'   using name-variable pairs of the form `new_col=c(col1, col2, col3)`.
-#'   The right hand side can be any valid tidy select expression.
-#'
-#'   \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}:
-#'   previously you could write `df %>% nest(x, y, z)` and `df %>%
-#'   unnest(x, y, z)`. Convert to `df %>% nest(data=c(x, y, z))`.
-#'   and `df %>% unnest(c(x, y, z))`.
-#'
-#'   If you previously created new variable in `unnest()` you'll now need to
-#'   do it explicitly with `mutate()`. Convert `df %>% unnest(y=fun(x, y, z))`
-#'   to `df %>% mutate(y=fun(x, y, z)) %>% unnest(y)`.
-#' @param names_sep If `NULL`, the default, the names will be left
-#'   as is. In `nest()`, inner names will come from the former outer names;
-#'   in `unnest()`, the new outer names will come from the inner names.
-#'
-#'   If a string, the inner and outer names will be used together. In `nest()`,
-#'   the names of the new outer columns will be formed by pasting together the
-#'   outer and the inner column names, separated by `names_sep`. In `unnest()`,
-#'   the new inner names will have the outer names (+ `names_sep`) automatically
-#'   stripped. This makes `names_sep` roughly symmetric between nesting and unnesting.
-#' @param keep_empty See tidyr::unnest
-#' @param names_repair See tidyr::unnest
-#' @param ptype See tidyr::unnest
-#' @param .drop See tidyr::unnest
-#' @param .id tidyr::unnest
-#' @param .sep tidyr::unnest
-#' @param .preserve See tidyr::unnest
-#'
-#' @return A tidySingleCellExperiment objector a tibble depending on input
-#'
-#' @examples
-#'
-#' library(dplyr)
-#' pbmc_small %>%
-#'
-#'     nest(data=-groups) %>%
-#'     unnest_single_cell_experiment(data)
-#'
-#' @rdname unnest-methods
-#' @name unnest_single_cell_experiment
-#'
-#'
-#'
 #' @export
 unnest_single_cell_experiment  <-  function(data, cols, ..., keep_empty=FALSE, ptype=NULL,
                                             names_sep=NULL, names_repair="check_unique", .drop, .id, .sep, .preserve) {
@@ -164,35 +64,17 @@ unnest_single_cell_experiment  <-  function(data, cols, ..., keep_empty=FALSE, p
         )
 }
 
-
-
-
-#' nest
-#'
-#' @importFrom tidyr nest
-#'
-#' @param .data A tbl. (See tidyr)
-#' @param ... Name-variable pairs of the form new_col=c(col1, col2, col3) (See tidyr)
-#' @param .names_sep See ?tidyr::nest
-#'
-#' @return A tidySingleCellExperiment objector a tibble depending on input
+#' @rdname nest
+#' @inherit tidyr::nest
 #'
 #' @examples
-#'
-#' library(dplyr)
-#' pbmc_small %>%
-#'
-#'     nest(data=-groups) %>%
+#' pbmc_small |> 
+#'     nest(data=-groups) |> 
 #'     unnest(data)
-#' @rdname nest-methods
-#' @name nest
-#'
-#' @export
-NULL
-
+#'     
+#' @importFrom tidyr nest
 #' @importFrom rlang enquos
 #' @importFrom rlang :=
-#'
 #' @export
 nest.SingleCellExperiment <- function(.data, ..., .names_sep = NULL) {
     cols <- enquos(...)
@@ -230,56 +112,19 @@ nest.SingleCellExperiment <- function(.data, ..., .names_sep = NULL) {
         add_class("tidySingleCellExperiment_nested")
 }
 
-#' Extract a character column into multiple columns using regular
-#' expression groups
-#'
-#' Given a regular expression with capturing groups, `extract()` turns
-#' each group into a new column. If the groups don't match, or the input
-#' is NA, the output will be NA.
-#'
-#' @importFrom tidyr extract
-#'
-#' @param data A tidySingleCellExperiment object
-#' @param col Column name or position. This is passed to
-#'   [tidyselect::vars_pull()].
-#'
-#'   This argument is passed by expression and supports
-#'   [quasiquotation][rlang::quasiquotation] (you can unquote column
-#'   names or column positions).
-#' @param into Names of new variables to create as character vector.
-#'    Use `NA` to omit the variable in the output.
-#' @param regex a regular expression used to extract the desired values.
-#'   There should be one group (defined by `()`) for each element of `into`.
-#' @param remove If `TRUE`, remove input column from output data frame.
-#' @param convert If `TRUE`, will run [type.convert()] with
-#'   `as.is=TRUE` on new columns. This is useful if the component
-#'   columns are integer, numeric or logical.
-#'
-#'   NB: this will cause string `"NA"`s to be converted to `NA`s.
-#' @param ... Additional arguments passed on to methods.
-#' @seealso [separate()] to split up by a separator.
-#' @export
+#' @rdname extract
+#' @inherit tidyr::extract
+#' 
 #' @examples
-#'
-#' pbmc_small %>%
-#'
-#'     extract(groups, into="g", regex="g([0-9])", convert=TRUE)
-#' @return A tidySingleCellExperiment objector a tibble depending on input
-#'
-#' @importFrom tidyr extract
-#'
-#' @rdname extract-methods
-#' @name extract
-#'
-#' @export
-NULL
-
+#' pbmc_small|>
+#'   extract(groups, 
+#'     into="g", 
+#'     regex="g([0-9])", 
+#'     convert=TRUE)
+#' 
 #' @importFrom SummarizedExperiment colData
 #' @importFrom SummarizedExperiment colData<-
-#'
-#' @rdname extract-methods
-#' @name extract
-#'
+#' @importFrom tidyr extract
 #' @export
 extract.SingleCellExperiment <- function(data, col, into, regex="([[:alnum:]]+)", remove=TRUE,
     convert=FALSE, ...) {
@@ -303,123 +148,18 @@ extract.SingleCellExperiment <- function(data, col, into, regex="([[:alnum:]]+)"
     data
 }
 
-#' Pivot data from wide to long
-#'
-#' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("maturing")}
-#'
-#' `pivot_longer()` "lengthens" data, increasing the number of rows and
-#' decreasing the number of columns. The inverse transformation is
-#' [pivot_wider()]
-#'
-#' Learn more in `vignette("pivot")`.
-#'
-#' @details
-#' `pivot_longer()` is an updated approach to [gather()], designed to be both
-#' simpler to use and to handle more use cases. We recommend you use
-#' `pivot_longer()` for new code; `gather()` isn't going away but is no longer
-#' under active development.
-#'
-#' @importFrom ellipsis check_dots_used
-#' @importFrom tidyr pivot_longer
-#'
-#' @param data A data frame to pivot.
-#' @param cols <[`tidy-select`][tidyr_tidy_select]> Columns to pivot into
-#'   longer format.
-#' @param cols_vary When pivoting `cols` into longer format, how should the
-#'   output rows be arranged relative to their original row number?
-#'
-#'   * `"fastest"`, the default, keeps individual rows from `cols` close
-#'     together in the output. This often produces intuitively ordered output
-#'     when you have at least one key column from `data` that is not involved in
-#'     the pivoting process.
-#'
-#'   * `"slowest"` keeps individual columns from `cols` close together in the
-#'     output. This often produces intuitively ordered output when you utilize
-#'     all of the columns from `data` in the pivoting process.
-#' @param names_to A character vector specifying the new column or columns to
-#'   create from the information stored in the column names of `data` specified
-#'   by `cols`.
-#'
-#'   * If length 0, or if `NULL` is supplied, no columns will be created.
-#'
-#'   * If length 1, a single column will be created which will contain the
-#'     column names specified by `cols`.
-#'
-#'   * If length >1, multiple columns will be created. In this case, one of
-#'     `names_sep` or `names_pattern` must be supplied to specify how the
-#'     column names should be split. There are also two additional character
-#'     values you can take advantage of:
-#'
-#'     * `NA` will discard the corresponding component of the column name.
-#'
-#'     * `".value"` indicates that the corresponding component of the column
-#'       name defines the name of the output column containing the cell values,
-#'       overriding `values_to` entirely.
-#' @param names_prefix A regular expression used to remove matching text
-#'   from the start of each variable name.
-#' @param names_sep,names_pattern If `names_to` contains multiple values,
-#'   these arguments control how the column name is broken up.
-#'
-#'   `names_sep` takes the same specification as [separate()], and can either
-#'   be a numeric vector (specifying positions to break on), or a single string
-#'   (specifying a regular expression to split on).
-#'
-#'   `names_pattern` takes the same specification as [extract()], a regular
-#'   expression containing matching groups (`()`).
-#'
-#'   If these arguments do not give you enough control, use
-#'   `pivot_longer_spec()` to create a spec object and process manually as
-#'   needed.
-#' @param names_repair What happens if the output has invalid column names?
-#'   The default, `"check_unique"` is to error if the columns are duplicated.
-#'   Use `"minimal"` to allow duplicates in the output, or `"unique"` to
-#'   de-duplicated by adding numeric suffixes. See [vctrs::vec_as_names()]
-#'   for more options.
-#' @param values_to A string specifying the name of the column to create
-#'   from the data stored in cell values. If `names_to` is a character
-#'   containing the special `.value` sentinel, this value will be ignored,
-#'   and the name of the value column will be derived from part of the
-#'   existing column names.
-#' @param values_drop_na If `TRUE`, will drop rows that contain only `NA`s
-#'   in the `value_to` column. This effectively converts explicit missing values
-#'   to implicit missing values, and should generally be used only when missing
-#'   values in `data` were created by its structure.
-#' @param names_transform,values_transform Optionally, a list of column
-#'   name-function pairs. Alternatively, a single function can be supplied,
-#'   which will be applied to all columns. Use these arguments if you need to
-#'   change the types of specific columns. For example, `names_transform =
-#'   list(week = as.integer)` would convert a character variable called `week`
-#'   to an integer.
-#'
-#'   If not specified, the type of the columns generated from `names_to` will
-#'   be character, and the type of the variables generated from `values_to`
-#'   will be the common type of the input columns used to generate them.
-#' @param names_ptypes,values_ptypes Optionally, a list of column name-prototype
-#'   pairs. Alternatively, a single empty prototype can be supplied, which will
-#'   be applied to all columns. A prototype (or ptype for short) is a
-#'   zero-length vector (like `integer()` or `numeric()`) that defines the type,
-#'   class, and attributes of a vector. Use these arguments if you want to
-#'   confirm that the created columns are the types that you expect. Note that
-#'   if you want to change (instead of confirm) the types of specific columns,
-#'   you should use `names_transform` or `values_transform` instead.
-#' @param ... Additional arguments passed on to methods.
-#'
-#' @return A tidySingleCellExperiment objector a tibble depending on input
-#'
-#' @rdname pivot-methods
-#' @name pivot_longer
-#'
+#' @rdname pivot_longer
+#' @inherit tidyr::pivot_longer
+#' 
 #' @export
 #' @examples
 #' # See vignette("pivot") for examples and explanation
-#'
-#' library(dplyr)
-#' pbmc_small %>%
-#'
-#'     pivot_longer(c(orig.ident, groups), names_to="name", values_to="value")
-NULL
-
+#' pbmc_small |> pivot_longer(
+#'   cols=c(orig.ident, groups),
+#'   names_to="name", values_to="value")
+#' 
+#' @importFrom ellipsis check_dots_used
+#' @importFrom tidyr pivot_longer
 #' @export
 pivot_longer.SingleCellExperiment <- function(data,
                                               cols, ..., cols_vary = "fastest", names_to = "name",
@@ -458,44 +198,18 @@ pivot_longer.SingleCellExperiment <- function(data,
         )
 }
 
-#' Unite multiple columns into one by pasting strings together
-#'
-#' Convenience function to paste together multiple columns into one.
-#'
-#' @importFrom ellipsis check_dots_unnamed
-#' @importFrom tidyr unite
-#'
-#' @param data A data frame.
-#' @param col The name of the new column, as a string or symbol.
-#'
-#'   This argument is passed by expression and supports
-#'   [quasiquotation][rlang::quasiquotation] (you can unquote strings
-#'   and symbols). The name is captured from the expression with
-#'   [rlang::ensym()] (note that this kind of interface where
-#'   symbols do not represent actual objects is now discouraged in the
-#'   tidyverse; we support it here for backward compatibility).
-#' @param ... <[`tidy-select`][tidyr_tidy_select]> Columns to unite
-#' @param sep Separator to use between values.
-#' @param na.rm If `TRUE`, missing values will be remove prior to uniting
-#'   each value.
-#' @param remove If `TRUE`, remove input columns from output data frame.
-#' @seealso [separate()], the complement.
-#'
-#' @return A tidySingleCellExperiment objector a tibble depending on input
-#'
-#' @rdname unite-methods
-#' @name unite
-#'
-#' @export
+#' @rdname unite
+#' @inherit tidyr::unite
+#' 
 #' @examples
-#'
-#' pbmc_small %>%
-#'
-#'     unite("new_col", c(orig.ident, groups))
-NULL
-
+#' pbmc_small |> unite(
+#'   col="new_col", 
+#'   c(orig.ident, groups))
+#'     
 #' @importFrom SummarizedExperiment colData
 #' @importFrom SummarizedExperiment colData<-
+#' @importFrom ellipsis check_dots_unnamed
+#' @importFrom tidyr unite
 #' @export
 unite.SingleCellExperiment <- function(data, col, ..., sep="_", remove=TRUE, na.rm=FALSE) {
 
@@ -540,58 +254,17 @@ unite.SingleCellExperiment <- function(data, col, ..., sep="_", remove=TRUE, na.
     data
 }
 
-#' Separate a character column into multiple columns with a regular
-#' expression or numeric locations
-#'
-#' Given either a regular expression or a vector of character positions,
-#' `separate()` turns a single character column into multiple columns.
-#'
-#' @importFrom ellipsis check_dots_used
-#' @importFrom tidyr separate
-#'
-#' @inheritParams extract
-#' @param sep Separator between columns.
-#'
-#'   If character, `sep` is interpreted as a regular expression. The default
-#'   value is a regular expression that matches any sequence of
-#'   non-alphanumeric values.
-#'
-#'   If numeric, `sep` is interpreted as character positions to split at. Positive
-#'   values start at 1 at the far-left of the string; negative value start at -1 at
-#'   the far-right of the string. The length of `sep` should be one less than
-#'   `into`.
-#' @param extra If `sep` is a character vector, this controls what
-#'   happens when there are too many pieces. There are three valid options:
-#'
-#'   * "warn" (the default): emit a warning and drop extra values.
-#'   * "drop": drop any extra values without a warning.
-#'   * "merge": only splits at most `length(into)` times
-#' @param fill If `sep` is a character vector, this controls what
-#'   happens when there are not enough pieces. There are three valid options:
-#'
-#'   * "warn" (the default): emit a warning and fill from the right
-#'   * "right": fill with missing values on the right
-#'   * "left": fill with missing values on the left
-#' @seealso [unite()], the complement, [extract()] which uses regular
-#'   expression capturing groups.
-#'
-#' @return A tidySingleCellExperiment objector a tibble depending on input
-#'
-#' @rdname separate-methods
-#' @name separate
-#'
-#' @export
+#' @rdname separate
+#' @inherit tidyr::separate
+#' 
 #' @examples
-#'
-#' un <- pbmc_small %>%
-#'
-#'     unite("new_col", c(orig.ident, groups))
-#' un %>% separate(col=new_col, into=c("orig.ident", "groups"))
-NULL
-
+#' un <- pbmc_small |> unite("new_col", c(orig.ident, groups))
+#' un |> separate(new_col, c("orig.ident", "groups"))
+#' 
 #' @importFrom SummarizedExperiment colData
 #' @importFrom SummarizedExperiment colData<-
-#'
+#' @importFrom ellipsis check_dots_used
+#' @importFrom tidyr separate
 #' @export
 separate.SingleCellExperiment <- function(data, col, into, sep="[^[:alnum:]]+", remove=TRUE,
     convert=FALSE, extra="warn", fill="warn", ...) {

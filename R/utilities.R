@@ -419,6 +419,8 @@ add_attr = function(var, attribute, name) {
   var
 }
 
+#' @importFrom purrr reduce
+#' @importFrom tibble enframe
 special_datasets_to_tibble = function(.singleCellExperiment, ...){
   x =
     .singleCellExperiment |>

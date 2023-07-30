@@ -7,14 +7,19 @@
 lhs \%>\% rhs
 }
 \arguments{
-\item{lhs}{A value or the magrittr placeholder.}
+\item{lhs}{A value or the `magrittr` placeholder.}
 
-\item{rhs}{A function call using the magrittr semantics.}
+\item{rhs}{A function call using the `magrittr` semantics.}
 }
 \value{
-The result of calling \code{rhs(lhs)}.
+The result of calling `rhs(lhs)`.
 }
 \description{
 See \code{magrittr::\link[magrittr:pipe]{\%>\%}} for details.
+}
+\examples{
+`\%>\%` <- magrittr::`\%>\%`
+letters \%>\% head(n=3)
+
 }
 \keyword{internal}

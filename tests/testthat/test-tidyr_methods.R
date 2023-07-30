@@ -5,15 +5,17 @@ tt <-   pbmc_small %>%   mutate(col2 = "other_col")
 test_that("nest_unnest", {
     col_names <- tt %>% colData %>% colnames() %>% c("cell")
 
+    expect_warning(
     x <- tt %>%
         nest(data = -groups) %>%
         unnest(data) %>%
         scater::logNormCounts() %>%
-        scater::runPCA()
+        scater::runPCA())
+    
+    expect_warning(
     y <- tt %>%
         scater::logNormCounts() %>%
-        scater::runPCA()
-
+        scater::runPCA())
 
     expect_equal(
         reducedDims(x)$PCA %>%

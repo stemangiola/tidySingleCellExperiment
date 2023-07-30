@@ -27,7 +27,7 @@ join_transcripts(
 \item{...}{Parameters to pass to join wide, i.e. assay name to extract transcript abundance from}
 }
 \value{
-A \code{tbl} containing the information.for the specified transcripts
+A `tbl` containing the information.for the specified transcripts
 }
 \description{
 join_transcripts() extracts and joins information for specified transcripts
