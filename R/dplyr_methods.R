@@ -105,7 +105,6 @@ distinct.SingleCellExperiment <- function(.data, ..., .keep_all=FALSE) {
 #' 
 #' @importFrom purrr map
 #' @importFrom dplyr filter
-#' @export filter.SingleCellExperiment
 #' @export
 filter.SingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
 
@@ -264,7 +263,6 @@ mutate.SingleCellExperiment <- function(.data, ...) {
 #' @importFrom SummarizedExperiment colData<-
 #' @importFrom tidyselect eval_select
 #' @importFrom dplyr rename
-#' @export rename.SingleCellExperiment
 #' @export
 rename.SingleCellExperiment <- function(.data, ...) {
 
@@ -499,7 +497,6 @@ full_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c("
 #'
 #' @importFrom SummarizedExperiment colData
 #' @importFrom dplyr slice
-#' @export slice.SingleCellExperiment
 #' @export
 slice.SingleCellExperiment <- function(.data, ..., .by=NULL, .preserve=FALSE) {
     new_meta <- dplyr::slice(colData(.data) %>% as.data.frame(), ..., .by=.by, .preserve=.preserve)
@@ -517,7 +514,6 @@ slice.SingleCellExperiment <- function(.data, ..., .by=NULL, .preserve=FALSE) {
 #' 
 #' @importFrom SummarizedExperiment colData
 #' @importFrom dplyr select
-#' @export select.SingleCellExperiment
 #' @export
 select.SingleCellExperiment <- function(.data, ...) {
 
@@ -618,7 +614,6 @@ sample_frac.SingleCellExperiment <- function(tbl, size=1, replace=FALSE,
 #' pbmc_small |> count(groups)
 #'     
 #' @importFrom dplyr count
-#' @export count.SingleCellExperiment
 #' @export
 count.SingleCellExperiment <- function(x, ..., wt=NULL, sort=FALSE, name=NULL, .drop=group_by_drop_default(x)) {
     message(data_frame_returned_message)
