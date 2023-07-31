@@ -1,5 +1,6 @@
 # This file is a replacement of the unexported functions in the tibble package, in order to specify "tibble abstraction in the header"
 
+#' @name tbl_format_header
 #' @rdname tbl_format_header
 #' @inherit pillar::tbl_format_header
 #' 
@@ -46,6 +47,7 @@ tbl_format_header.tidySingleCellExperiment <- function(x, setup, ...){
 
 }
 
+#' @name formatting
 #' @rdname formatting
 #' @aliases print
 #' @inherit tibble::formatting

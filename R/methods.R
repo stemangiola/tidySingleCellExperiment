@@ -19,8 +19,10 @@ setMethod(
 
 setClass("tidySingleCellExperiment", contains = "SingleCellExperiment")
 
+#' @name join_features
 #' @rdname join_features
 #' @inherit ttservice::join_features
+#' @aliases join_features,SingleCellExperiment-method
 #'
 #' @return A `tidySingleCellExperiment` object
 #'   containing information for the specified features.
@@ -72,6 +74,7 @@ setMethod("join_features", "SingleCellExperiment",  function(.data,
 })
 
 #' @name tidy
+#' @rdname tidy
 #' @title tidy for `SingleCellExperiment`
 #'
 #' @param object A `SingleCellExperiment` object.
@@ -100,8 +103,10 @@ tidy.SingleCellExperiment <- function(object) {
   object
 }
 
+#' @name aggregate_cells
 #' @rdname aggregate_cells
 #' @inherit ttservice::aggregate_cells
+#' @aliases aggregate_cells,SingleCellExperiment-method
 #' 
 #' @examples 
 #' data("pbmc_small")

@@ -1,3 +1,4 @@
+#' @name arrange
 #' @rdname arrange
 #' @inherit dplyr::arrange
 #' @family single table verbs
@@ -21,7 +22,7 @@ arrange.SingleCellExperiment <- function(.data, ..., .by_group=FALSE) {
 }
 
 #' @name bind_rows
-#' @aliases bind_cols
+#' @rdname bind_rows
 #' @inherit ttservice::bind_rows
 #' 
 #' @examples
@@ -66,9 +67,11 @@ bind_cols_ <- function(..., .id=NULL) {
 }
 
 #' @rdname bind_rows
+#' @aliases bind_cols
 #' @export
 bind_cols.SingleCellExperiment <- bind_cols_
 
+#' @name distinct
 #' @rdname distinct
 #' @inherit dplyr::distinct
 #' 
@@ -94,6 +97,7 @@ distinct.SingleCellExperiment <- function(.data, ..., .keep_all=FALSE) {
         dplyr::distinct(..., .keep_all=.keep_all)
 }
 
+#' @name filter
 #' @rdname filter
 #' @inherit dplyr::filter
 #' 
@@ -132,6 +136,7 @@ filter.SingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
 
 }
 
+#' @name group_by
 #' @rdname group_by
 #' @inherit dplyr::group_by
 #' @seealso \code{}
@@ -160,7 +165,7 @@ group_by.SingleCellExperiment <- function(.data, ..., .add=FALSE, .drop=group_by
 }
 
 
-#' @rdname summarise
+#' @name summarise
 #' @aliases summarize
 #' @inherit dplyr::summarise
 #' @family single table verbs
@@ -188,11 +193,13 @@ summarise.SingleCellExperiment <- function(.data, ...) {
         dplyr::summarise(...)
 }
 
+#' @name summarise
 #' @rdname summarise
 #' @importFrom dplyr summarize
 #' @export
 summarize.SingleCellExperiment <- summarise.SingleCellExperiment
 
+#' @name mutate
 #' @rdname mutate
 #' @inherit dplyr::mutate
 #' @family single table verbs
@@ -251,6 +258,7 @@ mutate.SingleCellExperiment <- function(.data, ...) {
     .data
 }
 
+#' @name rename
 #' @rdname rename
 #' @inherit dplyr::rename
 #' @family single table verbs
@@ -297,6 +305,7 @@ rename.SingleCellExperiment <- function(.data, ...) {
     .data
 }
 
+#' @name rowwise
 #' @rdname rowwise
 #' @inherit dplyr::rowwise
 #'
@@ -313,6 +322,7 @@ rowwise.SingleCellExperiment <- function(data, ...) {
         dplyr::rowwise(...)
 }
 
+#' @name left_join
 #' @rdname left_join
 #' @inherit dplyr::left_join
 #'
@@ -356,8 +366,9 @@ left_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c("
         )
 }
 
-#' @rdname left_join
-#' @inherit dplyr::left_join
+#' @name inner_join
+#' @rdname inner_join
+#' @inherit dplyr::inner_join
 #'
 #' @examples
 #' tt <- pbmc_small
@@ -400,6 +411,7 @@ inner_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(
         )
 }
 
+#' @name right_join
 #' @rdname right_join
 #' @inherit dplyr::right_join
 #'
@@ -445,6 +457,7 @@ right_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(
         )
 }
 
+#' @name full_join
 #' @rdname full_join
 #' @inherit dplyr::full_join
 #'
@@ -486,6 +499,7 @@ full_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c("
         )
 }
 
+#' @name slice
 #' @rdname slice
 #' @aliases slice_head slice_tail 
 #'   slice_sample slice_min slice_max
@@ -506,6 +520,7 @@ slice.SingleCellExperiment <- function(.data, ..., .by=NULL, .preserve=FALSE) {
     new_obj
 }
 
+#' @name select
 #' @rdname select
 #' @inherit dplyr::select
 #'
@@ -546,6 +561,7 @@ select.SingleCellExperiment <- function(.data, ...) {
         )
 }
 
+#' @name sample_n
 #' @rdname sample_n
 #' @aliases sample_frac
 #' @inherit dplyr::sample_n
@@ -607,6 +623,7 @@ sample_frac.SingleCellExperiment <- function(tbl, size=1, replace=FALSE,
     }
 }
 
+#' @name count
 #' @rdname count
 #' @inherit dplyr::count
 #' 
@@ -655,6 +672,7 @@ add_count.SingleCellExperiment <- function(x, ..., wt = NULL, sort = FALSE, name
 
 }
 
+#' @name pull
 #' @rdname pull
 #' @inherit dplyr::pull
 #' 

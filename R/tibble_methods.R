@@ -1,3 +1,4 @@
+#' @name as_tibble
 #' @rdname as_tibble
 #' @inherit tibble::as_tibble
 #' 
@@ -29,6 +30,7 @@ as_tibble.SingleCellExperiment <- function(x, ...,
         )
 }
 
+#' @name glimpse
 #' @rdname glimpse
 #' @inherit pillar::glimpse
 #'
