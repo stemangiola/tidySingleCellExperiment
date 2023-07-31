@@ -608,6 +608,8 @@ sample_frac.SingleCellExperiment <- function(tbl, size=1, replace=FALSE,
 }
 
 #' @rdname count
+#' @name count
+#' 
 #' @inherit dplyr::count
 #' 
 #' @examples
