@@ -2,6 +2,7 @@
 % Please edit documentation in R/methods.R
 \name{aggregate_cells}
 \alias{aggregate_cells}
+\alias{aggregate_cells,SingleCellExperiment-method}
 \title{Aggregate cells}
 \usage{
 \S4method{aggregate_cells}{SingleCellExperiment}(

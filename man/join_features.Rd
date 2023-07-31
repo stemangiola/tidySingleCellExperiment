@@ -2,6 +2,7 @@
 % Please edit documentation in R/methods.R
 \name{join_features}
 \alias{join_features}
+\alias{join_features,SingleCellExperiment-method}
 \title{join_features}
 \usage{
 \S4method{join_features}{SingleCellExperiment}(
