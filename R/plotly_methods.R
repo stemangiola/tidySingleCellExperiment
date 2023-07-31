@@ -1,3 +1,4 @@
+#' @name plotly
 #' @rdname plotly
 #' @inherit plotly::plot_ly
 #' 

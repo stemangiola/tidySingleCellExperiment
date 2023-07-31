@@ -1,3 +1,4 @@
+#' @name unnest
 #' @rdname unnest
 #' @inherit tidyr::unnest
 #' @aliases unnest_single_cell_experiment
@@ -64,6 +65,7 @@ unnest_single_cell_experiment  <-  function(data, cols, ..., keep_empty=FALSE, p
         )
 }
 
+#' @name nest
 #' @rdname nest
 #' @inherit tidyr::nest
 #'
@@ -112,6 +114,7 @@ nest.SingleCellExperiment <- function(.data, ..., .names_sep = NULL) {
         add_class("tidySingleCellExperiment_nested")
 }
 
+#' @name extract
 #' @rdname extract
 #' @inherit tidyr::extract
 #' 
@@ -148,6 +151,7 @@ extract.SingleCellExperiment <- function(data, col, into, regex="([[:alnum:]]+)"
     data
 }
 
+#' @name pivot_longer
 #' @rdname pivot_longer
 #' @inherit tidyr::pivot_longer
 #' 
@@ -198,6 +202,7 @@ pivot_longer.SingleCellExperiment <- function(data,
         )
 }
 
+#' @name unite
 #' @rdname unite
 #' @inherit tidyr::unite
 #' 
@@ -254,6 +259,7 @@ unite.SingleCellExperiment <- function(data, col, ..., sep="_", remove=TRUE, na.
     data
 }
 
+#' @name separate
 #' @rdname separate
 #' @inherit tidyr::separate
 #' 
