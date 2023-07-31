@@ -18,7 +18,7 @@ Website: [tidySingleCellExperiment](https://stemangiola.github.io/tidySingleCell
 
 Please also have a look at 
 
-- [tidySummarizedExperiment]((https://stemangiola.github.io/tidySummarizedExperiment/) for tidy manipulation of SummarizedExperiment objects)
+- [tidySummarizedExperiment](https://stemangiola.github.io/tidySummarizedExperiment/) for tidy manipulation of SummarizedExperiment objects)
 - [tidyseurat](https://stemangiola.github.io/tidyseurat/) for tidy manipulation of Seurat objects
 - [tidybulk](https://stemangiola.github.io/tidybulk/) for tidy bulk RNA-seq data analysis
 - [tidygate](https://github.com/stemangiola/tidygate) for adding custom gate information to your tibble 
@@ -27,7 +27,7 @@ Please also have a look at
 
 # Introduction
 
-tidySingleCellExperiment provides a bridge between Bioconductor single-cell packages [@amezquita2019orchestrating] and the tidyverse [@wickham2019welcome]. It creates an invisible layer that enables viewing the
+tidySingleCellExperiment provides a bridge between Bioconductor single-cell packages [@amezquita2019orchestrating] and the tidyverse [@wickham2019welcome]. It enables viewing the
 Bioconductor *SingleCellExperiment* object as a tidyverse tibble, and provides SingleCellExperiment-compatible *dplyr*, *tidyr*, *ggplot* and *plotly* functions. This allows users to get the best of both Bioconductor and tidyverse worlds.
 
 ## Functions/utilities available

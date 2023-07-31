@@ -15,7 +15,8 @@ Website:
 
 Please also have a look at
 
-- [tidySummarizedExperiment]((https://stemangiola.github.io/tidySummarizedExperiment/)%20for%20tidy%20manipulation%20of%20SummarizedExperiment%20objects)
+- [tidySummarizedExperiment](https://stemangiola.github.io/tidySummarizedExperiment/)
+  for tidy manipulation of SummarizedExperiment objects)
 - [tidyseurat](https://stemangiola.github.io/tidyseurat/) for tidy
   manipulation of Seurat objects
 - [tidybulk](https://stemangiola.github.io/tidybulk/) for tidy bulk
@@ -29,11 +30,11 @@ Please also have a look at
 
 tidySingleCellExperiment provides a bridge between Bioconductor
 single-cell packages \[@amezquita2019orchestrating\] and the tidyverse
-\[@wickham2019welcome\]. It creates an invisible layer that enables
-viewing the Bioconductor *SingleCellExperiment* object as a tidyverse
-tibble, and provides SingleCellExperiment-compatible *dplyr*, *tidyr*,
-*ggplot* and *plotly* functions. This allows users to get the best of
-both Bioconductor and tidyverse worlds.
+\[@wickham2019welcome\]. It enables viewing the Bioconductor
+*SingleCellExperiment* object as a tidyverse tibble, and provides
+SingleCellExperiment-compatible *dplyr*, *tidyr*, *ggplot* and *plotly*
+functions. This allows users to get the best of both Bioconductor and
+tidyverse worlds.
 
 ## Functions/utilities available
 
@@ -287,10 +288,6 @@ pbmc_small_pca <-
     ## Warning in (function (A, nv = 5, nu = nv, maxit = 1000, work = nv + 7, reorth =
     ## TRUE, : You're computing too large a percentage of total singular values, use a
     ## standard svd instead.
-
-    ## Warning in (function (A, nv = 5, nu = nv, maxit = 1000, work = nv + 7, reorth =
-    ## TRUE, : did not converge--results might be invalid!; try increasing work or
-    ## maxit
 
 ``` r
 pbmc_small_pca
