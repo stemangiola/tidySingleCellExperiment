@@ -73,6 +73,7 @@ setMethod("join_features", "SingleCellExperiment",  function(.data,
 })
 
 #' @name tidy
+#' @rdname tidy
 #' @title tidy for `SingleCellExperiment`
 #'
 #' @param object A `SingleCellExperiment` object.
