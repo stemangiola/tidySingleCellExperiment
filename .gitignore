@@ -15,3 +15,5 @@ dev/*pdf
 dev/dplyr-master/*
 tidySingleCellExperiment.Rproj
 tidySingleCellExperiment.Rproj
+/doc/
+/Meta/
