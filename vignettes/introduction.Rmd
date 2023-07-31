@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 
 # Introduction {-}
 
-`tidySingleCellExperiment` provides a bridge between Bioconductor single-cell packages [@amezquita2019orchestrating] and the *tidyverse* [@wickham2019welcome]. It creates an invisible layer that enables viewing the Bioconductor `r BiocStyle::Biocpkg("SingleCellExperiment")` object as a *tidyverse* `tibble`, and provides `SingleCellExperiment`-compatible `r BiocStyle::CRANpkg("dplyr")`, `r BiocStyle::CRANpkg("tidyr")`, `r BiocStyle::CRANpkg("ggplot2")` and `r BiocStyle::CRANpkg("plotly")` functions (see Table \@ref(tab:table)). This allows users to get the best of both Bioconductor and *tidyverse* worlds.
+`tidySingleCellExperiment` provides a bridge between Bioconductor single-cell packages [@amezquita2019orchestrating] and the *tidyverse* [@wickham2019welcome]. It enables viewing the Bioconductor `r BiocStyle::Biocpkg("SingleCellExperiment")` object as a *tidyverse* `tibble`, and provides `SingleCellExperiment`-compatible `r BiocStyle::CRANpkg("dplyr")`, `r BiocStyle::CRANpkg("tidyr")`, `r BiocStyle::CRANpkg("ggplot2")` and `r BiocStyle::CRANpkg("plotly")` functions (see Table \@ref(tab:table)). This allows users to get the best of both Bioconductor and *tidyverse* worlds.
 
 <!-- --> | <!-- -->
 ------ | ----------
@@ -33,7 +33,6 @@ __*tidyverse*__ |
 `ggplot2`       | Plotting with `ggplot()`
 `plotly`        | Plotting with `plot_ly()`
 **Utilities**   |  
-`tidy()`        | Add an invisible `tidySingleCellExperiment` <br> layer over a `SingleCellExperiment` object
 `as_tibble()`   | Convert cell-wise information to a `tbl_df`
 `join_features()`   | Add feature-wise information; <br> returns a `tbl_df`
 `aggregate_cells()` | Aggregate feature abundances as pseudobulks; <br> returns a `SummarizedExperiment`
@@ -62,7 +61,6 @@ library(SingleCellSignalR)
 # Tidyverse-compatible packages
 library(purrr)
 library(GGally)
-library(ggplot2)
 library(tidyHeatmap)
 
 # Both
@@ -73,7 +71,7 @@ library(Matrix)
 library(dittoSeq)
 ```
 
-# Creating a `tidySingleCellExperiment` <br> -- the best of both worlds!
+# Data representation of `tidySingleCellExperiment`
 
 This is a `SingleCellExperiment` object but it is evaluated as a tibble.
 So it is compatible both with `SingleCellExperiment` and *tidyverse*. 
