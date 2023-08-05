@@ -229,8 +229,7 @@ mutate.SingleCellExperiment <- function(.data, ...) {
 
     tst <-
         intersect(
-            cols %>%
-                names(),
+            cols,
             get_special_columns(.data) %>%
                 c(get_needed_columns(.data))
         ) %>%
@@ -240,7 +239,7 @@ mutate.SingleCellExperiment <- function(.data, ...) {
     if (tst) {
         columns =
             get_special_columns(.data) %>%
-            c(get_needed_columns()) %>%
+            c(get_needed_columns(.data)) %>%
             paste(collapse=", ")
         stop(
             "tidySingleCellExperiment says: you are trying to rename a column that is view only",
@@ -275,12 +274,13 @@ mutate.SingleCellExperiment <- function(.data, ...) {
 rename.SingleCellExperiment <- function(.data, ...) {
 
     # Check that we are not modifying a key column
-    cols <- tidyselect::eval_select(expr(c(...)), colData(.data) %>% as.data.frame())
-
+    df <- as_tibble(.data)
+    idx <- tidyselect::eval_rename(expr(c(...)), df)
+    cols <- names(df)[idx]
+    
     tst <-
         intersect(
-            cols %>%
-                names(),
+            cols,
             get_special_columns(.data) %>%
                 c(get_needed_columns(.data))
         ) %>%
@@ -387,7 +387,7 @@ inner_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(
   if(is_sample_feature_deprecated_used( x, when(by, !is.null(.) ~ by, ~ colnames(y)))){
     x= ping_old_special_column_into_metadata(x)
   }
-
+    
     x %>%
         as_tibble() %>%
         dplyr::inner_join(y, by=by, copy=copy, suffix=suffix, ...) %>%
