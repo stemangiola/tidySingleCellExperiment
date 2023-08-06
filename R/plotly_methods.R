@@ -7,7 +7,8 @@
 #' 
 #' @importFrom plotly plot_ly
 #' @export
-plot_ly <- function(data=data.frame(), ..., type=NULL, name=NULL,
+plot_ly <- function(data=data.frame(), 
+    ..., type=NULL, name=NULL,
     color=NULL, colors=NULL, alpha=NULL,
     stroke=NULL, strokes=NULL, alpha_stroke=1,
     size=NULL, sizes=c(10, 100),
@@ -21,7 +22,8 @@ plot_ly <- function(data=data.frame(), ..., type=NULL, name=NULL,
 
 #' @rdname plotly
 #' @export
-plot_ly.default <- function(data=data.frame(), ..., type=NULL, name=NULL,
+plot_ly.default <- function(data=data.frame(), 
+    ..., type=NULL, name=NULL,
     color=NULL, colors=NULL, alpha=NULL,
     stroke=NULL, strokes=NULL, alpha_stroke=1,
     size=NULL, sizes=c(10, 100),
@@ -31,7 +33,6 @@ plot_ly.default <- function(data=data.frame(), ..., type=NULL, name=NULL,
     split=NULL, frame=NULL,
     width=NULL, height=NULL, source="A") {
     data %>%
-
         # This is a trick to not loop the call
         drop_class("tbl_df") %>%
         plotly::plot_ly(...,
@@ -43,13 +44,13 @@ plot_ly.default <- function(data=data.frame(), ..., type=NULL, name=NULL,
             symbol=symbol, symbols=symbols,
             linetype=linetype, linetypes=linetypes,
             split=split, frame=frame,
-            width=width, height=height, source=source
-        )
+            width=width, height=height, source=source)
 }
 
 #' @rdname plotly
 #' @export
-plot_ly.SingleCellExperiment <- function(data=data.frame(), ..., type=NULL, name=NULL,
+plot_ly.SingleCellExperiment <- function(data=data.frame(), 
+    ..., type=NULL, name=NULL, 
     color=NULL, colors=NULL, alpha=NULL,
     stroke=NULL, strokes=NULL, alpha_stroke=1,
     size=NULL, sizes=c(10, 100),
@@ -59,18 +60,16 @@ plot_ly.SingleCellExperiment <- function(data=data.frame(), ..., type=NULL, name
     split=NULL, frame=NULL,
     width=NULL, height=NULL, source="A") {
     data %>%
-
         # This is a trick to not loop the call
         as_tibble() %>%
         plot_ly(...,
             type=type, name=name,
             color=color, colors=colors, alpha=alpha,
             stroke=stroke, strokes=strokes, alpha_stroke=alpha_stroke,
-            size=size, sizes=sizes,
+            size=size, sizes=sizes, 
             span=span, spans=spans,
-            symbol=symbol, symbols=symbols,
+            symbol=symbol, symbols=symbols, 
             linetype=linetype, linetypes=linetypes,
             split=split, frame=frame,
-            width=width, height=height, source=source
-        )
+            width=width, height=height, source=source)
 }

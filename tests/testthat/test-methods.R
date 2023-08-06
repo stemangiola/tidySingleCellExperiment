@@ -25,7 +25,7 @@ test_that("join_features()", {
     expect_s4_class(fd, "SingleCellExperiment")
     expect_null(fd$.feature)
     expect_identical(
-        unname(t(as.matrix(as_tibble(fd)[, gs]))),
+        unname(t(as.matrix(as_tibble(fd)[, make.names(gs)]))),
         as.matrix(unname(counts(df)[gs, ])))
 })
 

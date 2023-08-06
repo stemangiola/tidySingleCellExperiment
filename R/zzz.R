@@ -18,7 +18,6 @@
   
   # Attach tidyverse
   attached <- tidyverse_attach()
-  
 }
 
 # rv = R.Version()
