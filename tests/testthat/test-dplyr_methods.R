@@ -94,8 +94,8 @@ test_that("rename()", {
 })
 
 test_that("left_join()", {
-    y <- df %>%
-        distinct(factor) %>%
+    y <- df |> 
+        distinct(factor) |> 
         mutate(string=letters[seq(nlevels(df$factor))])
     fd <- left_join(df, y, by="factor")
     expect_s4_class(fd, "SingleCellExperiment")
@@ -104,18 +104,20 @@ test_that("left_join()", {
 })
 
 test_that("inner_join()", {
-    string <- letters[seq(nlevels(df$factor))]
-    tbl <- df %>% distinct(factor) %>% mutate(string) %>% slice(1)
-    fd <- inner_join(df, tbl, by="factor")
+    y <- df |> 
+        distinct(factor) |> 
+        mutate(string=letters[seq(nlevels(df$factor))]) |> 
+        slice(1)
+    fd <- inner_join(df, y, by="factor")
     expect_s4_class(fd, "SingleCellExperiment")
     expect_equal(n <- ncol(colData(fd)), ncol(colData(df))+1)
     expect_equal(ncol(fd), sum(df$factor == fd$factor[1]))
 })
 
 test_that("right_join()", {
-    y <- df %>%
-        distinct(factor) %>%
-        mutate(string=letters[seq(nlevels(df$factor))]) %>%
+    y <- df |>
+        distinct(factor) |>
+        mutate(string=letters[seq(nlevels(df$factor))]) |>
         slice(1)
     fd <- right_join(df, y, by="factor")
     expect_s4_class(fd, "SingleCellExperiment")
@@ -193,9 +195,9 @@ test_that("add_count()", {
 })
 
 test_that("rowwise()", {
-    expect_error(df %>% summarise(sum(lys)))
+    expect_error(df |> summarise(sum(lys)))
     df$lys <- replicate(ncol(df), sample(10, 3), FALSE)
-    fd <- df %>% rowwise() %>% summarise(sum(lys))
+    fd <- df |> rowwise() |> summarise(sum(lys))
     expect_s3_class(fd, "tbl_df")
     expect_equal(dim(fd), c(ncol(df), 1))
     expect_identical(fd[[1]], sapply(df$lys, sum))

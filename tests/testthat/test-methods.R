@@ -25,7 +25,7 @@ test_that("join_features()", {
     expect_s4_class(fd, "SingleCellExperiment")
     expect_null(fd$.feature)
     expect_identical(
-        unname(t(as.matrix(as_tibble(fd)[, gs]))),
+        unname(t(as.matrix(as_tibble(fd)[, make.names(gs)]))),
         as.matrix(unname(counts(df)[gs, ])))
 })
 
@@ -58,11 +58,11 @@ test_that("aggregate_cells()", {
         s=tbl$string,
         \(f, s) {
             expect_identical(
-                df %>% 
-                    filter(factor == f, string == s) %>%
-                    assay() %>% rowSums() %>% as.vector(),
-                fd[, fd$factor == f & fd$string == s] %>%
-                    assay() %>% as.vector())
+                df |> 
+                    filter(factor == f, string == s) |>
+                    assay() |> rowSums() |> as.vector(),
+                fd[, fd$factor == f & fd$string == s] |>
+                    assay() |> as.vector())
         })
     # specified 'assays' are subsetted
     expect_error(aggregate_cells(df, c(factor, string), assays="x"))
