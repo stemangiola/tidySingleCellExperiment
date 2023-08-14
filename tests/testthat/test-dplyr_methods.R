@@ -89,8 +89,12 @@ test_that("rename()", {
     expect_identical(fd$fac, df$factor)
     expect_error(rename(df, ne=mo))
     # special columns are blocked
+    # ...'to' cannot be special
+    expect_error(rename(df, a=PC_1))  
     expect_error(rename(df, a=.cell))
-    expect_error(mutate(df, PC_10=1))
+    # ...'from' cannot be special
+    expect_error(rename(df, PC_1=number))
+    expect_error(rename(df, .cell=number))
 })
 
 test_that("left_join()", {

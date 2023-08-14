@@ -274,18 +274,18 @@ mutate.SingleCellExperiment <- function(.data, ...) {
 rename.SingleCellExperiment <- function(.data, ...) {
 
     # Check that we are not modifying a key column
-    df <- as_tibble(.data)
-    idx <- tidyselect::eval_rename(expr(c(...)), df)
-    cols <- names(df)[idx]
-    
-    tst <-
-        intersect(
-            cols,
-            get_special_columns(.data) %>%
-                c(get_needed_columns(.data))
-        ) %>%
-        length() %>%
-        gt(0)
+    .cols <- c(
+        get_needed_columns(.data),
+        get_special_columns(.data))
+    names(.cols) <- .cols <- as.list(.cols)
+    df <- colData(.data) |> as.data.frame() |> data.frame(.cols)
+
+    cols_to <- tryCatch(
+        error = function(e) e,
+        tidyselect::eval_rename(expr(c(...)), df) |> names())
+    cols_from <- tidyselect::eval_select(expr(c(...)), df) |> names()
+
+    tst <- any(cols_from %in% .cols) || inherits(cols_to, "error")
 
     if (tst) {
         columns =
