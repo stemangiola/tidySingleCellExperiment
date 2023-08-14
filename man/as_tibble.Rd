@@ -47,6 +47,9 @@ Use \code{as_tibble(rownames_to_column(...))} to safeguard against this case.
 
 Read more in \link[tibble]{rownames}.}
 }
+\value{
+`tibble`
+}
 \description{
 \code{as_tibble()} turns an existing object, such as a data frame or
 matrix, into a so-called tibble, a data frame with class \code{\link[tibble]{tbl_df}}. This is

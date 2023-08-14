@@ -440,18 +440,18 @@ get_specific_annotation_columns <- function(.data, .col) {
     .col <- enquo(.col)
     
     # x-annotation df
-    n_x <- .data %>% distinct_at(vars(!!.col)) %>% nrow()
+    n_x <- .data |> distinct_at(vars(!!.col)) |> nrow()
     
     # element wise columns
-    .data %>%
-        select(-!!.col) %>%
-        colnames() %>%
+    .data |>
+        select(-!!.col) |>
+        colnames() |>
         map(~ {
-            n_.x <- .data %>% distinct_at(vars(!!.col, .x)) %>% nrow()
+            n_.x <- .data |> distinct_at(vars(!!.col, .x)) |> nrow()
             if (n_.x == n_x) .x else NULL
-        }) %>% 
+        }) %>%
         # Drop NULL
-        { (.)[lengths((.)) != 0] } %>%
+        { (.)[lengths((.)) != 0] } |>
         unlist()
 }
 
@@ -476,7 +476,7 @@ subset <- function(.data, .column)	{
         stop("nanny says: some of the .column specified",
             " do not exist in the input data frame.")
     
-    .data %>%
+    .data |>
         # Selecting the right columns
         select(!!.column, get_specific_annotation_columns(.data, !!.column)) %>%
         distinct()

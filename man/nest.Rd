@@ -29,6 +29,9 @@ the former outer names. If a string, the  new inner names will use the
 outer names with \code{names_sep} automatically stripped. This makes
 \code{names_sep} roughly symmetric between nesting and unnesting.}
 }
+\value{
+`tidySingleCellExperiment_nested`
+}
 \description{
 Nesting creates a list-column of data frames; unnesting flattens it back out
 into regular columns. Nesting is implicitly a summarising operation: you

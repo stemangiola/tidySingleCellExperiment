@@ -38,6 +38,9 @@ NB: this will cause string \code{"NA"}s to be converted to \code{NA}s.}
 
 \item{...}{Additional arguments passed on to methods.}
 }
+\value{
+`tidySingleCellExperiment`
+}
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 

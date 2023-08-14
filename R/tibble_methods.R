@@ -1,6 +1,7 @@
 #' @name as_tibble
 #' @rdname as_tibble
 #' @inherit tibble::as_tibble
+#' @return `tibble`
 #' 
 #' @examples
 #' pbmc_small |> as_tibble()

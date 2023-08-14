@@ -20,6 +20,9 @@ If not specified, must be supplied in each layer added to the plot.}
 \item{environment}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Used prior to tidy
 evaluation.}
 }
+\value{
+`ggplot`
+}
 \description{
 \code{ggplot()} initializes a ggplot object. It can be used to
 declare the input data frame for a graphic and to specify the

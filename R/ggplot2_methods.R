@@ -2,6 +2,7 @@
 #' @rdname ggplot
 #' @inherit ggplot2::ggplot
 #' @title Create a new \code{ggplot} from a \code{tidySingleCellExperiment}
+#' @return `ggplot`
 #'
 #' @examples
 #' library(ggplot2)

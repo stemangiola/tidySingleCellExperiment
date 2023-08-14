@@ -29,6 +29,9 @@ the input. Weights are automatically standardised to sum to 1.}
 
 \item{...}{ignored}
 }
+\value{
+`tidySingleCellExperiment`
+}
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 \code{sample_n()} and \code{sample_frac()} have been superseded in favour of

@@ -3,10 +3,12 @@
 \docType{data}
 \name{pbmc_small_nested_interactions}
 \alias{pbmc_small_nested_interactions}
-\title{Intercellular ligand-receptor interactions for 38 ligands from a single cell RNA-seq cluster.}
+\title{Intercellular ligand-receptor interactions for 
+38 ligands from a single cell RNA-seq cluster.}
 \format{
-A tibble containing 100 rows and 9 columns. Cells are a subsample of 
-        the PBMC dataset of 2,700 single cells. Cell interactions were identified with SingleCellSignalR.
+A `tibble` containing 100 rows and 9 columns.
+  Cells are a subsample of the PBMC dataset of 2,700 single cells. 
+  Cell interactions were identified with SingleCellSignalR.
 \describe{
   \item{sample}{sample identifier}
   \item{ligand}{cluster and ligand identifier}
@@ -25,8 +27,12 @@ A tibble containing 100 rows and 9 columns. Cells are a subsample of
 \usage{
 data(pbmc_small_nested_interactions)
 }
+\value{
+`tibble`
+}
 \description{
-A dataset containing ligand-receptor interactions withibn a sample. There are 38 ligands from a single cell cluster versus 
-35 receptors in 6 other clusters.
+A dataset containing ligand-receptor interactions within a sample.
+There are 38 ligands from a single cell cluster versus 35 receptors 
+in 6 other clusters.
 }
 \keyword{datasets}

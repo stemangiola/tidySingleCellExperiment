@@ -21,6 +21,10 @@ Otherwise, will print as many rows as specified by the
 \item{width}{Width of text output to generate. This defaults to \code{NULL}, which
 means use the \code{width} \link[pillar:pillar_options]{option}.}
 }
+\value{
+Prints a message to the console describing
+  the contents of the `tidySingleCellExperiment`.
+}
 \description{
 One of the main features of the \code{tbl_df} class is the printing:
 \itemize{

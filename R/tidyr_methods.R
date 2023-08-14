@@ -2,6 +2,7 @@
 #' @rdname unnest
 #' @inherit tidyr::unnest
 #' @aliases unnest_single_cell_experiment
+#' @return `tidySingleCellExperiment`
 #' 
 #' @examples
 #' pbmc_small |> 
@@ -23,6 +24,7 @@ unnest.tidySingleCellExperiment_nested <- function(data, cols, ...,
 }
 
 #' @rdname unnest
+#' @importFrom methods is
 #' @importFrom tidyr unnest
 #' @importFrom rlang quo_name 
 #' @importFrom rlang enquo 
@@ -38,39 +40,38 @@ unnest_single_cell_experiment  <-  function(data, cols, ...,
     .data_ <- data
     cols <- enquo(cols)
     
-    .data_ %>%
-        when(
-            
-            # If my only column to unnest is tidySingleCellExperiment
-            pull(., !!cols) %>%
-                .[[1]] %>%
-                is("SingleCellExperiment") %>%
-                any() ~
-                
-                # Do my trick to unnest
-                mutate(., !!cols := imap(
-                    !!cols, ~ .x %>%
-                        bind_cols_(
-                            
-                            # Attach back the columns used for nesting
-                            .data_ %>% select(-!!cols) %>% slice(rep(.y, nrow(as_tibble(.x))))
-                            
-                        )
-                )) %>%
-                pull(!!cols) %>%
-                reduce(bind_rows),
-            
-            # Else do normal stuff
-            ~ (.) %>%
-                drop_class("tidySingleCellExperiment_nested") %>%
-                tidyr::unnest(!!cols, ..., keep_empty=keep_empty, ptype=ptype, names_sep=names_sep, names_repair=names_repair) %>%
-                add_class("tidySingleCellExperiment_nested")
-        )
+    # If my only column to unnest() is a 'tidySingleCellExperiment'
+    # [HLC: comment says 'only', but only the first entry is being checked.
+    # is this intentional? or, what happens if, e.g., the 2nd is a tidySCE?]
+    .test <- .data_ |> pull(!!cols) |> _[[1]] |> is("SingleCellExperiment")
+    if (.test) {
+        # Do my trick to unnest()
+        .data_ |>
+            mutate(!!cols := imap(
+                !!cols, ~ .x |>
+                    bind_cols_(
+                        # Attach back the columns used for nesting
+                        .data_ |> 
+                            select(-!!cols) |>
+                            slice(rep(.y, nrow(as_tibble(.x))))
+                    )
+            )) |>
+            pull(!!cols) |>
+            reduce(bind_rows)
+    } else {
+        # Else do normal stuff
+        .data_ |>
+            drop_class("tidySingleCellExperiment_nested") |>
+            tidyr::unnest(!!cols, ..., keep_empty=keep_empty, 
+                ptype=ptype, names_sep=names_sep, names_repair=names_repair) |>
+            add_class("tidySingleCellExperiment_nested")
+    }
 }
 
 #' @name nest
 #' @rdname nest
 #' @inherit tidyr::nest
+#' @return `tidySingleCellExperiment_nested`
 #'
 #' @examples
 #' pbmc_small |> 
@@ -86,32 +87,31 @@ nest.SingleCellExperiment <- function(.data, ..., .names_sep = NULL) {
     col_name_data <- names(cols)
     
     # Deprecation of special column names
-    .col <- enquos(..., .ignore_empty="all") %>% 
+    .cols <- enquos(..., .ignore_empty="all") %>%
         map(~ quo_name(.x)) %>% unlist()
     if (is_sample_feature_deprecated_used(.data, .cols)) {
         .data <- ping_old_special_column_into_metadata(.data)
     }
     
     my_data__ <- .data
+    cols_sym <- as.symbol(col_name_data)
+    cell_sym <- c_(my_data__)$symbol
     
     my_data__ %>%
-        
         # This is needed otherwise nest goes into loop and fails
         to_tib() %>%
         tidyr::nest(...) %>%
         mutate(
-            !!as.symbol(col_name_data) := map(
-                !!as.symbol(col_name_data),
-                ~ my_data__ %>%
-                    
-                    # Subset cells
-                    filter(!!c_(my_data__)$symbol %in% pull(.x, !!c_(my_data__)$symbol)) %>%
-                    
-                    # Subset columns
-                    select(colnames(.x))
+            !!cols_sym := map(
+                !!cols_sym, ~ {
+                    my_data__ %>%
+                        # Subset cells
+                        filter(!!cell_sym %in% pull(.x, !!cell_sym)) %>%
+                        # Subset columns
+                        select(colnames(.x))
+                }
             )
         ) %>%
-        
         # Coerce to tidySingleCellExperiment_nested for unnesting
         add_class("tidySingleCellExperiment_nested")
 }
@@ -119,6 +119,7 @@ nest.SingleCellExperiment <- function(.data, ..., .names_sep = NULL) {
 #' @name extract
 #' @rdname extract
 #' @inherit tidyr::extract
+#' @return `tidySingleCellExperiment`
 #' 
 #' @examples
 #' pbmc_small|>
@@ -144,7 +145,8 @@ extract.SingleCellExperiment <- function(data, col, into,
     colData(data) <-
         data %>%
         as_tibble() %>%
-        tidyr::extract(col=!!col, into=into, regex=regex, remove=remove, convert=convert, ...) %>%
+        tidyr::extract(col=!!col, into=into, 
+            regex=regex, remove=remove, convert=convert, ...) %>%
         as_meta_data(data)
     
     data
@@ -153,6 +155,7 @@ extract.SingleCellExperiment <- function(data, col, into,
 #' @name pivot_longer
 #' @rdname pivot_longer
 #' @inherit tidyr::pivot_longer
+#' @return `tidySingleCellExperiment`
 #' 
 #' @export
 #' @examples
@@ -201,6 +204,7 @@ pivot_longer.SingleCellExperiment <- function(data,
 #' @name unite
 #' @rdname unite
 #' @inherit tidyr::unite
+#' @return `tidySingleCellExperiment`
 #' 
 #' @examples
 #' pbmc_small |> unite(
@@ -225,27 +229,22 @@ unite.SingleCellExperiment <- function(data, col,
         data <- ping_old_special_column_into_metadata(data)
     }
     
-    tst <-
-        intersect(
-            cols %>% quo_names(),
-            get_special_columns(data) %>% c(get_needed_columns(data))
-        ) %>%
-        length() %>%
-        gt(0) &
-        remove
+    .view_only_cols <- c(
+        get_special_columns(data),
+        get_needed_columns(data))
     
-    if (tst) {
-        columns =
-            get_special_columns(data) %>%
-            c(get_needed_columns(data)) %>%
-            paste(collapse=", ")
+    .test <- intersect(
+        quo_names(cols), 
+        .view_only_cols)
+    
+    if (remove && length(.test)) {
         stop("tidySingleCellExperiment says:",
             " you are trying to rename a column",
-            " that is view only ", columns,
+            " that is view only ", 
+            paste(.view_only_cols, collapse=", "),
             " (it is not present in the colData).",
             " If you want to mutate a view-only column,",
-            " make a copy and mutate that one."
-        )
+            " make a copy and mutate that one.")
     }
     
     colData(data) <- data %>%
@@ -259,6 +258,7 @@ unite.SingleCellExperiment <- function(data, col,
 #' @name separate
 #' @rdname separate
 #' @inherit tidyr::separate
+#' @return `tidySingleCellExperiment`
 #' 
 #' @examples
 #' un <- pbmc_small |> unite("new_col", c(orig.ident, groups))
@@ -282,24 +282,20 @@ separate.SingleCellExperiment <- function(data, col, into,
         data <- ping_old_special_column_into_metadata(data)
     }
     
-    tst <-
-        intersect(
-            cols %>% quo_names(),
-            get_special_columns(data) %>% c(get_needed_columns(data))
-        ) %>%
-        length() %>%
-        gt(0) &
-        remove
+    .view_only_cols <- c(
+        get_special_columns(data),
+        get_needed_columns(data))
     
-    if (tst) {
-        columns =
-            get_special_columns(data) %>%
-            c(get_needed_columns(data)) %>%
-            paste(collapse=", ")
+    .test <- intersect(
+        quo_names(cols), 
+        .view_only_cols)
+    
+    if (remove && length(.test)) {
         stop(
             "tidySingleCellExperiment says:",
             " you are trying to rename a column",
-            " that is view only ",columns, " ",
+            " that is view only ",
+            paste(.view_only_cols, collapse=", "),
             "(it is not present in the colData).",
             " If you want to mutate a view-only column,",
             " make a copy and mutate that one.")
@@ -308,7 +304,9 @@ separate.SingleCellExperiment <- function(data, col, into,
     colData(data) <-
         data %>%
         as_tibble() %>%
-        tidyr::separate(!!cols, into=into, sep=sep, remove=remove, convert=convert, extra=extra, fill=fill, ...) %>%
+        tidyr::separate(
+            !!cols, into=into, sep=sep, remove=remove, 
+            convert=convert, extra=extra, fill=fill, ...) %>%
         as_meta_data(data)
     
     data

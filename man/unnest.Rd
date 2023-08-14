@@ -91,6 +91,9 @@ convert \code{df \%>\% unnest(x, .id = "id")} to \verb{df \%>\% mutate(id = name
 \item{.sep}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}:
 use \code{names_sep} instead.}
 }
+\value{
+`tidySingleCellExperiment`
+}
 \description{
 Unnest expands a list-column containing data frames into rows and columns.
 }

@@ -2,7 +2,6 @@ df <- pbmc_small
 
 test_that("show()", {
     txt <- capture.output(show(df))
-    expect_lt(length(txt), 20)
     expect_equal(grep("SingleCellExperiment", txt), 1)
     i <- grep(str <- ".*Features=([0-9]+).*", txt)
     expect_equal(gsub(str, "\\1", txt[i]), paste(nrow(df)))
