@@ -17,7 +17,7 @@ Description: 'tidySingleCellExperiment' is an adapter that abstracts
     (e.g., aggregation of cell-level data to pseudobulks).
 License: GPL-3
 Depends:
-    R (>= 4.4.0),
+    R (>= 4.3.0),
     SingleCellExperiment
 Imports:
     dplyr, tidyr, ttservice,
