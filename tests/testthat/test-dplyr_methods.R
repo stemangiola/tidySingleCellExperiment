@@ -78,23 +78,45 @@ test_that("mutate()", {
     expect_true(all(fd$peter == "pan"))
     fd <- mutate(df, number=paste(number))
     expect_identical(fd$number, paste(df$number))
+    
     # special columns are blocked
-    expect_error(mutate(df, .cell=1))
-    expect_error(mutate(df, PC_10=1))
+    df |>
+      mutate(.cell=1) |>
+      expect_error(regexp = "you are trying to mutate a column that is view only")
+    
+    df |>
+      mutate(PC_10=1) |>
+      expect_error(regexp = "you are trying to mutate a column that is view only")
 })
 
 test_that("rename()", {
     fd <- rename(df, num=number, fac=factor)
     expect_identical(fd$num, df$number)
     expect_identical(fd$fac, df$factor)
-    expect_error(rename(df, ne=mo))
+    
+    df |> 
+      rename(ne=mo) |> 
+      expect_error(regexp = "Column `mo` doesn't exist")
+    
     # special columns are blocked
     # ...'to' cannot be special
-    expect_error(rename(df, a=PC_1))  
-    expect_error(rename(df, a=.cell))
+    
+    df |>
+      rename(a=PC_1) |>
+      expect_error(regexp = "you are trying to rename a column that is view only")  
+    
+    df |> 
+      rename(a=.cell) |> 
+      expect_error(regexp = "you are trying to rename a column that is view only")
     # ...'from' cannot be special
-    expect_error(rename(df, PC_1=number))
-    expect_error(rename(df, .cell=number))
+    
+    df |> 
+      rename(PC_1=number) |> 
+      expect_error(regexp = "These names are duplicated")
+    
+    df |> 
+      rename(.cell=number) |> 
+      expect_error(regexp = "These names are duplicated")
 })
 
 test_that("left_join()", {
@@ -199,7 +221,10 @@ test_that("add_count()", {
 })
 
 test_that("rowwise()", {
-    expect_error(df |> summarise(sum(lys)))
+    df |> 
+    summarise(sum(lys)) |>
+    expect_error(regexp = "object 'lys' not found")
+  
     df$lys <- replicate(ncol(df), sample(10, 3), FALSE)
     fd <- df |> rowwise() |> summarise(sum(lys))
     expect_s3_class(fd, "tbl_df")
