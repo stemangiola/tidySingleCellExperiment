@@ -229,8 +229,7 @@ mutate.SingleCellExperiment <- function(.data, ...) {
 
     tst <-
         intersect(
-            cols %>%
-                names(),
+            cols,
             get_special_columns(.data) %>%
                 c(get_needed_columns(.data))
         ) %>%
@@ -240,13 +239,17 @@ mutate.SingleCellExperiment <- function(.data, ...) {
     if (tst) {
         columns =
             get_special_columns(.data) %>%
-            c(get_needed_columns()) %>%
+            c(get_needed_columns(.data)) %>%
             paste(collapse=", ")
         stop(
-            "tidySingleCellExperiment says: you are trying to rename a column that is view only",
-            columns, " ",
-            "(it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one."
+          "tidySingleCellExperiment says: you are trying to mutate a column that is view only `",
+          cols,
+          "` ",
+          "(it is not present in the colData). If you want to mutate a view-only column, make a copy (e.g. mutate(new_column = ",
+          cols[1],
+          ")) and mutate that one."
         )
+  
     }
 
     colData(.data) <-
@@ -275,30 +278,38 @@ mutate.SingleCellExperiment <- function(.data, ...) {
 rename.SingleCellExperiment <- function(.data, ...) {
 
     # Check that we are not modifying a key column
-    cols <- tidyselect::eval_select(expr(c(...)), colData(.data) %>% as.data.frame())
-
-    tst <-
-        intersect(
-            cols %>%
-                names(),
-            get_special_columns(.data) %>%
-                c(get_needed_columns(.data))
-        ) %>%
-        length() %>%
-        gt(0)
-
-    if (tst) {
-        columns =
-            get_special_columns(.data) %>%
-            c(get_needed_columns(.data)) %>%
-            paste(collapse=", ")
-        stop(
-            "tidySingleCellExperiment says: you are trying to rename a column that is view only",
-            columns, " ",
-            "(it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one."
-        )
-    }
-
+    read_only_columns <- c(
+        get_needed_columns(.data),
+        get_special_columns(.data)
+    )
+    
+    # Small df to be more efficient
+    df <- .data[1,1] |> as_tibble() 
+    
+    # What columns we are going to create
+    cols_from <- tidyselect::eval_select(expr(c(...)), df) |> names()
+    
+    # What are the columns before renaming
+    original_columns = df |> colnames()
+    
+    # What  the column after renaming would be
+    new_colums = df |> rename(...) |> colnames()
+    
+    # What column you are impacting
+    changed_columns = original_columns |> setdiff(new_colums)
+    
+    # Check that you are not impacting any read-only columns
+    if(any(changed_columns %in% read_only_columns))
+      stop(
+        "tidySingleCellExperiment says: you are trying to rename a column that is view only `",
+        changed_columns,
+        "` ",
+        "(it is not present in the colData). If you want to rename a view-only column, make a copy (e.g. mutate(",
+        cols_from[1],
+        " = ",
+        changed_columns[1],
+        "))."
+      )
 
     colData(.data) <- dplyr::rename(colData(.data) %>% as.data.frame(), ...) %>% DataFrame()
 
@@ -387,7 +398,7 @@ inner_join.SingleCellExperiment <- function(x, y, by=NULL, copy=FALSE, suffix=c(
   if(is_sample_feature_deprecated_used( x, when(by, !is.null(.) ~ by, ~ colnames(y)))){
     x= ping_old_special_column_into_metadata(x)
   }
-
+    
     x %>%
         as_tibble() %>%
         dplyr::inner_join(y, by=by, copy=copy, suffix=suffix, ...) %>%

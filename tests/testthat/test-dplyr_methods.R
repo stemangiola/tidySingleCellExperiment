@@ -1,191 +1,233 @@
-context("dplyr test")
+df <- pbmc_small
+df$number <- sample(seq(ncol(df)))
+df$factor <- sample(
+    factor(1:3, labels=paste0("g", 1:3)),
+    ncol(df), TRUE, c(0.1, 0.3, 0.6))
 
-library(magrittr)
+test_that("arrange()", {
+    expect_identical(
+        arrange(df, number), 
+        df[, order(df$number)])
+    suppressWarnings({
+        fd <- df %>%
+            scater::logNormCounts() %>% 
+            scater::runPCA()
+    })
+    expect_identical(
+        arrange(fd, PC1), 
+        fd[, order(reducedDim(fd)[, 1])])
+    fd <- df %>%
+        mutate(foo=seq(ncol(df))) %>%
+        arrange(foo) %>% select(-foo)
+    expect_identical(fd, df)
+})
 
-test_that("arrange", {
+test_that("bind_rows()", {
+    # warn about duplicated cells names
+    expect_warning(fd <- bind_rows(df, df))
+    # cell names should be unique after binding
+    expect_true(!any(duplicated(pull(fd, .cell))))
+})
+
+test_that("bind_cols()", {
+    fd <- bind_cols(df, select(df, factor))
+    i <- grep("^factor", names(colData(fd)))
+    expect_length(i, 2)
+    expect_identical(fd[[i[1]]], df$factor)
+    expect_identical(fd[[i[2]]], df$factor)
+    expect_identical(
+        select(fd, -starts_with("factor")), 
+        select(df, -factor))
+})
+
+test_that("distinct()", {
+    fd <- distinct(df, factor)
+    expect_equal(nrow(fd), nlevels(df$factor))
+    expect_identical(fd[[1]], unique(df$factor))
+})
+
+test_that("filter()", {
+    fd <- filter(df, factor %in% levels(df$factor))
+    expect_identical(df, fd)
+    fd <- filter(df, factor == "g1")
+    expect_equal(ncol(fd), sum(df$factor == "g1"))
+    # missing cell names
+    fd <- df; colnames(fd) <- NULL
+    expect_silent(filter(df, number == 1))
+    expect_message(fd <- filter(fd, number < 10))
+    expect_type(pull(fd, .cell), "character")
+    expect_null(colnames(fd))
+})
+
+test_that("group_by()", {
+    fd <- group_by(df, factor)
+    expect_equal(n_groups(fd), nlevels(df$factor))
+    expect_equal(group_size(fd), tabulate(df$factor))
+})
+
+test_that("summaris/ze()", {
+    fd <- mutate(df, n=runif(ncol(df)))
+    ne <- summarise(fd, a=mean(n))
+    mo <- summarize(fd, b=mean(n))
+    expect_identical(ne$a, mean(fd$n))
+    expect_identical(ne$a, mo$b)
+})
+
+test_that("mutate()", {
+    fd <- mutate(df, peter="pan")
+    expect_true(all(fd$peter == "pan"))
+    fd <- mutate(df, number=paste(number))
+    expect_identical(fd$number, paste(df$number))
+    
+    # special columns are blocked
+    df |>
+      mutate(.cell=1) |>
+      expect_error(regexp = "you are trying to mutate a column that is view only")
+    
+    df |>
+      mutate(PC_10=1) |>
+      expect_error(regexp = "you are trying to mutate a column that is view only")
+})
+
+test_that("rename()", {
+    fd <- rename(df, num=number, fac=factor)
+    expect_identical(fd$num, df$number)
+    expect_identical(fd$fac, df$factor)
+    
+    df |> 
+      rename(ne=mo) |> 
+      expect_error(regexp = "Column `mo` doesn't exist")
+    
+    # special columns are blocked
+    # ...'to' cannot be special
+    
+    df |>
+      rename(a=PC_1) |>
+      expect_error(regexp = "you are trying to rename a column that is view only")  
+    
+    df |> 
+      rename(a=.cell) |> 
+      expect_error(regexp = "you are trying to rename a column that is view only")
+    # ...'from' cannot be special
+    
+    df |> 
+      rename(PC_1=number) |> 
+      expect_error(regexp = "These names are duplicated")
+    
+    df |> 
+      rename(.cell=number) |> 
+      expect_error(regexp = "These names are duplicated")
+})
+
+test_that("left_join()", {
+    y <- df |> 
+        distinct(factor) |> 
+        mutate(string=letters[seq(nlevels(df$factor))])
+    fd <- left_join(df, y, by="factor")
+    expect_s4_class(fd, "SingleCellExperiment")
+    expect_equal(n <- ncol(colData(fd)), ncol(colData(df))+1)
+    expect_identical(colData(fd)[-n], colData(df))
+})
+
+test_that("inner_join()", {
+    y <- df |> 
+        distinct(factor) |> 
+        mutate(string=letters[seq(nlevels(df$factor))]) |> 
+        slice(1)
+    fd <- inner_join(df, y, by="factor")
+    expect_s4_class(fd, "SingleCellExperiment")
+    expect_equal(n <- ncol(colData(fd)), ncol(colData(df))+1)
+    expect_equal(ncol(fd), sum(df$factor == fd$factor[1]))
+})
+
+test_that("right_join()", {
+    y <- df |>
+        distinct(factor) |>
+        mutate(string=letters[seq(nlevels(df$factor))]) |>
+        slice(1)
+    fd <- right_join(df, y, by="factor")
+    expect_s4_class(fd, "SingleCellExperiment")
+    expect_equal(n <- ncol(colData(fd)), ncol(colData(df))+1)
+    expect_equal(ncol(fd), sum(df$factor == fd$factor[1]))
+})
+
+test_that("full_join()", {
+    # w/ duplicated cell names
+    y <- tibble(factor="g2", other=1:3)
+    fd <- expect_message(full_join(df, y, by="factor", relationship="many-to-many"))
+    expect_s3_class(fd, "tbl_df")
+    expect_true(all(is.na(fd$other[fd$factor != "g2"])))
+    expect_true(all(!is.na(fd$other[fd$factor == "g2"])))
+    expect_equal(nrow(fd), ncol(df)+2*sum(df$factor == "g2"))
+    # w/o duplicates
+    y <- tibble(factor="g2", other=1)
+    fd <- expect_silent(full_join(df, y, by="factor"))
+    expect_s4_class(fd, "SingleCellExperiment")
+    expect_identical(
+        select(fd, -other), 
+        mutate(df, factor=paste(factor)))
+})
+
+test_that("slice()", {
+    expect_identical(slice(df), df[, 0])
+    expect_identical(slice(df, ncol(df)+1), df[, 0])
+    expect_identical(slice(df, 1), df[, 1])
+    expect_identical(slice(df, -1), df[, -1])
+    i <- sample(ncol(df), 5)
+    expect_identical(slice(df, i), df[, i])
+    expect_identical(slice(df, -i), df[, -i])
+})
+
+test_that("select()", {
+    fd <- select(df, .cell, number)
+    expect_s4_class(fd, "SingleCellExperiment")
+    expect_equal(dim(fd), dim(df))
+    fd <- select(df, number)
+    expect_s3_class(fd, "tbl_df")
+    expect_equal(nrow(fd), ncol(df))
+})
+
+test_that("sample_n()", {
+    fd <- sample_n(df, n <- 50)
+    expect_s4_class(fd, "SingleCellExperiment")
+    expect_equal(nrow(fd), nrow(df))
+    expect_equal(ncol(fd), n)
+    fd <- sample_n(df, 1e3, TRUE)
+    expect_s3_class(fd, "tbl_df")
+    expect_equal(nrow(fd), 1e3)
+})
+
+test_that("sample_frac()", {
+    fd <- sample_frac(df, 0.1)
+    expect_s4_class(fd, "SingleCellExperiment")
+    expect_equal(nrow(fd), nrow(df))
+    expect_equal(ncol(fd), ncol(df)/10)
+    fd <- sample_frac(df, 10, TRUE)
+    expect_s3_class(fd, "tbl_df")
+    expect_equal(nrow(fd), ncol(df)*10)
+})
+
+test_that("count()", {
+    fd <- count(df, factor)
+    expect_s3_class(fd, "tbl_df")
+    expect_equal(nrow(fd), nlevels(df$factor))
+    expect_identical(fd$n, tabulate(df$factor))
+})
+
+test_that("add_count()", {
+    fd <- add_count(df, factor)
+    expect_identical(select(fd, -n), df)
+    expect_identical(fd$n, unname(c(table(df$factor)[df$factor])))
+})
+
+test_that("rowwise()", {
+    df |> 
+    summarise(sum(lys)) |>
+    expect_error(regexp = "object 'lys' not found")
   
-  expect_warning(
-    tt_pca_aranged <-
-        pbmc_small %>%
-        arrange(groups) %>%
-        scater::logNormCounts() %>%
-        scater::runPCA())
-
-    expect_warning(
-    tt_pca <-
-        pbmc_small %>%
-        scater::logNormCounts() %>%
-        scater::runPCA())
-
-    expect_equal(
-        reducedDims(tt_pca_aranged)$PCA[sort(colnames(tt_pca_aranged)), 1:3] %>% abs() %>% head(),
-        reducedDims(tt_pca_aranged)$PCA[sort(colnames(tt_pca_aranged)), 1:3] %>% abs() %>% head(),
-        tollerance = 1e-3
-    )
-})
-
-test_that("bind_rows", {
-    expect_warning(
-        tt_bind <- pbmc_small %>%
-            bind_rows(pbmc_small))
-
-    tt_bind %>%
-        select(.cell) %>%
-        tidySingleCellExperiment:::to_tib() %>%
-        dplyr::count(.cell) %>%
-        dplyr::count(n, name="m") %>%
-        nrow() %>%
-        expect_equal(1)
-})
-
-test_that("bind_cols", {
-    tt_bind <- pbmc_small %>% select(groups)
-
-    pbmc_small %>%
-        bind_cols(tt_bind) %>%
-        select(groups...7) %>%
-        ncol() %>%
-        expect_equal(1)
-})
-
-test_that("distinct", {
-    pbmc_small %>%
-        distinct(groups) %>%
-        ncol() %>%
-        expect_equal(1)
-})
-
-test_that("filter", {
-    pbmc_small %>%
-        filter(groups == "g1") %>%
-        ncol() %>%
-        expect_equal(44)
-})
-
-test_that("group_by", {
-    pbmc_small %>%
-        group_by(groups) %>%
-        nrow() %>%
-        expect_equal(80)
-})
-
-test_that("summarise", {
-    pbmc_small %>%
-        summarise(mean(nCount_RNA)) %>%
-        nrow() %>%
-        expect_equal(1)
-})
-
-test_that("mutate", {
-    pbmc_small %>%
-        mutate(groups = 1) %>%
-        distinct(groups) %>%
-        nrow() %>%
-        expect_equal(1)
-})
-
-test_that("rename", {
-    pbmc_small %>%
-        rename(s_score = groups) %>%
-        select(s_score) %>%
-        ncol() %>%
-        expect_equal(1)
-})
-
-test_that("left_join", {
-    pbmc_small %>%
-        left_join(pbmc_small %>%
-                      distinct(groups) %>%
-                      mutate(new_column = 1:2)) %>%
-        colData() %>%
-        ncol() %>%
-        expect_equal(10)
-})
-
-test_that("inner_join", {
-    pbmc_small %>%
-        inner_join(pbmc_small %>%
-                       distinct(groups) %>%
-                       mutate(new_column = 1:2) %>%
-                       slice(1)) %>%
-        ncol() %>%
-        expect_equal(36)
-})
-
-test_that("right_join", {
-    pbmc_small %>%
-        right_join(pbmc_small %>%
-                       distinct(groups) %>%
-                       mutate(new_column = 1:2) %>%
-                       slice(1)) %>%
-        ncol() %>%
-        expect_equal(36)
-})
-
-test_that("full_join", {
-    pbmc_small %>%
-        full_join(tibble::tibble(groups = "g1", other = 1:4)) %>%
-        nrow() %>%
-        expect_equal(212)
-})
-
-test_that("slice", {
-    pbmc_small %>%
-        slice(1) %>%
-        ncol() %>%
-        expect_equal(1)
-})
-
-test_that("select", {
-    pbmc_small %>%
-        select(.cell, orig.ident) %>%
-        class() %>%
-        as.character() %>%
-        expect_equal("SingleCellExperiment")
-
-    pbmc_small %>%
-        select(orig.ident) %>%
-        class() %>%
-        as.character() %>%
-        .[1] %>%
-        expect_equal("tbl_df")
-})
-
-test_that("sample_n", {
-    pbmc_small %>%
-        sample_n(50) %>%
-        ncol() %>%
-        expect_equal(50)
-
-    expect_equal(   pbmc_small %>% sample_n(500, replace = TRUE) %>% ncol,   31  )
-})
-
-test_that("sample_frac", {
-    pbmc_small %>%
-        sample_frac(0.1) %>%
-        ncol() %>%
-        expect_equal(8)
-
-    expect_equal(   pbmc_small %>% sample_frac(10, replace = TRUE) %>% ncol,   31  )
-})
-
-test_that("count", {
-    pbmc_small %>%
-        count(groups) %>%
-        nrow() %>%
-        expect_equal(2)
-})
-
-test_that("add count", {
-  pbmc_small %>%
-    add_count(groups) %>%
-    nrow() %>%
-    expect_equal(230)
-})
-
-test_that("summarize alias", {
-  pbmc_small %>%
-    summarize(nCount_RNA = mean(nCount_RNA))  %>%
-    nrow() %>%
-    expect_equal(1)
+    df$lys <- replicate(ncol(df), sample(10, 3), FALSE)
+    fd <- df |> rowwise() |> summarise(sum(lys))
+    expect_s3_class(fd, "tbl_df")
+    expect_equal(dim(fd), c(ncol(df), 1))
+    expect_identical(fd[[1]], sapply(df$lys, sum))
 })
