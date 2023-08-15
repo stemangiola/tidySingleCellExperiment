@@ -299,7 +299,7 @@ rename.SingleCellExperiment <- function(.data, ...) {
     changed_columns = original_columns |> setdiff(new_colums)
     
     # Check that you are not impacting any read-only columns
-    if(changed_columns %in% read_only_columns)
+    if(any(changed_columns %in% read_only_columns))
       stop(
         "tidySingleCellExperiment says: you are trying to rename a column that is view only `",
         changed_columns,
