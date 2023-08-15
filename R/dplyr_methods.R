@@ -242,10 +242,14 @@ mutate.SingleCellExperiment <- function(.data, ...) {
             c(get_needed_columns(.data)) %>%
             paste(collapse=", ")
         stop(
-            "tidySingleCellExperiment says: you are trying to rename a column that is view only",
-            columns, " ",
-            "(it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one."
+          "tidySingleCellExperiment says: you are trying to mutate a column that is view only `",
+          cols,
+          "` ",
+          "(it is not present in the colData). If you want to mutate a view-only column, make a copy (e.g. mutate(new_column = ",
+          cols[1],
+          ")) and mutate that one."
         )
+  
     }
 
     colData(.data) <-
