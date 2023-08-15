@@ -274,31 +274,38 @@ mutate.SingleCellExperiment <- function(.data, ...) {
 rename.SingleCellExperiment <- function(.data, ...) {
 
     # Check that we are not modifying a key column
-    .cols <- c(
+    read_only_columns <- c(
         get_needed_columns(.data),
-        get_special_columns(.data))
-    names(.cols) <- .cols <- as.list(.cols)
-    df <- colData(.data) |> as.data.frame() |> data.frame(.cols)
-
-    cols_to <- tryCatch(
-        error = function(e) e,
-        tidyselect::eval_rename(expr(c(...)), df) |> names())
+        get_special_columns(.data)
+    )
+    
+    # Small df to be more efficient
+    df <- .data[1,1] |> as_tibble() 
+    
+    # What columns we are going to create
     cols_from <- tidyselect::eval_select(expr(c(...)), df) |> names()
-
-    tst <- any(cols_from %in% .cols) || inherits(cols_to, "error")
-
-    if (tst) {
-        columns =
-            get_special_columns(.data) %>%
-            c(get_needed_columns(.data)) %>%
-            paste(collapse=", ")
-        stop(
-            "tidySingleCellExperiment says: you are trying to rename a column that is view only",
-            columns, " ",
-            "(it is not present in the colData). If you want to mutate a view-only column, make a copy and mutate that one."
-        )
-    }
-
+    
+    # What are the columns before renaming
+    original_columns = df |> colnames()
+    
+    # What  the column after renaming would be
+    new_colums = df |> rename(...) |> colnames()
+    
+    # What column you are impacting
+    changed_columns = original_columns |> setdiff(new_colums)
+    
+    # Check that you are not impacting any read-only columns
+    if(changed_columns %in% read_only_columns)
+      stop(
+        "tidySingleCellExperiment says: you are trying to rename a column that is view only `",
+        changed_columns,
+        "` ",
+        "(it is not present in the colData). If you want to rename a view-only column, make a copy (e.g. mutate(",
+        cols_from[1],
+        " = ",
+        changed_columns[1],
+        "))."
+      )
 
     colData(.data) <- dplyr::rename(colData(.data) %>% as.data.frame(), ...) %>% DataFrame()
 
