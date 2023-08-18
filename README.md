@@ -15,26 +15,26 @@ Website:
 
 Please also have a look at
 
--   [tidyseurat](https://stemangiola.github.io/tidyseurat/) for tidy
-    manipulation of Seurat objects
--   [tidybulk](https://stemangiola.github.io/tidybulk/) for tidy bulk
-    RNA-seq data analysis
--   [nanny](https://github.com/stemangiola/nanny) for tidy high-level
-    data analysis and manipulation
--   [tidygate](https://github.com/stemangiola/tidygate) for adding
-    custom gate information to your tibble
--   [tidyHeatmap](https://stemangiola.github.io/tidyHeatmap/) for
-    heatmaps produced with tidy principles
+- [tidySummarizedExperiment](https://stemangiola.github.io/tidySummarizedExperiment/)
+  for tidy manipulation of SummarizedExperiment objects)
+- [tidyseurat](https://stemangiola.github.io/tidyseurat/) for tidy
+  manipulation of Seurat objects
+- [tidybulk](https://stemangiola.github.io/tidybulk/) for tidy bulk
+  RNA-seq data analysis
+- [tidygate](https://github.com/stemangiola/tidygate) for adding custom
+  gate information to your tibble
+- [tidyHeatmap](https://stemangiola.github.io/tidyHeatmap/) for heatmaps
+  produced with tidy principles
 
 # Introduction
 
 tidySingleCellExperiment provides a bridge between Bioconductor
 single-cell packages \[@amezquita2019orchestrating\] and the tidyverse
-\[@wickham2019welcome\]. It creates an invisible layer that enables
-viewing the Bioconductor *SingleCellExperiment* object as a tidyverse
-tibble, and provides SingleCellExperiment-compatible *dplyr*, *tidyr*,
-*ggplot* and *plotly* functions. This allows users to get the best of
-both Bioconductor and tidyverse worlds.
+\[@wickham2019welcome\]. It enables viewing the Bioconductor
+*SingleCellExperiment* object as a tidyverse tibble, and provides
+SingleCellExperiment-compatible *dplyr*, *tidyr*, *ggplot* and *plotly*
+functions. This allows users to get the best of both Bioconductor and
+tidyverse worlds.
 
 ## Functions/utilities available
 
@@ -42,20 +42,18 @@ both Bioconductor and tidyverse worlds.
 |-------------------------------------------|------------------------------------------------------------------------------------|
 | `all`                                     | After all `tidySingleCellExperiment` is a SingleCellExperiment object, just better |
 
-| tidyverse Packages | Description                                                                  |
-|--------------------|------------------------------------------------------------------------------|
-| `dplyr`            | All `dplyr` tibble functions (e.g. `tidySingleCellExperiment::select`)       |
-| `tidyr`            | All `tidyr` tibble functions (e.g. `tidySingleCellExperiment::pivot_longer`) |
-| `ggplot2`          | `ggplot` (`tidySingleCellExperiment::ggplot`)                                |
-| `plotly`           | `plot_ly` (`tidySingleCellExperiment::plot_ly`)                              |
+| tidyverse Packages | Description                                        |
+|--------------------|----------------------------------------------------|
+| `dplyr`            | All `dplyr` tibble functions (e.g. `select`)       |
+| `tidyr`            | All `tidyr` tibble functions (e.g. `pivot_longer`) |
+| `ggplot2`          | `ggplot` (`ggplot`)                                |
+| `plotly`           | `plot_ly` (`plot_ly`)                              |
 
-| Utilities        | Description                                                                       |
-|------------------|-----------------------------------------------------------------------------------|
-| `tidy`           | Add `tidySingleCellExperiment` invisible layer over a SingleCellExperiment object |
-| `as_tibble`      | Convert cell-wise information to a `tbl_df`                                       |
-| `join_features`  | Add feature-wise information, returns a `tbl_df`                                  |
-| `aggregate_cells`| Aggregate cell gene-transcription abundance as pseudobulk tissue                  |
-
+| Utilities         | Description                                                      |
+|-------------------|------------------------------------------------------------------|
+| `as_tibble`       | Convert cell-wise information to a `tbl_df`                      |
+| `join_features`   | Add feature-wise information, returns a `tbl_df`                 |
+| `aggregate_cells` | Aggregate cell gene-transcription abundance as pseudobulk tissue |
 
 ## Installation
 
@@ -76,15 +74,15 @@ library(SingleR)
 library(SingleCellSignalR)
 
 # Tidyverse-compatible packages
-library(ggplot2)
 library(purrr)
+library(magrittr)
 library(tidyHeatmap)
 
 # Both
 library(tidySingleCellExperiment)
 ```
 
-# Create `tidySingleCellExperiment`, the best of both worlds!
+# Data representation of `tidySingleCellExperiment`
 
 This is a *SingleCellExperiment* object but it is evaluated as a tibble.
 So it is compatible both with SingleCellExperiment and tidyverse.
@@ -100,24 +98,23 @@ pbmc_small_tidy
 ```
 
     ## # A SingleCellExperiment-tibble abstraction: 80 × 17
-    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
-    ##    .cell      orig.…¹ nCoun…² nFeat…³ RNA_s…⁴ lette…⁵ groups RNA_s…⁶ file  ident
-    ##    <chr>      <fct>     <dbl>   <int> <fct>   <fct>   <chr>  <fct>   <chr> <fct>
-    ##  1 ATGCCAGAA… Seurat…      70      47 0       A       g2     0       ../d… 0    
-    ##  2 CATGGCCTG… Seurat…      85      52 0       A       g1     0       ../d… 0    
-    ##  3 GAACCTGAT… Seurat…      87      50 1       B       g2     0       ../d… 0    
-    ##  4 TGACTGGAT… Seurat…     127      56 0       A       g2     0       ../d… 0    
-    ##  5 AGTCAGACT… Seurat…     173      53 0       A       g2     0       ../d… 0    
-    ##  6 TCTGATACA… Seurat…      70      48 0       A       g1     0       ../d… 0    
-    ##  7 TGGTATCTA… Seurat…      64      36 0       A       g1     0       ../d… 0    
-    ##  8 GCAGCTCTG… Seurat…      72      45 0       A       g1     0       ../d… 0    
-    ##  9 GATATAACA… Seurat…      52      36 0       A       g1     0       ../d… 0    
-    ## 10 AATGTTGAC… Seurat…     100      41 0       A       g1     0       ../d… 0    
-    ## # … with 70 more rows, 7 more variables: PC_1 <dbl>, PC_2 <dbl>, PC_3 <dbl>,
-    ## #   PC_4 <dbl>, PC_5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>, and abbreviated
-    ## #   variable names ¹​orig.ident, ²​nCount_RNA, ³​nFeature_RNA, ⁴​RNA_snn_res.0.8,
-    ## #   ⁵​letter.idents, ⁶​RNA_snn_res.1
-    ## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
+    ##    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
+    ##    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
+    ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
+    ##  2 CATG… SeuratPro…         85           52 0               A             g1    
+    ##  3 GAAC… SeuratPro…         87           50 1               B             g2    
+    ##  4 TGAC… SeuratPro…        127           56 0               A             g2    
+    ##  5 AGTC… SeuratPro…        173           53 0               A             g2    
+    ##  6 TCTG… SeuratPro…         70           48 0               A             g1    
+    ##  7 TGGT… SeuratPro…         64           36 0               A             g1    
+    ##  8 GCAG… SeuratPro…         72           45 0               A             g1    
+    ##  9 GATA… SeuratPro…         52           36 0               A             g1    
+    ## 10 AATG… SeuratPro…        100           41 0               A             g1    
+    ## # ℹ 70 more rows
+    ## # ℹ 10 more variables: RNA_snn_res.1 <fct>, file <chr>, ident <fct>,
+    ## #   PC_1 <dbl>, PC_2 <dbl>, PC_3 <dbl>, PC_4 <dbl>, PC_5 <dbl>, tSNE_1 <dbl>,
+    ## #   tSNE_2 <dbl>
 
 **But it is a SingleCellExperiment object after all**
 
@@ -161,33 +158,32 @@ into multiple columns using regular expression groups.
 ``` r
 # Create sample column
 pbmc_small_polished <-
-    pbmc_small_tidy %>%
+    pbmc_small_tidy |>
     extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove=FALSE)
 
 # Reorder to have sample column up front
-pbmc_small_polished %>%
+pbmc_small_polished |>
     select(sample, everything())
 ```
 
     ## # A SingleCellExperiment-tibble abstraction: 80 × 18
-    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
-    ##    .cell     sample orig.…¹ nCoun…² nFeat…³ RNA_s…⁴ lette…⁵ groups RNA_s…⁶ file 
-    ##    <chr>     <chr>  <fct>     <dbl>   <int> <fct>   <fct>   <chr>  <fct>   <chr>
-    ##  1 ATGCCAGA… sampl… Seurat…      70      47 0       A       g2     0       ../d…
-    ##  2 CATGGCCT… sampl… Seurat…      85      52 0       A       g1     0       ../d…
-    ##  3 GAACCTGA… sampl… Seurat…      87      50 1       B       g2     0       ../d…
-    ##  4 TGACTGGA… sampl… Seurat…     127      56 0       A       g2     0       ../d…
-    ##  5 AGTCAGAC… sampl… Seurat…     173      53 0       A       g2     0       ../d…
-    ##  6 TCTGATAC… sampl… Seurat…      70      48 0       A       g1     0       ../d…
-    ##  7 TGGTATCT… sampl… Seurat…      64      36 0       A       g1     0       ../d…
-    ##  8 GCAGCTCT… sampl… Seurat…      72      45 0       A       g1     0       ../d…
-    ##  9 GATATAAC… sampl… Seurat…      52      36 0       A       g1     0       ../d…
-    ## 10 AATGTTGA… sampl… Seurat…     100      41 0       A       g1     0       ../d…
-    ## # … with 70 more rows, 8 more variables: ident <fct>, PC_1 <dbl>, PC_2 <dbl>,
-    ## #   PC_3 <dbl>, PC_4 <dbl>, PC_5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>, and
-    ## #   abbreviated variable names ¹​orig.ident, ²​nCount_RNA, ³​nFeature_RNA,
-    ## #   ⁴​RNA_snn_res.0.8, ⁵​letter.idents, ⁶​RNA_snn_res.1
-    ## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
+    ##    .cell sample orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
+    ##    <chr> <chr>  <fct>           <dbl>        <int> <fct>           <fct>        
+    ##  1 ATGC… sampl… SeuratPro…         70           47 0               A            
+    ##  2 CATG… sampl… SeuratPro…         85           52 0               A            
+    ##  3 GAAC… sampl… SeuratPro…         87           50 1               B            
+    ##  4 TGAC… sampl… SeuratPro…        127           56 0               A            
+    ##  5 AGTC… sampl… SeuratPro…        173           53 0               A            
+    ##  6 TCTG… sampl… SeuratPro…         70           48 0               A            
+    ##  7 TGGT… sampl… SeuratPro…         64           36 0               A            
+    ##  8 GCAG… sampl… SeuratPro…         72           45 0               A            
+    ##  9 GATA… sampl… SeuratPro…         52           36 0               A            
+    ## 10 AATG… sampl… SeuratPro…        100           41 0               A            
+    ## # ℹ 70 more rows
+    ## # ℹ 11 more variables: groups <chr>, RNA_snn_res.1 <fct>, file <chr>,
+    ## #   ident <fct>, PC_1 <dbl>, PC_2 <dbl>, PC_3 <dbl>, PC_4 <dbl>, PC_5 <dbl>,
+    ## #   tSNE_1 <dbl>, tSNE_2 <dbl>
 
 # Preliminary plots
 
@@ -218,13 +214,19 @@ custom_theme <-
     )
 ```
 
+    ## Warning: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.
+    ## ℹ Please use the `linewidth` argument instead.
+    ## This warning is displayed once every 8 hours.
+    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+    ## generated.
+
 We can treat `pbmc_small_polished` as a tibble for plotting.
 
 Here we plot number of features per cell.
 
 ``` r
-pbmc_small_polished %>%
-    tidySingleCellExperiment::ggplot(aes(nFeature_RNA, fill=groups)) +
+pbmc_small_polished |>
+    ggplot(aes(nFeature_RNA, fill=groups)) +
     geom_histogram() +
     custom_theme
 ```
@@ -236,8 +238,8 @@ pbmc_small_polished %>%
 Here we plot total features per cell.
 
 ``` r
-pbmc_small_polished %>%
-    tidySingleCellExperiment::ggplot(aes(groups, nCount_RNA, fill=groups)) +
+pbmc_small_polished |>
+    ggplot(aes(groups, nCount_RNA, fill=groups)) +
     geom_boxplot(outlier.shape=NA) +
     geom_jitter(width=0.1) +
     custom_theme
@@ -248,8 +250,8 @@ pbmc_small_polished %>%
 Here we plot abundance of two features for each group.
 
 ``` r
-pbmc_small_polished %>%
-    join_features(features=c("HLA-DRA", "LYZ")) %>%
+pbmc_small_polished |>
+    join_features(features=c("HLA-DRA", "LYZ")) |>
     ggplot(aes(groups, .abundance_counts + 1, fill=groups)) +
     geom_boxplot(outlier.shape=NA) +
     geom_jitter(aes(size=nCount_RNA), alpha=0.5, width=0.2) +
@@ -270,13 +272,13 @@ as *scran* \[@lun2016pooling\] and *scater* \[@mccarthy2017scater\].
 ``` r
 # Identify variable genes with scran
 variable_genes <-
-    pbmc_small_polished %>%
-    modelGeneVar() %>%
+    pbmc_small_polished |>
+    modelGeneVar() |>
     getTopHVGs(prop=0.1)
 
 # Perform PCA with scater
 pbmc_small_pca <-
-    pbmc_small_polished %>%
+    pbmc_small_polished |>
     runPCA(subset_row=variable_genes)
 ```
 
@@ -292,24 +294,23 @@ pbmc_small_pca
 ```
 
     ## # A SingleCellExperiment-tibble abstraction: 80 × 18
-    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
-    ##    .cell     orig.…¹ nCoun…² nFeat…³ RNA_s…⁴ lette…⁵ groups RNA_s…⁶ file  sample
-    ##    <chr>     <fct>     <dbl>   <int> <fct>   <fct>   <chr>  <fct>   <chr> <chr> 
-    ##  1 ATGCCAGA… Seurat…      70      47 0       A       g2     0       ../d… sampl…
-    ##  2 CATGGCCT… Seurat…      85      52 0       A       g1     0       ../d… sampl…
-    ##  3 GAACCTGA… Seurat…      87      50 1       B       g2     0       ../d… sampl…
-    ##  4 TGACTGGA… Seurat…     127      56 0       A       g2     0       ../d… sampl…
-    ##  5 AGTCAGAC… Seurat…     173      53 0       A       g2     0       ../d… sampl…
-    ##  6 TCTGATAC… Seurat…      70      48 0       A       g1     0       ../d… sampl…
-    ##  7 TGGTATCT… Seurat…      64      36 0       A       g1     0       ../d… sampl…
-    ##  8 GCAGCTCT… Seurat…      72      45 0       A       g1     0       ../d… sampl…
-    ##  9 GATATAAC… Seurat…      52      36 0       A       g1     0       ../d… sampl…
-    ## 10 AATGTTGA… Seurat…     100      41 0       A       g1     0       ../d… sampl…
-    ## # … with 70 more rows, 8 more variables: ident <fct>, PC1 <dbl>, PC2 <dbl>,
-    ## #   PC3 <dbl>, PC4 <dbl>, PC5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>, and
-    ## #   abbreviated variable names ¹​orig.ident, ²​nCount_RNA, ³​nFeature_RNA,
-    ## #   ⁴​RNA_snn_res.0.8, ⁵​letter.idents, ⁶​RNA_snn_res.1
-    ## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
+    ##    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
+    ##    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
+    ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
+    ##  2 CATG… SeuratPro…         85           52 0               A             g1    
+    ##  3 GAAC… SeuratPro…         87           50 1               B             g2    
+    ##  4 TGAC… SeuratPro…        127           56 0               A             g2    
+    ##  5 AGTC… SeuratPro…        173           53 0               A             g2    
+    ##  6 TCTG… SeuratPro…         70           48 0               A             g1    
+    ##  7 TGGT… SeuratPro…         64           36 0               A             g1    
+    ##  8 GCAG… SeuratPro…         72           45 0               A             g1    
+    ##  9 GATA… SeuratPro…         52           36 0               A             g1    
+    ## 10 AATG… SeuratPro…        100           41 0               A             g1    
+    ## # ℹ 70 more rows
+    ## # ℹ 11 more variables: RNA_snn_res.1 <fct>, file <chr>, sample <chr>,
+    ## #   ident <fct>, PC1 <dbl>, PC2 <dbl>, PC3 <dbl>, PC4 <dbl>, PC5 <dbl>,
+    ## #   tSNE_1 <dbl>, tSNE_2 <dbl>
 
 If a tidyverse-compatible package is not included in the
 tidySingleCellExperiment collection, we can use `as_tibble` to
@@ -317,9 +318,9 @@ permanently convert `tidySingleCellExperiment` into a tibble.
 
 ``` r
 # Create pairs plot with GGally
-pbmc_small_pca %>%
-    as_tibble() %>%
-    select(contains("PC"), everything()) %>%
+pbmc_small_pca |>
+    as_tibble() |>
+    select(contains("PC"), everything()) |>
     GGally::ggpairs(columns=1:5, ggplot2::aes(colour=groups)) +
     custom_theme
 ```
@@ -339,10 +340,10 @@ pbmc_small_cluster <- pbmc_small_pca
 
 # Assign clusters to the 'colLabels' of the SingleCellExperiment object
 colLabels(pbmc_small_cluster) <-
-    pbmc_small_pca %>%
-    buildSNNGraph(use.dimred="PCA") %>%
+    pbmc_small_pca |>
+    buildSNNGraph(use.dimred="PCA") |>
     igraph::cluster_walktrap() %$%
-    membership %>%
+    membership |>
     as.factor()
 ```
 
@@ -351,35 +352,34 @@ colLabels(pbmc_small_cluster) <-
 
 ``` r
 # Reorder columns
-pbmc_small_cluster %>% select(label, everything())
+pbmc_small_cluster |> select(label, everything())
 ```
 
     ## # A SingleCellExperiment-tibble abstraction: 80 × 19
-    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
-    ##    .cell      label orig.…¹ nCoun…² nFeat…³ RNA_s…⁴ lette…⁵ groups RNA_s…⁶ file 
-    ##    <chr>      <fct> <fct>     <dbl>   <int> <fct>   <fct>   <chr>  <fct>   <chr>
-    ##  1 ATGCCAGAA… 2     Seurat…      70      47 0       A       g2     0       ../d…
-    ##  2 CATGGCCTG… 2     Seurat…      85      52 0       A       g1     0       ../d…
-    ##  3 GAACCTGAT… 2     Seurat…      87      50 1       B       g2     0       ../d…
-    ##  4 TGACTGGAT… 1     Seurat…     127      56 0       A       g2     0       ../d…
-    ##  5 AGTCAGACT… 2     Seurat…     173      53 0       A       g2     0       ../d…
-    ##  6 TCTGATACA… 2     Seurat…      70      48 0       A       g1     0       ../d…
-    ##  7 TGGTATCTA… 1     Seurat…      64      36 0       A       g1     0       ../d…
-    ##  8 GCAGCTCTG… 2     Seurat…      72      45 0       A       g1     0       ../d…
-    ##  9 GATATAACA… 2     Seurat…      52      36 0       A       g1     0       ../d…
-    ## 10 AATGTTGAC… 2     Seurat…     100      41 0       A       g1     0       ../d…
-    ## # … with 70 more rows, 9 more variables: sample <chr>, ident <fct>, PC1 <dbl>,
-    ## #   PC2 <dbl>, PC3 <dbl>, PC4 <dbl>, PC5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>, and
-    ## #   abbreviated variable names ¹​orig.ident, ²​nCount_RNA, ³​nFeature_RNA,
-    ## #   ⁴​RNA_snn_res.0.8, ⁵​letter.idents, ⁶​RNA_snn_res.1
-    ## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
+    ##    .cell  label orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
+    ##    <chr>  <fct> <fct>           <dbl>        <int> <fct>           <fct>        
+    ##  1 ATGCC… 2     SeuratPro…         70           47 0               A            
+    ##  2 CATGG… 2     SeuratPro…         85           52 0               A            
+    ##  3 GAACC… 2     SeuratPro…         87           50 1               B            
+    ##  4 TGACT… 1     SeuratPro…        127           56 0               A            
+    ##  5 AGTCA… 2     SeuratPro…        173           53 0               A            
+    ##  6 TCTGA… 2     SeuratPro…         70           48 0               A            
+    ##  7 TGGTA… 1     SeuratPro…         64           36 0               A            
+    ##  8 GCAGC… 2     SeuratPro…         72           45 0               A            
+    ##  9 GATAT… 2     SeuratPro…         52           36 0               A            
+    ## 10 AATGT… 2     SeuratPro…        100           41 0               A            
+    ## # ℹ 70 more rows
+    ## # ℹ 12 more variables: groups <chr>, RNA_snn_res.1 <fct>, file <chr>,
+    ## #   sample <chr>, ident <fct>, PC1 <dbl>, PC2 <dbl>, PC3 <dbl>, PC4 <dbl>,
+    ## #   PC5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>
 
 And interrogate the output as if it was a regular tibble.
 
 ``` r
 # Count number of cells for each cluster per group
-pbmc_small_cluster %>%
-    tidySingleCellExperiment::count(groups, label)
+pbmc_small_cluster |>
+    count(groups, label)
 ```
 
     ## tidySingleCellExperiment says: A data frame is returned for independent data analysis.
@@ -403,18 +403,18 @@ SingleCellExperiment, tidyverse functions and tidyHeatmap
 ``` r
 # Identify top 10 markers per cluster
 marker_genes <-
-    pbmc_small_cluster %>%
-    findMarkers(groups=pbmc_small_cluster$label) %>%
-    as.list() %>%
-    map(~ .x %>%
-        head(10) %>%
-        rownames()) %>%
+    pbmc_small_cluster |>
+    findMarkers(groups=pbmc_small_cluster$label) |>
+    as.list() |>
+    map(~ .x |>
+        head(10) |>
+        rownames()) |>
     unlist()
 
 # Plot heatmap
-pbmc_small_cluster %>%
-    join_features(features=marker_genes) %>%
-    group_by(label) %>%
+pbmc_small_cluster |>
+    join_features(features=marker_genes) |>
+    group_by(label) |>
     heatmap(.feature, .cell, .abundance_counts, .scale="column")
 ```
 
@@ -423,9 +423,10 @@ pbmc_small_cluster %>%
     ## tidyHeatmap says: (once per session) from release 1.7.0 the scaling is set to "none" by default. Please use scale = "row", "column" or "both" to apply scaling
 
     ## Warning: The `.scale` argument of `heatmap()` is deprecated as of tidyHeatmap 1.7.0.
-    ## Please use scale (without dot prefix) instead: heatmap(scale = ...)
+    ## ℹ Please use scale (without dot prefix) instead: heatmap(scale = ...)
     ## This warning is displayed once every 8 hours.
-    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+    ## generated.
 
 ![](man/figures/unnamed-chunk-11-1.png)<!-- -->
 
@@ -436,14 +437,14 @@ SingleCellExperiment framework and *scater*.
 
 ``` r
 pbmc_small_UMAP <-
-    pbmc_small_cluster %>%
+    pbmc_small_cluster |>
     runUMAP(ncomponents=3)
 ```
 
 And we can plot the result in 3D using plotly.
 
 ``` r
-pbmc_small_UMAP %>%
+pbmc_small_UMAP |>
     plot_ly(
         x=~`UMAP1`,
         y=~`UMAP2`,
@@ -453,7 +454,10 @@ pbmc_small_UMAP %>%
     )
 ```
 
-![plotly screenshot](man/figures/plotly.png)
+<figure>
+<img src="man/figures/plotly.png" alt="plotly screenshot" />
+<figcaption aria-hidden="true">plotly screenshot</figcaption>
+</figure>
 
 # Cell type prediction
 
@@ -467,70 +471,69 @@ blueprint <- celldex::BlueprintEncodeData()
 # Infer cell identities
 cell_type_df <-
 
-    assays(pbmc_small_UMAP)$logcounts %>%
-    Matrix::Matrix(sparse = TRUE) %>%
+    assays(pbmc_small_UMAP)$logcounts |>
+    Matrix::Matrix(sparse = TRUE) |>
     SingleR::SingleR(
         ref = blueprint,
         labels = blueprint$label.main,
         method = "single"
-    ) %>%
-    as.data.frame() %>%
-    as_tibble(rownames="cell") %>%
+    ) |>
+    as.data.frame() |>
+    as_tibble(rownames="cell") |>
     select(cell, first.labels)
 ```
 
 ``` r
 # Join UMAP and cell type info
 pbmc_small_cell_type <-
-    pbmc_small_UMAP %>%
+    pbmc_small_UMAP |>
     left_join(cell_type_df, by="cell")
 ```
 
     ## Warning in is_sample_feature_deprecated_used(x, when(by, !is.null(.) ~ by, :
-    ## tidySingleCellExperiment says: from version 1.3.1, the special columns including
-    ## cell id (colnames(se)) has changed to ".cell". This dataset is returned with
-    ## the old-style vocabulary (cell), however we suggest to update your workflow to
-    ## reflect the new vocabulary (.cell)
+    ## tidySingleCellExperiment says: from version 1.3.1, the special columns
+    ## including cell id (colnames(se)) has changed to ".cell". This dataset is
+    ## returned with the old-style vocabulary (cell), however we suggest to update
+    ## your workflow to reflect the new vocabulary (.cell)
 
 ``` r
 # Reorder columns
-pbmc_small_cell_type %>%
-    tidySingleCellExperiment::select(cell, first.labels, everything())
+pbmc_small_cell_type |>
+    select(cell, first.labels, everything())
 ```
 
     ## Warning in is_sample_feature_deprecated_used(.data, (enquos(..., .ignore_empty
     ## = "all") %>% : tidySingleCellExperiment says: from version 1.3.1, the special
-    ## columns including cell id (colnames(se)) has changed to ".cell". This dataset is
-    ## returned with the old-style vocabulary (cell), however we suggest to update your
-    ## workflow to reflect the new vocabulary (.cell)
+    ## columns including cell id (colnames(se)) has changed to ".cell". This dataset
+    ## is returned with the old-style vocabulary (cell), however we suggest to update
+    ## your workflow to reflect the new vocabulary (.cell)
 
     ## # A SingleCellExperiment-tibble abstraction: 80 × 23
-    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
-    ##    cell     first…¹ orig.…² nCoun…³ nFeat…⁴ RNA_s…⁵ lette…⁶ groups RNA_s…⁷ file 
-    ##    <chr>    <chr>   <fct>     <dbl>   <int> <fct>   <fct>   <chr>  <fct>   <chr>
-    ##  1 ATGCCAG… CD4+ T… Seurat…      70      47 0       A       g2     0       ../d…
-    ##  2 CATGGCC… CD8+ T… Seurat…      85      52 0       A       g1     0       ../d…
-    ##  3 GAACCTG… CD8+ T… Seurat…      87      50 1       B       g2     0       ../d…
-    ##  4 TGACTGG… CD4+ T… Seurat…     127      56 0       A       g2     0       ../d…
-    ##  5 AGTCAGA… CD4+ T… Seurat…     173      53 0       A       g2     0       ../d…
-    ##  6 TCTGATA… CD4+ T… Seurat…      70      48 0       A       g1     0       ../d…
-    ##  7 TGGTATC… CD4+ T… Seurat…      64      36 0       A       g1     0       ../d…
-    ##  8 GCAGCTC… CD4+ T… Seurat…      72      45 0       A       g1     0       ../d…
-    ##  9 GATATAA… CD4+ T… Seurat…      52      36 0       A       g1     0       ../d…
-    ## 10 AATGTTG… CD4+ T… Seurat…     100      41 0       A       g1     0       ../d…
-    ## # … with 70 more rows, 13 more variables: sample <chr>, ident <fct>,
-    ## #   label <fct>, PC1 <dbl>, PC2 <dbl>, PC3 <dbl>, PC4 <dbl>, PC5 <dbl>,
-    ## #   tSNE_1 <dbl>, tSNE_2 <dbl>, UMAP1 <dbl>, UMAP2 <dbl>, UMAP3 <dbl>, and
-    ## #   abbreviated variable names ¹​first.labels, ²​orig.ident, ³​nCount_RNA,
-    ## #   ⁴​nFeature_RNA, ⁵​RNA_snn_res.0.8, ⁶​letter.idents, ⁷​RNA_snn_res.1
-    ## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
+    ##    cell          first.labels orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8
+    ##    <chr>         <chr>        <fct>           <dbl>        <int> <fct>          
+    ##  1 ATGCCAGAACGA… CD4+ T-cells SeuratPro…         70           47 0              
+    ##  2 CATGGCCTGTGC… CD8+ T-cells SeuratPro…         85           52 0              
+    ##  3 GAACCTGATGAA… CD8+ T-cells SeuratPro…         87           50 1              
+    ##  4 TGACTGGATTCT… CD4+ T-cells SeuratPro…        127           56 0              
+    ##  5 AGTCAGACTGCA… CD4+ T-cells SeuratPro…        173           53 0              
+    ##  6 TCTGATACACGT… CD4+ T-cells SeuratPro…         70           48 0              
+    ##  7 TGGTATCTAAAC… CD4+ T-cells SeuratPro…         64           36 0              
+    ##  8 GCAGCTCTGTTT… CD4+ T-cells SeuratPro…         72           45 0              
+    ##  9 GATATAACACGC… CD4+ T-cells SeuratPro…         52           36 0              
+    ## 10 AATGTTGACAGT… CD4+ T-cells SeuratPro…        100           41 0              
+    ## # ℹ 70 more rows
+    ## # ℹ 17 more variables: letter.idents <fct>, groups <chr>, RNA_snn_res.1 <fct>,
+    ## #   file <chr>, sample <chr>, ident <fct>, label <fct>, PC1 <dbl>, PC2 <dbl>,
+    ## #   PC3 <dbl>, PC4 <dbl>, PC5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>, UMAP1 <dbl>,
+    ## #   UMAP2 <dbl>, UMAP3 <dbl>
 
 We can easily summarise the results. For example, we can see how cell
 type classification overlaps with cluster classification.
 
 ``` r
 # Count number of cells for each cell type per cluster
-pbmc_small_cell_type %>%
+pbmc_small_cell_type |>
     count(label, first.labels)
 ```
 
@@ -555,13 +558,13 @@ We can easily reshape the data for building information-rich faceted
 plots.
 
 ``` r
-pbmc_small_cell_type %>%
+pbmc_small_cell_type |>
 
     # Reshape and add classifier column
     pivot_longer(
         cols=c(label, first.labels),
         names_to="classifier", values_to="label"
-    ) %>%
+    ) |>
 
     # UMAP plots for cell type and cluster
     ggplot(aes(UMAP1, UMAP2, color=label)) +
@@ -578,13 +581,13 @@ We can easily plot gene correlation per cell category, adding
 multi-layer annotations.
 
 ``` r
-pbmc_small_cell_type %>%
+pbmc_small_cell_type |>
 
     # Add some mitochondrial abundance values
-    mutate(mitochondrial=rnorm(dplyr::n())) %>%
+    mutate(mitochondrial=rnorm(dplyr::n())) |>
 
     # Plot correlation
-    join_features(features=c("CST3", "LYZ"), shape="wide") %>%
+    join_features(features=c("CST3", "LYZ"), shape="wide") |>
     ggplot(aes(CST3 + 1, LYZ + 1, color=groups, size=mitochondrial)) +
     geom_point() +
     facet_wrap(~first.labels, scales="free") +
@@ -594,10 +597,10 @@ pbmc_small_cell_type %>%
 ```
 
     ## Warning in is_sample_feature_deprecated_used(x, when(by, !is.null(.) ~ by, :
-    ## tidySingleCellExperiment says: from version 1.3.1, the special columns including
-    ## cell id (colnames(se)) has changed to ".cell". This dataset is returned with
-    ## the old-style vocabulary (cell), however we suggest to update your workflow to
-    ## reflect the new vocabulary (.cell)
+    ## tidySingleCellExperiment says: from version 1.3.1, the special columns
+    ## including cell id (colnames(se)) has changed to ".cell". This dataset is
+    ## returned with the old-style vocabulary (cell), however we suggest to update
+    ## your workflow to reflect the new vocabulary (.cell)
 
 ![](man/figures/unnamed-chunk-16-1.png)<!-- -->
 
@@ -610,23 +613,18 @@ then nest based on the new classification.
 
 ``` r
 pbmc_small_nested <-
-    pbmc_small_cell_type %>%
-    filter(first.labels != "Erythrocytes") %>%
-    mutate(cell_class=dplyr::if_else(`first.labels` %in% c("Macrophages", "Monocytes"), "myeloid", "lymphoid")) %>%
+    pbmc_small_cell_type |>
+    filter(first.labels != "Erythrocytes") |>
+    mutate(cell_class=dplyr::if_else(`first.labels` %in% c("Macrophages", "Monocytes"), "myeloid", "lymphoid")) |>
     nest(data=-cell_class)
 ```
 
-    ## Warning in is_sample_feature_deprecated_used(.data, (enquos(..., .ignore_empty
-    ## = "all") %>% : tidySingleCellExperiment says: from version 1.3.1, the special
-    ## columns including cell id (colnames(se)) has changed to ".cell". This dataset is
-    ## returned with the old-style vocabulary (cell), however we suggest to update your
-    ## workflow to reflect the new vocabulary (.cell)
-
-    ## Warning in is_sample_feature_deprecated_used(.data, (enquos(..., .ignore_empty
-    ## = "all") %>% : tidySingleCellExperiment says: from version 1.3.1, the special
-    ## columns including cell id (colnames(se)) has changed to ".cell". This dataset is
-    ## returned with the old-style vocabulary (cell), however we suggest to update your
-    ## workflow to reflect the new vocabulary (.cell)
+    ## Warning: There were 2 warnings in `mutate()`.
+    ## The first warning was:
+    ## ℹ In argument: `data = map(...)`.
+    ## Caused by warning in `is_sample_feature_deprecated_used()`:
+    ## ! tidySingleCellExperiment says: from version 1.3.1, the special columns including cell id (colnames(se)) has changed to ".cell". This dataset is returned with the old-style vocabulary (cell), however we suggest to update your workflow to reflect the new vocabulary (.cell)
+    ## ℹ Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
 
 ``` r
 pbmc_small_nested
@@ -644,24 +642,24 @@ tidyverse and SingleCellExperiment seamlessly.
 
 ``` r
 pbmc_small_nested_reanalysed <-
-    pbmc_small_nested %>%
+    pbmc_small_nested |>
     mutate(data=map(
         data, ~ {
             .x <- runPCA(.x, subset_row=variable_genes)
 
             variable_genes <-
-                .x %>%
-                modelGeneVar() %>%
+                .x |>
+                modelGeneVar() |>
                 getTopHVGs(prop=0.3)
 
             colLabels(.x) <-
-                .x %>%
-                buildSNNGraph(use.dimred="PCA") %>%
+                .x |>
+                buildSNNGraph(use.dimred="PCA") |>
                 igraph::cluster_walktrap() %$%
-                membership %>%
+                membership |>
                 as.factor()
 
-            .x %>% runUMAP(ncomponents=3)
+            .x |> runUMAP(ncomponents=3)
         }
     ))
 
@@ -677,14 +675,14 @@ pbmc_small_nested_reanalysed
 We can then unnest and plot the new classification.
 
 ``` r
-pbmc_small_nested_reanalysed %>%
+pbmc_small_nested_reanalysed |>
 
     # Convert to tibble otherwise SingleCellExperiment drops reduced dimensions when unifying data sets.
-    mutate(data=map(data, ~ .x %>% as_tibble())) %>%
-    unnest(data) %>%
+    mutate(data=map(data, ~ .x |> as_tibble())) |>
+    unnest(data) |>
 
     # Define unique clusters
-    unite("cluster", c(cell_class, label), remove=FALSE) %>%
+    unite("cluster", c(cell_class, label), remove=FALSE) |>
 
     # Plotting
     ggplot(aes(UMAP1, UMAP2, color=cluster)) +
@@ -707,32 +705,32 @@ visualisation.
 
 ``` r
 pbmc_small_nested_interactions <-
-    pbmc_small_nested_reanalysed %>%
+    pbmc_small_nested_reanalysed |>
 
     # Unnest based on cell category
-    unnest(data) %>%
+    unnest(data) |>
 
     # Create unambiguous clusters
-    mutate(integrated_clusters=first.labels %>% as.factor() %>% as.integer()) %>%
+    mutate(integrated_clusters=first.labels |> as.factor() |> as.integer()) |>
 
     # Nest based on sample
-    tidySingleCellExperiment::nest(data=-sample) %>%
-    tidySingleCellExperiment::mutate(interactions=map(data, ~ {
+    nest(data=-sample) |>
+    mutate(interactions=map(data, ~ {
 
         # Produce variables. Yuck!
         cluster <- colData(.x)$integrated_clusters
-        data <- data.frame(assays(.x) %>% as.list() %>% .[[1]] %>% as.matrix())
+        data <- data.frame(assays(.x) |> as.list() |> extract2(1) |> as.matrix())
 
         # Ligand/Receptor analysis using SingleCellSignalR
-        data %>%
-            cell_signaling(genes=rownames(data), cluster=cluster) %>%
-            inter_network(data=data, signal=., genes=rownames(data), cluster=cluster) %$%
-            `individual-networks` %>%
+        data |>
+            cell_signaling(genes=rownames(data), cluster=cluster) |>
+            inter_network(data=data, signal=_, genes=rownames(data), cluster=cluster) %$%
+            `individual-networks` |>
             map_dfr(~ bind_rows(as_tibble(.x)))
     }))
 
-pbmc_small_nested_interactions %>%
-    select(-data) %>%
+pbmc_small_nested_interactions |>
+    select(-data) |>
     unnest(interactions)
 ```
 
@@ -744,47 +742,40 @@ tidySingleCellExperiment::pbmc_small_nested_interactions
 ```
 
     ## # A tibble: 100 × 9
-    ##    sample  ligand         recep…¹ ligan…² recep…³ origin desti…⁴ inter…⁵ LRscore
-    ##    <chr>   <chr>          <chr>   <chr>   <chr>   <chr>  <chr>   <chr>     <dbl>
-    ##  1 sample1 cluster 1.PTMA cluste… PTMA    VIPR1   clust… cluste… paracr…   0.723
-    ##  2 sample1 cluster 1.B2M  cluste… B2M     KLRD1   clust… cluste… paracr…   0.684
-    ##  3 sample1 cluster 1.IL16 cluste… IL16    CD4     clust… cluste… paracr…   0.659
-    ##  4 sample1 cluster 1.HLA… cluste… HLA-B   KLRD1   clust… cluste… paracr…   0.643
-    ##  5 sample1 cluster 1.CAL… cluste… CALM1   VIPR1   clust… cluste… paracr…   0.616
-    ##  6 sample1 cluster 1.HLA… cluste… HLA-E   KLRD1   clust… cluste… paracr…   0.585
-    ##  7 sample1 cluster 1.GNAS cluste… GNAS    VIPR1   clust… cluste… paracr…   0.582
-    ##  8 sample1 cluster 1.B2M  cluste… B2M     HFE     clust… cluste… paracr…   0.548
-    ##  9 sample1 cluster 1.PTMA cluste… PTMA    VIPR1   clust… cluste… paracr…   0.704
-    ## 10 sample1 cluster 1.CAL… cluste… CALM1   VIPR1   clust… cluste… paracr…   0.594
-    ## # … with 90 more rows, and abbreviated variable names ¹​receptor, ²​ligand.name,
-    ## #   ³​receptor.name, ⁴​destination, ⁵​interaction.type
-    ## # ℹ Use `print(n = ...)` to see more rows
+    ##    sample  ligand          receptor ligand.name receptor.name origin destination
+    ##    <chr>   <chr>           <chr>    <chr>       <chr>         <chr>  <chr>      
+    ##  1 sample1 cluster 1.PTMA  cluster… PTMA        VIPR1         clust… cluster 2  
+    ##  2 sample1 cluster 1.B2M   cluster… B2M         KLRD1         clust… cluster 2  
+    ##  3 sample1 cluster 1.IL16  cluster… IL16        CD4           clust… cluster 2  
+    ##  4 sample1 cluster 1.HLA-B cluster… HLA-B       KLRD1         clust… cluster 2  
+    ##  5 sample1 cluster 1.CALM1 cluster… CALM1       VIPR1         clust… cluster 2  
+    ##  6 sample1 cluster 1.HLA-E cluster… HLA-E       KLRD1         clust… cluster 2  
+    ##  7 sample1 cluster 1.GNAS  cluster… GNAS        VIPR1         clust… cluster 2  
+    ##  8 sample1 cluster 1.B2M   cluster… B2M         HFE           clust… cluster 2  
+    ##  9 sample1 cluster 1.PTMA  cluster… PTMA        VIPR1         clust… cluster 3  
+    ## 10 sample1 cluster 1.CALM1 cluster… CALM1       VIPR1         clust… cluster 3  
+    ## # ℹ 90 more rows
+    ## # ℹ 2 more variables: interaction.type <chr>, LRscore <dbl>
 
-#  Aggregating cells 
+# Aggregating cells
 
-Sometimes, it is necessary to aggregate the gene-transcript abundance from a group of cells into a single value. For example, when comparing groups of cells across different samples with fixed-effect models.
+Sometimes, it is necessary to aggregate the gene-transcript abundance
+from a group of cells into a single value. For example, when comparing
+groups of cells across different samples with fixed-effect models.
 
-In tidySingleCellExperiment, cell aggregation can be achieved using the `aggregate_cells` function.
- 
+In tidySingleCellExperiment, cell aggregation can be achieved using the
+`aggregate_cells` function.
+
 ``` r
-pbmc_small_tidy %>%
+pbmc_small_tidy |>
   aggregate_cells(groups, assays = "counts")
 ```
 
-    ## # A SummarizedExperiment-tibble abstraction: 460 × 2
-    ## # Features=230 | Samples=2 | Assays=counts
-    ##    .feature .sample counts groups .aggregated_cells orig.ident    file                 feature
-    ##    <chr>    <chr>    <dbl> <chr>              <int> <fct>         <chr>                <chr>
-    ##  1 ACAP1    g1           9 g1                    44 SeuratProject ../data/sample1/out… ACAP1
-    ##  2 ACRBP    g1          29 g1                    44 SeuratProject ../data/sample1/out… ACRBP
-    ##  3 ACSM3    g1           2 g1                    44 SeuratProject ../data/sample1/out… ACSM3
-    ##  4 ADAR     g1          33 g1                    44 SeuratProject ../data/sample1/out… ADAR
-    ##  5 AIF1     g1         209 g1                    44 SeuratProject ../data/sample1/out… AIF1
-    ##  6 AKR1C3   g1          14 g1                    44 SeuratProject ../data/sample1/out… AKR1C3
-    ##  7 ALOX5AP  g1          19 g1                    44 SeuratProject ../data/sample1/out… ALOX5AP
-    ##  8 ANXA2    g1          87 g1                    44 SeuratProject ../data/sample1/out… ANXA2
-    ##  9 ARHGDIA  g1          23 g1                    44 SeuratProject ../data/sample1/out… ARHGDIA
-    ## 10 ASGR1    g1           9 g1                    44 SeuratProject ../data/sample1/out… ASGR1
-    ## # … with 40 more rows
-    ## # ℹ Use `print(n = ...)` to see more rows
-
+    ## class: SummarizedExperiment 
+    ## dim: 230 2 
+    ## metadata(0):
+    ## assays(1): counts
+    ## rownames(230): ACAP1 ACRBP ... ZNF330 ZNF76
+    ## rowData names(1): feature
+    ## colnames(2): g1 g2
+    ## colData names(4): groups .aggregated_cells orig.ident file

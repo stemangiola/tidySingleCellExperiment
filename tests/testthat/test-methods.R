@@ -57,11 +57,11 @@ test_that("aggregate_cells()", {
         s=tbl$string,
         \(f, s) {
             expect_identical(
-                df %>% 
-                    filter(factor == f, string == s) %>%
-                    assay() %>% rowSums() %>% as.vector(),
-                fd[, fd$factor == f & fd$string == s] %>%
-                    assay() %>% as.vector())
+                df |> 
+                    filter(factor == f, string == s) |>
+                    assay() |> rowSums() |> as.vector(),
+                fd[, fd$factor == f & fd$string == s] |>
+                    assay() |> as.vector())
         })
     # specified 'assays' are subsetted
     expect_error(aggregate_cells(df, c(factor, string), assays="x"))

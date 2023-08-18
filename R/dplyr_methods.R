@@ -235,13 +235,12 @@ mutate.SingleCellExperiment <- function(.data, ...) {
         length()
     
     if (.test) {
-        stop(
-            "tidySingleCellExperiment says:",
-            " you are trying to rename a column that is view only",
+        stop("tidySingleCellExperiment says:",
+            " you are trying to mutate a column that is view only",
             " ", paste(.view_only_cols, collapse=", "),
             " (it is not present in the colData).",
-            " If you want to mutate a view-only column,",
-            " make a copy and mutate that one.")
+            " If you want to mutate a view-only column, make a copy",
+            " (e.g. mutate(new_column=", cols[1], ")) and mutate that one.")
     }
     
     colData(.data) <-
@@ -270,34 +269,40 @@ mutate.SingleCellExperiment <- function(.data, ...) {
 rename.SingleCellExperiment <- function(.data, ...) {
     
     # Check that we are not modifying a key column
-    df <- as_tibble(.data)
-    idx <- tidyselect::eval_rename(expr(c(...)), df)
-    cols <- names(df)[idx]
+    read_only_columns <- c(
+        get_needed_columns(.data),
+        get_special_columns(.data))
+
+    # Small df to be more efficient
+    df <- .data[1, 1] |> as_tibble() 
     
-    .view_only_cols <- c(
-        get_special_columns(.data),
-        get_needed_columns(.data))
+    # What columns we are going to create
+    cols_from <- tidyselect::eval_select(expr(c(...)), df) |> names()
     
-    .test <- cols |>
-        intersect(.view_only_cols) |>
-        length()
+    # What are the columns before renaming
+    original_columns <- df |> colnames()
     
-    if (.test) {
-        stop(
-            "tidySingleCellExperiment says:",
+    # What the column after renaming would be
+    new_colums <- df |> rename(...) |> colnames()
+    
+    # What column you are impacting
+    changed_columns <- original_columns |> setdiff(new_colums)
+    
+    # Check that you are not impacting any read-only columns
+    if (any(changed_columns %in% read_only_columns))
+        stop("tidySingleCellExperiment says:",
             " you are trying to rename a column that is view only",
-            " ", paste(.view_only_cols, collapse=", "),
+            " ", paste(changed_columns, collapse=", "),
             " (it is not present in the colData).",
-            " If you want to mutate a view-only column,",
-            " make a copy and mutate that one.")
-    }
+            " If you want to rename a view-only column, make a copy",
+            " (e.g., mutate(", cols_from[1], "=",  changed_columns[1], ")).")
     
     colData(.data) <- 
         colData(.data) |>
         as.data.frame() |>
         dplyr::rename(...) |>
         DataFrame()
-    
+
     .data
 }
 

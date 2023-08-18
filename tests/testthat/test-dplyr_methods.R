@@ -78,24 +78,50 @@ test_that("mutate()", {
     expect_true(all(fd$peter == "pan"))
     fd <- mutate(df, number=paste(number))
     expect_identical(fd$number, paste(df$number))
+    
     # special columns are blocked
-    expect_error(mutate(df, .cell=1))
-    expect_error(mutate(df, PC_10=1))
+    df |>
+      mutate(.cell=1) |>
+      expect_error("you are trying to mutate a column that is view only")
+    
+    df |>
+      mutate(PC_10=1) |>
+      expect_error("you are trying to mutate a column that is view only")
 })
 
 test_that("rename()", {
     fd <- rename(df, num=number, fac=factor)
     expect_identical(fd$num, df$number)
     expect_identical(fd$fac, df$factor)
-    expect_error(rename(df, ne=mo))
+    
+    df |> 
+      rename(ne=mo) |> 
+      expect_error("Column `mo` doesn't exist")
+    
     # special columns are blocked
-    expect_error(rename(df, a=.cell))
-    expect_error(mutate(df, PC_10=1))
+    # ...'to' cannot be special
+    
+    df |>
+      rename(a=PC_1) |>
+      expect_error("you are trying to rename a column that is view only")  
+    
+    df |> 
+      rename(a=.cell) |> 
+      expect_error("you are trying to rename a column that is view only")
+    # ...'from' cannot be special
+    
+    df |> 
+      rename(PC_1=number) |> 
+      expect_error("These names are duplicated")
+    
+    df |> 
+      rename(.cell=number) |> 
+      expect_error("These names are duplicated")
 })
 
 test_that("left_join()", {
-    y <- df %>%
-        distinct(factor) %>%
+    y <- df |> 
+        distinct(factor) |> 
         mutate(string=letters[seq(nlevels(df$factor))])
     fd <- left_join(df, y, by="factor")
     expect_s4_class(fd, "SingleCellExperiment")
@@ -104,18 +130,20 @@ test_that("left_join()", {
 })
 
 test_that("inner_join()", {
-    string <- letters[seq(nlevels(df$factor))]
-    tbl <- df %>% distinct(factor) %>% mutate(string) %>% slice(1)
-    fd <- inner_join(df, tbl, by="factor")
+    y <- df |> 
+        distinct(factor) |> 
+        mutate(string=letters[seq(nlevels(df$factor))]) |> 
+        slice(1)
+    fd <- inner_join(df, y, by="factor")
     expect_s4_class(fd, "SingleCellExperiment")
     expect_equal(n <- ncol(colData(fd)), ncol(colData(df))+1)
     expect_equal(ncol(fd), sum(df$factor == fd$factor[1]))
 })
 
 test_that("right_join()", {
-    y <- df %>%
-        distinct(factor) %>%
-        mutate(string=letters[seq(nlevels(df$factor))]) %>%
+    y <- df |>
+        distinct(factor) |>
+        mutate(string=letters[seq(nlevels(df$factor))]) |>
         slice(1)
     fd <- right_join(df, y, by="factor")
     expect_s4_class(fd, "SingleCellExperiment")
@@ -193,9 +221,12 @@ test_that("add_count()", {
 })
 
 test_that("rowwise()", {
-    expect_error(df %>% summarise(sum(lys)))
+    df |> 
+    summarise(sum(lys)) |>
+    expect_error("object 'lys' not found")
+  
     df$lys <- replicate(ncol(df), sample(10, 3), FALSE)
-    fd <- df %>% rowwise() %>% summarise(sum(lys))
+    fd <- df |> rowwise() |> summarise(sum(lys))
     expect_s3_class(fd, "tbl_df")
     expect_equal(dim(fd), c(ncol(df), 1))
     expect_identical(fd[[1]], sapply(df$lys, sum))

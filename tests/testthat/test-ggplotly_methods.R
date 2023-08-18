@@ -10,7 +10,7 @@ test_that("ggplot()", {
     # assay data
     g <- sample(rownames(df), 1)
     fd <- join_features(df, g, shape="wide")
-    p <- ggplot(fd, aes(factor, .data[[g]]))
+    p <- ggplot(fd, aes(factor, .data[[make.names(g)]]))
     expect_silent(show(p))
     expect_s3_class(p, "ggplot")
     # reduced dimensions
