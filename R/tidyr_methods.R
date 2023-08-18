@@ -291,8 +291,7 @@ separate.SingleCellExperiment <- function(data, col, into,
         .view_only_cols)
     
     if (remove && length(.test)) {
-        stop(
-            "tidySingleCellExperiment says:",
+        stop("tidySingleCellExperiment says:",
             " you are trying to rename a column",
             " that is view only ",
             paste(.view_only_cols, collapse=", "),
