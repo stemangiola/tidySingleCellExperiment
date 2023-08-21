@@ -1,3 +1,4 @@
+data(pbmc_small)
 df <- pbmc_small
 
 test_that("show()", {

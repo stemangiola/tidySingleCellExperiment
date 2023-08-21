@@ -5,6 +5,7 @@
 #' @return `tidySingleCellExperiment`
 #' 
 #' @examples
+#' data(pbmc_small)
 #' pbmc_small |> 
 #'     nest(data=-groups) |> 
 #'     unnest(data)
@@ -74,6 +75,7 @@ unnest_single_cell_experiment  <-  function(data, cols, ...,
 #' @return `tidySingleCellExperiment_nested`
 #'
 #' @examples
+#' data(pbmc_small)
 #' pbmc_small |> 
 #'     nest(data=-groups) |> 
 #'     unnest(data)
@@ -122,7 +124,8 @@ nest.SingleCellExperiment <- function(.data, ..., .names_sep = NULL) {
 #' @return `tidySingleCellExperiment`
 #' 
 #' @examples
-#' pbmc_small|>
+#' data(pbmc_small)
+#' pbmc_small |>
 #'   extract(groups, 
 #'     into="g", 
 #'     regex="g([0-9])", 
@@ -159,7 +162,7 @@ extract.SingleCellExperiment <- function(data, col, into,
 #' 
 #' @export
 #' @examples
-#' # See vignette("pivot") for examples and explanation
+#' data(pbmc_small)
 #' pbmc_small |> pivot_longer(
 #'   cols=c(orig.ident, groups),
 #'   names_to="name", values_to="value")
@@ -207,13 +210,14 @@ pivot_longer.SingleCellExperiment <- function(data,
 #' @return `tidySingleCellExperiment`
 #' 
 #' @examples
+#' data(pbmc_small)
 #' pbmc_small |> unite(
 #'   col="new_col", 
-#'   c(orig.ident, groups))
+#'   c("orig.ident", "groups"))
 #'     
 #' @importFrom SummarizedExperiment colData
 #' @importFrom SummarizedExperiment colData<-
-#' @importFrom ellipsis check_dots_unnamed
+#' @importFrom rlang enquo enquos quo_name
 #' @importFrom tidyr unite
 #' @export
 unite.SingleCellExperiment <- function(data, col, 
@@ -246,7 +250,7 @@ unite.SingleCellExperiment <- function(data, col,
             " If you want to mutate a view-only column,",
             " make a copy and mutate that one.")
     }
-    
+
     colData(data) <- data %>%
         as_tibble() %>%
         tidyr::unite(!!cols, ..., sep=sep, remove=remove, na.rm=na.rm) %>%
@@ -261,6 +265,7 @@ unite.SingleCellExperiment <- function(data, col,
 #' @return `tidySingleCellExperiment`
 #' 
 #' @examples
+#' data(pbmc_small)
 #' un <- pbmc_small |> unite("new_col", c(orig.ident, groups))
 #' un |> separate(new_col, c("orig.ident", "groups"))
 #' 

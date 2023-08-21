@@ -50,6 +50,7 @@ See \code{vignette("extending", package = "pillar")} for details,
 and \link[pillar:pillar_options]{pillar::pillar_options} for options that control the display in the console.
 }
 \examples{
+data(pbmc_small)
 print(pbmc_small)
 
 }

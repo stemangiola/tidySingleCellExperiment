@@ -81,6 +81,7 @@ represent what you are nesting by.
 }
 
 \examples{
+data(pbmc_small)
 pbmc_small |> 
     nest(data=-groups) |> 
     unnest(data)

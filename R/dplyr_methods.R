@@ -4,6 +4,7 @@
 #' @family single table verbs
 #' 
 #' @examples
+#' data(pbmc_small)
 #' pbmc_small |> 
 #'     arrange(nFeature_RNA)
 #'     
@@ -25,6 +26,7 @@ arrange.SingleCellExperiment <- function(.data, ..., .by_group=FALSE) {
 #' @inherit ttservice::bind_rows
 #' 
 #' @examples
+#' data(pbmc_small)
 #' tt <- pbmc_small
 #' bind_rows(tt, tt)
 #'
@@ -77,8 +79,8 @@ bind_cols.SingleCellExperiment <- bind_cols_
 #' @inherit dplyr::distinct
 #' 
 #' @examples
-#' pbmc_small |> 
-#'     distinct(groups)
+#' data(pbmc_small)
+#' pbmc_small |> distinct(groups)
 #'
 #' @importFrom dplyr distinct
 #' @export
@@ -102,8 +104,8 @@ distinct.SingleCellExperiment <- function(.data, ..., .keep_all=FALSE) {
 #' @inherit dplyr::filter
 #' 
 #' @examples
-#' pbmc_small |> 
-#'     filter(groups == "g1")
+#' data(pbmc_small)
+#' pbmc_small |> filter(groups == "g1")
 #'
 #' # Learn more in ?dplyr_tidy_eval
 #' 
@@ -142,8 +144,8 @@ filter.SingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
 #' @seealso \code{}
 #'
 #' @examples
-#' pbmc_small |> 
-#'     group_by(groups)
+#' data(pbmc_small)
+#' pbmc_small |> group_by(groups)
 #'     
 #' @importFrom dplyr group_by_drop_default
 #' @importFrom dplyr group_by
@@ -172,8 +174,8 @@ group_by.SingleCellExperiment <- function(.data, ...,
 #' @family single table verbs
 #' 
 #' @examples
-#' pbmc_small |> 
-#'     summarise(mean(nCount_RNA))
+#' data(pbmc_small)
+#' pbmc_small |> summarise(mean(nCount_RNA))
 #'
 #' @importFrom dplyr summarise
 #' @importFrom purrr map
@@ -205,8 +207,8 @@ summarize.SingleCellExperiment <- summarise.SingleCellExperiment
 #' @family single table verbs
 #'
 #' @examples
-#' pbmc_small |> 
-#'     mutate(nFeature_RNA=1)
+#' data(pbmc_small)
+#' pbmc_small |> mutate(nFeature_RNA=1)
 #'
 #' @importFrom SummarizedExperiment colData
 #' @importFrom SummarizedExperiment colData<-
@@ -258,8 +260,8 @@ mutate.SingleCellExperiment <- function(.data, ...) {
 #' @family single table verbs
 #'
 #' @examples
-#' pbmc_small |> 
-#'     rename(s_score=nFeature_RNA)
+#' data(pbmc_small)
+#' pbmc_small |> rename(s_score=nFeature_RNA)
 #'
 #' @importFrom SummarizedExperiment colData
 #' @importFrom SummarizedExperiment colData<-
@@ -329,6 +331,7 @@ rowwise.SingleCellExperiment <- function(data, ...) {
 #' @inherit dplyr::left_join
 #'
 #' @examples
+#' data(pbmc_small)
 #' tt <- pbmc_small
 #' tt |> left_join(tt |>  
 #'   distinct(groups) |> 
@@ -367,6 +370,7 @@ left_join.SingleCellExperiment <- function(x, y,
 #' @inherit dplyr::inner_join
 #'
 #' @examples
+#' data(pbmc_small)
 #' tt <- pbmc_small
 #' tt |> inner_join(tt |> 
 #'   distinct(groups) |>  
@@ -407,6 +411,7 @@ inner_join.SingleCellExperiment <- function(x, y,
 #' @inherit dplyr::right_join
 #'
 #' @examples
+#' data(pbmc_small)
 #' tt <- pbmc_small
 #' tt |> right_join(tt |> 
 #'   distinct(groups) |> 
@@ -447,6 +452,7 @@ right_join.SingleCellExperiment <- function(x, y,
 #' @inherit dplyr::full_join
 #'
 #' @examples
+#' data(pbmc_small)
 #' tt <- pbmc_small
 #' tt |> full_join(tibble::tibble(groups="g1", other=1:4))
 #'
@@ -486,6 +492,7 @@ full_join.SingleCellExperiment <- function(x, y,
 #' @family single table verbs
 #' 
 #' @examples
+#' data(pbmc_small)
 #' pbmc_small |> slice(1)
 #'
 #' @importFrom SummarizedExperiment colData
@@ -505,6 +512,7 @@ slice.SingleCellExperiment <- function(.data, ..., .by=NULL, .preserve=FALSE) {
 #' @inherit dplyr::select
 #'
 #' @examples
+#' data(pbmc_small)
 #' pbmc_small |> select(cell, orig.ident)
 #' 
 #' @importFrom SummarizedExperiment colData
@@ -543,6 +551,7 @@ select.SingleCellExperiment <- function(.data, ...) {
 #' @return `tidySingleCellExperiment`
 #' 
 #' @examples
+#' data(pbmc_small)
 #' pbmc_small |> sample_n(50)
 #' pbmc_small |> sample_frac(0.1)
 #' 
@@ -614,6 +623,7 @@ sample_frac.SingleCellExperiment <- function(tbl, size=1,
 #' @inherit dplyr::count
 #' 
 #' @examples
+#' data(pbmc_small)
 #' pbmc_small |> count(groups)
 #'     
 #' @importFrom dplyr count
@@ -664,6 +674,7 @@ add_count.SingleCellExperiment <- function(x, ...,
 #' @inherit dplyr::pull
 #' 
 #' @examples
+#' data(pbmc_small)
 #' pbmc_small |> pull(groups)
 #'     
 #' @importFrom ellipsis check_dots_used

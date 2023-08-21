@@ -99,8 +99,8 @@ Methods available in currently loaded packages:
 }
 
 \examples{
-pbmc_small |> 
-    mutate(nFeature_RNA=1)
+data(pbmc_small)
+pbmc_small |> mutate(nFeature_RNA=1)
 
 }
 \seealso{

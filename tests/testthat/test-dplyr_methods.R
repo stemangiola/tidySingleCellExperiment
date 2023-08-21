@@ -1,3 +1,4 @@
+data(pbmc_small)
 df <- pbmc_small
 df$number <- sample(seq(ncol(df)))
 df$factor <- sample(

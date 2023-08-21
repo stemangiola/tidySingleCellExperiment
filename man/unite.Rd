@@ -35,9 +35,10 @@ each value.}
 Convenience function to paste together multiple columns into one.
 }
 \examples{
+data(pbmc_small)
 pbmc_small |> unite(
   col="new_col", 
-  c(orig.ident, groups))
+  c("orig.ident", "groups"))
     
 }
 \seealso{

@@ -25,7 +25,7 @@ setClass("tidySingleCellExperiment", contains="SingleCellExperiment")
 #'   containing information for the specified features.
 #'
 #' @examples
-#' data("pbmc_small")
+#' data(pbmc_small)
 #' pbmc_small %>% join_features(
 #'   features=c("HLA-DRA", "LYZ"))
 #'
@@ -72,7 +72,8 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
 #' @return A `tidySingleCellExperiment` object.
 #'
 #' @examples
-#' tidySingleCellExperiment::pbmc_small
+#' data(pbmc_small)
+#' pbmc_small
 #'
 #' @export
 tidy <- function(object) {
@@ -99,7 +100,7 @@ tidy.SingleCellExperiment <- function(object) {
 #' @aliases aggregate_cells,SingleCellExperiment-method
 #' 
 #' @examples 
-#' data("pbmc_small")
+#' data(pbmc_small)
 #' pbmc_small_pseudo_bulk <- pbmc_small |>
 #'   aggregate_cells(c(groups, ident), assays="counts")
 #'

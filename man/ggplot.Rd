@@ -63,6 +63,7 @@ below, however, they are left in place for clarity.
 }
 \examples{
 library(ggplot2)
+data(pbmc_small)
 pbmc_small |> 
   ggplot(aes(groups, nCount_RNA)) +
   geom_boxplot()

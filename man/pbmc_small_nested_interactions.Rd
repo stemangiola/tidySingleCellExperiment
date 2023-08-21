@@ -8,7 +8,7 @@
 \format{
 A `tibble` containing 100 rows and 9 columns.
   Cells are a subsample of the PBMC dataset of 2,700 single cells. 
-  Cell interactions were identified with SingleCellSignalR.
+  Cell interactions were identified with `SingleCellSignalR`.
 \describe{
   \item{sample}{sample identifier}
   \item{ligand}{cluster and ligand identifier}

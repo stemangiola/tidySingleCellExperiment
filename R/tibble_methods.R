@@ -4,6 +4,7 @@
 #' @return `tibble`
 #' 
 #' @examples
+#' data(pbmc_small)
 #' pbmc_small |> as_tibble()
 #' 
 #' @importFrom tibble as_tibble
@@ -30,6 +31,7 @@ as_tibble.SingleCellExperiment <- function(x, ...,
 #' @inherit pillar::glimpse
 #'
 #' @examples
+#' data(pbmc_small)
 #' pbmc_small |> glimpse()
 #' 
 #' @importFrom tibble glimpse

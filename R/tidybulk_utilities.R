@@ -1,10 +1,9 @@
-#' This is a generalisation of ifelse that accepts an object and returns an objects
+#' This is a generalisation of ifelse that accepts an object and returns an object
 #'
 #' @keywords internal
 #' @noRd
 #'
 #' @importFrom purrr as_mapper
-#' @importFrom magrittr equals
 #'
 #' @param .x A tibble
 #' @param .p A boolean
@@ -13,12 +12,12 @@
 #'
 #' @return A tibble
 ifelse_pipe <- function(.x, .p, .f1, .f2 = NULL) {
-    switch(.p %>% not() %>% sum(1),
+    switch(
+        sum(!.p, 1), 
         as_mapper(.f1)(.x),
-        if (.f2 %>% is.null %>% not())
-            as_mapper(.f2)(.x)
-        else
-            .x)
+        if (!is.null(.f2)) {
+            as_mapper(.f2)(.x) 
+        } else .x)
 }
 
 #' as_SummarizedExperiment

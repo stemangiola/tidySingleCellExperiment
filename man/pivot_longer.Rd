@@ -132,7 +132,7 @@ simpler to use and to handle more use cases. We recommend you use
 under active development.
 }
 \examples{
-# See vignette("pivot") for examples and explanation
+data(pbmc_small)
 pbmc_small |> pivot_longer(
   cols=c(orig.ident, groups),
   names_to="name", values_to="value")

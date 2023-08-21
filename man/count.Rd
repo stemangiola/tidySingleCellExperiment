@@ -66,6 +66,7 @@ but use \code{mutate()} instead of \code{summarise()} so that they add a new col
 with group-wise counts.
 }
 \examples{
+data(pbmc_small)
 pbmc_small |> count(groups)
     
 }

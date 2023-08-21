@@ -19,6 +19,7 @@ A `tidySingleCellExperiment` object.
 tidy for `SingleCellExperiment`
 }
 \examples{
-tidySingleCellExperiment::pbmc_small
+data(pbmc_small)
+pbmc_small
 
 }

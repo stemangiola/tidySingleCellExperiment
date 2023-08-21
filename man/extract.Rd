@@ -54,7 +54,8 @@ each group into a new column. If the groups don't match, or the input
 is NA, the output will be NA.
 }
 \examples{
-pbmc_small|>
+data(pbmc_small)
+pbmc_small |>
   extract(groups, 
     into="g", 
     regex="g([0-9])", 

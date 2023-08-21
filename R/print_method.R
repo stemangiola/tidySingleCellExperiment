@@ -47,6 +47,7 @@ tbl_format_header.tidySingleCellExperiment <- function(x, setup, ...) {
 #'   the contents of the `tidySingleCellExperiment`.
 #'
 #' @examples
+#' data(pbmc_small)
 #' print(pbmc_small)
 #' 
 #' @importFrom vctrs new_data_frame

@@ -54,6 +54,7 @@ undocumented.
 }
 }
 \examples{
+data(pbmc_small)
 pbmc_small |> sample_n(50)
 pbmc_small |> sample_frac(0.1)
 
