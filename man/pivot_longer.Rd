@@ -115,6 +115,9 @@ in the \code{value_to} column. This effectively converts explicit missing values
 to implicit missing values, and should generally be used only when missing
 values in \code{data} were created by its structure.}
 }
+\value{
+`tidySingleCellExperiment`
+}
 \description{
 \code{pivot_longer()} "lengthens" data, increasing the number of rows and
 decreasing the number of columns. The inverse transformation is
@@ -129,7 +132,7 @@ simpler to use and to handle more use cases. We recommend you use
 under active development.
 }
 \examples{
-# See vignette("pivot") for examples and explanation
+data(pbmc_small)
 pbmc_small |> pivot_longer(
   cols=c(orig.ident, groups),
   names_to="name", values_to="value")

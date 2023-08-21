@@ -1,3 +1,4 @@
+data(pbmc_small)
 df <- pbmc_small
 df$number <- rnorm(ncol(df))
 df$factor <- sample(gl(3, 1, ncol(df)))

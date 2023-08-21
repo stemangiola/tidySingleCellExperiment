@@ -63,6 +63,9 @@ happens when there are not enough pieces. There are three valid options:
 
 \item{...}{Additional arguments passed on to methods.}
 }
+\value{
+`tidySingleCellExperiment`
+}
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 
@@ -76,6 +79,7 @@ Given either a regular expression or a vector of character positions,
 \code{separate()} turns a single character column into multiple columns.
 }
 \examples{
+data(pbmc_small)
 un <- pbmc_small |> unite("new_col", c(orig.ident, groups))
 un |> separate(new_col, c("orig.ident", "groups"))
 

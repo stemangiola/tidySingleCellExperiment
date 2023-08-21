@@ -59,6 +59,7 @@ The output of `bind_rows()` will contain a column if that column
 appears in any of the inputs.
 }
 \examples{
+data(pbmc_small)
 tt <- pbmc_small
 bind_rows(tt, tt)
 

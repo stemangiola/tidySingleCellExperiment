@@ -158,6 +158,7 @@ Methods available in currently loaded packages:
 }
 
 \examples{
+data(pbmc_small)
 tt <- pbmc_small
 tt |> full_join(tibble::tibble(groups="g1", other=1:4))
 
