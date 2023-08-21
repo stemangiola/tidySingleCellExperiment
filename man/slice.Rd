@@ -86,6 +86,7 @@ Methods available in currently loaded packages:
 }
 
 \examples{
+data(pbmc_small)
 pbmc_small |> slice(1)
 
 }

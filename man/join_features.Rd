@@ -40,7 +40,7 @@ This function extracts information for specified features and
   returns the information in either long or wide format.
 }
 \examples{
-data("pbmc_small")
+data(pbmc_small)
 pbmc_small \%>\% join_features(
   features=c("HLA-DRA", "LYZ"))
 

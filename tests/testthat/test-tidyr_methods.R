@@ -1,3 +1,4 @@
+data(pbmc_small)
 df <- pbmc_small
 df$number <- sample(seq(ncol(df)))
 df$factor <- sample(gl(2, 1, ncol(df), c("g1", "g2")))
@@ -18,10 +19,10 @@ test_that("un/nest()", {
 })
 
 test_that("unite()/separate()", {
-    expect_error(unite(df, "x", c(number, x)))
+    expect_error(unite(df, "x", c("number", "x")))
     expect_error(separate(df, x, c("a", "b")))
     
-    fd <- unite(df, "string", c(number, factor), sep=":")
+    fd <- unite(df, "string", c("number", "factor"), sep=":")
     expect_null(fd$number)
     expect_null(fd$factor)
     expect_identical(fd$string, paste(df$number, df$factor, sep=":"))
@@ -32,7 +33,7 @@ test_that("unite()/separate()", {
     expect_identical(fd$b, paste(df$factor))
     
     # special columns are blocked
-    expect_error(unite(df, ".cell", c(number, factor), sep=":"))
+    expect_error(unite(df, ".cell", c("number", "factor"), sep=":"))
     fd <- df; colnames(fd) <- paste(colnames(df), "x", sep="-")
     expect_error(separate(fd, .cell, c("a", "b"), sep="-"))
 })

@@ -49,7 +49,7 @@ The following methods are currently available in loaded packages:
 }
 
 \examples{
-pbmc_small |> 
-    distinct(groups)
+data(pbmc_small)
+pbmc_small |> distinct(groups)
 
 }

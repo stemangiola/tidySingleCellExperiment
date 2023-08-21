@@ -1,3 +1,4 @@
+data(pbmc_small)
 df <- pbmc_small
 df$number <- sample(seq(ncol(df)))
 df$factor <- sample(
@@ -82,11 +83,11 @@ test_that("mutate()", {
     # special columns are blocked
     df |>
       mutate(.cell=1) |>
-      expect_error(regexp = "you are trying to mutate a column that is view only")
+      expect_error("you are trying to mutate a column that is view only")
     
     df |>
       mutate(PC_10=1) |>
-      expect_error(regexp = "you are trying to mutate a column that is view only")
+      expect_error("you are trying to mutate a column that is view only")
 })
 
 test_that("rename()", {
@@ -96,27 +97,27 @@ test_that("rename()", {
     
     df |> 
       rename(ne=mo) |> 
-      expect_error(regexp = "Column `mo` doesn't exist")
+      expect_error("Column `mo` doesn't exist")
     
     # special columns are blocked
     # ...'to' cannot be special
     
     df |>
       rename(a=PC_1) |>
-      expect_error(regexp = "you are trying to rename a column that is view only")  
+      expect_error("you are trying to rename a column that is view only")  
     
     df |> 
       rename(a=.cell) |> 
-      expect_error(regexp = "you are trying to rename a column that is view only")
+      expect_error("you are trying to rename a column that is view only")
     # ...'from' cannot be special
     
     df |> 
       rename(PC_1=number) |> 
-      expect_error(regexp = "These names are duplicated")
+      expect_error("These names are duplicated")
     
     df |> 
       rename(.cell=number) |> 
-      expect_error(regexp = "These names are duplicated")
+      expect_error("These names are duplicated")
 })
 
 test_that("left_join()", {
@@ -223,7 +224,7 @@ test_that("add_count()", {
 test_that("rowwise()", {
     df |> 
     summarise(sum(lys)) |>
-    expect_error(regexp = "object 'lys' not found")
+    expect_error("object 'lys' not found")
   
     df$lys <- replicate(ncol(df), sample(10, 3), FALSE)
     fd <- df |> rowwise() |> summarise(sum(lys))
