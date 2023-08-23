@@ -63,6 +63,7 @@ print.SingleCellExperiment <- function(x, ..., n=NULL, width=NULL) {
         add_attr(nrow(x), "number_of_features") %>%
         add_attr(assayNames(x), "assay_names") %>%
         add_attr(altExpNames(x), "altExpNames") %>%
+  
         print()
     
     invisible(x)

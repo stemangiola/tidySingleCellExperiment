@@ -45,8 +45,8 @@ The following methods are currently available in loaded packages:
 }
 
 \examples{
-pbmc_small |> 
-    rename(s_score=nFeature_RNA)
+data(pbmc_small)
+pbmc_small |> rename(s_score=nFeature_RNA)
 
 }
 \seealso{

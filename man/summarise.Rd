@@ -93,8 +93,8 @@ The following methods are currently available in loaded packages:
 }
 
 \examples{
-pbmc_small |> 
-    summarise(mean(nCount_RNA))
+data(pbmc_small)
+pbmc_small |> summarise(mean(nCount_RNA))
 
 }
 \seealso{

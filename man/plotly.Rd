@@ -170,6 +170,9 @@ Any \code{lty} (see \link{par}) value or \href{https://plotly.com/r/reference/#s
 with the source argument in \code{\link[plotly:event_data]{event_data()}} to retrieve the
 event data corresponding to a specific plot (shiny apps can have multiple plots).}
 }
+\value{
+`plotly`
+}
 \description{
 This function maps R objects to \href{https://plotly.com/javascript/}{plotly.js},
 an (MIT licensed) web-based interactive charting library. It provides

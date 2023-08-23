@@ -31,7 +31,7 @@ A tibble object
 Combine cells into groups based on shared variables and aggregate feature counts.
 }
 \examples{
-data("pbmc_small")
+data(pbmc_small)
 pbmc_small_pseudo_bulk <- pbmc_small |>
   aggregate_cells(c(groups, ident), assays="counts")
 

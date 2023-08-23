@@ -40,6 +40,7 @@ See \code{\link[pillar:format_glimpse]{format_glimpse()}} for details on the for
 }
 
 \examples{
+data(pbmc_small)
 pbmc_small |> glimpse()
 
 }
