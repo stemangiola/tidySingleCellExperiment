@@ -131,7 +131,7 @@ setMethod("aggregate_cells", "SingleCellExperiment", function(.data,
       .data |> 
       select(!!.sample) |> 
       suppressMessages() |> 
-      unite("my_id_to_split_by___", !!.sample) |> 
+      unite("my_id_to_split_by___", !!.sample, sep = "___") |> 
       pull(my_id_to_split_by___) |> 
       as.factor()
     
@@ -177,10 +177,11 @@ setMethod("aggregate_cells", "SingleCellExperiment", function(.data,
     do.call(rbind, splitted_sce) |> 
   
         left_join(
-            .data %>% 
-                as_tibble() %>% 
-                subset(!!.sample) |> 
-                unite("my_id_to_split_by___", !!.sample, remove=FALSE), 
+          .data |> 
+            colData() |> 
+            as_tibble() |> 
+            subset(!!.sample) |> 
+            unite("my_id_to_split_by___", !!.sample, remove=FALSE, sep = "___"), 
             by= join_by(".sample" == "my_id_to_split_by___")
         ) |>
   
