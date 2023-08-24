@@ -441,12 +441,17 @@ get_specific_annotation_columns <- function(.data, .col) {
     # x-annotation df
     n_x <- .data |> distinct_at(vars(!!.col)) |> nrow()
     
+    # Exclude columns that have more values than my .col
+    columns_unique_length = .data |> select(-!!.col) |> lapply(function(x) unique(x) |> length())
+    columns_unique_length = columns_unique_length[columns_unique_length<=n_x]
+    
+    .sample = .data |> select(!!.col) |> unite(".sample", !!.col) |> pull(.sample)
+    
     # element wise columns
-    .data |>
-        select(-!!.col) |>
-        colnames() |>
+    columns_unique_length |>
+      names() |> 
         map(~ {
-            n_.x <- .data |> distinct_at(vars(!!.col, .x)) |> nrow()
+            n_.x <- .data |> pull(all_of(.x)) |> paste(.sample)  |> unique() |> length()
             if (n_.x == n_x) .x else NULL
         }) %>%
         # Drop NULL
