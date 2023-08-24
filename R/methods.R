@@ -110,6 +110,7 @@ tidy.SingleCellExperiment <- function(object) {
 #' @importFrom Matrix rowSums
 #' @importFrom ttservice aggregate_cells
 #' @importFrom SummarizedExperiment assays assays<- assayNames
+#' @importFrom S4Vectors split
 #' @export
 setMethod("aggregate_cells", "SingleCellExperiment", function(.data,
     .sample=NULL, slot="data", assays=NULL, 
@@ -124,33 +125,66 @@ setMethod("aggregate_cells", "SingleCellExperiment", function(.data,
         assays(.data) <- assays(.data)[assays]
     }
     
-    .data %>%
-        nest(data=-!!.sample) %>%
-        mutate(.aggregated_cells=as.integer(map(data, ~ ncol(.x)))) %>% 
-        mutate(
-            data=map(data, ~ {
+    
+    grouping_factor = 
+      .data |> 
+      select(!!.sample) |> 
+      suppressMessages() |> 
+      unite("my_id_to_split_by___", !!.sample) |> 
+      pull(my_id_to_split_by___) |> 
+      as.factor()
+    
+    list_count_cells = table(grouping_factor) |> as.list()
+    
+    splitted_sce = 
+      
+      # Split
+      .data |> 
+      splitColData( grouping_factor )  |> 
+      
+      # Add cell count
+      map2(
+        list_count_cells,
+        ~ {
+          colData(.x)[,".aggregated_cells"] = rep(.y, .y) 
+          .x
+        }) |> 
+      
+      # Aggregate
+      map( ~ 
                 # Loop over assays
                 map2(as.list(assays(.x)), assayNames(.x), ~ {
                     # Get counts
                     .x %>%
                         aggregation_function(na.rm=TRUE) %>%
                         enframe(
-                            name ="feature",
+                            name =".feature",
                             value=sprintf("%s", .y)) %>%
-                        mutate(feature=as.character(feature))
+                        mutate(.feature=as.character(.feature))
                 }) %>% 
-                Reduce(function(...) full_join(..., by="feature"), .)
-            })
-        ) %>%
+             
+             # Full join will extend to Alternative experiments as well where the features are not overlapping
+              Reduce(function(...) full_join(..., by=".feature"), .)
+            )  |> 
+      
+      # Attach new sample name
+      map2(
+        levels(grouping_factor),
+        ~ .x |> mutate(.sample = .y)
+      )
+    
+    do.call(rbind, splitted_sce) |> 
+  
         left_join(
             .data %>% 
                 as_tibble() %>% 
-                subset(!!.sample), 
-            by=quo_names(.sample)) %>%
-        unnest(data) %>%
-        drop_class("tidySingleCellExperiment_nested") %>%
+                subset(!!.sample) |> 
+                unite("my_id_to_split_by___", !!.sample, remove=FALSE), 
+            by= join_by(".sample" == "my_id_to_split_by___")
+        ) |>
+  
         as_SummarizedExperiment(
-            .sample=!!.sample, 
-            .transcript=feature, 
+            .sample=.sample, 
+            .transcript=.feature, 
             .abundance=!!as.symbol(names(.data@assays)))
 })
