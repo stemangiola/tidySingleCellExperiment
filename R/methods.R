@@ -39,7 +39,7 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
     # CRAN Note
     .cell <- NULL
     .feature <- NULL
-    
+
     # Shape is long
     if (shape == "long") {
         .data %>%
@@ -50,11 +50,11 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
                 features=features,
                 all=all,
                 exclude_zeros=exclude_zeros)) %>%
-        select(!!c_(.data)$symbol, .feature, 
+        select(!!c_(.data)$symbol, .feature,
             contains(".abundance"), everything())
     # Shape if wide
     } else {
-        .data  %>% 
+        .data  %>%
             left_join(
                 by=c_(.data)$name,
                 get_abundance_sc_wide(
@@ -84,7 +84,7 @@ tidy <- function(object) {
 #' @importFrom lifecycle deprecate_warn
 #' @export
 tidy.SingleCellExperiment <- function(object) {
-    
+
     # DEPRECATE
     deprecate_warn(
         when="1.1.1",
@@ -98,8 +98,8 @@ tidy.SingleCellExperiment <- function(object) {
 #' @rdname aggregate_cells
 #' @inherit ttservice::aggregate_cells
 #' @aliases aggregate_cells,SingleCellExperiment-method
-#' 
-#' @examples 
+#'
+#' @examples
 #' data(pbmc_small)
 #' pbmc_small_pseudo_bulk <- pbmc_small |>
 #'   aggregate_cells(c(groups, ident), assays="counts")
@@ -113,41 +113,41 @@ tidy.SingleCellExperiment <- function(object) {
 #' @importFrom S4Vectors split
 #' @export
 setMethod("aggregate_cells", "SingleCellExperiment", function(.data,
-    .sample=NULL, slot="data", assays=NULL, 
-    aggregation_function=Matrix::rowSums) {
+    .sample=NULL, slot="data", assays=NULL,
+    aggregation_function=Matrix::rowSums, ...) {
 
     # Fix NOTEs
     feature <- NULL
     .sample <- enquo(.sample)
-    
+
     # Subset only wanted assays
     if (!is.null(assays)) {
         assays(.data) <- assays(.data)[assays]
     }
-    
-    
-    grouping_factor = 
-      .data |> 
-      colData() |> 
-      as_tibble() |> 
-      select(!!.sample) |> 
-      suppressMessages() |> 
-      unite("my_id_to_split_by___", !!.sample, sep = "___") |> 
-      pull(my_id_to_split_by___) |> 
-      as.factor()
-    
-    list_count_cells = table(grouping_factor) |> as.list()
-    
-    # New method
-    list_assays = 
+
+
+    grouping_factor =
       .data |>
-      assays() |> 
-      as.list() |> 
-      map(~ .x |> splitColData(grouping_factor)) |> 
-      unlist(recursive=FALSE) 
-    
-    list_assays = 
-      list_assays |> 
+      colData() |>
+      as_tibble() |>
+      select(!!.sample) |>
+      suppressMessages() |>
+      unite("my_id_to_split_by___", !!.sample, sep = "___") |>
+      pull(my_id_to_split_by___) |>
+      as.factor()
+
+    list_count_cells = table(grouping_factor) |> as.list()
+
+    # New method
+    list_assays =
+      .data |>
+      assays() |>
+      as.list() |>
+      map(~ .x |> splitColData(grouping_factor)) |>
+      unlist(recursive=FALSE)
+
+    list_assays =
+      list_assays |>
       map2(names(list_assays), ~ {
         # Get counts
         .x %>%
@@ -155,38 +155,38 @@ setMethod("aggregate_cells", "SingleCellExperiment", function(.data,
           enframe(
             name =".feature",
             value="x") %>% # sprintf("%s", .y)) %>%
-          
+
           # In case we don't have rownames
-          mutate(.feature=as.character(.feature)) 
-      }) |> 
-      enframe(name = ".sample") |> 
-      
+          mutate(.feature=as.character(.feature))
+      }) |>
+      enframe(name = ".sample") |>
+
       # Clean groups
-      mutate(assay_name = assayNames(!!.data) |> rep(each=length(levels(grouping_factor)))) |> 
-      mutate(.sample = .sample |> str_remove(assay_name) |> str_remove("\\.")) |> 
-      group_split(.sample) |> 
-      map(~ .x |>  unnest(value) |> pivot_wider(names_from = assay_name, values_from = x) ) |> 
-      
+      mutate(assay_name = assayNames(!!.data) |> rep(each=length(levels(grouping_factor)))) |>
+      mutate(.sample = .sample |> str_remove(assay_name) |> str_remove("\\.")) |>
+      group_split(.sample) |>
+      map(~ .x |>  unnest(value) |> pivot_wider(names_from = assay_name, values_from = x) ) |>
+
       # Add cell count
       map2(
         list_count_cells,
-        ~ .x |> mutate(.aggregated_cells = .y) 
-      ) 
-    
-    
-    do.call(rbind, list_assays) |> 
-  
+        ~ .x |> mutate(.aggregated_cells = .y)
+      )
+
+
+    do.call(rbind, list_assays) |>
+
         left_join(
-          .data |> 
-            colData() |> 
-            as_tibble() |> 
-            subset(!!.sample) |> 
-            unite("my_id_to_split_by___", !!.sample, remove=FALSE, sep = "___"), 
+          .data |>
+            colData() |>
+            as_tibble() |>
+            subset(!!.sample) |>
+            unite("my_id_to_split_by___", !!.sample, remove=FALSE, sep = "___"),
             by= join_by(".sample" == "my_id_to_split_by___")
         ) |>
-  
+
         as_SummarizedExperiment(
-            .sample=.sample, 
-            .transcript=.feature, 
+            .sample=.sample,
+            .transcript=.feature,
             .abundance=!!as.symbol(names(.data@assays)))
 })
