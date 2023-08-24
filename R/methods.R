@@ -111,6 +111,10 @@ tidy.SingleCellExperiment <- function(object) {
 #' @importFrom ttservice aggregate_cells
 #' @importFrom SummarizedExperiment assays assays<- assayNames
 #' @importFrom S4Vectors split
+#' @importFrom stringr str_remove
+#' @importFrom dplyr group_split
+#' 
+#' 
 #' @export
 setMethod("aggregate_cells", "SingleCellExperiment", function(.data,
     .sample=NULL, slot="data", assays=NULL,
