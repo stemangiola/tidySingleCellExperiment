@@ -365,7 +365,6 @@ get_special_column_name_cell <- function(name) {
     list(name=name, symbol=as.symbol(name))
 }
 
-cell__ <- get_special_column_name_symbol(".cell")
 
 #' @importFrom S4Vectors metadata
 c_ <- function(x) {
@@ -482,5 +481,23 @@ subset <- function(.data, .column)	{
         distinct()
 }
 
+
+splitColData <- function(x, f) {
+  # This is by @jma1991 
+  # at https://github.com/drisso/SingleCellExperiment/issues/55
+  
+  i <- split(seq_along(f), f)
+  
+  v <- vector(mode = "list", length = length(i))
+  
+  names(v) <- names(i)
+  
+  for (n in names(i)) { v[[n]] <- x[, i[[n]]] }
+  
+  return(v)
+  
+}
+
+cell__ <- get_special_column_name_symbol(".cell")
 feature__ <- get_special_column_name_symbol(".feature")
 sample__ <- get_special_column_name_symbol(".sample")
