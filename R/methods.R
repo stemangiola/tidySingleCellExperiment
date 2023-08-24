@@ -129,6 +129,8 @@ setMethod("aggregate_cells", "SingleCellExperiment", function(.data,
     
     grouping_factor = 
       .data |> 
+      colData() |> 
+      as_tibble() |> 
       select(!!.sample) |> 
       suppressMessages() |> 
       unite("my_id_to_split_by___", !!.sample, sep = "___") |> 
@@ -137,44 +139,43 @@ setMethod("aggregate_cells", "SingleCellExperiment", function(.data,
     
     list_count_cells = table(grouping_factor) |> as.list()
     
-    splitted_sce = 
+    # New method
+    list_assays = 
+      .data |>
+      assays() |> 
+      as.list() |> 
+      map(~ .x |> splitColData(grouping_factor)) |> 
+      unlist(recursive=FALSE) 
+    
+    list_assays = 
+      list_assays |> 
+      map2(names(list_assays), ~ {
+        # Get counts
+        .x %>%
+          aggregation_function(na.rm=TRUE) %>%
+          enframe(
+            name =".feature",
+            value="x") %>% # sprintf("%s", .y)) %>%
+          
+          # In case we don't have rownames
+          mutate(.feature=as.character(.feature)) 
+      }) |> 
+      enframe(name = ".sample") |> 
       
-      # Split
-      .data |> 
-      splitColData( grouping_factor )  |> 
+      # Clean groups
+      mutate(assay_name = assayNames(!!.data) |> rep(each=length(levels(grouping_factor)))) |> 
+      mutate(.sample = .sample |> str_remove(assay_name) |> str_remove("\\.")) |> 
+      group_split(.sample) |> 
+      map(~ .x |>  unnest(value) |> pivot_wider(names_from = assay_name, values_from = x) ) |> 
       
       # Add cell count
       map2(
         list_count_cells,
-        ~ {
-          colData(.x)[,".aggregated_cells"] = rep(.y, .y) 
-          .x
-        }) |> 
-      
-      # Aggregate
-      map( ~ 
-                # Loop over assays
-                map2(as.list(assays(.x)), assayNames(.x), ~ {
-                    # Get counts
-                    .x %>%
-                        aggregation_function(na.rm=TRUE) %>%
-                        enframe(
-                            name =".feature",
-                            value=sprintf("%s", .y)) %>%
-                        mutate(.feature=as.character(.feature))
-                }) %>% 
-             
-             # Full join will extend to Alternative experiments as well where the features are not overlapping
-              Reduce(function(...) full_join(..., by=".feature"), .)
-            )  |> 
-      
-      # Attach new sample name
-      map2(
-        levels(grouping_factor),
-        ~ .x |> mutate(.sample = .y)
-      )
+        ~ .x |> mutate(.aggregated_cells = .y) 
+      ) 
     
-    do.call(rbind, splitted_sce) |> 
+    
+    do.call(rbind, list_assays) |> 
   
         left_join(
           .data |> 
