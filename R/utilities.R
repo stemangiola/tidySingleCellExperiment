@@ -365,7 +365,6 @@ get_special_column_name_cell <- function(name) {
     list(name=name, symbol=as.symbol(name))
 }
 
-cell__ <- get_special_column_name_symbol(".cell")
 
 #' @importFrom S4Vectors metadata
 c_ <- function(x) {
@@ -442,12 +441,17 @@ get_specific_annotation_columns <- function(.data, .col) {
     # x-annotation df
     n_x <- .data |> distinct_at(vars(!!.col)) |> nrow()
     
+    # Exclude columns that have more values than my .col
+    columns_unique_length = .data |> select(-!!.col) |> lapply(function(x) unique(x) |> length())
+    columns_unique_length = columns_unique_length[columns_unique_length<=n_x]
+    
+    .sample = .data |> select(!!.col) |> unite(".sample", !!.col) |> pull(.sample)
+    
     # element wise columns
-    .data |>
-        select(-!!.col) |>
-        colnames() |>
+    columns_unique_length |>
+      names() |> 
         map(~ {
-            n_.x <- .data |> distinct_at(vars(!!.col, .x)) |> nrow()
+            n_.x <- .data |> pull(all_of(.x)) |> paste(.sample)  |> unique() |> length()
             if (n_.x == n_x) .x else NULL
         }) %>%
         # Drop NULL
@@ -482,5 +486,23 @@ subset <- function(.data, .column)	{
         distinct()
 }
 
+
+splitColData <- function(x, f) {
+  # This is by @jma1991 
+  # at https://github.com/drisso/SingleCellExperiment/issues/55
+  
+  i <- split(seq_along(f), f)
+  
+  v <- vector(mode = "list", length = length(i))
+  
+  names(v) <- names(i)
+  
+  for (n in names(i)) { v[[n]] <- x[, i[[n]]] }
+  
+  return(v)
+  
+}
+
+cell__ <- get_special_column_name_symbol(".cell")
 feature__ <- get_special_column_name_symbol(".feature")
 sample__ <- get_special_column_name_symbol(".sample")
