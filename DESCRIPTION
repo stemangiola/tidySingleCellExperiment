@@ -20,7 +20,9 @@ Depends:
     R (>= 4.3.0),
     SingleCellExperiment
 Imports:
-    dplyr, tidyr, ttservice,
+    dplyr, 
+    tidyr, 
+    ttservice (>= 0.3.8),
     SummarizedExperiment,
     tibble,
     ggplot2,

@@ -113,7 +113,8 @@ tidy.SingleCellExperiment <- function(object) {
 #' @export
 setMethod("aggregate_cells", "SingleCellExperiment", function(.data,
     .sample=NULL, slot="data", assays=NULL, 
-    aggregation_function=Matrix::rowSums) {
+    aggregation_function=Matrix::rowSums,
+    ...) {
     
     # Fix NOTEs
     feature <- NULL
