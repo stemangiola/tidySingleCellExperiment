@@ -520,7 +520,7 @@ slice.SingleCellExperiment <- function(.data, ..., .by=NULL, .preserve=FALSE) {
 #' pbmc_small |> slice_sample(prop=0.1)
 #'
 #' @importFrom SummarizedExperiment colData
-#' @importFrom dplyr slice
+#' @importFrom dplyr slice_sample
 #' @export
 slice_sample.SingleCellExperiment <- function(.data, ..., n=NULL,
     prop=NULL, by=NULL, weight_by=NULL, replace=FALSE) {
@@ -563,6 +563,35 @@ slice_sample.SingleCellExperiment <- function(.data, ..., n=NULL,
     }
 }
 
+#' @name slice_head
+#' @rdname slice
+#' @inherit dplyr::slice_head
+#' @examples
+#'
+#' # First rows based on existing order
+#' pbmc_small |> slice_head(n=5)
+#' 
+#' @importFrom dplyr slice_head
+#' @importFrom tibble rowid_to_column
+#' @export
+slice_head.SingleCellExperiment <- function(.data, ..., n, prop, by=NULL) {
+    row_number___ <- NULL
+    idx <- .data |>
+        colData() |>
+        as.data.frame() |>
+        select(-everything(), {{ by }}) |>
+        rowid_to_column(var='row_number___')  |>
+        slice_head(..., n=n, prop=prop, by={{ by }}) |>
+        pull(row_number___)
+
+    if (length(idx) == 0) {
+        stop("tidySingleCellExperiment says:",
+            " the resulting data container is empty.",
+            " Seurat does not allow for empty containers.")
+    }
+    new_obj <- .data[, idx]
+    new_obj
+}
 
 #' @name select
 #' @rdname select

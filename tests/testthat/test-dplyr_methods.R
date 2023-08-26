@@ -186,6 +186,25 @@ test_that("slice_sample()", {
         expect_equal(50)
 })
 
+test_that("slice_sample()", {
+    pbmc_small |>
+        slice_head(n=50) |>
+        ncol() |>
+        expect_equal(50)
+})
+
+test_that("slice_head", {
+    pbmc_small |>
+        slice_head(n=50) |>
+        ncol() |>
+        expect_equal(50)
+    expect_equal(
+        colnames(pbmc_small) |> head(n=50),
+        pbmc_small |> slice_head(n=50) |> colnames()
+    )
+})
+
+
 test_that("select()", {
     fd <- select(df, .cell, number)
     expect_s4_class(fd, "SingleCellExperiment")
