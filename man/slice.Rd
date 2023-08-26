@@ -8,9 +8,20 @@
 \alias{slice_sample}
 \alias{slice_min}
 \alias{slice_max}
+\alias{slice_sample.SingleCellExperiment}
 \title{Subset rows using their positions}
 \usage{
 \method{slice}{SingleCellExperiment}(.data, ..., .by = NULL, .preserve = FALSE)
+
+\method{slice_sample}{SingleCellExperiment}(
+  .data,
+  ...,
+  n = NULL,
+  prop = NULL,
+  by = NULL,
+  weight_by = NULL,
+  replace = FALSE
+)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
@@ -26,7 +37,7 @@ Indices beyond the number of rows in the input are silently ignored.
 
 For \verb{slice_*()}, these arguments are passed on to methods.}
 
-\item{.by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+\item{.by, by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
 <\code{\link[dplyr:dplyr_tidy_select]{tidy-select}}> Optionally, a selection of columns to
 group by for just this operation, functioning as an alternative to \code{\link[dplyr:group_by]{group_by()}}. For
@@ -35,6 +46,24 @@ details and examples, see \link[dplyr:dplyr_by]{?dplyr_by}.}
 \item{.preserve}{Relevant when the \code{.data} input is grouped.
 If \code{.preserve = FALSE} (the default), the grouping structure
 is recalculated based on the resulting data, otherwise the grouping is kept as is.}
+
+\item{n, prop}{Provide either \code{n}, the number of rows, or \code{prop}, the
+proportion of rows to select. If neither are supplied, \code{n = 1} will be
+used. If \code{n} is greater than the number of rows in the group
+(or \code{prop > 1}), the result will be silently truncated to the group size.
+\code{prop} will be rounded towards zero to generate an integer number of
+rows.
+
+A negative value of \code{n} or \code{prop} will be subtracted from the group
+size. For example, \code{n = -2} with a group of 5 rows will select 5 - 2 = 3
+rows; \code{prop = -0.25} with 8 rows will select 8 * (1 - 0.25) = 6 rows.}
+
+\item{weight_by}{<\code{\link[rlang:args_data_masking]{data-masking}}> Sampling
+weights. This must evaluate to a vector of non-negative numbers the same
+length as the input. Weights are automatically standardised to sum to 1.}
+
+\item{replace}{Should sampling be performed with (\code{TRUE}) or without
+(\code{FALSE}, the default) replacement.}
 }
 \value{
 An object of the same type as \code{.data}. The output has the following
@@ -89,8 +118,18 @@ Methods available in currently loaded packages:
 data(pbmc_small)
 pbmc_small |> slice(1)
 
+data(pbmc_small)
+pbmc_small |> slice_sample(n=1)
+pbmc_small |> slice_sample(prop=0.1)
+
 }
 \seealso{
+Other single table verbs: 
+\code{\link{arrange}()},
+\code{\link{mutate}()},
+\code{\link{rename}()},
+\code{\link{summarise}()}
+
 Other single table verbs: 
 \code{\link{arrange}()},
 \code{\link{mutate}()},

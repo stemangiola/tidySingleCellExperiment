@@ -179,6 +179,13 @@ test_that("slice()", {
     expect_identical(slice(df, -i), df[, -i])
 })
 
+test_that("slice_sample()", {
+    pbmc_small |>
+        slice_sample(n=50) |>
+        ncol() |>
+        expect_equal(50)
+})
+
 test_that("select()", {
     fd <- select(df, .cell, number)
     expect_s4_class(fd, "SingleCellExperiment")

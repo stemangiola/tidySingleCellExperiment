@@ -507,6 +507,63 @@ slice.SingleCellExperiment <- function(.data, ..., .by=NULL, .preserve=FALSE) {
     .data[, rownames(new_meta)]
 }
 
+#' @name slice
+#' @rdname slice
+#' @aliases slice_head slice_tail 
+#'   slice_sample slice_min slice_max
+#' @inherit dplyr::slice
+#' @family single table verbs
+#' 
+#' @examples
+#' data(pbmc_small)
+#' pbmc_small |> slice_sample(n=1)
+#' pbmc_small |> slice_sample(prop=0.1)
+#'
+#' @importFrom SummarizedExperiment colData
+#' @importFrom dplyr slice
+#' @export
+slice_sample.SingleCellExperiment <- function(.data, ..., n=NULL,
+    prop=NULL, by=NULL, weight_by=NULL, replace=FALSE) {
+    lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
+
+    if (!is.null(n))
+        new_meta <-
+            .data |>
+            colData() |>
+            as_tibble(rownames=c_(.data)$name) |>
+            select(-everything(), c_(.data)$name, {{ by }}, {{ weight_by }}) |>
+            slice_sample(..., n=n, by={{ by }},
+                weight_by={{ weight_by }}, replace=replace)
+    else if (!is.null(prop))
+        new_meta <-
+            .data |>
+            colData() |>
+            as_tibble(rownames=c_(.data)$name) |>
+            select(-everything(), c_(.data)$name, {{ by }}, {{ weight_by }}) |>
+            slice_sample(..., prop=prop, by={{ by }},
+                weight_by={{ weight_by }}, replace=replace)
+    else
+        stop("tidySingleCellExperiment says:",
+            " you should provide `n` or `prop` arguments")
+
+    count_cells <- new_meta %>%
+        select(!!c_(.data)$symbol) %>%
+        count(!!c_(.data)$symbol)
+
+    # If repeated cells due to replacement
+    if (count_cells$n |> max() |> gt(1)){
+        message("tidySingleCellExperiment says: When sampling with replacement",
+            " a data frame is returned for independent data analysis.")
+        .data |>
+            as_tibble()  |>
+            right_join(new_meta %>% 
+                select(!!c_(.data)$symbol), by=c_(.data)$name)
+    } else {
+        .data[, pull(new_meta, !!c_(.data)$symbol)]
+    }
+}
+
+
 #' @name select
 #' @rdname select
 #' @inherit dplyr::select
