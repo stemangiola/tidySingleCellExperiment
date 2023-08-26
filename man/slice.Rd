@@ -10,6 +10,7 @@
 \alias{slice_max}
 \alias{slice_sample.SingleCellExperiment}
 \alias{slice_head.SingleCellExperiment}
+\alias{slice_tail.SingleCellExperiment}
 \title{Subset rows using their positions}
 \usage{
 \method{slice}{SingleCellExperiment}(.data, ..., .by = NULL, .preserve = FALSE)
@@ -25,6 +26,8 @@
 )
 
 \method{slice_head}{SingleCellExperiment}(.data, ..., n, prop, by = NULL)
+
+\method{slice_tail}{SingleCellExperiment}(.data, ..., n, prop, by = NULL)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
@@ -132,6 +135,23 @@ Methods available in currently loaded packages:
 \item \code{slice_sample()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_sample")}.
 }
 
+
+
+
+These function are \strong{generic}s, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+Methods available in currently loaded packages:
+\itemize{
+\item \code{slice()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice")}.
+\item \code{slice_head()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_head")}.
+\item \code{slice_tail()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_tail")}.
+\item \code{slice_min()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_min")}.
+\item \code{slice_max()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_max")}.
+\item \code{slice_sample()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_sample")}.
+}
+
 }
 
 \examples{
@@ -145,6 +165,10 @@ pbmc_small |> slice_sample(prop=0.1)
 
 # First rows based on existing order
 pbmc_small |> slice_head(n=5)
+
+
+# First rows based on existing order
+pbmc_small |> slice_tail(n=5)
 
 }
 \seealso{

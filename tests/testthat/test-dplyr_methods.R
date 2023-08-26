@@ -186,14 +186,7 @@ test_that("slice_sample()", {
         expect_equal(50)
 })
 
-test_that("slice_sample()", {
-    pbmc_small |>
-        slice_head(n=50) |>
-        ncol() |>
-        expect_equal(50)
-})
-
-test_that("slice_head", {
+test_that("slice_head()", {
     pbmc_small |>
         slice_head(n=50) |>
         ncol() |>
@@ -201,6 +194,17 @@ test_that("slice_head", {
     expect_equal(
         colnames(pbmc_small) |> head(n=50),
         pbmc_small |> slice_head(n=50) |> colnames()
+    )
+})
+
+test_that("slice_tail()", {
+    pbmc_small |>
+        slice_tail(n=50) |>
+        ncol() |>
+        expect_equal(50)
+    expect_equal(
+        colnames(pbmc_small) |> tail(n=50),
+        pbmc_small |> slice_tail(n=50) |> colnames()
     )
 })
 

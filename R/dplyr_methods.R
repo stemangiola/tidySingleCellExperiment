@@ -593,6 +593,36 @@ slice_head.SingleCellExperiment <- function(.data, ..., n, prop, by=NULL) {
     new_obj
 }
 
+#' @name slice_tail
+#' @rdname slice
+#' @inherit dplyr::slice_tail
+#' @examples
+#'
+#' # First rows based on existing order
+#' pbmc_small |> slice_tail(n=5)
+#' 
+#' @importFrom dplyr slice_tail
+#' @importFrom tibble rowid_to_column
+#' @export
+slice_tail.SingleCellExperiment <- function(.data, ..., n, prop, by=NULL) {
+    row_number___ <- NULL
+    idx <- .data |>
+        colData() |>
+        as.data.frame() |>
+        select(-everything(), {{ by }}) |>
+        rowid_to_column(var='row_number___')  |>
+        slice_tail(..., n=n, prop=prop, by={{ by }}) |>
+        pull(row_number___)
+
+    if (length(idx) == 0) {
+        stop("tidySingleCellExperiment says:",
+            " the resulting data container is empty.",
+            " Seurat does not allow for empty containers.")
+    }
+    new_obj <- .data[, idx]
+    new_obj
+}
+
 #' @name select
 #' @rdname select
 #' @inherit dplyr::select
