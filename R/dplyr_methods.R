@@ -623,6 +623,95 @@ slice_tail.SingleCellExperiment <- function(.data, ..., n, prop, by=NULL) {
     new_obj
 }
 
+#' @name slice_min
+#' @rdname slice
+#' @inherit dplyr::slice_min
+#' @examples
+#'
+#' # Rows with minimum and maximum values of a metadata variable
+#' pbmc_small |> slice_min(nFeature_RNA, n=5)
+#'
+#' # slice_min() and slice_max() may return more rows than requested
+#' # in the presence of ties.
+#' pbmc_small |>  slice_min(nFeature_RNA, n=2)
+#'
+#' # Use with_ties=FALSE to return exactly n matches
+#' pbmc_small |> slice_min(nFeature_RNA, n=2, with_ties=FALSE)
+#'
+#' # Or use additional variables to break the tie:
+#' pbmc_small |> slice_min(tibble::tibble(nFeature_RNA, nCount_RNA), n=2)
+#'
+#' # Use by for group-wise operations
+#' pbmc_small |> slice_min(nFeature_RNA, n=5, by=groups)
+#'
+#' @importFrom dplyr slice_min
+#' @importFrom tibble rowid_to_column
+#' @export
+slice_min.SingleCellExperiment <- function(.data, order_by, ..., n, prop,
+    by=NULL, with_ties=TRUE, na_rm=FALSE) {
+    row_number___ <- NULL
+    order_by_variables <- return_arguments_of(!!enexpr(order_by))
+
+    idx <- .data |>
+        colData() |>
+        as.data.frame() |>
+        select(-everything(), !!!order_by_variables, {{ by }}) |>
+        rowid_to_column(var ='row_number___')  |>
+        slice_min(
+            order_by={{ order_by }}, ..., n=n, prop=prop, by={{ by }},
+            with_ties=with_ties, na_rm=na_rm
+        ) |>
+        pull(row_number___)
+
+    if (length(idx) == 0) {
+        stop("tidySingleCellExperiment says:",
+            " the resulting data container is empty.",
+            " Seurat does not allow for empty containers.")
+    }
+
+    new_obj <- .data[, idx]
+    new_obj
+}
+
+#' @name slice_max
+#' @rdname slice
+#' @inherit dplyr::slice_max
+#' @examples
+#'
+#' # Rows with minimum and maximum values of a metadata variable
+#' pbmc_small |> slice_max(nFeature_RNA, n=5)
+#' 
+#' @importFrom dplyr slice_max
+#' @importFrom tibble rowid_to_column
+#' @export
+slice_max.SingleCellExperiment <- function(.data, order_by, ..., n, prop,
+    by=NULL, with_ties=TRUE, na_rm=FALSE) {
+    row_number___ <- NULL
+
+    order_by_variables <- return_arguments_of(!!enexpr(order_by))
+
+    idx <- .data |>
+        colData() |>
+        as.data.frame() |>
+        select(-everything(), !!!order_by_variables, {{ by }}) |>
+        rowid_to_column(var ='row_number___')  |>
+        slice_max(
+            order_by={{ order_by }}, ..., n=n, prop=prop, by={{ by }},
+            with_ties=with_ties, na_rm=na_rm
+        ) |>
+        pull(row_number___)
+
+    if (length(idx) == 0) {
+        stop("tidySingleCellExperiment says:",
+            " the resulting data container is empty.",
+            " Seurat does not allow for empty containers.")
+    }
+
+    new_obj <- .data[, idx]
+    new_obj
+}
+
+
 #' @name select
 #' @rdname select
 #' @inherit dplyr::select

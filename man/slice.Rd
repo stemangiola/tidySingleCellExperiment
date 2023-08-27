@@ -11,6 +11,8 @@
 \alias{slice_sample.SingleCellExperiment}
 \alias{slice_head.SingleCellExperiment}
 \alias{slice_tail.SingleCellExperiment}
+\alias{slice_min.SingleCellExperiment}
+\alias{slice_max.SingleCellExperiment}
 \title{Subset rows using their positions}
 \usage{
 \method{slice}{SingleCellExperiment}(.data, ..., .by = NULL, .preserve = FALSE)
@@ -28,6 +30,28 @@
 \method{slice_head}{SingleCellExperiment}(.data, ..., n, prop, by = NULL)
 
 \method{slice_tail}{SingleCellExperiment}(.data, ..., n, prop, by = NULL)
+
+\method{slice_min}{SingleCellExperiment}(
+  .data,
+  order_by,
+  ...,
+  n,
+  prop,
+  by = NULL,
+  with_ties = TRUE,
+  na_rm = FALSE
+)
+
+\method{slice_max}{SingleCellExperiment}(
+  .data,
+  order_by,
+  ...,
+  n,
+  prop,
+  by = NULL,
+  with_ties = TRUE,
+  na_rm = FALSE
+)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
@@ -70,6 +94,19 @@ length as the input. Weights are automatically standardised to sum to 1.}
 
 \item{replace}{Should sampling be performed with (\code{TRUE}) or without
 (\code{FALSE}, the default) replacement.}
+
+\item{order_by}{<\code{\link[rlang:args_data_masking]{data-masking}}> Variable or
+function of variables to order by. To order by multiple variables, wrap
+them in a data frame or tibble.}
+
+\item{with_ties}{Should ties be kept together? The default, \code{TRUE},
+may return more rows than you request. Use \code{FALSE} to ignore ties,
+and return the first \code{n} rows.}
+
+\item{na_rm}{Should missing values in \code{order_by} be removed from the result?
+If \code{FALSE}, \code{NA} values are sorted to the end (like in \code{\link[dplyr:arrange]{arrange()}}), so
+they will only be included if there are insufficient non-missing values to
+reach \code{n}/\code{prop}.}
 }
 \value{
 An object of the same type as \code{.data}. The output has the following
@@ -152,6 +189,40 @@ Methods available in currently loaded packages:
 \item \code{slice_sample()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_sample")}.
 }
 
+
+
+
+These function are \strong{generic}s, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+Methods available in currently loaded packages:
+\itemize{
+\item \code{slice()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice")}.
+\item \code{slice_head()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_head")}.
+\item \code{slice_tail()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_tail")}.
+\item \code{slice_min()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_min")}.
+\item \code{slice_max()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_max")}.
+\item \code{slice_sample()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_sample")}.
+}
+
+
+
+
+These function are \strong{generic}s, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+Methods available in currently loaded packages:
+\itemize{
+\item \code{slice()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice")}.
+\item \code{slice_head()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_head")}.
+\item \code{slice_tail()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_tail")}.
+\item \code{slice_min()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_min")}.
+\item \code{slice_max()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_max")}.
+\item \code{slice_sample()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_sample")}.
+}
+
 }
 
 \examples{
@@ -169,6 +240,27 @@ pbmc_small |> slice_head(n=5)
 
 # First rows based on existing order
 pbmc_small |> slice_tail(n=5)
+
+
+# Rows with minimum and maximum values of a metadata variable
+pbmc_small |> slice_min(nFeature_RNA, n=5)
+
+# slice_min() and slice_max() may return more rows than requested
+# in the presence of ties.
+pbmc_small |>  slice_min(nFeature_RNA, n=2)
+
+# Use with_ties=FALSE to return exactly n matches
+pbmc_small |> slice_min(nFeature_RNA, n=2, with_ties=FALSE)
+
+# Or use additional variables to break the tie:
+pbmc_small |> slice_min(tibble::tibble(nFeature_RNA, nCount_RNA), n=2)
+
+# Use by for group-wise operations
+pbmc_small |> slice_min(nFeature_RNA, n=5, by=groups)
+
+
+# Rows with minimum and maximum values of a metadata variable
+pbmc_small |> slice_max(nFeature_RNA, n=5)
 
 }
 \seealso{
