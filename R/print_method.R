@@ -30,13 +30,25 @@ tbl_format_header.tidySingleCellExperiment <- function(x, setup, ...) {
       " ", named_header
     ) %>%
       # Add further info single-cell
+    if(length(names(altExps(x))) > 0) {
+      main_exp_assay_string <- paste(names(assays(x)), collapse = ", ")
+      alt_exp_assays <- list()
+      assay_names_list <- lapply(altExps(x), assayNames)
+      assay_names_df <- stack(assay_names_list)
+      
       append(sprintf(
         "\033[90m Features=%s | Cells=%s | Assays=%s\033[39m",
         number_of_features, 
         nrow(x),
-        if(length(names(altExps(x))) > 0) {
-          paste(assayNames(x)
-        } else "no"
+        paste0(main_exp_assay_string, ", ", paste0(paste(assay_names_df$ind, assay_names_df$values, sep = "-"), 
+                                               collapse = ", "))
+        } else {
+          append(sprintf(
+            "\033[90m Features=%s | Cells=%s | Assays=%s\033[39m",
+            number_of_features, 
+            nrow(x),
+            paste(assayNames(x), collapse = ", ")))
+        }
       ), after = 1)
   }
   style_subtle(pillar___format_comment(header, width = setup$width))
