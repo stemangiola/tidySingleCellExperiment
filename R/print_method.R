@@ -36,16 +36,10 @@ tbl_format_header.tidySingleCellExperiment <- function(x, setup, ...) {
         nrow(x),
         if(length(names(altExps(x))) > 0) {
           main_exp_assay_string <- paste(names(assays(x)), collapse = ", ")
-          alt_exp_assays <- map(.x = seq_along(altExps(x)), .f = \(.num) names(assays(altExps(x)[[.num]]))) |> 
-            set_names(altExpNames(x)) |> 
-            enframe()
-          
-          alt_exp_assay_string <- alt_exp_assays |> 
-            unnest(value) |> 
-            mutate(alt_exp_string = map_chr(.x = seq_along(name), .f = \(.num) paste(name[[.num]], value[[.num]], sep = "-"))) |> 
-            pull(alt_exp_string) |> 
-            paste0(collapse = ", ")
-          paste0(main_exp_assay_string, ", ", alt_exp_assay_string)
+          alt_exp_assays <- list()
+          assay_names_list <- lapply(altExps(x), assayNames)
+          assay_names_df <- stack(assay_names_list)
+          paste(assay_names_df$ind, assay_names_df$values, sep = "-")
         } else paste(names(assays(x)), collapse = ", ")
       ), after = 1)
   }
