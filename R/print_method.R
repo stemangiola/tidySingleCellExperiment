@@ -35,8 +35,8 @@ tbl_format_header.tidySingleCellExperiment <- function(x, setup, ...) {
         number_of_features, 
         nrow(x),
         if(length(names(altExps(x))) > 0) {
-          print("yes")
-        } else print("no")
+          paste(assayNames(x)
+        } else "no"
       ), after = 1)
   }
   style_subtle(pillar___format_comment(header, width = setup$width))
