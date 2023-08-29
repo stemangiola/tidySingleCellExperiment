@@ -567,7 +567,7 @@ slice_sample.SingleCellExperiment <- function(.data, ..., n=NULL,
 #' @rdname slice
 #' @inherit dplyr::slice_head
 #' @examples
-#'
+#' data(pbmc_small)
 #' # First rows based on existing order
 #' pbmc_small |> slice_head(n=5)
 #' 
@@ -597,7 +597,7 @@ slice_head.SingleCellExperiment <- function(.data, ..., n, prop, by=NULL) {
 #' @rdname slice
 #' @inherit dplyr::slice_tail
 #' @examples
-#'
+#' data(pbmc_small)
 #' # First rows based on existing order
 #' pbmc_small |> slice_tail(n=5)
 #' 
@@ -627,7 +627,8 @@ slice_tail.SingleCellExperiment <- function(.data, ..., n, prop, by=NULL) {
 #' @rdname slice
 #' @inherit dplyr::slice_min
 #' @examples
-#'
+#' data(pbmc_small)
+#' 
 #' # Rows with minimum and maximum values of a metadata variable
 #' pbmc_small |> slice_min(nFeature_RNA, n=5)
 #'
@@ -677,7 +678,7 @@ slice_min.SingleCellExperiment <- function(.data, order_by, ..., n, prop,
 #' @rdname slice
 #' @inherit dplyr::slice_max
 #' @examples
-#'
+#' data(pbmc_small)
 #' # Rows with minimum and maximum values of a metadata variable
 #' pbmc_small |> slice_max(nFeature_RNA, n=5)
 #' 

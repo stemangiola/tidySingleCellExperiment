@@ -233,14 +233,15 @@ data(pbmc_small)
 pbmc_small |> slice_sample(n=1)
 pbmc_small |> slice_sample(prop=0.1)
 
-
+data(pbmc_small)
 # First rows based on existing order
 pbmc_small |> slice_head(n=5)
 
-
+data(pbmc_small)
 # First rows based on existing order
 pbmc_small |> slice_tail(n=5)
 
+data(pbmc_small)
 
 # Rows with minimum and maximum values of a metadata variable
 pbmc_small |> slice_min(nFeature_RNA, n=5)
@@ -258,7 +259,7 @@ pbmc_small |> slice_min(tibble::tibble(nFeature_RNA, nCount_RNA), n=2)
 # Use by for group-wise operations
 pbmc_small |> slice_min(nFeature_RNA, n=5, by=groups)
 
-
+data(pbmc_small)
 # Rows with minimum and maximum values of a metadata variable
 pbmc_small |> slice_max(nFeature_RNA, n=5)
 
