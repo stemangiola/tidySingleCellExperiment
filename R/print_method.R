@@ -25,18 +25,24 @@ tbl_format_header.tidySingleCellExperiment <- function(x, setup, ...) {
   if (all(names2(named_header) == "")) {
     header <- named_header
   } else {
-    header <- paste0(
-      align(paste0(names2(named_header), ":"), space = NBSP),
-      " ", named_header
-    ) %>%
+    header <-
+      paste0(
+        align(paste0(names2(named_header), ":"), space = NBSP),
+        " ",
+        named_header
+      ) %>%
+
       # Add further info single-cell
       append(sprintf(
         "\033[90m Features=%s | Cells=%s | Assays=%s\033[39m",
-        number_of_features, 
+        number_of_features,
         nrow(x),
-        paste0(assayNames(x), collapse = ", ")), 
-        after = 1)
+        assay_names %>% paste(collapse=", ")
+      ), after = 1)
+  }
+
   style_subtle(pillar___format_comment(header, width = setup$width))
+
 }
 
 #' @name formatting
