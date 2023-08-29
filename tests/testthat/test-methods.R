@@ -14,6 +14,18 @@ test_that("show()", {
   expect_equal(gsub(str, "\\1", txt[i]), paste(nrow(df)))
   i <- grep(str <- ".*Cells=([0-9]+).*", txt)
   expect_equal(gsub(str, "\\1", txt[i]), paste(ncol(df)))
+  i <- grep(".*Assays=.*", txt)
+  x <- substring(txt[i], (gregexpr(pattern = "Assays", txt[i])[[1]] + 7))
+  x <- substring(x, first = 1, last = nchar(x) - 4) |> 
+    strsplit(split = ", ") |> 
+    unlist()
+  y <- assayNames(df)
+  for (k in seq_along(altExps(pbmc_small))) {
+    y <- append(x = y, paste(altExpNames(pbmc_small)[[k]], assayNames(altExps(pbmc_small)[[k]]), sep = "-"))
+  }
+  for(j in seq_along(y)) {
+    expect_contains(x, y[j])
+  }
 })
 
 test_that("join_features()", {
