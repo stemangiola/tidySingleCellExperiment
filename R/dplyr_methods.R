@@ -580,11 +580,6 @@ slice_head.SingleCellExperiment <- function(.data, ..., n, prop, by=NULL) {
         slice_head(..., n=n, prop=prop, by={{ by }}) |>
         pull(row_number___)
 
-    if (length(idx) == 0) {
-        stop("tidySingleCellExperiment says:",
-            " the resulting data container is empty.",
-            " Seurat does not allow for empty containers.")
-    }
     new_obj <- .data[, idx]
     new_obj
 }
@@ -610,11 +605,6 @@ slice_tail.SingleCellExperiment <- function(.data, ..., n, prop, by=NULL) {
         slice_tail(..., n=n, prop=prop, by={{ by }}) |>
         pull(row_number___)
 
-    if (length(idx) == 0) {
-        stop("tidySingleCellExperiment says:",
-            " the resulting data container is empty.",
-            " Seurat does not allow for empty containers.")
-    }
     new_obj <- .data[, idx]
     new_obj
 }
@@ -660,12 +650,6 @@ slice_min.SingleCellExperiment <- function(.data, order_by, ..., n, prop,
         ) |>
         pull(row_number___)
 
-    if (length(idx) == 0) {
-        stop("tidySingleCellExperiment says:",
-            " the resulting data container is empty.",
-            " Seurat does not allow for empty containers.")
-    }
-
     new_obj <- .data[, idx]
     new_obj
 }
@@ -697,12 +681,6 @@ slice_max.SingleCellExperiment <- function(.data, order_by, ..., n, prop,
             with_ties=with_ties, na_rm=na_rm
         ) |>
         pull(row_number___)
-
-    if (length(idx) == 0) {
-        stop("tidySingleCellExperiment says:",
-            " the resulting data container is empty.",
-            " Seurat does not allow for empty containers.")
-    }
 
     new_obj <- .data[, idx]
     new_obj
