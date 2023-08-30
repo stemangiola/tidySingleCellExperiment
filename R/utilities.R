@@ -306,6 +306,18 @@ quo_names <- function(v) {
         unlist()
 }
 
+#' returns variables from an expression
+#' @param expression an expression
+#' @importFrom rlang enexpr
+#' @return list of symbols
+return_arguments_of <- function(expression){
+    variables <- enexpr(expression) |> as.list()
+    if(length(variables) > 1) {
+        variables <- variables[-1] # removes first element which is function
+    }
+    variables
+}
+
 #' @importFrom purrr when
 #' @importFrom dplyr select
 #' @importFrom rlang expr

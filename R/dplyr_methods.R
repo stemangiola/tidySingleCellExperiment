@@ -507,6 +507,188 @@ slice.SingleCellExperiment <- function(.data, ..., .by=NULL, .preserve=FALSE) {
     .data[, rownames(new_meta)]
 }
 
+#' @name slice_sample
+#' @rdname slice
+#' @inherit dplyr::slice_sample
+#' @examples
+#' data(pbmc_small)
+#' pbmc_small |> slice_sample(n=1)
+#' pbmc_small |> slice_sample(prop=0.1)
+#'
+#' @importFrom SummarizedExperiment colData
+#' @importFrom dplyr slice_sample
+#' @export
+slice_sample.SingleCellExperiment <- function(.data, ..., n=NULL,
+    prop=NULL, by=NULL, weight_by=NULL, replace=FALSE) {
+    lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
+
+    if (!is.null(n))
+        new_meta <-
+            .data |>
+            colData() |>
+            as_tibble(rownames=c_(.data)$name) |>
+            select(-everything(), c_(.data)$name, {{ by }}, {{ weight_by }}) |>
+            slice_sample(..., n=n, by={{ by }},
+                weight_by={{ weight_by }}, replace=replace)
+    else if (!is.null(prop))
+        new_meta <-
+            .data |>
+            colData() |>
+            as_tibble(rownames=c_(.data)$name) |>
+            select(-everything(), c_(.data)$name, {{ by }}, {{ weight_by }}) |>
+            slice_sample(..., prop=prop, by={{ by }},
+                weight_by={{ weight_by }}, replace=replace)
+    else
+        stop("tidySingleCellExperiment says:",
+            " you should provide `n` or `prop` arguments")
+
+    count_cells <- new_meta %>%
+        select(!!c_(.data)$symbol) %>%
+        count(!!c_(.data)$symbol)
+
+    .max_cell_count <- ifelse(nrow(count_cells)==0, 0, max(count_cells$n))
+
+    # If repeated cells due to replacement
+    if (.max_cell_count |> gt(1)){
+        message("tidySingleCellExperiment says: When sampling with replacement",
+            " a data frame is returned for independent data analysis.")
+        .data |>
+            as_tibble()  |>
+            right_join(new_meta %>% 
+                select(!!c_(.data)$symbol), by=c_(.data)$name)
+    } else {
+        .data[, pull(new_meta, !!c_(.data)$symbol)]
+    }
+}
+
+#' @name slice_head
+#' @rdname slice
+#' @inherit dplyr::slice_head
+#' @examples
+#' data(pbmc_small)
+#' # First rows based on existing order
+#' pbmc_small |> slice_head(n=5)
+#' 
+#' @importFrom dplyr slice_head
+#' @importFrom tibble rowid_to_column
+#' @export
+slice_head.SingleCellExperiment <- function(.data, ..., n, prop, by=NULL) {
+    row_number___ <- NULL
+    idx <- .data |>
+        colData() |>
+        as.data.frame() |>
+        select(-everything(), {{ by }}) |>
+        rowid_to_column(var='row_number___')  |>
+        slice_head(..., n=n, prop=prop, by={{ by }}) |>
+        pull(row_number___)
+
+    new_obj <- .data[, idx]
+    new_obj
+}
+
+#' @name slice_tail
+#' @rdname slice
+#' @inherit dplyr::slice_tail
+#' @examples
+#' data(pbmc_small)
+#' # First rows based on existing order
+#' pbmc_small |> slice_tail(n=5)
+#' 
+#' @importFrom dplyr slice_tail
+#' @importFrom tibble rowid_to_column
+#' @export
+slice_tail.SingleCellExperiment <- function(.data, ..., n, prop, by=NULL) {
+    row_number___ <- NULL
+    idx <- .data |>
+        colData() |>
+        as.data.frame() |>
+        select(-everything(), {{ by }}) |>
+        rowid_to_column(var='row_number___')  |>
+        slice_tail(..., n=n, prop=prop, by={{ by }}) |>
+        pull(row_number___)
+
+    new_obj <- .data[, idx]
+    new_obj
+}
+
+#' @name slice_min
+#' @rdname slice
+#' @inherit dplyr::slice_min
+#' @examples
+#' data(pbmc_small)
+#' 
+#' # Rows with minimum and maximum values of a metadata variable
+#' pbmc_small |> slice_min(nFeature_RNA, n=5)
+#'
+#' # slice_min() and slice_max() may return more rows than requested
+#' # in the presence of ties.
+#' pbmc_small |>  slice_min(nFeature_RNA, n=2)
+#'
+#' # Use with_ties=FALSE to return exactly n matches
+#' pbmc_small |> slice_min(nFeature_RNA, n=2, with_ties=FALSE)
+#'
+#' # Or use additional variables to break the tie:
+#' pbmc_small |> slice_min(tibble::tibble(nFeature_RNA, nCount_RNA), n=2)
+#'
+#' # Use by for group-wise operations
+#' pbmc_small |> slice_min(nFeature_RNA, n=5, by=groups)
+#'
+#' @importFrom dplyr slice_min
+#' @importFrom tibble rowid_to_column
+#' @export
+slice_min.SingleCellExperiment <- function(.data, order_by, ..., n, prop,
+    by=NULL, with_ties=TRUE, na_rm=FALSE) {
+    row_number___ <- NULL
+    order_by_variables <- return_arguments_of(!!enexpr(order_by))
+
+    idx <- .data |>
+        colData() |>
+        as.data.frame() |>
+        select(-everything(), !!!order_by_variables, {{ by }}) |>
+        rowid_to_column(var ='row_number___')  |>
+        slice_min(
+            order_by={{ order_by }}, ..., n=n, prop=prop, by={{ by }},
+            with_ties=with_ties, na_rm=na_rm
+        ) |>
+        pull(row_number___)
+
+    new_obj <- .data[, idx]
+    new_obj
+}
+
+#' @name slice_max
+#' @rdname slice
+#' @inherit dplyr::slice_max
+#' @examples
+#' data(pbmc_small)
+#' # Rows with minimum and maximum values of a metadata variable
+#' pbmc_small |> slice_max(nFeature_RNA, n=5)
+#' 
+#' @importFrom dplyr slice_max
+#' @importFrom tibble rowid_to_column
+#' @export
+slice_max.SingleCellExperiment <- function(.data, order_by, ..., n, prop,
+    by=NULL, with_ties=TRUE, na_rm=FALSE) {
+    row_number___ <- NULL
+
+    order_by_variables <- return_arguments_of(!!enexpr(order_by))
+
+    idx <- .data |>
+        colData() |>
+        as.data.frame() |>
+        select(-everything(), !!!order_by_variables, {{ by }}) |>
+        rowid_to_column(var ='row_number___')  |>
+        slice_max(
+            order_by={{ order_by }}, ..., n=n, prop=prop, by={{ by }},
+            with_ties=with_ties, na_rm=na_rm
+        ) |>
+        pull(row_number___)
+
+    new_obj <- .data[, idx]
+    new_obj
+}
+
+
 #' @name select
 #' @rdname select
 #' @inherit dplyr::select
