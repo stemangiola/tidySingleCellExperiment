@@ -507,13 +507,9 @@ slice.SingleCellExperiment <- function(.data, ..., .by=NULL, .preserve=FALSE) {
     .data[, rownames(new_meta)]
 }
 
-#' @name slice
+#' @name slice_sample
 #' @rdname slice
-#' @aliases slice_head slice_tail 
-#'   slice_sample slice_min slice_max
-#' @inherit dplyr::slice
-#' @family single table verbs
-#' 
+#' @inherit dplyr::slice_sample
 #' @examples
 #' data(pbmc_small)
 #' pbmc_small |> slice_sample(n=1)
