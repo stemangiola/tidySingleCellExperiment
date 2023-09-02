@@ -165,7 +165,7 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, assay = assay
   if(length(selected_features_exp) > 1) stop("Please avoid mixing features from different experiments.")
   selected_features_assay <- unique(selected_features_df$assay_name)
   
-  if(isTRUE(selected_features_exp) && selected_features_exp == "Main") {
+  if(selected_features_exp == "Main") {
     assays(.data)[[assay]][features,] %>%
       when(
         variable_genes %>% is.null() %>% `!`() ~ (.)[variable_genes, , drop=FALSE],
