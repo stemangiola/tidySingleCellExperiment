@@ -33,6 +33,8 @@ setClass("tidySingleCellExperiment", contains="SingleCellExperiment")
 #' @importFrom dplyr contains
 #' @importFrom dplyr everything
 #' @importFrom ttservice join_features
+#' @importFrom stringr str_c
+#' @importFrom stringr str_subset
 #' @export
 setMethod("join_features", "SingleCellExperiment", function(.data,
     features=NULL, all=FALSE, exclude_zeros=FALSE, shape="long", ...) {
@@ -42,16 +44,40 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
 
     # Shape is long
     if (shape == "long") {
-        .data %>%
-        left_join(
-            by=c_(.data)$name,
-            get_abundance_sc_long(
-                .data=.data,
-                features=features,
-                all=all,
-                exclude_zeros=exclude_zeros)) %>%
-        select(!!c_(.data)$symbol, .feature,
-            contains(".abundance"), everything())
+      
+        # Suppress generic data frame creation message produced by left_join
+        suppressMessages({
+            .data <-
+                .data %>%
+                    left_join(
+                        by=c_(.data)$name,
+                        get_abundance_sc_long(
+                            .data=.data,
+                            features=features,
+                            all=all,
+                            exclude_zeros=exclude_zeros)) %>%
+                    select(!!c_(.data)$symbol, .feature,
+                        contains(".abundance"), everything())
+        })
+      
+        # Provide data frame creation and abundance column message
+        if (any(class(.data) == "tbl_df")) {
+            
+            abundance_columns <-
+                .data %>%
+                colnames() %>%
+                stringr::str_subset('.abundance_')
+            
+            message(stringr::str_c("tidySingleCellExperiment says: join_features produces",
+                " duplicate cell names to accomadate the long data format. For this reason, a data", 
+                " frame is returned for independent data analysis. Assay feature abundance is", 
+                " appended as ", 
+                stringr::str_flatten_comma(abundance_columns, last = " and "), "."
+            ))
+        }
+      
+        .data
+        
     # Shape if wide
     } else {
         .data  %>%
