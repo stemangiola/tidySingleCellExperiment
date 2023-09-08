@@ -97,6 +97,19 @@ pbmc_small_tidy
 assay(pbmc_small_tidy, "counts")[1:5, 1:5]
 ```
 
+The `SingleCellExperiment` object's tibble visualisation can be turned off, or back on at any time.
+
+```{r}
+# Turn off the tibble visualisation
+options("restore_SingleCellExperiment_show" = TRUE)
+pbmc_small_tidy
+```
+
+```{r}
+# Turn on the tibble visualisation
+options("restore_SingleCellExperiment_show" = FALSE)
+```
+
 # Annotation polishing
 
 We may have a column that contains the directory each run was taken from, such as the "file" column in `pbmc_small_tidy`.
