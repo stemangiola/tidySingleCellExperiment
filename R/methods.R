@@ -138,7 +138,7 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
     selected_exp <- unique(selected_assays$exp_id)
     if(length(selected_exp) > 1) stop("Please avoid mixing features from different experiments.")
     if(selected_exp == "Main") {
-      .data <- .data@assays@data[selected_assays$assay_name]
+      .data@assays@data <- .data@assays@data[selected_assays$assay_name]
     } else {
     .data <- altExps(.data)[[selected_exp]]
     .data@assays@data = .data@assays@data[selected_assays$assay_name] 
