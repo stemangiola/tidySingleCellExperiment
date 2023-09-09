@@ -174,7 +174,7 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, assay = assay
   selected_features_assay <- unique(selected_features_df$assay_name)
   
   if(selected_features_exp == "Main") {
-    assays(.data)[[assay]][features,] %>%
+    assays(.data)[[assay]] %>%
       when(
         variable_genes %>% is.null() %>% `!`() ~ (.)[variable_genes, , drop=FALSE],
         features %>% is.null() %>% `!`() ~ (.)[features, , drop=FALSE],
