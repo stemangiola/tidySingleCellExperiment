@@ -42,8 +42,15 @@ test_that("show()", {
   i <- grep(str <- ".*Cells=([0-9]+).*", txt)
   expect_equal(gsub(str, "\\1", txt[i]), paste(ncol(df)))
   i <- grep(".*Assays=.*", txt)
-  x <- substring(txt[i], (gregexpr(pattern = "Assays", txt[i])[[1]] + 7))
-  x <- substring(x, first = 1, last = nchar(x) - 4) |> 
+  j <- grep(".cell*", txt) -1
+  header_text <- paste(txt[i:j], collapse = "") |> 
+    stringr::str_remove_all(pattern = "# ") |> 
+    stringr::str_remove_all(pattern = "\033") |> 
+    stringr::str_remove_all(pattern = "\\[90m ") |> 
+    stringr::str_remove_all(pattern = "\\[90m") |> 
+    stringr::str_remove_all(pattern = "\\[0m")
+  x <- header_text |> 
+    stringr::str_remove(pattern = ".+Assays=") |> 
     strsplit(split = ", ") |> 
     unlist()
   y <- assayNames(df)
