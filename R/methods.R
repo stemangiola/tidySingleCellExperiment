@@ -133,6 +133,14 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
   # Subset only wanted assays
   if(!is.null(assays)){
     .data@assays@data = .data@assays@data[assays]
+  } else {
+    assay_info <- get_all_assays(.data)
+    if(!any(assay_info$assay_id %in% assays)) stop("Please select an appropriate assay name")
+    selected_assays <- assay_info[assay_info$assay_id %in% assays,]
+    selected_exp <- unique(selected_assays$exp_id)
+    if(length(selected_exp) > 1) stop("Please avoid mixing features from different experiments.")
+    .data <- altExps(.data)[[selected_exp]]
+    .data@assays@data = .data@assays@data[selected_assays$assay_name]
   }
   
   .data %>%
