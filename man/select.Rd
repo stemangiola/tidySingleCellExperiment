@@ -247,6 +247,7 @@ To take the difference between two selections, combine the \code{&} and
 }
 
 \examples{
+data(pbmc_small)
 pbmc_small |> select(cell, orig.ident)
 
 }

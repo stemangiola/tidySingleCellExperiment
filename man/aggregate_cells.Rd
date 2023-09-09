@@ -10,7 +10,8 @@
   .sample = NULL,
   slot = "data",
   assays = NULL,
-  aggregation_function = Matrix::rowSums
+  aggregation_function = Matrix::rowSums,
+  ...
 )
 }
 \arguments{
@@ -23,6 +24,8 @@
 \item{assays}{The assay to which the function is applied}
 
 \item{aggregation_function}{The method of cell-feature value aggregation}
+
+\item{...}{Used for future extendibility}
 }
 \value{
 A tibble object
@@ -31,7 +34,7 @@ A tibble object
 Combine cells into groups based on shared variables and aggregate feature counts.
 }
 \examples{
-data("pbmc_small")
+data(pbmc_small)
 pbmc_small_pseudo_bulk <- pbmc_small |>
   aggregate_cells(c(groups, ident), assays="counts")
 

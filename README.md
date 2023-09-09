@@ -98,7 +98,7 @@ pbmc_small_tidy
 ```
 
     ## # A SingleCellExperiment-tibble abstraction: 80 × 17
-    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
+    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
     ##    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
     ##    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
     ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
@@ -135,6 +135,29 @@ assay(pbmc_small_tidy, "counts")[1:5, 1:5]
     ## CD79A                .
     ## HLA-DRA              1
     ## TCL1A                .
+    
+The `SingleCellExperiment` object's tibble visualisation can be turned off, or back on at any time.
+
+```{r}
+# Turn off the tibble visualisation
+options("restore_SingleCellExperiment_show" = TRUE)
+pbmc_small_tidy
+```
+
+    ## class: SingleCellExperiment 
+    ## dim: 230 80 
+    ## metadata(0):
+    ## assays(2): counts logcounts
+    ## rownames(230): MS4A1 CD79B ... SPON2 S100B
+    ## rowData names(5): vst.mean vst.variance vst.variance.expected
+    ##   vst.variance.standardized vst.variable
+    ## colnames(80): ATGCCAGAACGACT CATGGCCTGTGCAT ... GGAACACTTCAGAC CTTGATTGATCTTC
+    ## colData names(9): orig.ident nCount_RNA ... file ident
+
+```{r}
+# Turn on the tibble visualisation
+options("restore_SingleCellExperiment_show" = FALSE)
+```
 
 # Annotation polishing
 
@@ -167,7 +190,7 @@ pbmc_small_polished |>
 ```
 
     ## # A SingleCellExperiment-tibble abstraction: 80 × 18
-    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
+    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
     ##    .cell sample orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
     ##    <chr> <chr>  <fct>           <dbl>        <int> <fct>           <fct>        
     ##  1 ATGC… sampl… SeuratPro…         70           47 0               A            
@@ -294,7 +317,7 @@ pbmc_small_pca
 ```
 
     ## # A SingleCellExperiment-tibble abstraction: 80 × 18
-    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
+    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
     ##    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
     ##    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
     ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
@@ -356,7 +379,7 @@ pbmc_small_cluster |> select(label, everything())
 ```
 
     ## # A SingleCellExperiment-tibble abstraction: 80 × 19
-    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
+    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
     ##    .cell  label orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
     ##    <chr>  <fct> <fct>           <dbl>        <int> <fct>           <fct>        
     ##  1 ATGCC… 2     SeuratPro…         70           47 0               A            
@@ -509,7 +532,7 @@ pbmc_small_cell_type |>
     ## your workflow to reflect the new vocabulary (.cell)
 
     ## # A SingleCellExperiment-tibble abstraction: 80 × 23
-    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
+    ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
     ##    cell          first.labels orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8
     ##    <chr>         <chr>        <fct>           <dbl>        <int> <fct>          
     ##  1 ATGCCAGAACGA… CD4+ T-cells SeuratPro…         70           47 0              

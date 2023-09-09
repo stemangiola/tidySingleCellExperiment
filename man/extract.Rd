@@ -38,6 +38,9 @@ NB: this will cause string \code{"NA"}s to be converted to \code{NA}s.}
 
 \item{...}{Additional arguments passed on to methods.}
 }
+\value{
+`tidySingleCellExperiment`
+}
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 
@@ -51,7 +54,8 @@ each group into a new column. If the groups don't match, or the input
 is NA, the output will be NA.
 }
 \examples{
-pbmc_small|>
+data(pbmc_small)
+pbmc_small |>
   extract(groups, 
     into="g", 
     regex="g([0-9])", 

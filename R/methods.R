@@ -1,23 +1,20 @@
 #' @importFrom methods getMethod
 setMethod(
-    f = "show",
-    signature = "SingleCellExperiment",
-    definition = function(object) {
-        if (
-          isTRUE(x = getOption(x = "restore_SingleCellExperiment_show", default = FALSE))
-        ) {
-            f <-getMethod(
-              f = "show",
-              signature = "SummarizedExperiment",
-              where = asNamespace(ns = "SummarizedExperiment")
-            )
-            f(object = object)
-
-        } else {  print(object)  }
+    f="show",
+    signature="SingleCellExperiment",
+    definition=function(object) {
+        opt <- getOption("restore_SingleCellExperiment_show", default=FALSE)
+        if (isTRUE(opt)) {
+            f <- getMethod(
+                f="show",
+                signature="SummarizedExperiment",
+                where=asNamespace(ns="SummarizedExperiment"))
+            f(object=object)
+        } else { print(object) }
     }
 )
 
-setClass("tidySingleCellExperiment", contains = "SingleCellExperiment")
+setClass("tidySingleCellExperiment", contains="SingleCellExperiment")
 
 #' @name join_features
 #' @rdname join_features
@@ -28,7 +25,7 @@ setClass("tidySingleCellExperiment", contains = "SingleCellExperiment")
 #'   containing information for the specified features.
 #'
 #' @examples
-#' data("pbmc_small")
+#' data(pbmc_small)
 #' pbmc_small %>% join_features(
 #'   features=c("HLA-DRA", "LYZ"))
 #'
@@ -36,41 +33,61 @@ setClass("tidySingleCellExperiment", contains = "SingleCellExperiment")
 #' @importFrom dplyr contains
 #' @importFrom dplyr everything
 #' @importFrom ttservice join_features
+#' @importFrom stringr str_c
+#' @importFrom stringr str_subset
 #' @export
-setMethod("join_features", "SingleCellExperiment",  function(.data,
-                                               features = NULL,
-                                               all = FALSE,
-                                               exclude_zeros = FALSE,
-                                               shape = "long", ...)
-{
-        # CRAN Note
-        .cell = NULL
-        .feature= NULL
+setMethod("join_features", "SingleCellExperiment", function(.data,
+    features=NULL, all=FALSE, exclude_zeros=FALSE, shape="long", ...) {
+    # CRAN Note
+    .cell <- NULL
+    .feature <- NULL
 
-        # Shape is long
-        if (shape == "long")
-          .data %>%
+    # Shape is long
+    if (shape == "long") {
+      
+        # Suppress generic data frame creation message produced by left_join
+        suppressMessages({
+            .data <-
+                .data %>%
+                    left_join(
+                        by=c_(.data)$name,
+                        get_abundance_sc_long(
+                            .data=.data,
+                            features=features,
+                            all=all,
+                            exclude_zeros=exclude_zeros)) %>%
+                    select(!!c_(.data)$symbol, .feature,
+                        contains(".abundance"), everything())
+        })
+      
+        # Provide data frame creation and abundance column message
+        if (any(class(.data) == "tbl_df")) {
+            
+            abundance_columns <-
+                .data %>%
+                colnames() %>%
+                stringr::str_subset('.abundance_')
+            
+            message(stringr::str_c("tidySingleCellExperiment says: join_features produces",
+                " duplicate cell names to accomadate the long data format. For this reason, a data", 
+                " frame is returned for independent data analysis. Assay feature abundance is", 
+                " appended as ", 
+                stringr::str_flatten_comma(abundance_columns, last = " and "), "."
+            ))
+        }
+      
+        .data
+        
+    # Shape if wide
+    } else {
+        .data  %>%
             left_join(
-                get_abundance_sc_long(
-                    .data = .data,
-                    features = features,
-                    all = all,
-                    exclude_zeros = exclude_zeros
-                ),
-                by = c_(.data)$name
-            ) %>%
-            select(!!c_(.data)$symbol, .feature, contains(".abundance"), everything())
-
-        # Shape if wide
-        else
-          .data  %>% left_join(get_abundance_sc_wide(
-                .data = .data,
-                features = features,
-                all = all, ...
-            ),
-            by = c_(.data)$name)
-
-
+                by=c_(.data)$name,
+                get_abundance_sc_wide(
+                    .data=.data,
+                    features=features,
+                    all=all, ...))
+    }
 })
 
 #' @name tidy
@@ -81,11 +98,12 @@ setMethod("join_features", "SingleCellExperiment",  function(.data,
 #' @return A `tidySingleCellExperiment` object.
 #'
 #' @examples
-#' tidySingleCellExperiment::pbmc_small
+#' data(pbmc_small)
+#' pbmc_small
 #'
 #' @export
 tidy <- function(object) {
-  UseMethod("tidy", object)
+    UseMethod("tidy", object)
 }
 
 #' @rdname tidy
@@ -93,23 +111,22 @@ tidy <- function(object) {
 #' @export
 tidy.SingleCellExperiment <- function(object) {
 
-  # DEPRECATE
-  deprecate_warn(
-    when = "1.1.1",
-    what = "tidy()",
-    details = "tidySingleCellExperiment says: tidy() is not needed anymore."
-  )
+    # DEPRECATE
+    deprecate_warn(
+        when="1.1.1",
+        what="tidy()",
+        details="tidySingleCellExperiment says: tidy() is not needed anymore.")
 
-  object
+    return(object)
 }
 
 #' @name aggregate_cells
 #' @rdname aggregate_cells
 #' @inherit ttservice::aggregate_cells
 #' @aliases aggregate_cells,SingleCellExperiment-method
-#' 
-#' @examples 
-#' data("pbmc_small")
+#'
+#' @examples
+#' data(pbmc_small)
 #' pbmc_small_pseudo_bulk <- pbmc_small |>
 #'   aggregate_cells(c(groups, ident), assays="counts")
 #'
@@ -118,6 +135,12 @@ tidy.SingleCellExperiment <- function(object) {
 #' @importFrom tibble enframe
 #' @importFrom Matrix rowSums
 #' @importFrom ttservice aggregate_cells
+#' @importFrom SummarizedExperiment assays assays<- assayNames
+#' @importFrom S4Vectors split
+#' @importFrom stringr str_remove
+#' @importFrom dplyr group_split
+#'
+#'
 #' @export
 setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
                                                     .sample = NULL, 

@@ -60,7 +60,8 @@ test_that("show()", {
   for(j in seq_along(y)) {
     expect_contains(x, y[j])
   }
-})
+}
+)
 
 test_that("join_features()", {
   gs <- sample(rownames(df), 3)
@@ -79,6 +80,26 @@ test_that("join_features()", {
   expect_identical(
     unname(t(as.matrix(as_tibble(fd)[, make.names(gs)]))),
     as.matrix(unname(counts(df)[gs, ])))
+  
+  # Add features from altExp if they exist
+  if(!is.null(altExp(df))) {
+    gs <- sample(rownames(altExp(df)), 3)
+    # long
+    fd <- join_features(df, gs, shape="long")
+    expect_s3_class(fd, "tbl_df")
+    expect_setequal(unique(fd$.feature), gs)
+    expect_true(all(table(fd$.feature) == ncol(df)))
+    expect_identical(
+      matrix(fd |> select(starts_with(".abundance")) |> pull(1), nrow=length(gs)),
+      as.matrix(unname(assays(altExp(df))[[1]][fd$.feature[seq_along(gs)], ])))
+    # wide
+    fd <- join_features(df, gs, shape="wide", assay="ADT-counts")
+    expect_s4_class(fd, "SingleCellExperiment")
+    expect_null(fd$.feature)
+    expect_identical(
+      unname(t(as.matrix(as_tibble(fd)[, make.names(gs)]))),
+      as.matrix(unname(assays(altExp(df))[[1]][gs, ])))
+  }
 })
 
 test_that("as_tibble()", {

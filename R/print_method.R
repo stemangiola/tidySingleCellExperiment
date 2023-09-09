@@ -45,7 +45,6 @@ tbl_format_header.tidySingleCellExperiment <- function(x, setup, ...){
   }
 
   style_subtle(pillar___format_comment(header, width = setup$width))
-
 }
 
 #' @name formatting

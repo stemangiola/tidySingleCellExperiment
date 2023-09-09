@@ -1,3 +1,4 @@
+data(pbmc_small)
 df <- pbmc_small
 df$number <- sample(seq(ncol(df)))
 df$factor <- sample(
@@ -82,11 +83,11 @@ test_that("mutate()", {
     # special columns are blocked
     df |>
       mutate(.cell=1) |>
-      expect_error(regexp = "you are trying to mutate a column that is view only")
+      expect_error("you are trying to mutate a column that is view only")
     
     df |>
       mutate(PC_10=1) |>
-      expect_error(regexp = "you are trying to mutate a column that is view only")
+      expect_error("you are trying to mutate a column that is view only")
 })
 
 test_that("rename()", {
@@ -96,27 +97,27 @@ test_that("rename()", {
     
     df |> 
       rename(ne=mo) |> 
-      expect_error(regexp = "Column `mo` doesn't exist")
+      expect_error("Column `mo` doesn't exist")
     
     # special columns are blocked
     # ...'to' cannot be special
     
     df |>
       rename(a=PC_1) |>
-      expect_error(regexp = "you are trying to rename a column that is view only")  
+      expect_error("you are trying to rename a column that is view only")  
     
     df |> 
       rename(a=.cell) |> 
-      expect_error(regexp = "you are trying to rename a column that is view only")
+      expect_error("you are trying to rename a column that is view only")
     # ...'from' cannot be special
     
     df |> 
       rename(PC_1=number) |> 
-      expect_error(regexp = "These names are duplicated")
+      expect_error("These names are duplicated")
     
     df |> 
       rename(.cell=number) |> 
-      expect_error(regexp = "These names are duplicated")
+      expect_error("These names are duplicated")
 })
 
 test_that("left_join()", {
@@ -178,6 +179,92 @@ test_that("slice()", {
     expect_identical(slice(df, -i), df[, -i])
 })
 
+test_that("slice_sample()", {
+    pbmc_small |>
+        slice_sample(n=0) |>
+        ncol() |>
+        expect_equal(0)
+    pbmc_small |>
+        slice_sample(n=50) |>
+        ncol() |>
+        expect_equal(50)
+})
+
+test_that("slice_head()", {
+    pbmc_small |>
+        slice_head(n=0) |>
+        ncol() |>
+        expect_equal(0)
+    pbmc_small |>
+        slice_head(n=50) |>
+        ncol() |>
+        expect_equal(50)
+    expect_equal(
+        colnames(pbmc_small) |> head(n=50),
+        pbmc_small |> slice_head(n=50) |> colnames()
+    )
+})
+
+test_that("slice_tail()", {
+    pbmc_small |>
+        slice_tail(n=0) |>
+        ncol() |>
+        expect_equal(0)
+    pbmc_small |>
+        slice_tail(n=50) |>
+        ncol() |>
+        expect_equal(50)
+    expect_equal(
+        colnames(pbmc_small) |> tail(n=50),
+        pbmc_small |> slice_tail(n=50) |> colnames()
+    )
+})
+
+test_that("slice_min()", {
+    pbmc_small |>
+        slice_min(nFeature_RNA, n=0) |>
+        ncol() |>
+        expect_equal(0)
+    pbmc_small |>
+        slice_min(nFeature_RNA, n=5) |>
+        ncol() |>
+        expect_equal(5)
+    expect_equal(
+        pbmc_small |> as_tibble() |>
+            arrange(nFeature_RNA) |>
+            head(n=5) %>% pull(.cell),
+        pbmc_small |> slice_min(nFeature_RNA, n=5) |> colnames()
+  )
+})
+
+test_that("slice_max()", {
+    pbmc_small |>
+        slice_max(nFeature_RNA, n=0) |>
+        ncol() |>
+        expect_equal(0)
+    pbmc_small |>
+        slice_max(nFeature_RNA, n = 5) |>
+        ncol() |>
+        expect_equal(5)
+    expect_equal(
+        pbmc_small |> as_tibble() |>
+            arrange(desc(nFeature_RNA)) |>
+            head(n=5) %>% pull(.cell),
+        pbmc_small |> slice_max(nFeature_RNA, n=5) |> colnames()
+  )
+})
+
+test_that("slice_min() slice_max() tibble input for order_by", {
+  pbmc_small |>
+    slice_min(tibble::tibble(nFeature_RNA, nCount_RNA), n=5) |>
+    ncol() |>
+    expect_equal(5)
+  pbmc_small |>
+    slice_max(tibble::tibble(nFeature_RNA, nCount_RNA), n=5) |>
+    ncol() |>
+    expect_equal(5)
+})
+
 test_that("select()", {
     fd <- select(df, .cell, number)
     expect_s4_class(fd, "SingleCellExperiment")
@@ -223,7 +310,7 @@ test_that("add_count()", {
 test_that("rowwise()", {
     df |> 
     summarise(sum(lys)) |>
-    expect_error(regexp = "object 'lys' not found")
+    expect_error("object 'lys' not found")
   
     df$lys <- replicate(ncol(df), sample(10, 3), FALSE)
     fd <- df |> rowwise() |> summarise(sum(lys))

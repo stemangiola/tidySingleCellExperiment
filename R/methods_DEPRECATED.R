@@ -27,39 +27,41 @@
 #'
 #' @export
 #'
-join_transcripts <- function(.data,
-                          transcripts = NULL,
-                          all = FALSE,
-                          exclude_zeros = FALSE,
-                          shape = "long", ...) {
-  UseMethod("join_transcripts", .data)
-}
+join_transcripts <- 
+    function(.data,
+    transcripts=NULL,
+    all=FALSE,
+    exclude_zeros=FALSE,
+    shape="long", ...)
+    {
+        UseMethod("join_transcripts", .data)
+    }
 #' @export
 join_transcripts.default <-
-  function(.data,
-           transcripts = NULL,
-           all = FALSE,
-           exclude_zeros = FALSE,
-           shape = "long", ...)
-  {
-    print("tidySingleCellExperiment says: This function cannot be applied to this object")
-  }
+    function(.data,
+        transcripts=NULL,
+        all=FALSE,
+        exclude_zeros=FALSE,
+        shape="long", ...)
+    {
+        print("tidySingleCellExperiment says:",
+            " This function cannot be applied to this object")
+    }
 #' @export
 join_transcripts.Seurat <-
-  function(.data,
-           transcripts = NULL,
-           all = FALSE,
-           exclude_zeros = FALSE,
-           shape = "long", ...)
-  {
-
-    deprecate_warn("1.1.2", "join_transcripts()", "tidySingleCellExperiment::join_features()")
-
-
-    .data %>%
-      join_features(features = transcripts,
-                       all = all,
-                       exclude_zeros = exclude_zeros,
-                       shape = shape, ...)
-
-  }
+    function(.data,
+        transcripts=NULL,
+        all=FALSE,
+        exclude_zeros=FALSE,
+        shape="long", ...)
+    {
+        deprecate_warn(
+            "1.1.2", "join_transcripts()", 
+            "tidySingleCellExperiment::join_features()")
+        
+        .data %>%
+            join_features(features=transcripts,
+                all=all,
+                exclude_zeros=exclude_zeros,
+                shape=shape, ...)
+    }
