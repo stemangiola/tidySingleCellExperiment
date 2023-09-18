@@ -295,7 +295,7 @@ pbmc_small_UMAP %>%
         colors=friendly_cols[1:4])
 ```
 
-![plotly screenshot](../man/figures/plotly.png)
+![plotly screenshot](../inst/extdata/plotly.png)
 
 # Cell type prediction
 
