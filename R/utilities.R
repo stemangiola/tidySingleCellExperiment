@@ -163,13 +163,10 @@ get_abundance_sc_wide <- function(.data, assays_to_use = assays_to_use,
          " You should have either variable features,",
          " or a feature list to extract.")
   }
-  # Get selected features
+  # Get selected features and assays
   feature_df <- get_all_features(.data)
   selected_features <- feature_df[(feature_df$feature %in% gs), ]
-  # If assay is specified select only specified assays
-  if(any(!is.na(assays_to_use))) {
-    selected_features <- selected_features[selected_features$assay_id %in% assays_to_use,]
-  } else if(is.na(assays_to_use)) stop("Please specify assay")
+  selected_features <- selected_features[selected_features$assay_id %in% assays_to_use,]
   selected_experiments_list <- split(x = selected_features, f = as.character(selected_features$exp_id))
   extract_feature_values <- function(exp) {
     selected_features_exp <- as.character(unique(exp$exp_id))
@@ -261,10 +258,10 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
     stop("tidySingleCellExperiment says: there are no assays names in the source SingleCellExperiment.")
   }
   
-  # Get selected features
+  # Get selected features and assays
   feature_df <- get_all_features(.data)
   selected_features <- feature_df[(feature_df$feature %in% features), ]
-  if(any(selected_features$assay_id %in% assays_to_use)) selected_features <- selected_features[selected_features$assay_id %in% assays_to_use,]
+  selected_features <- selected_features[selected_features$assay_id %in% assays_to_use,]
   selected_experiments_list <- split(x = selected_features, f = as.character(selected_features$exp_id))
   
   extract_feature_values <- function(exp) {
