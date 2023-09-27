@@ -218,7 +218,7 @@ get_abundance_sc_wide <- function(.data, assay,
 #' @return A tidySingleCellExperiment object
 #'
 #' @noRd
-get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_zeros = FALSE) {
+get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_zeros = FALSE, assay = NA) {
   # Solve CRAN warnings
   . <- NULL
   
