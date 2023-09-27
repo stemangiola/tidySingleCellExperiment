@@ -41,12 +41,12 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
     # CRAN Note
     .cell <- NULL
     .feature <- NULL
-
-    all_assays <- get_all_assays(.data)
-    if(is.vector(assay)) {
-        stopifnot(any(all_assays$assay_id %in% assay))
-        assays_to_use <- assay
-    } else assays_to_use <- NA
+      arg_list <- c(mget(ls(environment(), sorted=F)), match.call(expand.dots=F)$...)
+        if(!is.null(arg_list$assay)) {
+            all_assays <- get_all_assays(.data)
+            stopifnot(any(all_assays$assay_id %in% arg_list$assay))
+            assays_to_use <- arg_list$assay
+          } else assays_to_use <- NA
         
     # Shape is long
     if (shape == "long") {
