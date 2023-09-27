@@ -42,7 +42,7 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
     .cell <- NULL
     .feature <- NULL
     arg_list <- c(mget(ls(environment(), sorted=F)), match.call(expand.dots=F)$...)
-    all_assays <- get_all_assays(x)$assay_id
+    all_assays <- get_all_assays(.data)$assay_id
     if(is.null(arg_list$assay)) assays_from_join_call <- all_assays
     # Shape is long
     if (shape == "long") {
