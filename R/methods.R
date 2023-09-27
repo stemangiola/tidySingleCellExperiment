@@ -44,8 +44,9 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
 
     all_assays <- get_all_assays(.data)
     if(is.vector(assay)) {
-      stopifnot(any(all_assays$assay_id %in% assay))
-    } else if(!is.vector(assay)) assays_to_use <- NA
+        stopifnot(any(all_assays$assay_id %in% assay))
+        assays_to_use <- assay
+    } else assays_to_use <- NA
         
     # Shape is long
     if (shape == "long") {
