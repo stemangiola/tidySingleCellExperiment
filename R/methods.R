@@ -58,7 +58,8 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
                 .data=.data,
                 features=features,
                 all=all,
-                exclude_zeros=exclude_zeros, ...)) %>%
+                exclude_zeros=exclude_zeros, 
+                assay = assay)) %>%
             select(!!c_(.data)$symbol, .feature,
                    contains(".abundance"), everything())
         })
@@ -90,7 +91,8 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
                 get_abundance_sc_wide(
                     .data=.data,
                     features=features,
-                    all=all, ...))
+                    all=all, 
+                    assay = assay))
     }
 })
 
