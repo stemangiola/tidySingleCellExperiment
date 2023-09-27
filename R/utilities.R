@@ -262,13 +262,9 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
   }
   
   # Get selected features
-  all_assays <- get_all_assays(.data)
   feature_df <- get_all_features(.data)
   selected_features <- feature_df[(feature_df$feature %in% features), ]
-  # If assay is specified select only specified assays
-  if(any(!is.na(assay_to_use))) {
-    selected_features <- selected_features[selected_features$assay_id %in% assay_to_use,]
-  }
+  if(any(selected_features$assay_id %in% assays_to_use)) selected_features <- selected_features[selected_features$assay_id %in% assays_to_use,]
   selected_experiments_list <- split(x = selected_features, f = as.character(selected_features$exp_id))
   
   extract_feature_values <- function(exp) {
