@@ -56,7 +56,7 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
                 .data=.data,
                 features=features,
                 all=all,
-                exclude_zeros=exclude_zeros)) %>%
+                exclude_zeros=exclude_zeros, ...)) %>%
             select(!!c_(.data)$symbol, .feature,
                    contains(".abundance"), everything())
         })
