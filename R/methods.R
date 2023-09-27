@@ -47,17 +47,18 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
       
         # Suppress generic data frame creation message produced by left_join
         suppressMessages({
-            .data <-
-                .data %>%
-                    left_join(
-                        by=c_(.data)$name,
-                        get_abundance_sc_long(
-                            .data=.data,
-                            features=features,
-                            all=all,
-                            exclude_zeros=exclude_zeros)) %>%
-                    select(!!c_(.data)$symbol, .feature,
-                        contains(".abundance"), everything())
+          if(is.vector(assay)) stopifnot(any(all_assays$assay_id %in% assay))
+          .data <-
+            .data %>%
+            left_join(
+              by=c_(.data)$name,
+              get_abundance_sc_long(
+                .data=.data,
+                features=features,
+                all=all,
+                exclude_zeros=exclude_zeros)) %>%
+            select(!!c_(.data)$symbol, .feature,
+                   contains(".abundance"), everything())
         })
       
         # Provide data frame creation and abundance column message
@@ -80,6 +81,7 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
         
     # Shape if wide
     } else {
+        if(is.vector(assay)) stopifnot(any(all_assays$assay_id %in% assay))
         .data  %>%
             left_join(
                 by=c_(.data)$name,
