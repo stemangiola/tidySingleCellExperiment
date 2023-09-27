@@ -127,8 +127,12 @@ get_all_features <- function(x) {
 #' @return A tidySingleCellExperiment object
 #'
 #' @noRd
-get_abundance_sc_wide <- function(.data, assays_to_use = assays_from_join_call, 
-                                  features=NULL, all=FALSE, prefix="") {
+get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, prefix="", ...) {
+    
+  arg_list <- c(mget(ls(environment(), sorted=F)), match.call(expand.dots=F)$...)
+  assays_to_use <- eval(arg_list$assay)
+  if(is.null(assays_to_use)) stop("Please provide assay name")
+  
   
   # Solve CRAN warnings
   . <- NULL
@@ -215,7 +219,12 @@ get_abundance_sc_wide <- function(.data, assays_to_use = assays_from_join_call,
 #' @return A tidySingleCellExperiment object
 #'
 #' @noRd
-get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_zeros = FALSE, assays_to_use = assays_from_join_call) {
+get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_zeros = FALSE, ...) {
+  
+  arg_list <- c(mget(ls(environment(), sorted=F)), match.call(expand.dots=F)$...)
+  assays_to_use <- eval(arg_list$assay)
+  if(is.null(assays_to_use)) assays_to_use <- get_all_assays(.data)$assay_id
+  
   # Solve CRAN warnings
   . <- NULL
   
