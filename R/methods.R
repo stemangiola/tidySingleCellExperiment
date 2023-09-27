@@ -47,6 +47,7 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
       
         # Suppress generic data frame creation message produced by left_join
         suppressMessages({
+          all_assays <- get_all_assays(.data)
           if(!is.vector(assay)) assay <- all_assays$assay_id
           if(is.vector(assay)) stopifnot(any(all_assays$assay_id %in% assay))
           .data <-
