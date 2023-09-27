@@ -196,8 +196,10 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, prefix="", ..
         setNames(c(c_(.data)$name, sprintf("%s%s", prefix, selected_features_from_exp)))
     }
   }
-  lapply(selected_experiments_list, extract_feature_values) |> 
-    reduce(full_join)
+  suppressMessages({
+    lapply(selected_experiments_list, extract_feature_values) |> 
+        reduce(full_join)
+    })
 }
 
 #' get abundance long
@@ -347,8 +349,10 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
         Reduce(function(...) full_join(..., by = c(".feature", c_(.data)$name)), .)
     }
   }
-  lapply(selected_experiments_list, extract_feature_values) |> 
-    reduce(full_join)
+  suppressMessages({
+    lapply(selected_experiments_list, extract_feature_values) |> 
+        reduce(full_join)
+    })
 }
 
 #' @importFrom dplyr select any_of
