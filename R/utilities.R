@@ -218,7 +218,7 @@ get_abundance_sc_wide <- function(.data, assay,
 #' @return A tidySingleCellExperiment object
 #'
 #' @noRd
-get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_zeros = FALSE, assay = NA) {
+get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_zeros = FALSE, ...) {
   # Solve CRAN warnings
   . <- NULL
   
@@ -266,7 +266,7 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
   feature_df <- get_all_features(.data)
   selected_features <- feature_df[(feature_df$feature %in% features), ]
   # If assay is specified select only specified assays
-  if(is.vector(assays)) selected_features <- selected_features[selected_features$assay_id %in% assays,]
+  if(is.vector(assay)) selected_features <- selected_features[selected_features$assay_id %in% assay,]
   selected_experiments_list <- split(x = selected_features, f = as.character(selected_features$exp_id))
   
   extract_feature_values <- function(exp) {
