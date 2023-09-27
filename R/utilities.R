@@ -127,7 +127,7 @@ get_all_features <- function(x) {
 #' @return A tidySingleCellExperiment object
 #'
 #' @noRd
-get_abundance_sc_wide <- function(.data, assays_to_use = assays_to_use, 
+get_abundance_sc_wide <- function(.data, assays_to_use = assays_from_join_call, 
                                   features=NULL, all=FALSE, prefix="") {
   
   # Solve CRAN warnings
@@ -215,7 +215,7 @@ get_abundance_sc_wide <- function(.data, assays_to_use = assays_to_use,
 #' @return A tidySingleCellExperiment object
 #'
 #' @noRd
-get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_zeros = FALSE, assays_to_use = assays_to_use) {
+get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_zeros = FALSE, assays_to_use = assays_from_join_call) {
   # Solve CRAN warnings
   . <- NULL
   
