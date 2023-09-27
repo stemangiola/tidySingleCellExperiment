@@ -181,6 +181,7 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, prefix="", ..
       mtx <- assay(.data, selected_features_assay_names)[selected_features_from_exp,]
       if(is.null(dim(mtx))) mtx <- matrix(mtx, byrow = TRUE, nrow = 1, ncol = length(mtx))
       mtx %>%
+        `colnames<-`(colnames(.data)) %>%
         as.matrix() %>% t() %>%
         as_tibble(rownames=c_(.data)$name, .name_repair = "minimal") %>%
         setNames(c(c_(.data)$name, sprintf("%s%s", prefix, selected_features_from_exp)))
@@ -189,6 +190,7 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, prefix="", ..
       mtx <- assay(altExps(.data)[[selected_features_exp]], selected_features_assay)[selected_features_from_exp,]
       if(is.null(dim(mtx))) mtx <- matrix(mtx, byrow = TRUE, nrow = 1, ncol = length(mtx))
       mtx %>%
+        `colnames<-`(colnames(.data)) %>%
         as.matrix() %>% t() %>%
         as_tibble(rownames=c_(.data)$name, .name_repair = "minimal") %>%
         setNames(c(c_(.data)$name, sprintf("%s%s", prefix, selected_features_from_exp)))
