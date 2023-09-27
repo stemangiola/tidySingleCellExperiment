@@ -42,14 +42,14 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
     .cell <- NULL
     .feature <- NULL
 
+    all_assays <- get_all_assays(.data)
+    if(!is.vector(assay)) assay <- all_assays$assay_id
+    if(is.vector(assay)) stopifnot(any(all_assays$assay_id %in% assay))
     # Shape is long
     if (shape == "long") {
       
         # Suppress generic data frame creation message produced by left_join
         suppressMessages({
-          all_assays <- get_all_assays(.data)
-          if(!is.vector(assay)) assay <- all_assays$assay_id
-          if(is.vector(assay)) stopifnot(any(all_assays$assay_id %in% assay))
           .data <-
             .data %>%
             left_join(
@@ -59,7 +59,7 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
                 features=features,
                 all=all,
                 exclude_zeros=exclude_zeros, 
-                assay = assay)) %>%
+                ...)) %>%
             select(!!c_(.data)$symbol, .feature,
                    contains(".abundance"), everything())
         })
@@ -84,7 +84,6 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
         
     # Shape if wide
     } else {
-        if(is.vector(assay)) stopifnot(any(all_assays$assay_id %in% assay))
         .data  %>%
             left_join(
                 by=c_(.data)$name,
@@ -92,7 +91,7 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
                     .data=.data,
                     features=features,
                     all=all, 
-                    assay = assay))
+                    ...))
     }
 })
 
