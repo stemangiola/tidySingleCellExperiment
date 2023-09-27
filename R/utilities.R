@@ -114,6 +114,8 @@ get_all_features <- function(x) {
 #' @importFrom magrittr "%$%"
 #' @importFrom utils tail
 #' @importFrom stats setNames
+#' @importFrom purrr reduce
+#' @importFrom dplyr full_join
 #' @importFrom SummarizedExperiment assay assayNames
 #'
 #' @param .data A `tidySingleCellExperiment`
@@ -125,68 +127,74 @@ get_all_features <- function(x) {
 #' @return A tidySingleCellExperiment object
 #'
 #' @noRd
-get_abundance_sc_wide <- function(.data, 
-    features=NULL, all=FALSE, assay=rev(assayNames(.data))[1], prefix="") {
-    
-    # Solve CRAN warnings
-    . <- NULL
-    
-    # For SCE there is not filed for variable features
-    variable_feature <- c()
-    
-    # Check if output would be too big without forcing
-    if (isFALSE(all) && is.null(features)) {
-        if (!length(variable_feature)) {
-            stop("Your object does not contain variable feature labels,\n",
-                " feature argument is empty and all arguments are set to FALSE.\n",
-                " Either:\n",
-                " 1. use detect_variable_features() to select variable feature\n",
-                " 2. pass an array of feature names\n",
-                " 3. set all=TRUE (this will output a very large object;",
-                " does your computer have enough RAM?)")
-        } else {
-            # Get variable features if existing
-            variable_genes <- variable_feature
-        }
+get_abundance_sc_wide <- function(.data, assay, 
+                                  features=NULL, all=FALSE, prefix="") {
+  
+  # Solve CRAN warnings
+  . <- NULL
+  
+  # For SCE there is not filed for variable features
+  variable_feature <- c()
+  
+  # Check if output would be too big without forcing
+  if (isFALSE(all) && is.null(features)) {
+    if (!length(variable_feature)) {
+      stop("Your object does not contain variable feature labels,\n",
+           " feature argument is empty and all arguments are set to FALSE.\n",
+           " Either:\n",
+           " 1. use detect_variable_features() to select variable feature\n",
+           " 2. pass an array of feature names\n",
+           " 3. set all=TRUE (this will output a very large object;",
+           " does your computer have enough RAM?)")
     } else {
-        variable_genes <- NULL
+      # Get variable features if existing
+      variable_genes <- variable_feature
     }
-    
-    if (!is.null(variable_genes)) {
-        gs <- variable_genes
-    } else if (!is.null(features)) {
-        gs <- features
-    } else {
-        stop("It is not convenient to extract all genes.",
-            " You should have either variable features,",
-            " or a feature list to extract.")
-    }
-    # Get selected features
+  } else {
+    variable_genes <- NULL
+  }
+  
+  if (!is.null(variable_genes)) {
+    gs <- variable_genes
+  } else if (!is.null(features)) {
+    gs <- features
+  } else {
+    stop("It is not convenient to extract all genes.",
+         " You should have either variable features,",
+         " or a feature list to extract.")
+  }
+  # Get selected features
   feature_df <- get_all_features(.data)
   selected_features <- feature_df[(feature_df$feature %in% gs), ]
-  selected_features_df <- selected_features[(selected_features$assay_id %in% assay),]
-  if(!(nrow(selected_features_df) > 0 && all(selected_features_df$assay_id %in% assay))) stop("tidySingleCellExperiment says: Please specify correct assay.")
-  selected_features_exp <- unique(selected_features_df$exp_id)
-  if(length(selected_features_exp) > 1) stop("Please avoid mixing features from different experiments.")
-  selected_features_assay <- unique(selected_features_df$assay_name)
-  
-  if(selected_features_exp == "Main") {
-    mtx <- assay(.data, assay)
-    mtx <- mtx[gs, , drop=FALSE]
-    
-    mtx %>%
-      as.matrix() %>% t() %>%
-      as_tibble(rownames=c_(.data)$name) %>%
-      setNames(c(c_(.data)$name, sprintf("%s%s", prefix, gs)))
-  } else {
-    mtx <- assay(altExps(.data)[[selected_features_exp]], selected_features$assay_name)
-    mtx <- mtx[gs, , drop=FALSE]
-    
-    mtx %>%
-      as.matrix() %>% t() %>%
-      as_tibble(rownames=c_(.data)$name) %>%
-      setNames(c(c_(.data)$name, sprintf("%s%s", prefix, gs)))
+  # If assay is specified select only specified assays
+  if(is.vector(assay)) {
+    selected_features <- selected_features[selected_features$assay_id %in% assay,]
+  } else stop("Please specify assay")
+  selected_experiments_list <- split(x = selected_features, f = as.character(selected_features$exp_id))
+  extract_feature_values <- function(exp) {
+    selected_features_exp <- as.character(unique(exp$exp_id))
+    selected_features_assay <- as.character(unique(exp$assay_name))
+    selected_features_assay_names <- as.character(unique(exp$assay_id))
+    if(selected_features_exp == "Main") {
+      selected_features_from_exp <- rownames(assay(.data, selected_features_assay_names))[(rownames(assay(.data, selected_features_assay_names)) %in% gs)]
+      mtx <- assay(.data, selected_features_assay_names)[selected_features_from_exp,]
+      if(is.null(dim(mtx))) mtx <- matrix(mtx, byrow = TRUE, nrow = 1, ncol = length(mtx))
+      mtx %>%
+        as.matrix() %>% t() %>%
+        as_tibble(rownames=c_(.data)$name) %>%
+        setNames(c(c_(.data)$name, sprintf("%s%s", prefix, selected_features_from_exp)))
+    } else {
+      selected_features_from_exp <- rownames(altExps(.data)[[selected_features_exp]])[(rownames(altExps(.data)[[selected_features_exp]]) %in% gs)]
+      mtx <- assay(altExps(.data)[[selected_features_exp]], selected_features_assay)[selected_features_from_exp,]
+      if(is.null(dim(mtx))) mtx <- matrix(mtx, byrow = TRUE, nrow = 1, ncol = length(mtx))
+      mtx %>%
+        as.matrix() %>% t() %>%
+        as_tibble(rownames=c_(.data)$name) %>%
+        setNames(c(c_(.data)$name, sprintf("%s%s", prefix, selected_features_from_exp)))
+    }
   }
+  lapply(selected_experiments_list, extract_feature_values) |> 
+    reduce(full_join)
 }
 
 #' get abundance long
