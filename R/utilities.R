@@ -182,7 +182,7 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, prefix="", ..
       if(is.null(dim(mtx))) mtx <- matrix(mtx, byrow = TRUE, nrow = 1, ncol = length(mtx))
       mtx %>%
         as.matrix() %>% t() %>%
-        as_tibble(rownames=c_(.data)$name) %>%
+        as_tibble(rownames=c_(.data)$name, .name_repair = "check_unique") %>%
         setNames(c(c_(.data)$name, sprintf("%s%s", prefix, selected_features_from_exp)))
     } else {
       selected_features_from_exp <- rownames(altExps(.data)[[selected_features_exp]])[(rownames(altExps(.data)[[selected_features_exp]]) %in% gs)]
