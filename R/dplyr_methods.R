@@ -351,7 +351,7 @@ left_join.SingleCellExperiment <- function(x, y,
     }
     
     z <- x |>
-        as_tibble() |>
+        as_tibble(.name_repair = "minimal") |>
         dplyr::left_join(y, by=by, copy=copy, suffix=suffix, ...)
     
     # If duplicated cells returns tibble
