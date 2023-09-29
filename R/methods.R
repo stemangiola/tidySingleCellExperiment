@@ -82,7 +82,7 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
         
     # Shape if wide
     } else if (shape == "wide"){
-        if(is.null(arg_list$assays)) stop("Please provide assay")
+        if(is.null(arg_list$assays)) stop("Please provide assays")
         .data  %>%
             left_join(
                 by=c_(.data)$name,
