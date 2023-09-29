@@ -43,7 +43,7 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
     .feature <- NULL
     arg_list <- c(mget(ls(environment(), sorted=F)), match.call(expand.dots=F)$...)
     all_assays <- get_all_assays(.data)$assay_id
-    if(is.null(arg_list$assay)) assays_from_join_call <- all_assays
+    if(is.null(arg_list$assays)) assays_from_join_call <- all_assays
     # Shape is long
     if (shape == "long") {
         # Suppress generic data frame creation message produced by left_join
@@ -82,7 +82,7 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
         
     # Shape if wide
     } else if (shape == "wide"){
-        if(is.null(arg_list$assay)) stop("Please provide assay")
+        if(is.null(arg_list$assays)) stop("Please provide assay")
         .data  %>%
             left_join(
                 by=c_(.data)$name,
