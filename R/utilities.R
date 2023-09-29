@@ -130,8 +130,8 @@ get_all_features <- function(x) {
 get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, prefix="", ...) {
     
   arg_list <- c(mget(ls(environment(), sorted=F)), match.call(expand.dots=F)$...)
-  assays_to_use <- eval(arg_list$assay)
-  if(is.null(assays_to_use)) stop("Please provide assay name")
+  assays_to_use <- eval(arg_list$assays)
+  if(is.null(assays_to_use)) stop("Please provide assay names")
   
   
   # Solve CRAN warnings
@@ -226,7 +226,7 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, prefix="", ..
 get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_zeros = FALSE, ...) {
   
   arg_list <- c(mget(ls(environment(), sorted=F)), match.call(expand.dots=F)$...)
-  assays_to_use <- eval(arg_list$assay)
+  assays_to_use <- eval(arg_list$assays)
   if(is.null(assays_to_use)) assays_to_use <- get_all_assays(.data)$assay_id
   
   # Solve CRAN warnings
