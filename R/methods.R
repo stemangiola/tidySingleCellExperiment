@@ -134,7 +134,8 @@ tidy.SingleCellExperiment <- function(object) {
 #' pbmc_small_pseudo_bulk <- pbmc_small |>
 #'   aggregate_cells(c(groups, ident), assays="counts")
 #'
-#' @importFrom rlang enquo
+#' @importFrom rlang ensym
+#' @importFrom rlang as_name
 #' @importFrom magrittr "%>%"
 #' @importFrom tibble enframe
 #' @importFrom Matrix rowSums
@@ -144,6 +145,7 @@ tidy.SingleCellExperiment <- function(object) {
 #' @importFrom stringr str_remove
 #' @importFrom dplyr group_split
 #' @importFrom dplyr full_join
+#' @importFrom purrr reduce
 #'
 #'
 #' @export
@@ -190,12 +192,12 @@ setMethod("aggregate_cells", "SingleCellExperiment", function(.data,
         
         lapply(nested_data$data, aggregate_nested) |> 
           set_names(nested_data[[1]]) |> 
-          bind_rows(.id = rlang::as_name(.col))
+          bind_rows(.id = as_name(.col))
       }
       suppressMessages({
         lapply(selected_experiments_list, aggregate_exp) |> 
-          purrr::reduce(full_join) |> 
-          select(rlang::as_name(.col), feature, selected_assays$assay_id, everything())
+          reduce(full_join) |> 
+          select(as_name(.col), feature, selected_assays$assay_id, everything())
       })
     }
   }
