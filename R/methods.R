@@ -204,4 +204,4 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
   } %>%
     drop_class("tidySingleCellExperiment_nested") %>%
     as_SummarizedExperiment(.sample = !!.sample, .transcript = feature, .abundance = !!as.symbol(names(.data@assays)))
-}
+})
