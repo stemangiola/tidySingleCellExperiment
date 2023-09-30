@@ -147,61 +147,56 @@ tidy.SingleCellExperiment <- function(object) {
 #'
 #'
 #' @export
-setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
-                               .sample = NULL,
-                               slot = "data",
-                               assays = NULL,
-                               aggregation_function = Matrix::rowSums) {
+setMethod("aggregate_cells", "SingleCellExperiment", function(.data,
+                                                              .sample = NULL,
+                                                              slot = "data",
+                                                              assays = NULL,
+                                                              aggregation_function = Matrix::rowSums) {
   # Fix NOTEs
   feature <- NULL
-
-  .sample <- enquo(.sample)
+  .col <- ensym(.sample)
 
   # Subset only wanted assays
   if (!is.null(assays)) {
-    assay_info <- get_all_assays(.data)
-    if (!any(assay_info$assay_id %in% assays)) stop("Please select an appropriate assay name")
-    selected_assays <- assay_info[assay_info$assay_id %in% assays, ]
-    selected_experiments_list <- split(x = selected_assays, f = as.character(selected_assays$exp_id))
-    if ("Main" %in% names(selected_experiments_list)) selected_experiments_list <- selected_experiments_list[c("Main", setdiff(names(selected_experiments_list), "Main"))]
+    {
+      assay_info <- get_all_assays(.data)
+      if (!any(assay_info$assay_id %in% assays)) stop("Please select an appropriate assay name")
+      selected_assays <- assay_info[assay_info$assay_id %in% assays, ]
+      selected_experiments_list <- split(x = selected_assays, f = as.character(selected_assays$exp_id))
+      if ("Main" %in% names(selected_experiments_list)) selected_experiments_list <- selected_experiments_list[c("Main", setdiff(names(selected_experiments_list), "Main"))]
 
-    aggregate_exp <- function(exp) {
-      selected_exp <- unique(exp$exp_id)
-      if (selected_exp == "Main") {
-        .data@assays@data <- .data@assays@data[exp$assay_name]
-      } else {
-        col_data <- colData(.data)
-        .data <- altExps(.data)[[selected_exp]]
-        colData(.data) <- col_data
-        .data@assays@data <- .data@assays@data[exp$assay_name]
-        names(.data@assays@data) <- exp$assay_id
+      aggregate_exp <- function(exp) {
+        selected_exp <- unique(exp$exp_id)
+        if (selected_exp == "Main") {
+          .data@assays@data <- .data@assays@data[exp$assay_name]
+        } else {
+          col_data <- colData(.data)
+          .data <- altExps(.data)[[selected_exp]]
+          colData(.data) <- col_data
+          .data@assays@data <- .data@assays@data[exp$assay_name]
+          names(.data@assays@data) <- exp$assay_id
+        }
+        nested_data <- .data %>%
+          nest(data = -any_of(.col)) %>%
+          mutate(.aggregated_cells = as.integer(map(data, ~ ncol(.x))))
+        
+        aggregate_nested <- function(sce) {
+          assays(sce)[exp$assay_id] |> 
+            lapply(FUN = aggregation_function) |> 
+            bind_cols() |> 
+            mutate(feature = rownames(sce)) |> 
+            select(feature, everything())
+        }
+        
+        lapply(nested_data$data, aggregate_nested) |> 
+          set_names(nested_data[[1]]) |> 
+          bind_rows(.id = rlang::as_name(.col))
       }
-      .data %>%
-        nest(data = -!!.sample) %>%
-        mutate(.aggregated_cells = as.integer(map(data, ~ ncol(.x)))) %>%
-        mutate(data = map(data, ~
-
-          # loop over assays
-          map2(
-            as.list(assays(.x)), names(.x@assays),
-
-            # Get counts
-            ~ .x %>%
-              aggregation_function(na.rm = TRUE) %>%
-              enframe(
-                name  = "feature",
-                value = sprintf("%s", .y)
-              ) %>%
-              mutate(feature = as.character(feature))
-          ) %>%
-            Reduce(function(...) full_join(..., by = c("feature")), .))) %>%
-        left_join(.data %>% as_tibble() %>% subset(!!.sample), by = quo_names(.sample)) %>%
-        unnest(data)
+      suppressMessages({
+        lapply(selected_experiments_list, aggregate_exp) |> 
+          purrr::reduce(full_join) |> 
+          select(rlang::as_name(.col), feature, selected_assays$assay_id, everything())
+      })
     }
-    suppressMessages({
-      Reduce(f = full_join, x = lapply(selected_experiments_list, aggregate_exp))
-    })
-  } %>%
-    drop_class("tidySingleCellExperiment_nested") %>%
-    as_SummarizedExperiment(.sample = !!.sample, .transcript = feature, .abundance = !!as.symbol(names(.data@assays)))
+  }
 })
