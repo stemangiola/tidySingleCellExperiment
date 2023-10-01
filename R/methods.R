@@ -150,57 +150,98 @@ tidy.SingleCellExperiment <- function(object) {
 #'
 #' @export
 setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
-                                                    .sample = NULL, 
-                                                    slot = "data",
-                                                    assays = NULL, 
-                                                    aggregation_function = Matrix::rowSums){
+         .sample=NULL, slot="data", assays=NULL,
+         aggregation_function=Matrix::rowSums,
+         ...) {
   
   # Fix NOTEs
-  feature = NULL
-  
-  .sample = enquo(.sample)
+  feature <- NULL
+  .sample <- enquo(.sample)
   
   # Subset only wanted assays
-  if(!is.null(assays)){
+  if (!is.null(assays)) {
     assay_info <- get_all_assays(.data)
     if(!any(assay_info$assay_id %in% assays)) stop("Please select an appropriate assay name")
     selected_assays <- assay_info[assay_info$assay_id %in% assays,]
     selected_exp <- unique(selected_assays$exp_id)
-    if(length(selected_exp) > 1) stop("Please avoid mixing features from different experiments.")
-    if(selected_exp == "Main") {
-      .data@assays@data <- .data@assays@data[selected_assays$assay_name]
-    } else {
-    .data <- altExps(.data)[[selected_exp]]
-    .data@assays@data = .data@assays@data[selected_assays$assay_name] 
-    }
+    selected_experiments_list <- split(x = selected_assays, f = as.character(selected_assays$exp_id))
+    if("Main" %in% selected_exp) selected_experiments_list <- selected_experiments_list[c("Main", setdiff(names(selected_experiments_list), "Main"))]
   }
   
-  .data %>%
+  aggregate_exps <- function(exp) {
+    if(unique(exp$exp_id) == "Main") 
+    {
+      assays(.data) <- assays(.data)[exp$assay_name]
+    } else {
+      col_data <- colData(.data)
+      .data <- altExps(.data)[[unique(exp$exp_id)]]
+      colData(.data) <- col_data
+      assays(.data) <- assays(.data)[exp$assay_name]
+    }
+    grouping_factor =
+      .data |>
+      colData() |>
+      as_tibble() |>
+      select(!!.sample) |>
+      suppressMessages() |>
+      unite("my_id_to_split_by___", !!.sample, sep = "___") |>
+      pull(my_id_to_split_by___) |>
+      as.factor()
     
-    nest(data = -!!.sample) %>%
-    mutate(.aggregated_cells = as.integer(map(data, ~ ncol(.x)))) %>% 
-    mutate(data = map(data, ~ 
-                        
-                        # loop over assays
-                        map2(
-                          as.list(assays(.x)), names(.x@assays),
-                          
-                          # Get counts
-                          ~  .x %>%
-                            aggregation_function(na.rm = TRUE) %>%
-                            enframe(
-                              name  = "feature",
-                              value = sprintf("%s", .y)
-                            ) %>%
-                            mutate(feature = as.character(feature)) 
-                        ) %>%
-                        Reduce(function(...) full_join(..., by=c("feature")), .)
-                      
-    )) %>%
-    left_join(.data %>% as_tibble() %>% subset(!!.sample), by = quo_names(.sample)) %>%
-    unnest(data) %>%
+    list_count_cells = table(grouping_factor) |> as.list()
     
-    drop_class("tidySingleCellExperiment_nested") %>%
+    # New method
+    list_assays =
+      .data |>
+      assays() |>
+      as.list() |>
+      map(~ .x |> splitColData(grouping_factor)) |>
+      unlist(recursive=FALSE)
     
-    as_SummarizedExperiment(.sample = !!.sample, .transcript = feature, .abundance = !!as.symbol(names(.data@assays)))
+    list_assays =
+      list_assays |>
+      map2(names(list_assays), ~ {
+        # Get counts
+        .x %>%
+          aggregation_function(na.rm=TRUE) %>%
+          enframe(
+            name =".feature",
+            value="x") %>% # sprintf("%s", .y)) %>%
+          
+          # In case we don't have rownames
+          mutate(.feature=as.character(.feature))
+      }) |>
+      enframe(name = ".sample") |>
+      
+      # Clean groups
+      mutate(assay_name = assayNames(!!.data) |> rep(each=length(levels(grouping_factor)))) |>
+      mutate(.sample = .sample |> str_remove(assay_name) |> str_remove("\\.")) |>
+      group_split(.sample) |>
+      map(~ .x |>  unnest(value) |> pivot_wider(names_from = assay_name, values_from = x) ) |>
+      
+      # Add cell count
+      map2(
+        list_count_cells,
+        ~ .x |> mutate(.aggregated_cells = .y)
+      )
+    
+    
+    do.call(rbind, list_assays) |>
+      
+      left_join(
+        .data |>
+          colData() |>
+          as_tibble() |>
+          subset(!!.sample) |>
+          unite("my_id_to_split_by___", !!.sample, remove=FALSE, sep = "___"),
+        by= join_by(".sample" == "my_id_to_split_by___")
+      )
+  }
+  
+  lapply(selected_experiments_list, aggregate_exps) |> 
+    bind_rows() |>
+    as_SummarizedExperiment(
+      .sample=.sample,
+      .transcript=.feature,
+      .abundance=!!as.symbol(names(.data@assays)))
 })
