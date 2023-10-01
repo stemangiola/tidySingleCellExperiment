@@ -53,9 +53,9 @@ test_that("show()", {
     stringr::str_remove(pattern = ".+s=") |> 
     strsplit(split = ", ") |> 
     unlist()
-  y <- Names(df)
+  y <- assayNames(df)
   for (k in seq_along(altExps(pbmc_small))) {
-    y <- append(x = y, paste(altExpNames(pbmc_small)[[k]], Names(altExps(pbmc_small)[[k]]), sep = "-"))
+    y <- append(x = y, paste(altExpNames(pbmc_small)[[k]], assayNames(altExps(pbmc_small)[[k]]), sep = "-"))
   }
   for(j in seq_along(y)) {
     expect_contains(x, y[j])
