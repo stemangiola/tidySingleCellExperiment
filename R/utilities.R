@@ -198,7 +198,7 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, prefix="", ..
   }
   suppressMessages({
     lapply(selected_experiments_list, extract_feature_values) |> 
-        purrr::reduce(full_join)
+        Reduce(f = full_join)
     })
 }
 
@@ -351,7 +351,7 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
   }
   suppressMessages({
     lapply(selected_experiments_list, extract_feature_values) |> 
-        purrr::reduce(full_join)
+        Reduce(f = full_join)
     })
 }
 
