@@ -41,7 +41,7 @@ test_that("show()", {
   expect_equal(gsub(str, "\\1", txt[i]), paste(nrow(df)))
   i <- grep(str <- ".*Cells=([0-9]+).*", txt)
   expect_equal(gsub(str, "\\1", txt[i]), paste(ncol(df)))
-  i <- grep(".*Assays=.*", txt)
+  i <- grep(".*s=.*", txt)
   j <- grep(".cell*", txt) -1
   header_text <- paste(txt[i:j], collapse = "") |> 
     stringr::str_remove_all(pattern = "# ") |> 
@@ -50,12 +50,12 @@ test_that("show()", {
     stringr::str_remove_all(pattern = "\\[90m") |> 
     stringr::str_remove_all(pattern = "\\[0m")
   x <- header_text |> 
-    stringr::str_remove(pattern = ".+Assays=") |> 
+    stringr::str_remove(pattern = ".+s=") |> 
     strsplit(split = ", ") |> 
     unlist()
-  y <- assayNames(df)
+  y <- Names(df)
   for (k in seq_along(altExps(pbmc_small))) {
-    y <- append(x = y, paste(altExpNames(pbmc_small)[[k]], assayNames(altExps(pbmc_small)[[k]]), sep = "-"))
+    y <- append(x = y, paste(altExpNames(pbmc_small)[[k]], Names(altExps(pbmc_small)[[k]]), sep = "-"))
   }
   for(j in seq_along(y)) {
     expect_contains(x, y[j])
@@ -74,7 +74,7 @@ test_that("join_features()", {
     matrix(fd$.abundance_counts, nrow=length(gs)),
     as.matrix(unname(counts(df)[fd$.feature[seq_along(gs)], ])))
   # wide
-  fd <- join_features(df, gs, shape="wide", assay="counts")
+  fd <- join_features(df, gs, shape="wide", assays="counts")
   expect_s4_class(fd, "SingleCellExperiment")
   expect_null(fd$.feature)
   expect_identical(
@@ -93,7 +93,7 @@ test_that("join_features()", {
       matrix(fd |> select(starts_with(".abundance")) |> pull(1), nrow=length(gs)),
       as.matrix(unname(assays(altExp(df))[[1]][fd$.feature[seq_along(gs)], ])))
     # wide
-    fd <- join_features(df, gs, shape="wide", assay="ADT-counts")
+    fd <- join_features(df, gs, shape="wide", assays="ADT-counts")
     expect_s4_class(fd, "SingleCellExperiment")
     expect_null(fd$.feature)
     expect_identical(
