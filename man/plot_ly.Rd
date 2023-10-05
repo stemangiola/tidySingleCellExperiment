@@ -137,44 +137,10 @@ help inform default axis/scale titles
 (e.g., \code{plot_ly(x = mtcars$wt)} vs \code{plot_ly(x = ~mtcars$wt)})
 }
 \examples{
-\dontshow{if (interactive() || !identical(.Platform$OS.type, "windows")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-\dontrun{
+data(pbmc_small)
+pbmc_small |> 
+    plot_ly(x = ~ nCount_RNA, y = ~ nFeature_RNA)
 
-# plot_ly() tries to create a sensible plot based on the information you 
-# give it. If you don't provide a trace type, plot_ly() will infer one.
-plot_ly(economics, x = ~pop)
-plot_ly(economics, x = ~date, y = ~pop)
-# plot_ly() doesn't require data frame(s), which allows one to take 
-# advantage of trace type(s) designed specifically for numeric matrices
-plot_ly(z = ~volcano)
-plot_ly(z = ~volcano, type = "surface")
-
-# plotly has a functional interface: every plotly function takes a plotly
-# object as it's first input argument and returns a modified plotly object
-add_lines(plot_ly(economics, x = ~date, y = ~unemploy/pop))
-
-# To make code more readable, plotly imports the pipe operator from magrittr
-economics \%>\% plot_ly(x = ~date, y = ~unemploy/pop) \%>\% add_lines()
-
-# Attributes defined via plot_ly() set 'global' attributes that 
-# are carried onto subsequent traces, but those may be over-written
-plot_ly(economics, x = ~date, color = I("black")) \%>\%
- add_lines(y = ~uempmed) \%>\%
- add_lines(y = ~psavert, color = I("red"))
-
-# Attributes are documented in the figure reference -> https://plotly.com/r/reference
-# You might notice plot_ly() has named arguments that aren't in this figure
-# reference. These arguments make it easier to map abstract data values to
-# visual attributes.
-p <- plot_ly(palmerpenguins::penguins, x = ~bill_length_mm, y = ~body_mass_g)
-add_markers(p, color = ~bill_depth_mm, size = ~bill_depth_mm)
-add_markers(p, color = ~species)
-add_markers(p, color = ~species, colors = "Set1")
-add_markers(p, symbol = ~species)
-add_paths(p, linetype = ~species)
-
-}
-\dontshow{\}) # examplesIf}
 }
 \references{
 \url{https://plotly-r.com/overview.html}

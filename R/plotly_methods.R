@@ -4,8 +4,12 @@
 #' @inherit plotly::plot_ly
 #' @return `plotly`
 #' 
-#' @importFrom tidySummarizedExperiment plot_ly
+#' @examples 
+#' data(pbmc_small)
+#' pbmc_small |> 
+#'     plot_ly(x = ~ nCount_RNA, y = ~ nFeature_RNA)
 #' 
+#' @importFrom tidySummarizedExperiment plot_ly
 #' @export
 setMethod("plot_ly", "SingleCellExperiment",
     function(data=data.frame(), ..., 
