@@ -889,18 +889,35 @@ pull.SingleCellExperiment <- function(.data, var=-1, name=NULL, ...) {
 #' data(pbmc_small)
 #' pbmc_small |> group_split(pbmc_small, groups)
 group_split.SingleCellExperiment <- function(.data, var) {
-    var <- enquo(var)
     
-    var_list <- .data |> 
-        as_tibble() |> 
-        select(!!var) |> 
-        unlist(use.names = FALSE)
+  
+    if(any(paste(substitute(var)) == names(colData(.data)))) {
+        var <- enquo(var)
+        var_list <- .data |> 
+            as_tibble() |> 
+            select(!!var) |> 
+            unlist(use.names = FALSE)
+        
+        groups <- unique(var_list)
+        
+        v <- vector(mode = "list", length = length(groups))
+        
+        for (n in seq_along(groups)) {
+            v[[n]] <- .data[, var_list == groups[[n]]] 
+            }
+        
+        return(v)
+    }
     
-    groups <- unique(var_list)
-    
-    v <- vector(mode = "list", length = length(groups))
-    
-    for (n in seq_along(groups)) { v[[n]] <- .data[, var_list == groups[[n]]] }
-    
-    v
+    if(any(paste(substitute(var)) == names(rowData(.data)))) {
+      var <- enquo(var)
+        var_list <- .data |> 
+            rowData() |>
+            as_tibble() |> 
+            select(!!var) |> 
+            unlist(use.names = FALSE)
+      
+        split(.data, var_list) |> 
+            as.list()
+    }
 }
