@@ -875,3 +875,32 @@ pull.SingleCellExperiment <- function(.data, var=-1, name=NULL, ...) {
         as_tibble() %>%
         dplyr::pull(var=!!var, name=!!name, ...)
 }
+
+#' @name group_split
+#' @rdname group_split
+#' @inherit dplyr::group_split
+#'
+#' @param .data 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' data(pbmc_small)
+#' pbmc_small |> group_split(pbmc_small, groups)
+group_split.SingleCellExperiment <- function(.data, var) {
+    var <- enquo(var)
+    
+    var_list <- .data |> 
+        as_tibble() |> 
+        select(!!var) |> 
+        unlist(use.names = FALSE)
+    
+    groups <- unique(var_list)
+    
+    v <- vector(mode = "list", length = length(groups))
+    
+    for (n in seq_along(groups)) { v[[n]] <- .data[, var_list == groups[[n]]] }
+    
+    v
+}

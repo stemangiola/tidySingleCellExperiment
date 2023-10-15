@@ -318,3 +318,10 @@ test_that("rowwise()", {
     expect_equal(dim(fd), c(ncol(df), 1))
     expect_identical(fd[[1]], sapply(df$lys, sum))
 })
+
+test_that("group_split()", {
+    fd <- df |> 
+    group_split("groups")
+    expect_equal(length(fd), length(unique(df$groups)))
+})
+
