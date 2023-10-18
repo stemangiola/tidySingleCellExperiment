@@ -1,3 +1,4 @@
+library(S4Vectors)
 data(pbmc_small)
 df <- pbmc_small
 df$number <- sample(seq(ncol(df)))
@@ -130,11 +131,33 @@ test_that("left_join()", {
     expect_identical(colData(fd)[-n], colData(df))
 })
 
+test_that("left_join(), with DataFrame y", {
+    y <- df |> 
+        distinct(factor) |> 
+        mutate(string=letters[seq(nlevels(df$factor))]) |> 
+        DataFrame()
+    fd <- left_join(df, y, by="factor")
+    expect_s4_class(fd, "SingleCellExperiment")
+    expect_equal(n <- ncol(colData(fd)), ncol(colData(df))+1)
+    expect_identical(colData(fd)[-n], colData(df))
+})
+
 test_that("inner_join()", {
     y <- df |> 
         distinct(factor) |> 
         mutate(string=letters[seq(nlevels(df$factor))]) |> 
         slice(1)
+    fd <- inner_join(df, y, by="factor")
+    expect_s4_class(fd, "SingleCellExperiment")
+    expect_equal(n <- ncol(colData(fd)), ncol(colData(df))+1)
+    expect_equal(ncol(fd), sum(df$factor == fd$factor[1]))
+})
+
+test_that("inner_join(), with DataFrame y", {
+    y <- df |> 
+        distinct(factor) |> 
+        mutate(string=letters[seq(nlevels(df$factor))]) |> 
+        slice(1) |> DataFrame()
     fd <- inner_join(df, y, by="factor")
     expect_s4_class(fd, "SingleCellExperiment")
     expect_equal(n <- ncol(colData(fd)), ncol(colData(df))+1)
@@ -152,6 +175,17 @@ test_that("right_join()", {
     expect_equal(ncol(fd), sum(df$factor == fd$factor[1]))
 })
 
+test_that("right_join(), with DataFrame y", {
+    y <- df |>
+        distinct(factor) |>
+        mutate(string=letters[seq(nlevels(df$factor))]) |>
+        slice(1) |> DataFrame()
+    fd <- right_join(df, y, by="factor")
+    expect_s4_class(fd, "SingleCellExperiment")
+    expect_equal(n <- ncol(colData(fd)), ncol(colData(df))+1)
+    expect_equal(ncol(fd), sum(df$factor == fd$factor[1]))
+})
+
 test_that("full_join()", {
     # w/ duplicated cell names
     y <- tibble(factor="g2", other=1:3)
@@ -162,6 +196,23 @@ test_that("full_join()", {
     expect_equal(nrow(fd), ncol(df)+2*sum(df$factor == "g2"))
     # w/o duplicates
     y <- tibble(factor="g2", other=1)
+    fd <- expect_silent(full_join(df, y, by="factor"))
+    expect_s4_class(fd, "SingleCellExperiment")
+    expect_identical(
+        select(fd, -other), 
+        mutate(df, factor=paste(factor)))
+})
+
+test_that("full_join(), with DataFrame y", {
+    # w/ duplicated cell names
+    y <- tibble(factor="g2", other=1:3) |> DataFrame()
+    fd <- expect_message(full_join(df, y, by="factor", relationship="many-to-many"))
+    expect_s3_class(fd, "tbl_df")
+    expect_true(all(is.na(fd$other[fd$factor != "g2"])))
+    expect_true(all(!is.na(fd$other[fd$factor == "g2"])))
+    expect_equal(nrow(fd), ncol(df)+2*sum(df$factor == "g2"))
+    # w/o duplicates
+    y <- tibble(factor="g2", other=1) |> DataFrame()
     fd <- expect_silent(full_join(df, y, by="factor"))
     expect_s4_class(fd, "SingleCellExperiment")
     expect_identical(

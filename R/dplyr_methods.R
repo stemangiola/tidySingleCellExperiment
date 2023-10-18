@@ -336,7 +336,14 @@ rowwise.SingleCellExperiment <- function(data, ...) {
 #' tt |> left_join(tt |>  
 #'   distinct(groups) |> 
 #'   mutate(new_column=1:2))
-#'
+#' 
+#' library(S4Vectors)
+#' # y can be S4 DataFrame for _*join, though not tested on list columns
+#' DF <- tt |>  
+#'   distinct(groups) |> 
+#'   mutate(new_column=1:2) |> DataFrame()
+#' tt |> left_join(DF)
+#' 
 #' @importFrom SummarizedExperiment colData
 #' @importFrom dplyr left_join
 #' @importFrom dplyr count
@@ -349,7 +356,7 @@ left_join.SingleCellExperiment <- function(x, y,
     if (is_sample_feature_deprecated_used(x, .cols)) {
         x <- ping_old_special_column_into_metadata(x)
     }
-    
+    if (is(y, "DataFrame")) y <- as.data.frame(y)
     z <- x |>
         as_tibble() |>
         dplyr::left_join(y, by=by, copy=copy, suffix=suffix, ...)
@@ -389,7 +396,7 @@ inner_join.SingleCellExperiment <- function(x, y,
     if (is_sample_feature_deprecated_used(x, .cols)) {
         x <- ping_old_special_column_into_metadata(x)
     }
-    
+    if (is(y, "DataFrame")) y <- as.data.frame(y)
     z <- x |>
         as_tibble() |>
         dplyr::inner_join(y, by=by, copy=copy, suffix=suffix, ...)
@@ -430,7 +437,7 @@ right_join.SingleCellExperiment <- function(x, y,
     if (is_sample_feature_deprecated_used(x, .cols)) {
         x <- ping_old_special_column_into_metadata(x)
     }
-    
+    if (is(y, "DataFrame")) y <- as.data.frame(y)
     z <- x |>
         as_tibble() |>
         dplyr::right_join(y, by=by, copy=copy, suffix=suffix, ...)
@@ -467,7 +474,7 @@ full_join.SingleCellExperiment <- function(x, y,
     if (is_sample_feature_deprecated_used(x, .cols)) {
         x <- ping_old_special_column_into_metadata(x)
     }
-    
+    if (is(y, "DataFrame")) y <- as.data.frame(y)
     z <- x |>
         as_tibble() |>
         dplyr::full_join(y, by=by, copy=copy, suffix=suffix, ...) 
