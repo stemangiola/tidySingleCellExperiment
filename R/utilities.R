@@ -220,6 +220,18 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, prefix="", va
 #'
 #' @noRd
 get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_zeros = FALSE, variable_features = NA, ...) {
+  
+  assay_names <- names(assays(.data))
+  
+  # Check that I have assay names - can you even have an sce object with no assays?
+  if (length(assay_names) == 0) {
+    stop("tidySingleCellExperiment says: there are no assays names in the source SingleCellExperiment.")
+  }
+  
+  arg_list <- c(mget(ls(environment(), sorted=F)), match.call(expand.dots=F)$...)
+  assays_to_use <- eval(arg_list$assays)
+  if(is.null(assays_to_use)) assays_to_use <- tail(names(assays(cbmc_sce)), n = 1)
+  
   # Solve CRAN warnings
   . <- NULL
 
@@ -245,12 +257,6 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
     variable_genes <- NULL
   }
 
-  assay_names <- names(assays(.data))
-
-  # Check that I have assay names - can you even have an sce object with no assays?
-  if (length(assay_names) == 0) {
-    stop("tidySingleCellExperiment says: there are no assays names in the source SingleCellExperiment.")
-  }
 
   # Get assays
   alt_exp_assays <- list()
