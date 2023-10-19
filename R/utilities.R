@@ -236,8 +236,11 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
   . <- NULL
 
   # For SCE there is no a priori field for variable features
-  # For SCE there is no a priori field for variable features
-  if(!all(is.na(variable_features))) all <- FALSE
+  if(!all(is.na(variable_features))) {all <- FALSE}
+  if(!all(is.null(features))) {
+    all <- FALSE
+    variable_genes <- NULL
+    }
   # Check if output would be too big without forcing
   if (isFALSE(all) && is.null(features)) {
     if (all(is.na(variable_features))) {
