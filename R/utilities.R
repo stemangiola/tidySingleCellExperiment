@@ -278,14 +278,14 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
   feature_df <- get_all_features(.data)
 
   # Get selected features
-  selected_features <- feature_df[(feature_df$feature %in% features), ]
+  selected_features <- feature_df[(feature_df$feature %in% features), ]  
+  selected_features_exp <- unique(selected_features$exp_id)
+  if(length(selected_features_exp) > 1) stop("Please avoid mixing features from different experiments.")
+
   if (isTRUE(all)) {
     selected_features <- feature_df[feature_df$assay_id %in% assays_to_use, ]
     warning("To avoid mixing features from different experiments only features from the Main experiment will be used!")
   }
-  
-  selected_features_exp <- unique(selected_features$exp_id)
-  if(length(selected_features_exp) > 1) stop("Please avoid mixing features from different experiments.")
   selected_features_assay_names <- unique(selected_features$assay_id)
 
   if (selected_features_exp == "Main") {
