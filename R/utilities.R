@@ -281,6 +281,7 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
   selected_features <- feature_df[(feature_df$feature %in% features), ]
   if (isTRUE(all)) {
     selected_features <- feature_df[feature_df$assay_id %in% assays_to_use, ]
+    warning("To avoid mixing features from different experiments only features from the Main experiment will be used!")
   }
   
   selected_features_exp <- unique(selected_features$exp_id)
