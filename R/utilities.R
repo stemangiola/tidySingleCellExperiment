@@ -271,8 +271,8 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
     features <- unique(feature_df$feature)
   }
   selected_features <- feature_df[(feature_df$feature %in% features), ]
+  if(!is.null(assays_to_use)) selected_features <- selected_features[selected_features$assay_id %in% assays_to_use,]
   selected_features_exp <- unique(selected_features$exp_id)
-  selected_features_assay_names <- unique(selected_features$assay_id)
   selected_experiments_list <- split(x = selected_features, f = as.character(selected_features$exp_id))
   if("Main" %in% selected_features_exp) selected_experiments_list <- selected_experiments_list[c("Main", setdiff(names(selected_experiments_list), "Main"))]
 
