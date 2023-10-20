@@ -281,9 +281,10 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
     if (selected_exp == "Main") {
       assays(.data) %>%
         as.list() %>%
+        .[unique(exp$assay_name)] %>%
         # Take active assay
         map2(
-          assay_names,
+          unique(exp$assay_id),
           ~ .x %>%
             when(
               variable_genes %>% is.null() %>% `!`() ~ .x[variable_genes, , drop = FALSE],
@@ -314,6 +315,7 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
     } else {
       assays(altExps(.data)[[unique(exp$exp_id)]]) %>%
         as.list() %>%
+        .[unique(exp$assay_name)] %>%
         # Take active assay
         map2(
           unique(exp$assay_id),
