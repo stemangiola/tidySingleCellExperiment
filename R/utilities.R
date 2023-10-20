@@ -168,6 +168,7 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, prefix="", va
   selected_features <- feature_df[(feature_df$feature %in% gs), ]
   selected_features <- selected_features[selected_features$assay_id %in% assays_to_use,]
   selected_experiments_list <- split(x = selected_features, f = as.character(selected_features$exp_id))
+  if("Main" %in% names(selected_experiments_list)) selected_experiments_list <- selected_experiments_list[c("Main", setdiff(names(selected_experiments_list), "Main"))]
   extract_feature_values <- function(exp) {
     selected_features_exp <- as.character(unique(exp$exp_id))
     selected_features_assay <- as.character(unique(exp$assay_name))
@@ -193,8 +194,8 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, prefix="", va
     }
   }
   suppressMessages({
-    lapply(selected_experiments_list, extract_feature_values) |> 
-      Reduce(f = full_join)
+    feature_values_list <- lapply(selected_experiments_list, extract_feature_values)
+    purrr::reduce(feature_values_list, full_join, by = join_by(.cell), suffix = paste0(".", names(feature_values_list)))
   })
 }
 
