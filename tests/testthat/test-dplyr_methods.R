@@ -325,11 +325,12 @@ test_that("group_split()", {
     expect_equal(length(fd), length(unique(df$groups)))
     
     fd <- df |> 
-    group_split("vst.variable")
-    expect_equal(length(fd), length(unique(rowData(df)$vst.variable)))
+    group_split("groups")
+    expect_equal(length(fd), length(unique(df$groups)))
     
     fd <- df |> 
-      group_split(vst.variable)
-    expect_equal(length(fd), length(unique(rowData(df)$vst.variable)))
+      group_split(groups, ident)
+    expect_equal(length(fd), length(unique(df$groups)) *
+                   length(unique(df$ident)))
 })
 
