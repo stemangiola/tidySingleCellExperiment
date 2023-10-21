@@ -882,7 +882,6 @@ pull.SingleCellExperiment <- function(.data, var=-1, name=NULL, ...) {
 #'
 #' @param .data 
 #'
-#' @return
 #' @export
 #'
 #' @examples
@@ -890,7 +889,6 @@ pull.SingleCellExperiment <- function(.data, var=-1, name=NULL, ...) {
 #' pbmc_small |> group_split(pbmc_small, groups)
 group_split.SingleCellExperiment <- function(.data, var) {
     
-  
     if(any(paste(substitute(var)) == names(colData(.data)))) {
         var <- enquo(var)
         var_list <- .data |> 
