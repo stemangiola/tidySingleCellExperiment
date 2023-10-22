@@ -892,23 +892,21 @@ group_split.SingleCellExperiment <- function(.data, ...) {
   
   var_list <- enquos(...)
   
-  .data <- .data |> 
-      unite.SingleCellExperiment("group_col", !!!var_list, remove = FALSE)
-  
   group_df <- .data |> 
       as_tibble()
   
-  group_list <- group_df$group_col |> 
-      unlist() |> 
+  group_df <- group_df |> 
+      unite("group_col", !!!var_list, remove = FALSE)
+    
+  group_list <- group_df$group_col
+  
+  groups <- group_list |> 
       unique()
   
-  v <- vector(mode = "list", length = length(group_list))
+  v <- vector(mode = "list", length = length(groups))
   
   for (i in seq_along(v)) {
-      v[[i]] <- .data |> 
-        filter(group_col == group_list[[i]], )
-      
-      v[[i]] <- select(v[[i]], !group_col)
+      v[[i]] <- .data[,group_list == groups[[i]]]
   }
   
   v
