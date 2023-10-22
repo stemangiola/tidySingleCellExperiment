@@ -878,9 +878,10 @@ pull.SingleCellExperiment <- function(.data, var=-1, name=NULL, ...) {
 
 #' @name group_split
 #' @rdname group_split
-#' @inherit dplyr::group_split
+#' @inherit dplyr::group_split title description details sections source
 #'
-#' @param .data 
+#' @param .data A `tidySingleCellExperiment` object
+#' @param ... The grouping variables by which to split the object
 #'
 #' @export
 #'

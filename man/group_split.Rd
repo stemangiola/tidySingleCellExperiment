@@ -5,17 +5,12 @@
 \alias{group_split.SingleCellExperiment}
 \title{Split data frame by groups}
 \usage{
-\method{group_split}{SingleCellExperiment}(.data, var)
+\method{group_split}{SingleCellExperiment}(.data, ...)
 }
 \arguments{
-\item{.data}{}
-}
-\value{
-A list of tibbles. Each tibble contains the rows of \code{.tbl} for the
-associated group and all the columns, including the grouping variables.
-Note that this returns a \link[vctrs:list_of]{list_of} which is slightly
-stricter than a simple list but is useful for representing lists where
-every element has the same type.
+\item{.data}{A `tidySingleCellExperiment` object}
+
+\item{...}{The grouping variables by which to split the object}
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
@@ -48,11 +43,4 @@ future.
 \examples{
 data(pbmc_small)
 pbmc_small |> group_split(pbmc_small, groups)
-}
-\seealso{
-Other grouping functions: 
-\code{\link[dplyr]{group_by}()},
-\code{\link[dplyr]{group_map}()},
-\code{\link[dplyr]{group_nest}()},
-\code{\link[dplyr]{group_trim}()}
 }
