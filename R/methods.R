@@ -153,6 +153,7 @@ tidy.SingleCellExperiment <- function(object) {
 #' @importFrom tidyr separate
 #' @importFrom purrr reduce
 #' @importFrom purrr map
+#' @importFrom purrr set_names
 #'
 #'
 #' @export
