@@ -149,6 +149,7 @@ tidy.SingleCellExperiment <- function(object) {
 #' @importFrom dplyr group_rows
 #' @importFrom dplyr group_keys
 #' @importFrom dplyr bind_rows
+#' @importFrom dplyr pull
 #' @importFrom tidyr unite
 #' @importFrom tidyr separate
 #' @importFrom purrr reduce
@@ -183,7 +184,7 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
   .sample_names <- colnames(sample_group_keys)
   
   sce_split <- map(.x = seq_along(sample_group_idx), .f = \(.num) .data[, sample_group_idx[[.num]]]) |> 
-    set_names(sample_group_keys |> unite(col = "grouping_factor", !!.sample, sep = "___") |> 
+    purrr::set_names(sample_group_keys |> unite(col = "grouping_factor", !!.sample, sep = "___") |> 
                   pull(grouping_factor))
   
   grouping_factor =
