@@ -244,9 +244,10 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
         purrr::set_names(selected_assays$assay_id)
     }
   }
-  se <- lapply(selected_experiments_list, aggregate_assays_fun) |>
-    lapply(SummarizedExperiment)
-    # Remove "Main" from the names if this is the only assay
-    if(length(names(se)) == 1 && names(se) == "Main") names(se) <- NULL
-  return(se)
+  se <- lapply(selected_experiments_list, aggregate_assays_fun)
+  se |> 
+    purrr::flatten() |> 
+    map(.f = \(.tbl) .tbl |> 
+          column_to_rownames(var = ".feature") |> 
+          as_SummarizedExperiment())
 })
