@@ -166,28 +166,31 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
   # Fix NOTEs
   feature <- NULL
   .sample <- enquo(.sample)
-  
-  arg_list <- c(mget(ls(environment(), sorted=F)), match.call(expand.dots=F)$...)
+
+  arg_list <- c(mget(ls(environment(), sorted = F)), match.call(expand.dots = F)$...)
   assays_to_use <- eval(arg_list$assays)
-  if(is.null(assays_to_use)) assays_to_use <- tail(names(assays(.data)), n = 1)
-  
-  sample_groups <- .data |> 
-    as_tibble() |> 
-    group_by(pick({{.sample}}))
-  
-  sample_group_idx <- sample_groups |> 
+  if (is.null(assays_to_use)) assays_to_use <- tail(names(assays(.data)), n = 1)
+
+  sample_groups <- .data |>
+    as_tibble() |>
+    group_by(pick({{ .sample }}))
+
+  sample_group_idx <- sample_groups |>
     group_rows()
-  
-  sample_group_keys <- sample_groups |> 
+
+  sample_group_keys <- sample_groups |>
     group_keys()
-  
+
   .sample_names <- colnames(sample_group_keys)
-  
-  sce_split <- map(.x = seq_along(sample_group_idx), .f = \(.num) .data[, sample_group_idx[[.num]]]) |> 
-    purrr::set_names(sample_group_keys |> unite(col = "grouping_factor", !!.sample, sep = "___") |> 
-                  pull(grouping_factor))
-  
-  grouping_factor =
+
+  grouping_factor_names <- sample_group_keys |>
+    unite(col = "grouping_factor", !!.sample, sep = "___") |>
+    pull(grouping_factor)
+
+  sce_split <- map(.x = seq_along(sample_group_idx), .f = \(.num) .data[, sample_group_idx[[.num]]]) |>
+    purrr::set_names(grouping_factor_names)
+
+  grouping_factor <-
     .data |>
     colData() |>
     as_tibble() |>
@@ -196,47 +199,54 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
     unite("my_id_to_split_by___", !!.sample, sep = "___") |>
     pull(my_id_to_split_by___) |>
     as.factor()
-  
-  list_count_cells = table(grouping_factor) |> 
-    enframe(name = "grouping_factor", value = ".aggregated_cells") |> 
+
+  list_count_cells <- table(grouping_factor) |>
+    enframe(name = "grouping_factor", value = ".aggregated_cells") |>
     mutate(.aggregated_cells = as.integer(.aggregated_cells))
-  
+
   feature_df <- get_all_features(.data)
-  selected_features <- feature_df[feature_df$assay_id %in% assays_to_use,]
+  selected_features <- feature_df[feature_df$assay_id %in% assays_to_use, ]
   selected_experiments_list <- split(x = selected_features, f = as.character(selected_features$exp_id))
-  if("Main" %in% names(selected_experiments_list)) selected_experiments_list <- selected_experiments_list[c("Main", setdiff(names(selected_experiments_list), "Main"))]
-  
-  aggregate_assays_fun <- function(exp){
-    selected_features_exp <- unique(exp$exp_id)
-    if(selected_features_exp == "Main") {
-      selected_assays <- unique(exp$assay_name)
+  if ("Main" %in% names(selected_experiments_list)) selected_experiments_list <- selected_experiments_list[c("Main", setdiff(names(selected_experiments_list), "Main"))]
+
+  aggregate_assays_fun <- function(exp) {
+    selected_exp <- unique(exp$exp_id)
+    selected_assays <- exp |> distinct(assay_name, .keep_all = TRUE)
+    if (selected_exp == "Main") {
       aggregate_sce_fun <- function(sce) {
-        aggregated_vals <- assays(sce)[selected_assays] |>
-          as.list() |> 
+        aggregated_vals <- assays(sce)[selected_assays$assay_name] |>
+          as.list() |>
           map(.f = \(.list) aggregation_function(.list))
-        map(.x = seq_along(aggregated_vals), \(.num) enframe(x = aggregated_vals[[.num]], name = ".feature", value = selected_assays[[.num]])) |> 
+        map(.x = seq_along(aggregated_vals), \(.num) enframe(x = aggregated_vals[[.num]], name = ".feature", value = selected_assays$assay_id[[.num]])) |>
           suppressMessages(reduce(full_join))
-      } 
-      suppressMessages(lapply(sce_split, aggregate_sce_fun) |> 
-        map(.f = ~.x |> reduce(full_join)) |> 
-        bind_rows(.id = "grouping_factor"))
+      }
+      aggregated_list <- lapply(sce_split, aggregate_sce_fun) |>
+        list_transpose() |>
+        map(.f = \(.list) .list |> bind_rows(.id = "grouping_factor"))
+      aggregated_assay_names <- map_chr(.x = aggregated_list, .f = \(.tbl) colnames(.tbl) |> tail(n = 1))
+      map(.x = seq_along(aggregated_list), .f = \(.num) aggregated_list[[.num]] |>
+        pivot_wider(id_cols = .feature, names_from = grouping_factor, values_from = selected_assays$assay_id[[.num]])) |>
+        purrr::set_names(selected_assays$assay_id)
     } else {
       aggregate_sce_fun <- function(sce) {
-      selected_exp <- unique(exp$exp_id)
-      selected_assays <- exp |> distinct(assay_name, .keep_all = TRUE)
-      aggregated_vals <- assays(altExps(sce)[[selected_exp]])[selected_assays$assay_name] |>
-        as.list() |> 
-        map(.f = \(.list) aggregation_function(.list))
-      map(.x = seq_along(aggregated_vals), \(.num) enframe(x = aggregated_vals[[.num]], name = ".feature", value = selected_assays$assay_id[[.num]])) |> 
-        suppressMessages(reduce(full_join))
+        aggregated_vals <- assays(altExps(sce)[[selected_exp]])[selected_assays$assay_name] |>
+          as.list() |>
+          set_names(selected_assays$assay_id) |>
+          map(.f = \(.list) aggregation_function(.list))
+        map(.x = seq_along(aggregated_vals), \(.num) enframe(x = aggregated_vals[[.num]], name = ".feature", value = selected_assays$assay_id[[.num]])) |>
+          suppressMessages(reduce(full_join))
       }
-      suppressMessages(lapply(sce_split, aggregate_sce_fun) |> 
-                         map(.f = ~.x |> reduce(full_join)) |> 
-                         bind_rows(.id = "grouping_factor"))
+      aggregated_list <- lapply(sce_split, aggregate_sce_fun) |>
+        list_transpose() |>
+        map(.f = \(.list) .list |> bind_rows(.id = "grouping_factor"))
+      map(.x = seq_along(aggregated_list), .f = \(.num) aggregated_list[[.num]] |>
+        pivot_wider(id_cols = .feature, names_from = grouping_factor, values_from = selected_assays$assay_id[[.num]])) |>
+        purrr::set_names(selected_assays$assay_id)
     }
   }
-  suppressMessages(lapply(selected_experiments_list, aggregate_assays_fun) |> 
-    bind_rows() |> 
-    left_join(list_count_cells) |> 
-    separate(col = grouping_factor, into = .sample_names, sep = "___"))
+  se <- lapply(selected_experiments_list, aggregate_assays_fun) |>
+    lapply(SummarizedExperiment)
+    # Remove "Main" from the names if this is the only assay
+    if(length(names(se)) == 1 && names(se) == "Main") names(se) <- NULL
+  return(se)
 })
