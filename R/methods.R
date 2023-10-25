@@ -249,5 +249,5 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
     purrr::flatten() |> 
     map(.f = \(.tbl) .tbl |> 
           column_to_rownames(var = ".feature") |> 
-          as_SummarizedExperiment())
+          SummarizedExperiment())
 })
