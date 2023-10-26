@@ -223,10 +223,13 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
       aggregated_list <- lapply(sce_split, aggregate_sce_fun) |>
         list_transpose() |>
         map(.f = \(.list) .list |> bind_rows(.id = "grouping_factor"))
-      aggregated_assay_names <- map_chr(.x = aggregated_list, .f = \(.tbl) colnames(.tbl) |> tail(n = 1))
-      map(.x = seq_along(aggregated_list), .f = \(.num) aggregated_list[[.num]] |>
-        pivot_wider(id_cols = .feature, names_from = grouping_factor, values_from = selected_assays$assay_id[[.num]])) |>
-        purrr::set_names(selected_assays$assay_id)
+      interim_res <- map(.x = seq_along(aggregated_list), .f = \(.num) aggregated_list[[.num]] |> 
+            separate(col = grouping_factor, into = .sample_names, sep = "___")) |> 
+        purrr::set_names(nm = selected_exp)
+      map(.x = seq_along(interim_res), .f = \(.num) interim_res[[.num]] |> mutate(data_source = names(interim_res)[[.num]])) |> 
+        purrr::reduce(full_join) |> 
+        mutate(data_source = ifelse(data_source == "Main", yes = "RNA", no = data_source)) |> 
+        select(data_source, everything())
     } else {
       aggregate_sce_fun <- function(sce) {
         aggregated_vals <- assays(altExps(sce)[[selected_exp]])[selected_assays$assay_name] |>
@@ -239,15 +242,29 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
       aggregated_list <- lapply(sce_split, aggregate_sce_fun) |>
         list_transpose() |>
         map(.f = \(.list) .list |> bind_rows(.id = "grouping_factor"))
-      map(.x = seq_along(aggregated_list), .f = \(.num) aggregated_list[[.num]] |>
-        pivot_wider(id_cols = .feature, names_from = grouping_factor, values_from = selected_assays$assay_id[[.num]])) |>
-        purrr::set_names(selected_assays$assay_id)
+      interim_res <- map(.x = seq_along(aggregated_list), .f = \(.num) aggregated_list[[.num]] |> 
+                           separate(col = grouping_factor, into = .sample_names, sep = "___")) |> 
+        purrr::set_names(nm = selected_exp)
+      map(.x = seq_along(interim_res), .f = \(.num) interim_res[[.num]] |> 
+            mutate(data_source = names(interim_res)[[.num]])) |>
+        purrr::reduce(full_join) |> 
+        mutate(data_source = ifelse(data_source == "Main", yes = "RNA", no = data_source)) |> 
+        select(data_source, everything())
     }
   }
-  se <- lapply(selected_experiments_list, aggregate_assays_fun)
-  se |> 
-    purrr::flatten() |> 
-    map(.f = \(.tbl) .tbl |> 
-          column_to_rownames(var = ".feature") |> 
-          SummarizedExperiment())
+  se <- lapply(selected_experiments_list, aggregate_assays_fun) |> 
+    purrr::reduce(full_join)
+  if(any(unique(se$data_source) %in% "RNA") && length(unique(se$data_source))) {
+    se |> 
+      tidybulk::as_SummarizedExperiment(
+        .sample = .sample_names, # these should be replaced with the dynamic gaming established in utilities.R
+        .transcript = .feature,
+        .abundance = setdiff(colnames(se), c("data_source", .sample_names, ".feature")))
+  } else {
+    se |> 
+      tidybulk::as_SummarizedExperiment(
+        .sample = .sample_names, # these should be replaced with the dynamic gaming established in utilities.R
+        .transcript = c(data_source, .feature),
+        .abundance = setdiff(colnames(se), c("data_source", .sample_names, ".feature")))
+  }
 })
