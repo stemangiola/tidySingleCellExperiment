@@ -254,17 +254,9 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
   }
   se <- lapply(selected_experiments_list, aggregate_assays_fun) |> 
     purrr::reduce(full_join)
-  if(any(unique(se$data_source) %in% "RNA") && length(unique(se$data_source))) {
     se |> 
-      tidybulk::as_SummarizedExperiment(
-        .sample = .sample_names, # these should be replaced with the dynamic gaming established in utilities.R
-        .transcript = .feature,
-        .abundance = setdiff(colnames(se), c("data_source", .sample_names, ".feature")))
-  } else {
-    se |> 
-      tidybulk::as_SummarizedExperiment(
-        .sample = .sample_names, # these should be replaced with the dynamic gaming established in utilities.R
-        .transcript = c(data_source, .feature),
-        .abundance = setdiff(colnames(se), c("data_source", .sample_names, ".feature")))
-  }
+    tidybulk::as_SummarizedExperiment(
+      .sample = .sample_names,
+      .transcript = .feature,
+      .abundance = setdiff(colnames(se), c("data_source", .sample_names, ".feature")))
 })
