@@ -252,7 +252,8 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
     }
   }
   se <- lapply(selected_experiments_list, aggregate_assays_fun) |> 
-    purrr::reduce(full_join)
+    purrr::reduce(full_join) |> 
+    suppressMessages()
   se |> 
     tidybulk::as_SummarizedExperiment(
       .sample = .sample_names,
