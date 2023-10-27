@@ -159,10 +159,9 @@ tidy.SingleCellExperiment <- function(object) {
 #'
 #' @export
 setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
-         .sample=NULL, assays=NULL,
-         aggregation_function=Matrix::rowSums,
-         ...) {
-  
+                               .sample = NULL, assays = NULL,
+                               aggregation_function = Matrix::rowSums,
+                               ...) {
   # Fix NOTEs
   feature <- NULL
   .sample <- enquo(.sample)
@@ -254,7 +253,7 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
   }
   se <- lapply(selected_experiments_list, aggregate_assays_fun) |> 
     purrr::reduce(full_join)
-    se |> 
+  se |> 
     tidybulk::as_SummarizedExperiment(
       .sample = .sample_names,
       .transcript = .feature,
