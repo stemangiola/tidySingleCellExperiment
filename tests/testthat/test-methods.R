@@ -119,7 +119,7 @@ test_that("aggregate_cells()", {
   df$factor <- sample(gl(3, 1, ncol(df)))
   df$string <- sample(c("a", "b"), ncol(df), TRUE)
   tbl <- distinct(select(df, factor, string))
-  fd <- aggregate_cells(df, c(factor, string))
+  fd <- aggregate_cells(df, .sample = c(factor, string), assays = assayNames(df))
   expect_identical(assayNames(fd), assayNames(df))
   # [HLC: aggregate_cells() currently
   # reorders features alphabetically]
@@ -141,4 +141,11 @@ test_that("aggregate_cells()", {
   expect_error(aggregate_cells(df, c(factor, string), assays="x"))
   fd <- aggregate_cells(df, c(factor, string), assays="counts")
   expect_identical(assayNames(fd), "counts")
+  # Aggregate when using multiple assays
+  assays_to_use <- c("logcounts", "ADT-logcounts")
+  fd <- aggregate_cells(df, .sample = c(factor, string), assays = assays_to_use)
+  expect_identical(assayNames(fd), assays_to_use)
+  fd_all_features <- tidySingleCellExperiment:::get_all_features(df) |> 
+    filter(assay_id %in% assays_to_use) |> pull(feature) |> sort()
+  expect_identical(fd_all_features, sort(rownames(fd)))
 })
