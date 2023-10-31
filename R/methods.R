@@ -255,10 +255,45 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
   se <- lapply(selected_experiments_list, aggregate_assays_fun) |> 
     purrr::reduce(full_join) |> 
     suppressMessages()
-  if(length(selected_experiments_list) >1 ) warning("tidySingleCellExperiment says: Features from all selected assays have been combined!")
-  se |> 
+  
+  if(se |> 
+      distinct(assay_type, .feature) |> 
+      pull(.feature) |> 
+      duplicated() |> 
+      any()) {
+    warning("tidySingleCellExperiment says: The selected assays have overlapping feature names. The feature names have been combined with the selected assay_type, to keep the rownames of the SingleCellExperiment unique. You can find the original feature names in the orig.feature.names column in the rowData slot of your object.")
+    orig_features <- se |> 
+      distinct(assay_type, .feature)
+    dup_features <- orig_features |> 
+      filter(duplicated(.feature)) |> 
+      pull(.feature)
+    se <- se |> 
+      mutate(.feature = case_when(.feature %in% dup_features ~ str_c(assay_type, .feature, sep = ".."), .default = .feature))
+  }
+  
+  se <- se |> 
     tidybulk::as_SummarizedExperiment(
       .sample = .sample_names,
       .transcript = .feature,
-      .abundance = setdiff(colnames(se), c("data_source", .sample_names, ".feature")))
+      .abundance = setdiff(colnames(se), c("assay_type", .sample_names, ".feature")))
+  if(exists("assay_type", where = as.data.frame(colData(se)))) {
+    rowData(se) <- rownames(se) |> 
+      enframe(name = NULL, value = "rowname") |> 
+      mutate(assay_type = unique(colData(se)$assay_type)) |> 
+      tibble::column_to_rownames() |> 
+      as.data.frame() |> 
+      as(Class = "DataFrame")
+    colData(se)$assay_type <- NULL
+  }
+  if(rownames(se) |> grep(pattern = "\\.\\.") |> any()) {
+    rowData(se) <- rowData(se) |> 
+      as.data.frame() |> 
+      rownames_to_column() |> 
+      mutate(orig.feature.names = rowname,
+             orig.feature.names = str_remove_all(string = orig.feature.names, pattern = ".+(?=\\.\\.)"),
+             orig.feature.names = str_remove_all(string = orig.feature.names, pattern = "^\\..")) |> 
+      column_to_rownames() |> 
+      as(Class = "DataFrame")
+  }
+  return(se)
 })
