@@ -261,7 +261,7 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
      pull(.feature) |> 
      duplicated() |> 
      any()) {
-    warning("tidySingleCellExperiment says: The selected assays have overlapping feature names. The feature names have been combined with the selected assay_type, to keep the rownames of the SingleCellExperiment unique. You can find the original feature names in the orig.feature.names column in the rowData slot of your object.")
+    warning("tidySingleCellExperiment says: The selected assays have overlapping feature names. The feature names have been combined with the selected assay_type, to keep the rownames of the SingleCellExperiment unique. You can find the original feature names in the orig.feature.names column of the rowData slot of your object.")
     orig_features <- se |> 
       distinct(assay_type, .feature)
     dup_features <- orig_features |> 
