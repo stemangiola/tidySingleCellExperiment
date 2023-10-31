@@ -255,7 +255,7 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
   se <- lapply(selected_experiments_list, aggregate_assays_fun) |> 
     purrr::reduce(full_join) |> 
     suppressMessages()
-  if(length(selected_experiments_list) >1 ) warning("tidySingleCellExperiment says: Features from all experiments have been combined")
+  if(length(selected_experiments_list) >1 ) warning("tidySingleCellExperiment says: Features from all selected assays have been combined!")
   se |> 
     tidybulk::as_SummarizedExperiment(
       .sample = .sample_names,
