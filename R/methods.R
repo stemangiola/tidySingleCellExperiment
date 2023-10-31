@@ -226,10 +226,10 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
       interim_res <- map(.x = seq_along(aggregated_list), .f = \(.num) aggregated_list[[.num]] |> 
             separate(col = grouping_factor, into = .sample_names, sep = "___")) |> 
         purrr::set_names(nm = selected_exp)
-      map(.x = seq_along(interim_res), .f = \(.num) interim_res[[.num]] |> mutate(data_source = names(interim_res)[[.num]])) |> 
+      map(.x = seq_along(interim_res), .f = \(.num) interim_res[[.num]] |> mutate(assay_type = names(interim_res)[[.num]])) |> 
         purrr::reduce(full_join) |> 
-        mutate(data_source = ifelse(data_source == "Main", yes = "RNA", no = data_source)) |> 
-        select(data_source, everything())
+        mutate(assay_type = ifelse(assay_type == "Main", yes = "RNA", no = assay_type)) |> 
+        select(assay_type, everything())
     } else {
       aggregate_sce_fun <- function(sce) {
         aggregated_vals <- assays(altExps(sce)[[selected_exp]])[selected_assays$assay_name] |>
@@ -246,10 +246,10 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
                            separate(col = grouping_factor, into = .sample_names, sep = "___")) |> 
         purrr::set_names(nm = selected_exp)
       map(.x = seq_along(interim_res), .f = \(.num) interim_res[[.num]] |> 
-            mutate(data_source = names(interim_res)[[.num]])) |>
+            mutate(assay_type = names(interim_res)[[.num]])) |>
         purrr::reduce(full_join) |> 
-        mutate(data_source = ifelse(data_source == "Main", yes = "RNA", no = data_source)) |> 
-        select(data_source, everything())
+        mutate(assay_type = ifelse(assay_type == "Main", yes = "RNA", no = assay_type)) |> 
+        select(assay_type, everything())
     }
   }
   se <- lapply(selected_experiments_list, aggregate_assays_fun) |> 
@@ -257,10 +257,10 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
     suppressMessages()
   
   if(se |> 
-      distinct(assay_type, .feature) |> 
-      pull(.feature) |> 
-      duplicated() |> 
-      any()) {
+     distinct(assay_type, .feature) |> 
+     pull(.feature) |> 
+     duplicated() |> 
+     any()) {
     warning("tidySingleCellExperiment says: The selected assays have overlapping feature names. The feature names have been combined with the selected assay_type, to keep the rownames of the SingleCellExperiment unique. You can find the original feature names in the orig.feature.names column in the rowData slot of your object.")
     orig_features <- se |> 
       distinct(assay_type, .feature)
