@@ -26,7 +26,6 @@ Imports:
     SummarizedExperiment,
     tibble,
     ggplot2,
-    plotly,
     magrittr,
     rlang,
     purrr,
@@ -58,7 +57,8 @@ Suggests:
     GGally,
     uwot,
     celldex,
-    dittoSeq
+    dittoSeq,
+    plotly
 VignetteBuilder: 
     knitr
 RdMacros:
