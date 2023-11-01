@@ -170,7 +170,8 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
   arg_list <- c(mget(ls(environment(), sorted = F)), match.call(expand.dots = F)$...)
   assays_to_use <- eval(arg_list$assays)
   if (is.null(assays_to_use)) assays_to_use <- tail(names(assays(.data)), n = 1)
-
+  
+  # Get information on sample groups
   sample_groups <- .data |>
     as_tibble() |>
     group_by(pick({{ .sample }}))
@@ -186,7 +187,8 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
   grouping_factor_names <- sample_group_keys |>
     unite(col = "grouping_factor", !!.sample, sep = "___") |>
     pull(grouping_factor)
-
+  
+  # Split sce object by groups
   sce_split <- map(.x = seq_along(sample_group_idx), .f = \(.num) .data[, sample_group_idx[[.num]]]) |>
     purrr::set_names(grouping_factor_names)
 
@@ -199,17 +201,21 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
     unite("my_id_to_split_by___", !!.sample, sep = "___") |>
     pull(my_id_to_split_by___) |>
     as.factor()
-
+  
+  # Add count of aggregated cells
   list_count_cells <- table(grouping_factor) |>
     enframe(name = "grouping_factor", value = ".aggregated_cells") |>
     mutate(.aggregated_cells = as.integer(.aggregated_cells))
 
+  # Subset features based on selected assays
   feature_df <- get_all_features(.data)
   selected_features <- feature_df[feature_df$assay_id %in% assays_to_use, ]
   selected_experiments_list <- split(x = selected_features, f = as.character(selected_features$exp_id))
   if ("Main" %in% names(selected_experiments_list)) selected_experiments_list <- selected_experiments_list[c("Main", setdiff(names(selected_experiments_list), "Main"))]
 
+  # Aggregate cells based on selected features from any assay / experiment type. Output is a tibble.
   aggregate_assays_fun <- function(exp) {
+    # Check where the assay data needs to be taken from (main experiment or altExp)
     selected_exp <- unique(exp$exp_id)
     selected_assays <- exp |> distinct(assay_name, .keep_all = TRUE)
     if (selected_exp == "Main") {
@@ -231,6 +237,7 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
         mutate(assay_type = ifelse(assay_type == "Main", yes = "RNA", no = assay_type)) |> 
         select(assay_type, everything())
     } else {
+      # aggregate from altExp
       aggregate_sce_fun <- function(sce) {
         aggregated_vals <- assays(altExps(sce)[[selected_exp]])[selected_assays$assay_name] |>
           as.list() |>
@@ -252,30 +259,39 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
         select(assay_type, everything())
     }
   }
+  
+  # Join tibbles from each assay / experiment type into a single tibble.
   se <- lapply(selected_experiments_list, aggregate_assays_fun) |> 
     purrr::reduce(full_join) |> 
     suppressMessages()
   
-  if(se |> 
-     distinct(assay_type, .feature) |> 
-     pull(.feature) |> 
-     duplicated() |> 
-     any()) {
-    warning("tidySingleCellExperiment says: The selected assays have overlapping feature names. The feature names have been combined with the selected assay_type, to keep the rownames of the SingleCellExperiment unique. You can find the original feature names in the orig.feature.names column of the rowData slot of your object.")
+  # Sometimes feature names can be duplicated in multiple assays, e.g. CD4 in RNA and ADT. Check for duplication.
+  any_feat_duplicated <- se |> 
+    distinct(assay_type, .feature) |> 
+    pull(.feature) |> 
+    duplicated() |> 
+    any()
+  
+  if(any_feat_duplicated) {
+    warning("tidySingleCellExperiment says: The selected assays have overlapping feature names. The feature names have been combined with the selected assay_type, to keep the rownames of the SingleCellExperiment unique. You can find the original feature names in the feature_original column of the rowData slot of your object.")
+    # Extract original feature names for storing.
     orig_features <- se |> 
       distinct(assay_type, .feature)
+    # Extract which features have duplicated names.
     dup_features <- orig_features |> 
       filter(duplicated(.feature)) |> 
       pull(.feature)
+    # Make duplicated feature names unique by combining with assay name and separating with ".."
     se <- se |> 
       mutate(.feature = case_when(.feature %in% dup_features ~ str_c(assay_type, .feature, sep = ".."), .default = .feature))
   }
-  
+  # Turn tibble into SummarizedExperiment object
   se <- se |> 
     tidybulk::as_SummarizedExperiment(
       .sample = .sample_names,
       .transcript = .feature,
       .abundance = setdiff(colnames(se), c("assay_type", .sample_names, ".feature")))
+  # Manually force the assay_type data to live in the rowData slot if it does not already
   if(exists("assay_type", where = as.data.frame(colData(se)))) {
     rowData(se) <- rownames(se) |> 
       enframe(name = NULL, value = "rowname") |> 
@@ -285,13 +301,14 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
       as(Class = "DataFrame")
     colData(se)$assay_type <- NULL
   }
-  if(rownames(se) |> grep(pattern = "\\.\\.") |> any()) {
+  # Add original feature name information to the rowData slot
+  if(any_feat_duplicated) {
     rowData(se) <- rowData(se) |> 
       as.data.frame() |> 
       rownames_to_column() |> 
-      mutate(orig.feature.names = rowname,
-             orig.feature.names = str_remove_all(string = orig.feature.names, pattern = ".+(?=\\.\\.)"),
-             orig.feature.names = str_remove_all(string = orig.feature.names, pattern = "^\\..")) |> 
+      mutate(feature_original = rowname,
+             feature_original = str_remove_all(string = feature_original, pattern = ".+(?=\\.\\.)"),
+             feature_original = str_remove_all(string = feature_original, pattern = "^\\..")) |> 
       column_to_rownames() |> 
       as(Class = "DataFrame")
   }
