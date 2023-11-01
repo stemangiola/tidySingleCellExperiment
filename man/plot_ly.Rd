@@ -137,7 +137,9 @@ help inform default axis/scale titles
 (e.g., \code{plot_ly(x = mtcars$wt)} vs \code{plot_ly(x = ~mtcars$wt)})
 }
 \examples{
-# TODO
+data(pbmc_small)
+pbmc_small |> 
+    plot_ly(x = ~ nCount_RNA, y = ~ nFeature_RNA)
 
 }
 \references{

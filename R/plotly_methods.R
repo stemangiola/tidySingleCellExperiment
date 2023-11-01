@@ -3,8 +3,10 @@
 #' @inherit ttservice::plot_ly
 #' @return `plotly`
 #' 
-#' @examples
-#' # TODO
+#' @examples 
+#' data(pbmc_small)
+#' pbmc_small |> 
+#'     plot_ly(x = ~ nCount_RNA, y = ~ nFeature_RNA)
 #' 
 #' @importFrom ttservice plot_ly
 #' @export
