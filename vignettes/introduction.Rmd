@@ -362,7 +362,7 @@ pbmc_small_cell_type %>%
     # Add some mitochondrial abundance values
     mutate(mitochondrial=rnorm(dplyr::n())) %>%
     # Plot correlation
-    join_features(features=c("CST3", "LYZ"), shape="wide") %>%
+    join_features(features=c("CST3", "LYZ"), shape="wide", assays="logcounts") %>%
     ggplot(aes(CST3+1, LYZ+1, color=groups, size=mitochondrial)) +
     facet_wrap(~first.labels, scales="free") +
     geom_point() +
