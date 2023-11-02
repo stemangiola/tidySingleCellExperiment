@@ -41,6 +41,7 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
     # CRAN Note
     .cell <- NULL
     .feature <- NULL
+    # Get 'assays' from function arguments list
     arg_list <- c(mget(ls(environment(), sorted=F)), match.call(expand.dots=F)$...)
     all_assays <- get_all_assays(.data)$assay_id
     if(is.null(arg_list$assays)) assays_from_join_call <- all_assays
