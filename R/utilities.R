@@ -80,7 +80,7 @@ get_all_assays <- function(x) {
   assay_names <- names(assays(x))
   alt_exp_assays <- list()
   alt_exp_assay_names_list <- lapply(altExps(x), assayNames)
-  names(assay_names) <- rep("Main", length(assay_names))
+  names(assay_names) <- rep("RNA", length(assay_names))
   if(length(altExpNames(x)) > 0) {
     alt_exp_assay_names_df <- stack(alt_exp_assay_names_list)
     alt_exp_assay_names <- paste(alt_exp_assay_names_df$ind, alt_exp_assay_names_df$values, sep = "-")
@@ -102,12 +102,12 @@ get_all_assays <- function(x) {
 get_all_features <- function(x) {
   all_assay_names_ext_df <- get_all_assays(x)
   features_lookup <- vector("list", length = length(all_assay_names_ext_df$assay_id))
-  main_features <- vector("list", length = 1)
-  names(main_features) <- "Main"
-  main_features[["Main"]] <- rownames(rowData(x))
+  RNA_features <- vector("list", length = 1)
+  names(RNA_features) <- "RNA"
+  RNA_features[["RNA"]] <- rownames(rowData(x))
   temp_funct <- function(x) rownames(rowData(x))
   alt_exp_features <- lapply(altExps(x), temp_funct)
-  feature_df <- stack(c(main_features, alt_exp_features))
+  feature_df <- stack(c(RNA_features, alt_exp_features))
   colnames(feature_df) <- c("feature", "exp_id")
   feature_df <- merge(feature_df, all_assay_names_ext_df, by = "exp_id")
   return(feature_df)
@@ -174,12 +174,12 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, prefix="", va
   selected_features <- feature_df[(feature_df$feature %in% gs), ]
   selected_features <- selected_features[selected_features$assay_id %in% assays_to_use,]
   selected_experiments_list <- split(x = selected_features, f = as.character(selected_features$exp_id))
-  if("Main" %in% names(selected_experiments_list)) selected_experiments_list <- selected_experiments_list[c("Main", setdiff(names(selected_experiments_list), "Main"))]
+  if("RNA" %in% names(selected_experiments_list)) selected_experiments_list <- selected_experiments_list[c("RNA", setdiff(names(selected_experiments_list), "RNA"))]
   extract_feature_values <- function(exp) {
     selected_features_exp <- as.character(unique(exp$exp_id))
     selected_features_assay <- as.character(unique(exp$assay_name))
     selected_features_assay_names <- as.character(unique(exp$assay_id))
-    if(selected_features_exp == "Main") {
+    if(selected_features_exp == "RNA") {
       selected_features_from_exp <- rownames(assay(.data, selected_features_assay_names))[(rownames(assay(.data, selected_features_assay_names)) %in% gs)]
       mtx <- assay(.data, selected_features_assay_names)[selected_features_from_exp,]
       if(is.null(dim(mtx))) mtx <- matrix(mtx, byrow = TRUE, nrow = 1, ncol = length(mtx))
@@ -281,11 +281,11 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
   if(!is.null(assays_to_use)) selected_features <- selected_features[selected_features$assay_id %in% assays_to_use,]
   selected_features_exp <- unique(selected_features$exp_id)
   selected_experiments_list <- split(x = selected_features, f = as.character(selected_features$exp_id))
-  if("Main" %in% selected_features_exp) selected_experiments_list <- selected_experiments_list[c("Main", setdiff(names(selected_experiments_list), "Main"))]
+  if("RNA" %in% selected_features_exp) selected_experiments_list <- selected_experiments_list[c("RNA", setdiff(names(selected_experiments_list), "RNA"))]
 
   extract_feature_values <- function(exp) {
     selected_exp <- unique(exp$exp_id)
-    if (selected_exp == "Main") {
+    if (selected_exp == "RNA") {
       assays(.data) %>%
         as.list() %>%
         .[unique(exp$assay_name)] %>%
