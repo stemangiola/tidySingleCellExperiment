@@ -81,9 +81,15 @@ get_all_assays <- function(x) {
   alt_exp_assays <- list()
   alt_exp_assay_names_list <- lapply(altExps(x), assayNames)
   names(assay_names) <- rep("Main", length(assay_names))
-  alt_exp_assay_names_df <- stack(alt_exp_assay_names_list)
-  alt_exp_assay_names <- paste(alt_exp_assay_names_df$ind, alt_exp_assay_names_df$values, sep = "-")
-  names(alt_exp_assay_names) <- alt_exp_assay_names_df$ind
+  if(length(altExpNames(x)) > 0) {
+    alt_exp_assay_names_df <- stack(alt_exp_assay_names_list)
+    alt_exp_assay_names <- paste(alt_exp_assay_names_df$ind, alt_exp_assay_names_df$values, sep = "-")
+    names(alt_exp_assay_names) <- alt_exp_assay_names_df$ind
+  } else {
+    alt_exp_assay_names_df <- NULL
+    alt_exp_assay_names <- NULL
+  }
+
   all_assay_names_df <- rbind(stack(assay_names), alt_exp_assay_names_df)
   all_assay_names <- c(assay_names, alt_exp_assay_names)
   all_assay_names_ext_df <- stack(all_assay_names)
