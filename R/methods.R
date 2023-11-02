@@ -211,14 +211,14 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
   feature_df <- get_all_features(.data)
   selected_features <- feature_df[feature_df$assay_id %in% assays_to_use, ]
   selected_experiments_list <- split(x = selected_features, f = as.character(selected_features$exp_id))
-  if ("Main" %in% names(selected_experiments_list)) selected_experiments_list <- selected_experiments_list[c("Main", setdiff(names(selected_experiments_list), "Main"))]
+  if ("RNA" %in% names(selected_experiments_list)) selected_experiments_list <- selected_experiments_list[c("RNA", setdiff(names(selected_experiments_list), "RNA"))]
 
   # Aggregate cells based on selected features from any assay / experiment type. Output is a tibble.
   aggregate_assays_fun <- function(exp) {
-    # Check where the assay data needs to be taken from (main experiment or altExp)
+    # Check where the assay data needs to be taken from (main RNA experiment or altExp)
     selected_exp <- unique(exp$exp_id)
     selected_assays <- exp |> distinct(assay_name, .keep_all = TRUE)
-    if (selected_exp == "Main") {
+    if (selected_exp == "RNA") {
       aggregate_sce_fun <- function(sce) {
         aggregated_vals <- assays(sce)[selected_assays$assay_name] |>
           as.list() |>
@@ -234,7 +234,6 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
         purrr::set_names(nm = selected_exp)
       map(.x = seq_along(interim_res), .f = \(.num) interim_res[[.num]] |> mutate(assay_type = names(interim_res)[[.num]])) |> 
         purrr::reduce(full_join) |> 
-        mutate(assay_type = ifelse(assay_type == "Main", yes = "RNA", no = assay_type)) |> 
         select(assay_type, everything())
     } else {
       # aggregate from altExp
@@ -255,7 +254,6 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
       map(.x = seq_along(interim_res), .f = \(.num) interim_res[[.num]] |> 
             mutate(assay_type = names(interim_res)[[.num]])) |>
         purrr::reduce(full_join) |> 
-        mutate(assay_type = ifelse(assay_type == "Main", yes = "RNA", no = assay_type)) |> 
         select(assay_type, everything())
     }
   }
