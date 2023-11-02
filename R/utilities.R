@@ -81,7 +81,8 @@ get_all_assays <- function(x) {
   alt_exp_assays <- list()
   alt_exp_assay_names_list <- lapply(altExps(x), assayNames)
   names(assay_names) <- rep("RNA", length(assay_names))
-  if(length(altExpNames(x)) > 0) {
+  # Include altExp assays if they exist
+  if(length(altExps(x)) > 0) {
     alt_exp_assay_names_df <- stack(alt_exp_assay_names_list)
     alt_exp_assay_names <- paste(alt_exp_assay_names_df$ind, alt_exp_assay_names_df$values, sep = "-")
     names(alt_exp_assay_names) <- alt_exp_assay_names_df$ind
