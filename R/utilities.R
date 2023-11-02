@@ -145,8 +145,10 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, prefix="", va
   . <- NULL
   
   # For SCE there is no a priori field for variable features
+  # If variable_features are selected set all to FALSE. They can only be on or the other.
   if(!all(is.na(variable_features))) all <- FALSE
-  # Check if output would be too big without forcing
+  
+  # Give options if no arguments are selected
   if (isFALSE(all) && is.null(features)) {
     if (all(is.na(variable_features))) {
       stop("Your object does not contain variable feature labels,\n",
@@ -171,6 +173,7 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, prefix="", va
   }
   # Get selected features and assays
   feature_df <- get_all_features(.data)
+  # If all = TRUE then gs are all features in the selected assays, otherwise just the selected features.
   if(isTRUE(all)) gs <- feature_df[feature_df$assay_id %in% assays_to_use, "feature"]
   selected_features <- feature_df[(feature_df$feature %in% gs), ]
   selected_features <- selected_features[selected_features$assay_id %in% assays_to_use,]
@@ -180,6 +183,7 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, prefix="", va
     selected_features_exp <- as.character(unique(exp$exp_id))
     selected_features_assay <- as.character(unique(exp$assay_name))
     selected_features_assay_names <- as.character(unique(exp$assay_id))
+    # Assay slots for the main "RNA" experiment and the altExps are treated differently and need to be run separately
     if(selected_features_exp == "RNA") {
       selected_features_from_exp <- rownames(assay(.data, selected_features_assay_names))[(rownames(assay(.data, selected_features_assay_names)) %in% gs)]
       mtx <- assay(.data, selected_features_assay_names)[selected_features_from_exp,]
@@ -200,6 +204,7 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, prefix="", va
         setNames(c(c_(.data)$name, sprintf("%s%s", prefix, selected_features_from_exp)))
     }
   }
+  # Apply function that extracts feature values and join for all selected assays
   suppressMessages({
     feature_values_list <- lapply(selected_experiments_list, extract_feature_values)
     purrr::reduce(feature_values_list, full_join, by = join_by(.cell), suffix = paste0(".", names(feature_values_list)))
@@ -274,7 +279,7 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
   # Get list of features
   feature_df <- get_all_features(.data)
 
-  # Get selected features
+  # Get selected features - if all = TRUE then all features in the objects are selected
   if(is.null(features) && isTRUE(all)) {
     features <- unique(feature_df$feature)
   }
@@ -286,6 +291,7 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
 
   extract_feature_values <- function(exp) {
     selected_exp <- unique(exp$exp_id)
+    # Assay slots for the main "RNA" experiment and the altExps are treated differently and need to be run separately
     if (selected_exp == "RNA") {
       assays(.data) %>%
         as.list() %>%
@@ -356,6 +362,7 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
         base::Reduce(function(...) full_join(..., by = c(".feature", c_(.data)$name)), .)
     }
   }
+  # Apply function that extracts feature values and bind_rows for all selected assays
   lapply(selected_experiments_list, extract_feature_values) |> 
     bind_rows()
 }
