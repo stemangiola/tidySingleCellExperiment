@@ -10,7 +10,7 @@ test_that("ggplot()", {
     expect_s3_class(p, "ggplot")
     # assay data
     g <- sample(rownames(df), 1)
-    fd <- join_features(df, g, shape="wide")
+    fd <- join_features(df, g, shape="wide", assays = "counts")
     p <- ggplot(fd, aes(factor, .data[[make.names(g)]]))
     expect_silent(show(p))
     expect_s3_class(p, "ggplot")
@@ -27,7 +27,7 @@ test_that("plotly()", {
     expect_s3_class(p, "plotly")
     # assay data
     g <- sample(rownames(df), 1)
-    fd <- join_features(df, g, shape="wide")
+    fd <- join_features(df, g, shape="wide", assays = "counts")
     p <- plot_ly(fd, x=~factor, y=g, type="violin") 
     expect_silent(show(p))
     expect_s3_class(p, "plotly")
