@@ -157,7 +157,6 @@ tidy.SingleCellExperiment <- function(object) {
 #' @importFrom purrr map
 #' @importFrom purrr set_names
 #' @importFrom purrr list_transpose
-#' @importFrom tidybulk as_SummarizedExperiment
 #'
 #'
 #' @export
@@ -287,7 +286,7 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
   }
   # Turn tibble into SummarizedExperiment object
   se <- se |> 
-    tidybulk::as_SummarizedExperiment(
+    as_SummarizedExperiment(
       .sample = .sample_names,
       .transcript = .feature,
       .abundance = setdiff(colnames(se), c("assay_type", .sample_names, ".feature")))
