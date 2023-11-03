@@ -241,7 +241,7 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
       aggregate_sce_fun <- function(sce) {
         aggregated_vals <- assays(altExps(sce)[[selected_exp]])[selected_assays$assay_name] |>
           as.list() |>
-          set_names(selected_assays$assay_id) |>
+          purrr::set_names(selected_assays$assay_id) |>
           map(.f = \(.list) aggregation_function(.list))
         map(.x = seq_along(aggregated_vals), \(.num) enframe(x = aggregated_vals[[.num]], name = ".feature", value = selected_assays$assay_id[[.num]])) |>
           suppressMessages(reduce(full_join))
