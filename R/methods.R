@@ -157,6 +157,7 @@ tidy.SingleCellExperiment <- function(object) {
 #' @importFrom purrr map
 #' @importFrom purrr set_names
 #' @importFrom purrr list_transpose
+#' @importFrom tidybulk as_SummarizedExperiment
 #'
 #'
 #' @export
