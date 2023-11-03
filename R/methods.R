@@ -247,7 +247,7 @@ setMethod("aggregate_cells", "SingleCellExperiment",  function(.data,
           suppressMessages(reduce(full_join))
       }
       aggregated_list <- lapply(sce_split, aggregate_sce_fun) |>
-        list_transpose() |>
+        purrr::list_transpose() |>
         map(.f = \(.list) .list |> bind_rows(.id = "grouping_factor"))
       interim_res <- map(.x = seq_along(aggregated_list), .f = \(.num) aggregated_list[[.num]] |> 
                            separate(col = grouping_factor, into = .sample_names, sep = "___")) |> 
