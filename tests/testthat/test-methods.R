@@ -32,6 +32,8 @@ rownames(mat) <- colnames(pbmc_small)
 altExps(pbmc_small)[["Hashtag demultiplex"]] <- SingleCellExperiment(assays = list(counts = t(mat), logcounts = log10(t(mat) + 1)))
 
 df <- pbmc_small
+df$number <- rnorm(ncol(df))
+df$factor <- sample(gl(3, 1, ncol(df)))
 
 test_that("show()", {
   txt <- capture.output(show(df))
