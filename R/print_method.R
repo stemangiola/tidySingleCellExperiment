@@ -67,14 +67,12 @@ print.SingleCellExperiment <- function(x, ..., n=NULL, width=NULL) {
 
     # Convert to tibble and apply coloring row-wise
     x |>
+        mutate(across(all_of(special_cols), ~ crayon::red(as.character(.))))|>
         as_tibble(n_dimensions_to_return=5) |>
         new_data_frame(class=c("tidySingleCellExperiment", "tbl")) %>%
         add_attr(nrow(x), "number_of_features") %>%
-        add_attr(assayNames(x), "assay_names") |>
-        apply(1, function(row) {
-            styled_row <- ifelse(names(row) %in% special_cols, crayon::red(row), row)
-            cat(paste(styled_row, collapse = " "), "\n")
-        })
+        add_attr(assayNames(x), "assay_names")|>
+        print(tbl, n = n, width = width)
 
     invisible(x)
 }
