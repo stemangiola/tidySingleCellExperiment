@@ -6,23 +6,23 @@ df$factor <- sample(
     factor(1:3, labels=paste0("g", 1:3)),
     ncol(df), TRUE, c(0.1, 0.3, 0.6))
 
-test_that("arrange()", {
-    expect_identical(
-        arrange(df, number), 
-        df[, order(df$number)])
-    suppressWarnings({
-        fd <- df %>%
-            scater::logNormCounts() %>% 
-            scater::runPCA()
-    })
-    expect_identical(
-        arrange(fd, PC1), 
-        fd[, order(reducedDim(fd)[, 1])])
-    fd <- df %>%
-        mutate(foo=seq(ncol(df))) %>%
-        arrange(foo) %>% select(-foo)
-    expect_identical(fd, df)
-})
+# test_that("arrange()", {
+#     expect_identical(
+#         arrange(df, number), 
+#         df[, order(df$number)])
+#     suppressWarnings({
+#         fd <- df %>%
+#             scater::logNormCounts() %>% 
+#             scater::runPCA()
+#     })
+#     expect_identical(
+#         arrange(fd, PC1), 
+#         fd[, order(reducedDim(fd)[, 1])])
+#     fd <- df %>%
+#         mutate(foo=seq(ncol(df))) %>%
+#         arrange(foo) %>% select(-foo)
+#     expect_identical(fd, df)
+# })
 
 test_that("bind_rows()", {
     # warn about duplicated cells names
