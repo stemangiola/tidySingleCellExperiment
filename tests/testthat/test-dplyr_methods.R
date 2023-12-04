@@ -189,14 +189,14 @@ test_that("right_join(), with DataFrame y", {
 test_that("full_join()", {
     # w/ duplicated cell names
     y <- tibble(factor="g2", other=1:3)
-    fd <- expect_message(full_join(df, y, by="factor", relationship="many-to-many"))
+    fd <- expect_message(full_join(df, y, by=join_by(factor), relationship="many-to-many"))
     expect_s3_class(fd, "tbl_df")
     expect_true(all(is.na(fd$other[fd$factor != "g2"])))
     expect_true(all(!is.na(fd$other[fd$factor == "g2"])))
     expect_equal(nrow(fd), ncol(df)+2*sum(df$factor == "g2"))
     # w/o duplicates
     y <- tibble(factor="g2", other=1)
-    fd <- expect_silent(full_join(df, y, by="factor"))
+    fd <- expect_silent(full_join(df, y, by=join_by(factor)))
     expect_s4_class(fd, "SingleCellExperiment")
     expect_identical(
         select(fd, -other), 
@@ -206,14 +206,14 @@ test_that("full_join()", {
 test_that("full_join(), with DataFrame y", {
     # w/ duplicated cell names
     y <- tibble(factor="g2", other=1:3) |> DataFrame()
-    fd <- expect_message(full_join(df, y, by="factor", relationship="many-to-many"))
+    fd <- expect_message(full_join(df, y, by=join_by(factor), relationship="many-to-many"))
     expect_s3_class(fd, "tbl_df")
     expect_true(all(is.na(fd$other[fd$factor != "g2"])))
     expect_true(all(!is.na(fd$other[fd$factor == "g2"])))
     expect_equal(nrow(fd), ncol(df)+2*sum(df$factor == "g2"))
     # w/o duplicates
     y <- tibble(factor="g2", other=1) |> DataFrame()
-    fd <- expect_silent(full_join(df, y, by="factor"))
+    fd <- expect_silent(full_join(df, y, by=join_by(factor)))
     expect_s4_class(fd, "SingleCellExperiment")
     expect_identical(
         select(fd, -other), 
