@@ -324,7 +324,7 @@ return_arguments_of <- function(expression){
 #' @importFrom tidyselect eval_select
 select_helper <- function(.data, ...) {
     loc <- tidyselect::eval_select(expr(c(...)), .data)
-    dplyr::select(.data, loc)
+    dplyr::select(.data, all_of(loc))
 }
 
 data_frame_returned_message <- paste(
