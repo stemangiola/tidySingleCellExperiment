@@ -22,25 +22,52 @@
     <loc>/reference/aggregate_cells.html</loc>
   </url>
   <url>
-    <loc>/reference/bind.html</loc>
+    <loc>/reference/arrange.html</loc>
+  </url>
+  <url>
+    <loc>/reference/as_tibble.html</loc>
+  </url>
+  <url>
+    <loc>/reference/bind_rows.html</loc>
   </url>
   <url>
     <loc>/reference/cell_type_df.html</loc>
   </url>
   <url>
-    <loc>/reference/dplyr-methods.html</loc>
+    <loc>/reference/count.html</loc>
+  </url>
+  <url>
+    <loc>/reference/distinct.html</loc>
   </url>
   <url>
     <loc>/reference/drop_class.html</loc>
   </url>
   <url>
-    <loc>/reference/extract-methods.html</loc>
+    <loc>/reference/extract.html</loc>
   </url>
   <url>
-    <loc>/reference/ggplot2-methods.html</loc>
+    <loc>/reference/filter.html</loc>
+  </url>
+  <url>
+    <loc>/reference/formatting.html</loc>
+  </url>
+  <url>
+    <loc>/reference/full_join.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ggplot.html</loc>
+  </url>
+  <url>
+    <loc>/reference/glimpse.html</loc>
+  </url>
+  <url>
+    <loc>/reference/group_by.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/inner_join.html</loc>
   </url>
   <url>
     <loc>/reference/join_features.html</loc>
@@ -49,7 +76,13 @@
     <loc>/reference/join_transcripts.html</loc>
   </url>
   <url>
-    <loc>/reference/nest-methods.html</loc>
+    <loc>/reference/left_join.html</loc>
+  </url>
+  <url>
+    <loc>/reference/mutate.html</loc>
+  </url>
+  <url>
+    <loc>/reference/nest.html</loc>
   </url>
   <url>
     <loc>/reference/pbmc_small.html</loc>
@@ -61,33 +94,54 @@
     <loc>/reference/pipe.html</loc>
   </url>
   <url>
-    <loc>/reference/pivot-methods.html</loc>
+    <loc>/reference/pivot_longer.html</loc>
   </url>
   <url>
     <loc>/reference/plot_ly.html</loc>
   </url>
   <url>
-    <loc>/reference/print.html</loc>
+    <loc>/reference/pull.html</loc>
   </url>
   <url>
     <loc>/reference/quo_names.html</loc>
   </url>
   <url>
-    <loc>/reference/separate-methods.html</loc>
+    <loc>/reference/rename.html</loc>
   </url>
   <url>
-    <loc>/reference/tbl_format_header-methods.html</loc>
+    <loc>/reference/return_arguments_of.html</loc>
   </url>
   <url>
-    <loc>/reference/tibble-methods.html</loc>
+    <loc>/reference/right_join.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rowwise.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sample_n.html</loc>
+  </url>
+  <url>
+    <loc>/reference/select.html</loc>
+  </url>
+  <url>
+    <loc>/reference/separate.html</loc>
+  </url>
+  <url>
+    <loc>/reference/slice.html</loc>
+  </url>
+  <url>
+    <loc>/reference/summarise.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tbl_format_header.html</loc>
   </url>
   <url>
     <loc>/reference/tidy.html</loc>
   </url>
   <url>
-    <loc>/reference/unite-methods.html</loc>
+    <loc>/reference/unite.html</loc>
   </url>
   <url>
-    <loc>/reference/unnest-methods.html</loc>
+    <loc>/reference/unnest.html</loc>
   </url>
 </urlset>

@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySingleCellExperiment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.2</span>
       </span>
     </div>
 
@@ -80,7 +80,6 @@ package</h1>
                         <h4 data-toc-skip class="author">Stefano
 Mangiola</h4>
             
-            <h4 data-toc-skip class="date">2023-03-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/stemangiola/tidySingleCellExperiment/blob/HEAD/vignettes/introduction.Rmd" class="external-link"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="hidden name"><code>introduction.Rmd</code></div>
@@ -90,137 +89,124 @@ Mangiola</h4>
     
     
 <div class="section level2">
-<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+<h2 class="unnumbered" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>tidySingleCellExperiment provides a bridge between Bioconductor
-single-cell packages <span class="citation">(Amezquita et al.
-2019)</span> and the tidyverse <span class="citation">(Wickham et al.
-2019)</span>. It creates an invisible layer that enables viewing the
-Bioconductor <em>SingleCellExperiment</em> object as a tidyverse tibble,
-and provides SingleCellExperiment-compatible <em>dplyr</em>,
-<em>tidyr</em>, <em>ggplot</em> and <em>plotly</em> functions. This
-allows users to get the best of both Bioconductor and tidyverse
-worlds.</p>
-<div class="section level3">
-<h3 id="functionsutilities-available">Functions/utilities available<a class="anchor" aria-label="anchor" href="#functionsutilities-available"></a>
-</h3>
+<p><code>tidySingleCellExperiment</code> provides a bridge between
+Bioconductor single-cell packages <span class="citation">(Amezquita et
+al. 2019)</span> and the <em>tidyverse</em> <span class="citation">(Wickham et al. 2019)</span>. It enables viewing the
+Bioconductor <em><a href="https://bioconductor.org/packages/3.19/SingleCellExperiment" class="external-link">SingleCellExperiment</a></em>
+object as a <em>tidyverse</em> <code>tibble</code>, and provides
+<code>SingleCellExperiment</code>-compatible <em><a href="https://CRAN.R-project.org/package=dplyr" class="external-link">dplyr</a></em>, <em><a href="https://CRAN.R-project.org/package=tidyr" class="external-link">tidyr</a></em>, <em><a href="https://CRAN.R-project.org/package=ggplot2" class="external-link">ggplot2</a></em> and
+<em><a href="https://CRAN.R-project.org/package=plotly" class="external-link">plotly</a></em>
+functions (see Table @ref(tab:table)). This allows users to get the best
+of both Bioconductor and <em>tidyverse</em> worlds.</p>
+<!-- -->
 <table class="table">
+<caption>(#tab:table) Available <code>tidySingleCellExperiment</code>
+functions and utilities.</caption>
 <colgroup>
-<col width="48%">
-<col width="52%">
+<col width="37%">
+<col width="62%">
 </colgroup>
 <thead><tr class="header">
-<th>SingleCellExperiment-compatible Functions</th>
-<th>Description</th>
-</tr></thead>
-<tbody><tr class="odd">
-<td><code>all</code></td>
-<td>After all <code>tidySingleCellExperiment</code> is a
-SingleCellExperiment object, just better</td>
-</tr></tbody>
-</table>
-<table class="table">
-<colgroup>
-<col width="48%">
-<col width="52%">
-</colgroup>
-<thead><tr class="header">
-<th>tidyverse Packages</th>
-<th>Description</th>
+<th><!-- --></th>
+<th></th>
 </tr></thead>
 <tbody>
 <tr class="odd">
+<td>All functions compatible with
+<code>SingleCellExperiment</code>s</td>
+<td>After all, a <code>tidySingleCellExperiment</code> <br> is a
+<code>SingleCellExperiment</code>, just better!</td>
+</tr>
+<tr class="even">
+<td><strong><em>tidyverse</em></strong></td>
+<td></td>
+</tr>
+<tr class="odd">
 <td><code>dplyr</code></td>
-<td>All <code>dplyr</code> tibble functions
-(e.g. <code><a href="../reference/dplyr-methods.html">tidySingleCellExperiment::select</a></code>)</td>
+<td>All <code>tibble</code>-compatible <br> functions (e.g.,
+<code><a href="../reference/select.html">select()</a></code>)</td>
 </tr>
 <tr class="even">
 <td><code>tidyr</code></td>
-<td>All <code>tidyr</code> tibble functions
-(e.g. <code><a href="../reference/pivot-methods.html">tidySingleCellExperiment::pivot_longer</a></code>)</td>
+<td>All <code>tibble</code>-compatible <br> functions (e.g.,
+<code><a href="../reference/pivot_longer.html">pivot_longer()</a></code>)</td>
 </tr>
 <tr class="odd">
 <td><code>ggplot2</code></td>
-<td>
-<code>ggplot</code>
-(<code><a href="../reference/ggplot2-methods.html">tidySingleCellExperiment::ggplot</a></code>)</td>
+<td>Plotting with <code><a href="../reference/ggplot.html">ggplot()</a></code>
+</td>
 </tr>
 <tr class="even">
 <td><code>plotly</code></td>
-<td>
-<code>plot_ly</code>
-(<code><a href="../reference/plot_ly.html">tidySingleCellExperiment::plot_ly</a></code>)</td>
+<td>Plotting with <code><a href="../reference/plot_ly.html">plot_ly()</a></code>
+</td>
 </tr>
-</tbody>
-</table>
-<table class="table">
-<colgroup>
-<col width="48%">
-<col width="52%">
-</colgroup>
-<thead><tr class="header">
-<th>Utilities</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
 <tr class="odd">
-<td><code>tidy</code></td>
-<td>Add <code>tidySingleCellExperiment</code> invisible layer over a
-SingleCellExperiment object</td>
+<td><strong>Utilities</strong></td>
+<td></td>
 </tr>
 <tr class="even">
-<td><code>as_tibble</code></td>
+<td><code><a href="../reference/as_tibble.html">as_tibble()</a></code></td>
 <td>Convert cell-wise information to a <code>tbl_df</code>
 </td>
 </tr>
 <tr class="odd">
-<td><code>join_features</code></td>
-<td>Add feature-wise information, returns a <code>tbl_df</code>
+<td><code><a href="../reference/join_features.html">join_features()</a></code></td>
+<td>Add feature-wise information; <br> returns a
+<code>tbl_df</code>
 </td>
 </tr>
 <tr class="even">
-<td><code>aggregate_cells</code></td>
-<td>Aggregate cell gene-transcription abundance as pseudobulk
-tissue</td>
+<td><code><a href="../reference/aggregate_cells.html">aggregate_cells()</a></code></td>
+<td>Aggregate feature abundances as pseudobulks; <br> returns a
+<code>SummarizedExperiment</code>
+</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section level3">
-<h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h3>
+<div class="section level2">
+<h2 class="unnumbered" id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"tidySingleCellExperiment"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"tidySingleCellExperiment"</span><span class="op">)</span></span></code></pre></div>
 <p>Load libraries used in this vignette.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Bioconductor single-cell packages</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://bioconductor.org/packages/scater/" class="external-link">scater</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">scran</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://bioconductor.org/packages/scater/" class="external-link">scater</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r.igraph.org/" class="external-link">igraph</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/LTLA/celldex" class="external-link">celldex</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/LTLA/SingleR" class="external-link">SingleR</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">SingleCellSignalR</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Tidyverse-compatible packages</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggobi.github.io/ggally/" class="external-link">GGally</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.r-project.org" class="external-link">tidyHeatmap</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Both</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/stemangiola/tidySingleCellExperiment" class="external-link">tidySingleCellExperiment</a></span><span class="op">)</span></span></code></pre></div>
-</div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/stemangiola/tidySingleCellExperiment" class="external-link">tidySingleCellExperiment</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Other</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://Matrix.R-forge.R-project.org" class="external-link">Matrix</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">dittoSeq</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="create-tidysinglecellexperiment-the-best-of-both-worlds">Create <code>tidySingleCellExperiment</code>, the best of both
-worlds!<a class="anchor" aria-label="anchor" href="#create-tidysinglecellexperiment-the-best-of-both-worlds"></a>
+<h2 id="data-representation-of-tidysinglecellexperiment">Data representation of <code>tidySingleCellExperiment</code><a class="anchor" aria-label="anchor" href="#data-representation-of-tidysinglecellexperiment"></a>
 </h2>
-<p>This is a <em>SingleCellExperiment</em> object but it is evaluated as
-a tibble. So it is compatible both with SingleCellExperiment and
-tidyverse.</p>
+<p>This is a <code>SingleCellExperiment</code> object but it is
+evaluated as a <code>tibble</code>. So it is compatible both with
+<code>SingleCellExperiment</code> and <em>tidyverse</em>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pbmc_small_tidy</span> <span class="op">&lt;-</span> <span class="fu">tidySingleCellExperiment</span><span class="fu">::</span><span class="va"><a href="../reference/pbmc_small.html">pbmc_small</a></span> </span></code></pre></div>
-<p><strong>It looks like a tibble</strong></p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">pbmc_small</span>, package<span class="op">=</span><span class="st">"tidySingleCellExperiment"</span><span class="op">)</span></span>
+<span><span class="va">pbmc_small_tidy</span> <span class="op">&lt;-</span> <span class="va">pbmc_small</span></span></code></pre></div>
+<p><strong>It looks like a <code>tibble</code>…</strong></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_tidy</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A SingleCellExperiment-tibble abstraction: 80 × 17</span></span></span>
@@ -241,30 +227,43 @@ tidyverse.</p>
 <span><span class="co">## <span style="color: #949494;"># ℹ 10 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, ident &lt;fct&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   tSNE_2 &lt;dbl&gt;</span></span></span></code></pre>
-<p><strong>But it is a SingleCellExperiment object after
-all</strong></p>
+<p><strong>…but it is a <code>SingleCellExperiment</code> after
+all!</strong></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">pbmc_small_tidy</span>, <span class="st">"counts"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span></code></pre></div>
-<pre><code><span><span class="co">## 5 x 5 sparse Matrix of class "dgCMatrix"</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/dge.html" class="external-link">counts</a></span><span class="op">(</span><span class="va">pbmc_small_tidy</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span></code></pre></div>
+<pre><code><span><span class="co">## 5 x 4 sparse Matrix of class "dgCMatrix"</span></span>
 <span><span class="co">##         ATGCCAGAACGACT CATGGCCTGTGCAT GAACCTGATGAACC TGACTGGATTCTCA</span></span>
 <span><span class="co">## MS4A1                .              .              .              .</span></span>
 <span><span class="co">## CD79B                1              .              .              .</span></span>
 <span><span class="co">## CD79A                .              .              .              .</span></span>
 <span><span class="co">## HLA-DRA              .              1              .              .</span></span>
-<span><span class="co">## TCL1A                .              .              .              .</span></span>
-<span><span class="co">##         AGTCAGACTGCACA</span></span>
-<span><span class="co">## MS4A1                .</span></span>
-<span><span class="co">## CD79B                .</span></span>
-<span><span class="co">## CD79A                .</span></span>
-<span><span class="co">## HLA-DRA              1</span></span>
-<span><span class="co">## TCL1A                .</span></span></code></pre>
+<span><span class="co">## TCL1A                .              .              .              .</span></span></code></pre>
+<p>The <code>SingleCellExperiment</code> object’s tibble visualisation
+can be turned off, or back on at any time.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Turn off the tibble visualisation</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="st">"restore_SingleCellExperiment_show"</span> <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">pbmc_small_tidy</span></span></code></pre></div>
+<pre><code><span><span class="co">## class: SingleCellExperiment </span></span>
+<span><span class="co">## dim: 230 80 </span></span>
+<span><span class="co">## metadata(0):</span></span>
+<span><span class="co">## assays(2): counts logcounts</span></span>
+<span><span class="co">## rownames(230): MS4A1 CD79B ... SPON2 S100B</span></span>
+<span><span class="co">## rowData names(5): vst.mean vst.variance vst.variance.expected</span></span>
+<span><span class="co">##   vst.variance.standardized vst.variable</span></span>
+<span><span class="co">## colnames(80): ATGCCAGAACGACT CATGGCCTGTGCAT ... GGAACACTTCAGAC</span></span>
+<span><span class="co">##   CTTGATTGATCTTC</span></span>
+<span><span class="co">## colData names(9): orig.ident nCount_RNA ... file ident</span></span></code></pre>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Turn on the tibble visualisation</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="st">"restore_SingleCellExperiment_show"</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="annotation-polishing">Annotation polishing<a class="anchor" aria-label="anchor" href="#annotation-polishing"></a>
 </h2>
 <p>We may have a column that contains the directory each run was taken
 from, such as the “file” column in <code>pbmc_small_tidy</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_tidy</span><span class="op">$</span><span class="va">file</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "../data/sample2/outs/filtered_feature_bc_matrix/"</span></span>
 <span><span class="co">## [2] "../data/sample1/outs/filtered_feature_bc_matrix/"</span></span>
@@ -272,18 +271,18 @@ from, such as the “file” column in <code>pbmc_small_tidy</code>.</p>
 <span><span class="co">## [4] "../data/sample2/outs/filtered_feature_bc_matrix/"</span></span>
 <span><span class="co">## [5] "../data/sample2/outs/filtered_feature_bc_matrix/"</span></span></code></pre>
 <p>We may want to extract the run/sample name out of it into a separate
-column. Tidyverse <code>extract</code> can be used to convert a
-character column into multiple columns using regular expression
-groups.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+column. The <em>tidyverse</em> function <code><a href="../reference/extract.html">extract()</a></code> can be
+used to convert a character column into multiple columns using regular
+expression groups.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create sample column</span></span>
 <span><span class="va">pbmc_small_polished</span> <span class="op">&lt;-</span></span>
 <span>    <span class="va">pbmc_small_tidy</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/extract-methods.html">extract</a></span><span class="op">(</span><span class="va">file</span>, <span class="st">"sample"</span>, <span class="st">"../data/([a-z0-9]+)/outs.+"</span>, remove<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="../reference/extract.html">extract</a></span><span class="op">(</span><span class="va">file</span>, <span class="st">"sample"</span>, <span class="st">"../data/([a-z0-9]+)/outs.+"</span>, remove<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Reorder to have sample column up front</span></span>
 <span><span class="va">pbmc_small_polished</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/dplyr-methods.html">select</a></span><span class="op">(</span><span class="va">sample</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">sample</span>, <span class="fu">everything</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A SingleCellExperiment-tibble abstraction: 80 × 18</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># </span><span style="color: #555555;">Features=230 | Cells=80 | Assays=counts, logcounts</span></span></span>
 <span><span class="co">##    .cell sample orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents</span></span>
@@ -307,66 +306,61 @@ groups.</p>
 <h2 id="preliminary-plots">Preliminary plots<a class="anchor" aria-label="anchor" href="#preliminary-plots"></a>
 </h2>
 <p>Set colours and theme for plots.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Use colourblind-friendly colours</span></span>
 <span><span class="va">friendly_cols</span> <span class="op">&lt;-</span> <span class="fu">dittoSeq</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/dittoSeq/man/dittoColors.html" class="external-link">dittoColors</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Set theme</span></span>
-<span><span class="va">custom_theme</span> <span class="op">&lt;-</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="va">friendly_cols</span><span class="op">)</span>,</span>
-<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="va">friendly_cols</span><span class="op">)</span>,</span>
-<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>            <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
-<span>                panel.border<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>                axis.line<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>                panel.grid.major<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span>,</span>
-<span>                panel.grid.minor<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>                text<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">12</span><span class="op">)</span>,</span>
-<span>                legend.position<span class="op">=</span><span class="st">"bottom"</span>,</span>
-<span>                aspect.ratio<span class="op">=</span><span class="fl">1</span>,</span>
-<span>                strip.background<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>                axis.title.x<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>margin<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>t<span class="op">=</span><span class="fl">10</span>, r<span class="op">=</span><span class="fl">10</span>, b<span class="op">=</span><span class="fl">10</span>, l<span class="op">=</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>                axis.title.y<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>margin<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>t<span class="op">=</span><span class="fl">10</span>, r<span class="op">=</span><span class="fl">10</span>, b<span class="op">=</span><span class="fl">10</span>, l<span class="op">=</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
-<span>            <span class="op">)</span></span>
-<span>    <span class="op">)</span></span></code></pre></div>
-<p>We can treat <code>pbmc_small_polished</code> as a tibble for
-plotting.</p>
+<span><span class="va">custom_theme</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="va">friendly_cols</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="va">friendly_cols</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
+<span>        aspect.ratio<span class="op">=</span><span class="fl">1</span>,</span>
+<span>        legend.position<span class="op">=</span><span class="st">"bottom"</span>,</span>
+<span>        axis.line<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        text<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">12</span><span class="op">)</span>,</span>
+<span>        panel.border<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        strip.background<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        panel.grid.major<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>linewidth<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span>,</span>
+<span>        panel.grid.minor<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>linewidth<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span>,</span>
+<span>        axis.title.x<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>margin<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>t<span class="op">=</span><span class="fl">10</span>, r<span class="op">=</span><span class="fl">10</span>, b<span class="op">=</span><span class="fl">10</span>, l<span class="op">=</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>        axis.title.y<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>margin<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>t<span class="op">=</span><span class="fl">10</span>, r<span class="op">=</span><span class="fl">10</span>, b<span class="op">=</span><span class="fl">10</span>, l<span class="op">=</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>We can treat <code>pbmc_small_polished</code> as a
+<code>tibble</code> for plotting.</p>
 <p>Here we plot number of features per cell.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_polished</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu">tidySingleCellExperiment</span><span class="fu">::</span><span class="fu"><a href="../reference/ggplot2-methods.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">nFeature_RNA</span>, fill<span class="op">=</span><span class="va">groups</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">nFeature_RNA</span>, fill<span class="op">=</span><span class="va">groups</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="va">custom_theme</span></span></code></pre></div>
 <p><img src="introduction_files/figure-html/plot1-1.png" width="700"></p>
 <p>Here we plot total features per cell.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_polished</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu">tidySingleCellExperiment</span><span class="fu">::</span><span class="fu"><a href="../reference/ggplot2-methods.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">groups</span>, <span class="va">nCount_RNA</span>, fill<span class="op">=</span><span class="va">groups</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">groups</span>, <span class="va">nCount_RNA</span>, fill<span class="op">=</span><span class="va">groups</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span>outlier.shape<span class="op">=</span><span class="cn">NA</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html" class="external-link">geom_jitter</a></span><span class="op">(</span>width<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="va">custom_theme</span></span></code></pre></div>
 <p><img src="introduction_files/figure-html/plot2-1.png" width="700"></p>
 <p>Here we plot abundance of two features for each group.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_polished</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/join_features.html">join_features</a></span><span class="op">(</span>features<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HLA-DRA"</span>, <span class="st">"LYZ"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/ggplot2-methods.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">groups</span>, <span class="va">.abundance_counts</span> <span class="op">+</span> <span class="fl">1</span>, fill<span class="op">=</span><span class="va">groups</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">groups</span>, <span class="va">.abundance_counts</span> <span class="op">+</span> <span class="fl">1</span>, fill<span class="op">=</span><span class="va">groups</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span>outlier.shape<span class="op">=</span><span class="cn">NA</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html" class="external-link">geom_jitter</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>size<span class="op">=</span><span class="va">nCount_RNA</span><span class="op">)</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, width<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_log10</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="va">custom_theme</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 </div>
 <div class="section level2">
-<h2 id="preprocess-the-dataset">Preprocess the dataset<a class="anchor" aria-label="anchor" href="#preprocess-the-dataset"></a>
+<h2 id="preprocessing">Preprocessing<a class="anchor" aria-label="anchor" href="#preprocessing"></a>
 </h2>
 <p>We can also treat <code>pbmc_small_polished</code> as a
-<em>SingleCellExperiment</em> object and proceed with data processing
-with Bioconductor packages, such as <em>scran</em> <span class="citation">(Lun, Bach, and Marioni 2016)</span> and
-<em>scater</em> <span class="citation">(McCarthy et al.
-2017)</span>.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code>SingleCellExperiment</code> object and proceed with data
+processing with Bioconductor packages, such as <em><a href="https://bioconductor.org/packages/3.19/scran" class="external-link">scran</a></em> <span class="citation">(Lun, Bach, and Marioni 2016)</span> and <em><a href="https://bioconductor.org/packages/3.19/scater" class="external-link">scater</a></em>
+<span class="citation">(McCarthy et al. 2017)</span>.</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Identify variable genes with scran</span></span>
 <span><span class="va">variable_genes</span> <span class="op">&lt;-</span></span>
 <span>    <span class="va">pbmc_small_polished</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -397,36 +391,38 @@ with Bioconductor packages, such as <em>scran</em> <span class="citation">(Lun, 
 <span><span class="co">## <span style="color: #949494;"># ℹ 11 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, sample &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   ident &lt;fct&gt;, PC1 &lt;dbl&gt;, PC2 &lt;dbl&gt;, PC3 &lt;dbl&gt;, PC4 &lt;dbl&gt;, PC5 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span></span></code></pre>
-<p>If a tidyverse-compatible package is not included in the
-tidySingleCellExperiment collection, we can use <code>as_tibble</code>
-to permanently convert <code>tidySingleCellExperiment</code> into a
-tibble.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Create pairs plot with GGally</span></span>
+<p>If a <em>tidyverse</em>-compatible package is not included in the
+<code>tidySingleCellExperiment</code> collection, we can use
+<code><a href="../reference/as_tibble.html">as_tibble()</a></code> to permanently convert a
+<code>tidySingleCellExperiment</code> into a <code>tibble</code>.</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Create pairs plot with 'GGally'</span></span>
 <span><span class="va">pbmc_small_pca</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/tibble-methods.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/dplyr-methods.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">contains</a></span><span class="op">(</span><span class="st">"PC"</span><span class="op">)</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu">GGally</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/ggally/reference/ggpairs.html" class="external-link">ggpairs</a></span><span class="op">(</span>columns<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour<span class="op">=</span><span class="va">groups</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="fu">contains</span><span class="op">(</span><span class="st">"PC"</span><span class="op">)</span>, <span class="fu">everything</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">GGally</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/ggally/reference/ggpairs.html" class="external-link">ggpairs</a></span><span class="op">(</span>columns<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour<span class="op">=</span><span class="va">groups</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="va">custom_theme</span></span></code></pre></div>
 <p><img src="introduction_files/figure-html/pc_plot-1.png" width="700"></p>
 </div>
 <div class="section level2">
-<h2 id="identify-clusters">Identify clusters<a class="anchor" aria-label="anchor" href="#identify-clusters"></a>
+<h2 id="clustering">Clustering<a class="anchor" aria-label="anchor" href="#clustering"></a>
 </h2>
-<p>We can proceed with cluster identification with <em>scran</em>.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<p>We can proceed with cluster identification with <em><a href="https://bioconductor.org/packages/3.19/scran" class="external-link">scran</a></em>.</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_cluster</span> <span class="op">&lt;-</span> <span class="va">pbmc_small_pca</span></span>
 <span></span>
-<span><span class="co"># Assign clusters to the 'colLabels' of the SingleCellExperiment object</span></span>
+<span><span class="co"># Assign clusters to the 'colLabels'</span></span>
+<span><span class="co"># of the 'SingleCellExperiment' object</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/SingleCellExperiment/man/colLabels.html" class="external-link">colLabels</a></span><span class="op">(</span><span class="va">pbmc_small_cluster</span><span class="op">)</span> <span class="op">&lt;-</span></span>
 <span>    <span class="va">pbmc_small_pca</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/scran/man/buildSNNGraph.html" class="external-link">buildSNNGraph</a></span><span class="op">(</span>use.dimred<span class="op">=</span><span class="st">"PCA"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/cluster_walktrap.html" class="external-link">cluster_walktrap</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%$%</span></span>
+<span>    <span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/cluster_walktrap.html" class="external-link">cluster_walktrap</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/exposition.html" class="external-link">%$%</a></span></span>
 <span>    <span class="va">membership</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Reorder columns</span></span>
-<span><span class="va">pbmc_small_cluster</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/dplyr-methods.html">select</a></span><span class="op">(</span><span class="va">label</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">pbmc_small_cluster</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">label</span>, <span class="fu">everything</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A SingleCellExperiment-tibble abstraction: 80 × 19</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># </span><span style="color: #555555;">Features=230 | Cells=80 | Assays=counts, logcounts</span></span></span>
 <span><span class="co">##    .cell  label orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents</span></span>
@@ -445,11 +441,12 @@ tibble.</p>
 <span><span class="co">## <span style="color: #949494;"># ℹ 12 more variables: groups &lt;chr&gt;, RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   sample &lt;chr&gt;, ident &lt;fct&gt;, PC1 &lt;dbl&gt;, PC2 &lt;dbl&gt;, PC3 &lt;dbl&gt;, PC4 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   PC5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span></span></code></pre>
-<p>And interrogate the output as if it was a regular tibble.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<p>And interrogate the output as if it was a regular
+<code>tibble</code>.</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Count number of cells for each cluster per group</span></span>
 <span><span class="va">pbmc_small_cluster</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu">tidySingleCellExperiment</span><span class="fu">::</span><span class="fu"><a href="../reference/dplyr-methods.html">count</a></span><span class="op">(</span><span class="va">groups</span>, <span class="va">label</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/count.html">count</a></span><span class="op">(</span><span class="va">groups</span>, <span class="va">label</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 8 × 3</span></span></span>
 <span><span class="co">##   groups label     n</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
@@ -462,79 +459,81 @@ tibble.</p>
 <span><span class="co">## <span style="color: #BCBCBC;">7</span> g2     3        10</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">8</span> g2     4         5</span></span></code></pre>
 <p>We can identify and visualise cluster markers combining
-SingleCellExperiment, tidyverse functions and tidyHeatmap <span class="citation">(Mangiola and Papenfuss 2020)</span></p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code>SingleCellExperiment</code>, <em>tidyverse</em> functions and
+<em><a href="https://CRAN.R-project.org/package=tidyHeatmap" class="external-link">tidyHeatmap</a></em>
+<span class="citation">(Mangiola and Papenfuss 2020)</span>.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Identify top 10 markers per cluster</span></span>
 <span><span class="va">marker_genes</span> <span class="op">&lt;-</span></span>
 <span>    <span class="va">pbmc_small_cluster</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/scran/man/findMarkers.html" class="external-link">findMarkers</a></span><span class="op">(</span>groups<span class="op">=</span><span class="va">pbmc_small_cluster</span><span class="op">$</span><span class="va">label</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/as.list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="op">~</span> <span class="va">.x</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>        <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Plot heatmap</span></span>
 <span><span class="va">pbmc_small_cluster</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/join_features.html">join_features</a></span><span class="op">(</span>features<span class="op">=</span><span class="va">marker_genes</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/dplyr-methods.html">group_by</a></span><span class="op">(</span><span class="va">label</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/tidyHeatmap/man/heatmap-method.html" class="external-link">heatmap</a></span><span class="op">(</span><span class="va">.feature</span>, <span class="va">.cell</span>, <span class="va">.abundance_counts</span>, .scale<span class="op">=</span><span class="st">"column"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<span>    <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">label</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/tidyHeatmap/man/heatmap-method.html" class="external-link">heatmap</a></span><span class="op">(</span></span>
+<span>        .row<span class="op">=</span><span class="va">.feature</span>, .column<span class="op">=</span><span class="va">.cell</span>, </span>
+<span>        .value<span class="op">=</span><span class="va">.abundance_counts</span>, scale<span class="op">=</span><span class="st">"column"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="introduction_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="reduce-dimensions">Reduce dimensions<a class="anchor" aria-label="anchor" href="#reduce-dimensions"></a>
 </h2>
-<p>We can calculate the first 3 UMAP dimensions using the
-SingleCellExperiment framework and <em>scater</em>.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<p>We can calculate the first 3 UMAP dimensions using <em><a href="https://bioconductor.org/packages/3.19/scater" class="external-link">scater</a></em>.</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_UMAP</span> <span class="op">&lt;-</span></span>
 <span>    <span class="va">pbmc_small_cluster</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runUMAP.html" class="external-link">runUMAP</a></span><span class="op">(</span>ncomponents<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<p>And we can plot the result in 3D using plotly.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<p>And we can plot the result in 3D using <em><a href="https://CRAN.R-project.org/package=plotly" class="external-link">plotly</a></em>.</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_UMAP</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/plot_ly.html">plot_ly</a></span><span class="op">(</span></span>
 <span>        x<span class="op">=</span><span class="op">~</span><span class="va">`UMAP1`</span>,</span>
 <span>        y<span class="op">=</span><span class="op">~</span><span class="va">`UMAP2`</span>,</span>
 <span>        z<span class="op">=</span><span class="op">~</span><span class="va">`UMAP3`</span>,</span>
 <span>        color<span class="op">=</span><span class="op">~</span><span class="va">label</span>,</span>
-<span>        colors<span class="op">=</span><span class="va">friendly_cols</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span>
-<span>    <span class="op">)</span></span></code></pre></div>
-<div class="figure">
-<img src="../reference/figures/plotly.png" alt=""><p class="caption">plotly screenshot</p>
+<span>        colors<span class="op">=</span><span class="va">friendly_cols</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="../inst/extdata/plotly.png" alt="plotly screenshot"><div class="figcaption">plotly screenshot</div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="cell-type-prediction">Cell type prediction<a class="anchor" aria-label="anchor" href="#cell-type-prediction"></a>
 </h2>
-<p>We can infer cell type identities using <em>SingleR</em> <span class="citation">(Aran et al. 2019)</span> and manipulate the output
-using tidyverse.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<p>We can infer cell type identities using <em><a href="https://bioconductor.org/packages/3.19/SingleR" class="external-link">SingleR</a></em>
+<span class="citation">(Aran et al. 2019)</span> and manipulate the
+output using <em>tidyverse</em>.</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get cell type reference data</span></span>
 <span><span class="va">blueprint</span> <span class="op">&lt;-</span> <span class="fu">celldex</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/celldex/man/BlueprintEncodeData.html" class="external-link">BlueprintEncodeData</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Infer cell identities</span></span>
-<span><span class="va">cell_type_df</span> <span class="op">&lt;-</span></span>
-<span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">pbmc_small_UMAP</span><span class="op">)</span><span class="op">$</span><span class="va">logcounts</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="va">cell_type_df</span> <span class="op">&lt;-</span> </span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/SingleCellExperiment/man/assays.html" class="external-link">logcounts</a></span><span class="op">(</span><span class="va">pbmc_small_UMAP</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">Matrix</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/Matrix.html" class="external-link">Matrix</a></span><span class="op">(</span>sparse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">SingleR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SingleR/man/SingleR.html" class="external-link">SingleR</a></span><span class="op">(</span></span>
-<span>        ref <span class="op">=</span> <span class="va">blueprint</span>,</span>
-<span>        labels <span class="op">=</span> <span class="va">blueprint</span><span class="op">$</span><span class="va">label.main</span>,</span>
-<span>        method <span class="op">=</span> <span class="st">"single"</span></span>
-<span>    <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/tibble-methods.html">as_tibble</a></span><span class="op">(</span>rownames<span class="op">=</span><span class="st">"cell"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/dplyr-methods.html">select</a></span><span class="op">(</span><span class="va">cell</span>, <span class="va">first.labels</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<span>        ref<span class="op">=</span><span class="va">blueprint</span>,</span>
+<span>        labels<span class="op">=</span><span class="va">blueprint</span><span class="op">$</span><span class="va">label.main</span>,</span>
+<span>        method<span class="op">=</span><span class="st">"single"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="../reference/as_tibble.html">as_tibble</a></span><span class="op">(</span>rownames<span class="op">=</span><span class="st">"cell"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">cell</span>, <span class="va">first.labels</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Join UMAP and cell type info</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">cell_type_df</span><span class="op">)</span></span>
 <span><span class="va">pbmc_small_cell_type</span> <span class="op">&lt;-</span></span>
 <span>    <span class="va">pbmc_small_UMAP</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/dplyr-methods.html">left_join</a></span><span class="op">(</span><span class="va">cell_type_df</span>, by<span class="op">=</span><span class="st">"cell"</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="../reference/left_join.html">left_join</a></span><span class="op">(</span><span class="va">cell_type_df</span>, by<span class="op">=</span><span class="st">"cell"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Reorder columns</span></span>
 <span><span class="va">pbmc_small_cell_type</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu">tidySingleCellExperiment</span><span class="fu">::</span><span class="fu"><a href="../reference/dplyr-methods.html">select</a></span><span class="op">(</span><span class="va">cell</span>, <span class="va">first.labels</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">cell</span>, <span class="va">first.labels</span>, <span class="fu">everything</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A SingleCellExperiment-tibble abstraction: 80 × 23</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># </span><span style="color: #555555;">Features=230 | Cells=80 | Assays=counts, logcounts</span></span></span>
 <span><span class="co">##    cell          first.labels orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8</span></span>
@@ -556,10 +555,10 @@ using tidyverse.</p>
 <span><span class="co">## <span style="color: #949494;">#   UMAP2 &lt;dbl&gt;, UMAP3 &lt;dbl&gt;</span></span></span></code></pre>
 <p>We can easily summarise the results. For example, we can see how cell
 type classification overlaps with cluster classification.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Count number of cells for each cell type per cluster</span></span>
 <span><span class="va">pbmc_small_cell_type</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/dplyr-methods.html">count</a></span><span class="op">(</span><span class="va">label</span>, <span class="va">first.labels</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/count.html">count</a></span><span class="op">(</span><span class="va">label</span>, <span class="va">first.labels</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 11 × 3</span></span></span>
 <span><span class="co">##    label first.labels     n</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
@@ -576,52 +575,50 @@ type classification overlaps with cluster classification.</p>
 <span><span class="co">## <span style="color: #BCBCBC;">11</span> 4     Erythrocytes     9</span></span></code></pre>
 <p>We can easily reshape the data for building information-rich faceted
 plots.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_cell_type</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span></span>
 <span>    <span class="co"># Reshape and add classifier column</span></span>
-<span>    <span class="fu"><a href="../reference/pivot-methods.html">pivot_longer</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="../reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span></span>
 <span>        cols<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">label</span>, <span class="va">first.labels</span><span class="op">)</span>,</span>
-<span>        names_to<span class="op">=</span><span class="st">"classifier"</span>, values_to<span class="op">=</span><span class="st">"label"</span></span>
-<span>    <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span></span>
+<span>        names_to<span class="op">=</span><span class="st">"classifier"</span>, values_to<span class="op">=</span><span class="st">"label"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="co"># UMAP plots for cell type and cluster</span></span>
-<span>    <span class="fu"><a href="../reference/ggplot2-methods.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">UMAP1</span>, <span class="va">UMAP2</span>, color<span class="op">=</span><span class="va">label</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">UMAP1</span>, <span class="va">UMAP2</span>, color<span class="op">=</span><span class="va">label</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">classifier</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="va">custom_theme</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
 <p>We can easily plot gene correlation per cell category, adding
 multi-layer annotations.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_cell_type</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span></span>
 <span>    <span class="co"># Add some mitochondrial abundance values</span></span>
-<span>    <span class="fu"><a href="../reference/dplyr-methods.html">mutate</a></span><span class="op">(</span>mitochondrial<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span></span>
+<span>    <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>mitochondrial<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="co"># Plot correlation</span></span>
 <span>    <span class="fu"><a href="../reference/join_features.html">join_features</a></span><span class="op">(</span>features<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CST3"</span>, <span class="st">"LYZ"</span><span class="op">)</span>, shape<span class="op">=</span><span class="st">"wide"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/ggplot2-methods.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">CST3</span> <span class="op">+</span> <span class="fl">1</span>, <span class="va">LYZ</span> <span class="op">+</span> <span class="fl">1</span>, color<span class="op">=</span><span class="va">groups</span>, size<span class="op">=</span><span class="va">mitochondrial</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">CST3</span><span class="op">+</span><span class="fl">1</span>, <span class="va">LYZ</span><span class="op">+</span><span class="fl">1</span>, color<span class="op">=</span><span class="va">groups</span>, size<span class="op">=</span><span class="va">mitochondrial</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">first.labels</span>, scales<span class="op">=</span><span class="st">"free"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_log10</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_log10</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="va">custom_theme</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="nested-analyses">Nested analyses<a class="anchor" aria-label="anchor" href="#nested-analyses"></a>
 </h2>
-<p>A powerful tool we can use with tidySingleCellExperiment is tidyverse
-<code>nest</code>. We can easily perform independent analyses on subsets
-of the dataset. First we classify cell types into lymphoid and myeloid,
-and then nest based on the new classification.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<p>A powerful tool we can use with <code>tidySingleCellExperiment</code>
+is <em>tidyverse</em>’s <code><a href="../reference/nest.html">nest()</a></code>. We can easily perform
+independent analyses on subsets of the dataset. First, we classify cell
+types into lymphoid and myeloid, and then <code><a href="../reference/nest.html">nest()</a></code> based on
+the new classification.</p>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_nested</span> <span class="op">&lt;-</span></span>
 <span>    <span class="va">pbmc_small_cell_type</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/dplyr-methods.html">filter</a></span><span class="op">(</span><span class="va">first.labels</span> <span class="op">!=</span> <span class="st">"Erythrocytes"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/dplyr-methods.html">mutate</a></span><span class="op">(</span>cell_class<span class="op">=</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">`first.labels`</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Macrophages"</span>, <span class="st">"Monocytes"</span><span class="op">)</span>, <span class="st">"myeloid"</span>, <span class="st">"lymphoid"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/nest-methods.html">nest</a></span><span class="op">(</span>data<span class="op">=</span><span class="op">-</span><span class="va">cell_class</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">first.labels</span> <span class="op">!=</span> <span class="st">"Erythrocytes"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>cell_class<span class="op">=</span><span class="fu">if_else</span><span class="op">(</span></span>
+<span>        <span class="va">first.labels</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Macrophages"</span>, <span class="st">"Monocytes"</span><span class="op">)</span>,</span>
+<span>        true<span class="op">=</span><span class="st">"myeloid"</span>, false<span class="op">=</span><span class="st">"lymphoid"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="../reference/nest.html">nest</a></span><span class="op">(</span>data<span class="op">=</span><span class="op">-</span><span class="va">cell_class</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pbmc_small_nested</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
@@ -632,94 +629,86 @@ and then nest based on the new classification.</p>
 <p>Now we can independently for the lymphoid and myeloid subsets (i)
 find variable features, (ii) reduce dimensions, and (iii) cluster using
 both tidyverse and SingleCellExperiment seamlessly.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_nested_reanalysed</span> <span class="op">&lt;-</span></span>
 <span>    <span class="va">pbmc_small_nested</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/dplyr-methods.html">mutate</a></span><span class="op">(</span>data<span class="op">=</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span></span>
-<span>        <span class="va">data</span>, <span class="op">~</span> <span class="op">{</span></span>
-<span>            <span class="va">.x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/runPCA.html" class="external-link">runPCA</a></span><span class="op">(</span><span class="va">.x</span>, subset_row<span class="op">=</span><span class="va">variable_genes</span><span class="op">)</span></span>
-<span></span>
-<span>            <span class="va">variable_genes</span> <span class="op">&lt;-</span></span>
-<span>                <span class="va">.x</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>                <span class="fu"><a href="https://rdrr.io/pkg/scran/man/modelGeneVar.html" class="external-link">modelGeneVar</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>                <span class="fu"><a href="https://rdrr.io/pkg/scran/man/getTopHVGs.html" class="external-link">getTopHVGs</a></span><span class="op">(</span>prop<span class="op">=</span><span class="fl">0.3</span><span class="op">)</span></span>
-<span></span>
-<span>            <span class="fu"><a href="https://rdrr.io/pkg/SingleCellExperiment/man/colLabels.html" class="external-link">colLabels</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op">&lt;-</span></span>
-<span>                <span class="va">.x</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>                <span class="fu"><a href="https://rdrr.io/pkg/scran/man/buildSNNGraph.html" class="external-link">buildSNNGraph</a></span><span class="op">(</span>use.dimred<span class="op">=</span><span class="st">"PCA"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>                <span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/cluster_walktrap.html" class="external-link">cluster_walktrap</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%$%</span></span>
-<span>                <span class="va">membership</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>                <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span>            <span class="va">.x</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runUMAP.html" class="external-link">runUMAP</a></span><span class="op">(</span>ncomponents<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
-<span>        <span class="op">}</span></span>
-<span>    <span class="op">)</span><span class="op">)</span></span>
-<span></span>
+<span>    <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>data<span class="op">=</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">~</span> <span class="op">{</span></span>
+<span>        <span class="co"># feature selection</span></span>
+<span>        <span class="va">variable_genes</span> <span class="op">&lt;-</span> <span class="va">.x</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/pkg/scran/man/modelGeneVar.html" class="external-link">modelGeneVar</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/pkg/scran/man/getTopHVGs.html" class="external-link">getTopHVGs</a></span><span class="op">(</span>prop<span class="op">=</span><span class="fl">0.3</span><span class="op">)</span></span>
+<span>        <span class="co"># dimension reduction</span></span>
+<span>        <span class="va">.x</span> <span class="op">&lt;-</span> <span class="va">.x</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/runPCA.html" class="external-link">runPCA</a></span><span class="op">(</span>subset_row<span class="op">=</span><span class="va">variable_genes</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runUMAP.html" class="external-link">runUMAP</a></span><span class="op">(</span>ncomponents<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
+<span>        <span class="co"># clustering</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/pkg/SingleCellExperiment/man/colLabels.html" class="external-link">colLabels</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">.x</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/pkg/scran/man/buildSNNGraph.html" class="external-link">buildSNNGraph</a></span><span class="op">(</span>use.dimred<span class="op">=</span><span class="st">"PCA"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>            <span class="fu"><a href="https://r.igraph.org/reference/cluster_walktrap.html" class="external-link">cluster_walktrap</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/exposition.html" class="external-link">%$%</a></span></span>
+<span>            <span class="va">membership</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>        <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span></span>
+<span>    <span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">pbmc_small_nested_reanalysed</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
 <span><span class="co">##   cell_class data           </span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>         </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span> lymphoid   <span style="color: #949494;">&lt;SnglCllE[,40]&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">2</span> myeloid    <span style="color: #949494;">&lt;SnglCllE[,31]&gt;</span></span></span></code></pre>
-<p>We can then unnest and plot the new classification.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<p>We can then <code><a href="../reference/unnest.html">unnest()</a></code> and plot the new
+classification.</p>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_nested_reanalysed</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span></span>
-<span>    <span class="co"># Convert to tibble otherwise SingleCellExperiment drops reduced dimensions when unifying data sets.</span></span>
-<span>    <span class="fu"><a href="../reference/dplyr-methods.html">mutate</a></span><span class="op">(</span>data<span class="op">=</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">~</span> <span class="va">.x</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/tibble-methods.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/unnest-methods.html">unnest</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span></span>
+<span>    <span class="co"># Convert to 'tibble', else 'SingleCellExperiment'</span></span>
+<span>    <span class="co"># drops reduced dimensions when unifying data sets.</span></span>
+<span>    <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>data<span class="op">=</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">~</span><span class="fu"><a href="../reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="../reference/unnest.html">unnest</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="co"># Define unique clusters</span></span>
-<span>    <span class="fu"><a href="../reference/unite-methods.html">unite</a></span><span class="op">(</span><span class="st">"cluster"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">cell_class</span>, <span class="va">label</span><span class="op">)</span>, remove<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span></span>
+<span>    <span class="fu"><a href="../reference/unite.html">unite</a></span><span class="op">(</span><span class="st">"cluster"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">cell_class</span>, <span class="va">label</span><span class="op">)</span>, remove<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="co"># Plotting</span></span>
-<span>    <span class="fu"><a href="../reference/ggplot2-methods.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">UMAP1</span>, <span class="va">UMAP2</span>, color<span class="op">=</span><span class="va">cluster</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">UMAP1</span>, <span class="va">UMAP2</span>, color<span class="op">=</span><span class="va">cluster</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">cell_class</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="va">custom_theme</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
 <p>We can perform a large number of functional analyses on data subsets.
 For example, we can identify intra-sample cell-cell interactions using
-<em>SingleCellSignalR</em> <span class="citation">(Cabello-Aguilar et
-al. 2020)</span>, and then compare whether interactions are stronger or
-weaker across conditions. The code below demonstrates how this analysis
-could be performed. It won’t work with this small example dataset as we
-have just two samples (one for each condition). But some example output
-is shown below and you can imagine how you can use tidyverse on the
-output to perform t-tests and visualisation.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code>SingleCellSignalR</code> <span class="citation">(Cabello-Aguilar
+et al. 2020)</span>, and then compare whether interactions are stronger
+or weaker across conditions. The code below demonstrates how this
+analysis could be performed. It won’t work with this small example
+dataset as we have just two samples (one for each condition). But some
+example output is shown below and you can imagine how you can use
+tidyverse on the output to perform t-tests and visualisation.</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_nested_interactions</span> <span class="op">&lt;-</span></span>
 <span>    <span class="va">pbmc_small_nested_reanalysed</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span></span>
 <span>    <span class="co"># Unnest based on cell category</span></span>
-<span>    <span class="fu"><a href="../reference/unnest-methods.html">unnest</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span></span>
+<span>    <span class="fu"><a href="../reference/unnest.html">unnest</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="co"># Create unambiguous clusters</span></span>
-<span>    <span class="fu"><a href="../reference/dplyr-methods.html">mutate</a></span><span class="op">(</span>integrated_clusters<span class="op">=</span><span class="va">first.labels</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span></span>
+<span>    <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>integrated_clusters<span class="op">=</span><span class="va">first.labels</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="co"># Nest based on sample</span></span>
-<span>    <span class="fu">tidySingleCellExperiment</span><span class="fu">::</span><span class="fu"><a href="../reference/nest-methods.html">nest</a></span><span class="op">(</span>data<span class="op">=</span><span class="op">-</span><span class="va">sample</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu">tidySingleCellExperiment</span><span class="fu">::</span><span class="fu"><a href="../reference/dplyr-methods.html">mutate</a></span><span class="op">(</span>interactions<span class="op">=</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">~</span> <span class="op">{</span></span>
-<span></span>
+<span>    <span class="fu"><a href="../reference/nest.html">nest</a></span><span class="op">(</span>data<span class="op">=</span><span class="op">-</span><span class="va">sample</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>interactions<span class="op">=</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">~</span> <span class="op">{</span></span>
 <span>        <span class="co"># Produce variables. Yuck!</span></span>
 <span>        <span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">colData</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">$</span><span class="va">integrated_clusters</span></span>
-<span>        <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="va">.</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span>        <span class="co"># Ligand/Receptor analysis using SingleCellSignalR</span></span>
+<span>        <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span>        <span class="co"># Ligand/Receptor analysis using 'SingleCellSignalR'</span></span>
 <span>        <span class="va">data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>            <span class="fu"><a href="https://rdrr.io/pkg/SingleCellSignalR/man/cell_signaling.html" class="external-link">cell_signaling</a></span><span class="op">(</span>genes<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>, cluster<span class="op">=</span><span class="va">cluster</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>            <span class="fu"><a href="https://rdrr.io/pkg/SingleCellSignalR/man/inter_network.html" class="external-link">inter_network</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">data</span>, signal<span class="op">=</span><span class="va">.</span>, genes<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>, cluster<span class="op">=</span><span class="va">cluster</span><span class="op">)</span> <span class="op">%$%</span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/pkg/SingleCellSignalR/man/cell_signaling.html" class="external-link">cell_signaling</a></span><span class="op">(</span>genes<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>, cluster<span class="op">=</span><span class="va">cluster</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/pkg/SingleCellSignalR/man/inter_network.html" class="external-link">inter_network</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">data</span>, signal<span class="op">=</span><span class="va">.</span>, genes<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>, cluster<span class="op">=</span><span class="va">cluster</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/exposition.html" class="external-link">%$%</a></span></span>
 <span>            <span class="va">`individual-networks`</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>            <span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="../reference/dplyr-methods.html">bind_rows</a></span><span class="op">(</span><span class="fu"><a href="../reference/tibble-methods.html">as_tibble</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>            <span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="../reference/bind_rows.html">bind_rows</a></span><span class="op">(</span><span class="fu"><a href="../reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pbmc_small_nested_interactions</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/dplyr-methods.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">data</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/unnest-methods.html">unnest</a></span><span class="op">(</span><span class="va">interactions</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">data</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="../reference/unnest.html">unnest</a></span><span class="op">(</span><span class="va">interactions</span><span class="op">)</span></span></code></pre></div>
 <p>If the dataset was not so small, and interactions could be
 identified, you would see something like below.</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">tidySingleCellExperiment</span><span class="fu">::</span><span class="va"><a href="../reference/pbmc_small_nested_interactions.html">pbmc_small_nested_interactions</a></span></span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">pbmc_small_nested_interactions</span><span class="op">)</span></span>
+<span><span class="va">pbmc_small_nested_interactions</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 100 × 9</span></span></span>
 <span><span class="co">##    sample  ligand          receptor ligand.name receptor.name origin destination</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
@@ -742,32 +731,33 @@ identified, you would see something like below.</p>
 <p>Sometimes, it is necessary to aggregate the gene-transcript abundance
 from a group of cells into a single value. For example, when comparing
 groups of cells across different samples with fixed-effect models.</p>
-<p>In tidySingleCellExperiment, cell aggregation can be achieved using
-the <code>aggregate_cells</code> function.</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<p>In <code>tidySingleCellExperiment</code>, cell aggregation can be
+achieved using <code><a href="../reference/aggregate_cells.html">aggregate_cells()</a></code>, which will return an
+object of class <em><a href="https://bioconductor.org/packages/3.19/SummarizedExperiment" class="external-link">SummarizedExperiment</a></em>.</p>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_tidy</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/aggregate_cells.html">aggregate_cells</a></span><span class="op">(</span><span class="va">groups</span>, assays <span class="op">=</span> <span class="st">"counts"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/aggregate_cells.html">aggregate_cells</a></span><span class="op">(</span><span class="va">groups</span>, assays<span class="op">=</span><span class="st">"counts"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## class: SummarizedExperiment </span></span>
 <span><span class="co">## dim: 230 2 </span></span>
 <span><span class="co">## metadata(0):</span></span>
 <span><span class="co">## assays(1): counts</span></span>
 <span><span class="co">## rownames(230): ACAP1 ACRBP ... ZNF330 ZNF76</span></span>
-<span><span class="co">## rowData names(1): feature</span></span>
+<span><span class="co">## rowData names(0):</span></span>
 <span><span class="co">## colnames(2): g1 g2</span></span>
-<span><span class="co">## colData names(4): groups .aggregated_cells orig.ident file</span></span></code></pre>
+<span><span class="co">## colData names(4): .aggregated_cells groups orig.ident file</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R version 4.2.2 (2022-10-31)</span></span>
-<span><span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
-<span><span class="co">## Running under: Ubuntu 22.04.2 LTS</span></span>
+<pre><code><span><span class="co">## R Under development (unstable) (2023-11-22 r85609)</span></span>
+<span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
+<span><span class="co">## Running under: Ubuntu 22.04.3 LTS</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
-<span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3</span></span>
-<span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so</span></span>
+<span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
+<span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so;  LAPACK version 3.10.0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## locale:</span></span>
 <span><span class="co">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></span>
@@ -777,90 +767,105 @@ the <code>aggregate_cells</code> function.</p>
 <span><span class="co">##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span></span>
 <span><span class="co">## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span></span>
 <span><span class="co">## </span></span>
+<span><span class="co">## time zone: UTC</span></span>
+<span><span class="co">## tzcode source: system (glibc)</span></span>
+<span><span class="co">## </span></span>
 <span><span class="co">## attached base packages:</span></span>
 <span><span class="co">## [1] stats4    stats     graphics  grDevices utils     datasets  methods  </span></span>
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">##  [1] tidySingleCellExperiment_1.9.4 ttservice_0.2.2               </span></span>
-<span><span class="co">##  [3] tidyHeatmap_1.8.1              purrr_1.0.1                   </span></span>
-<span><span class="co">##  [5] SingleCellSignalR_1.10.0       SingleR_2.0.0                 </span></span>
-<span><span class="co">##  [7] scran_1.26.2                   scater_1.26.1                 </span></span>
-<span><span class="co">##  [9] ggplot2_3.4.1                  scuttle_1.8.4                 </span></span>
-<span><span class="co">## [11] SingleCellExperiment_1.20.1    SummarizedExperiment_1.28.0   </span></span>
-<span><span class="co">## [13] Biobase_2.58.0                 GenomicRanges_1.50.2          </span></span>
-<span><span class="co">## [15] GenomeInfoDb_1.34.9            IRanges_2.32.0                </span></span>
-<span><span class="co">## [17] S4Vectors_0.36.2               BiocGenerics_0.44.0           </span></span>
-<span><span class="co">## [19] MatrixGenerics_1.10.0          matrixStats_0.63.0            </span></span>
-<span><span class="co">## [21] knitr_1.42                     BiocStyle_2.26.0              </span></span>
+<span><span class="co">##  [1] dittoSeq_1.15.2                 Matrix_1.6-4                   </span></span>
+<span><span class="co">##  [3] ttservice_0.4.0                 tidyr_1.3.0                    </span></span>
+<span><span class="co">##  [5] dplyr_1.1.4                     tidySingleCellExperiment_1.13.2</span></span>
+<span><span class="co">##  [7] tidyHeatmap_1.8.1               GGally_2.2.0                   </span></span>
+<span><span class="co">##  [9] purrr_1.0.2                     SingleCellSignalR_1.15.0       </span></span>
+<span><span class="co">## [11] SingleR_2.5.0                   celldex_1.13.0                 </span></span>
+<span><span class="co">## [13] igraph_1.5.1                    scater_1.31.1                  </span></span>
+<span><span class="co">## [15] ggplot2_3.4.4                   scran_1.31.0                   </span></span>
+<span><span class="co">## [17] scuttle_1.13.0                  SingleCellExperiment_1.25.0    </span></span>
+<span><span class="co">## [19] SummarizedExperiment_1.33.1     Biobase_2.63.0                 </span></span>
+<span><span class="co">## [21] GenomicRanges_1.55.1            GenomeInfoDb_1.39.1            </span></span>
+<span><span class="co">## [23] IRanges_2.37.0                  S4Vectors_0.41.2               </span></span>
+<span><span class="co">## [25] BiocGenerics_0.49.1             MatrixGenerics_1.15.0          </span></span>
+<span><span class="co">## [27] matrixStats_1.1.0               knitr_1.45                     </span></span>
+<span><span class="co">## [29] BiocStyle_2.31.0               </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##   [1] circlize_0.4.15           systemfonts_1.0.4        </span></span>
-<span><span class="co">##   [3] plyr_1.8.8                igraph_1.4.1             </span></span>
-<span><span class="co">##   [5] lazyeval_0.2.2            splines_4.2.2            </span></span>
-<span><span class="co">##   [7] BiocParallel_1.32.6       digest_0.6.31            </span></span>
-<span><span class="co">##   [9] foreach_1.5.2             htmltools_0.5.4          </span></span>
-<span><span class="co">##  [11] viridis_0.6.2             fansi_1.0.4              </span></span>
-<span><span class="co">##  [13] magrittr_2.0.3            memoise_2.0.1            </span></span>
-<span><span class="co">##  [15] ScaledMatrix_1.6.0        cluster_2.1.4            </span></span>
-<span><span class="co">##  [17] doParallel_1.0.17         limma_3.54.2             </span></span>
-<span><span class="co">##  [19] ComplexHeatmap_2.14.0     pkgdown_2.0.7            </span></span>
-<span><span class="co">##  [21] colorspace_2.1-0          ggrepel_0.9.3            </span></span>
-<span><span class="co">##  [23] textshaping_0.3.6         xfun_0.37                </span></span>
-<span><span class="co">##  [25] dplyr_1.1.1               crayon_1.5.2             </span></span>
-<span><span class="co">##  [27] RCurl_1.98-1.10           jsonlite_1.8.4           </span></span>
-<span><span class="co">##  [29] survival_3.5-5            iterators_1.0.14         </span></span>
-<span><span class="co">##  [31] glue_1.6.2                gtable_0.3.3             </span></span>
-<span><span class="co">##  [33] zlibbioc_1.44.0           XVector_0.38.0           </span></span>
-<span><span class="co">##  [35] SIMLR_1.24.3              GetoptLong_1.0.5         </span></span>
-<span><span class="co">##  [37] DelayedArray_0.24.0       BiocSingular_1.14.0      </span></span>
-<span><span class="co">##  [39] shape_1.4.6               scales_1.2.1             </span></span>
-<span><span class="co">##  [41] pheatmap_1.0.12           GGally_2.1.2             </span></span>
-<span><span class="co">##  [43] edgeR_3.40.2              Rcpp_1.0.10              </span></span>
-<span><span class="co">##  [45] viridisLite_0.4.1         clue_0.3-64              </span></span>
-<span><span class="co">##  [47] dqrng_0.3.0               rsvd_1.0.5               </span></span>
-<span><span class="co">##  [49] dittoSeq_1.10.0           httr_1.4.5               </span></span>
-<span><span class="co">##  [51] metapod_1.6.0             htmlwidgets_1.6.2        </span></span>
-<span><span class="co">##  [53] FNN_1.1.3.2               gplots_3.1.3             </span></span>
-<span><span class="co">##  [55] RColorBrewer_1.1-3        ellipsis_0.3.2           </span></span>
-<span><span class="co">##  [57] reshape_0.8.9             farver_2.1.1             </span></span>
-<span><span class="co">##  [59] pkgconfig_2.0.3           uwot_0.1.14              </span></span>
-<span><span class="co">##  [61] sass_0.4.5                locfit_1.5-9.7           </span></span>
-<span><span class="co">##  [63] utf8_1.2.3                labeling_0.4.2           </span></span>
-<span><span class="co">##  [65] tidyselect_1.2.0          rlang_1.1.0              </span></span>
-<span><span class="co">##  [67] munsell_0.5.0             tools_4.2.2              </span></span>
-<span><span class="co">##  [69] cachem_1.0.7              cli_3.6.0                </span></span>
-<span><span class="co">##  [71] generics_0.1.3            ggridges_0.5.4           </span></span>
-<span><span class="co">##  [73] evaluate_0.20             stringr_1.5.0            </span></span>
-<span><span class="co">##  [75] fastmap_1.1.1             yaml_2.3.7               </span></span>
-<span><span class="co">##  [77] ragg_1.2.5                fs_1.6.1                 </span></span>
-<span><span class="co">##  [79] caTools_1.18.2            dendextend_1.16.0        </span></span>
-<span><span class="co">##  [81] sparseMatrixStats_1.10.0  pracma_2.4.2             </span></span>
-<span><span class="co">##  [83] compiler_4.2.2            beeswarm_0.4.0           </span></span>
-<span><span class="co">##  [85] plotly_4.10.1             png_0.1-8                </span></span>
-<span><span class="co">##  [87] tibble_3.2.1              statmod_1.5.0            </span></span>
-<span><span class="co">##  [89] bslib_0.4.2               stringi_1.7.12           </span></span>
-<span><span class="co">##  [91] highr_0.10                desc_1.4.2               </span></span>
-<span><span class="co">##  [93] RSpectra_0.16-1           lattice_0.20-45          </span></span>
-<span><span class="co">##  [95] bluster_1.8.0             Matrix_1.5-3             </span></span>
-<span><span class="co">##  [97] multtest_2.54.0           vctrs_0.6.1              </span></span>
-<span><span class="co">##  [99] pillar_1.9.0              lifecycle_1.0.3          </span></span>
-<span><span class="co">## [101] BiocManager_1.30.20       jquerylib_0.1.4          </span></span>
-<span><span class="co">## [103] GlobalOptions_0.1.2       RcppAnnoy_0.0.20         </span></span>
-<span><span class="co">## [105] BiocNeighbors_1.16.0      cowplot_1.1.1            </span></span>
-<span><span class="co">## [107] data.table_1.14.8         bitops_1.0-7             </span></span>
-<span><span class="co">## [109] irlba_2.3.5.1             patchwork_1.1.2          </span></span>
-<span><span class="co">## [111] R6_2.5.1                  bookdown_0.33            </span></span>
-<span><span class="co">## [113] KernSmooth_2.23-20        gridExtra_2.3            </span></span>
-<span><span class="co">## [115] vipor_0.4.5               codetools_0.2-19         </span></span>
-<span><span class="co">## [117] MASS_7.3-58.3             gtools_3.9.4             </span></span>
-<span><span class="co">## [119] rprojroot_2.0.3           rjson_0.2.21             </span></span>
-<span><span class="co">## [121] withr_2.5.0               GenomeInfoDbData_1.2.9   </span></span>
-<span><span class="co">## [123] parallel_4.2.2            grid_4.2.2               </span></span>
-<span><span class="co">## [125] beachmat_2.14.0           tidyr_1.3.0              </span></span>
-<span><span class="co">## [127] rmarkdown_2.20            DelayedMatrixStats_1.20.0</span></span>
-<span><span class="co">## [129] Cairo_1.6-0               Rtsne_0.16               </span></span>
-<span><span class="co">## [131] ggbeeswarm_0.7.1</span></span></code></pre>
+<span><span class="co">##   [1] splines_4.4.0                 later_1.3.1                  </span></span>
+<span><span class="co">##   [3] bitops_1.0-7                  filelock_1.0.2               </span></span>
+<span><span class="co">##   [5] tibble_3.2.1                  lifecycle_1.0.4              </span></span>
+<span><span class="co">##   [7] doParallel_1.0.17             edgeR_4.1.2                  </span></span>
+<span><span class="co">##   [9] rprojroot_2.0.4               lattice_0.22-5               </span></span>
+<span><span class="co">##  [11] MASS_7.3-60.1                 dendextend_1.17.1            </span></span>
+<span><span class="co">##  [13] magrittr_2.0.3                plotly_4.10.3                </span></span>
+<span><span class="co">##  [15] limma_3.59.1                  sass_0.4.7                   </span></span>
+<span><span class="co">##  [17] rmarkdown_2.25                jquerylib_0.1.4              </span></span>
+<span><span class="co">##  [19] yaml_2.3.7                    metapod_1.11.0               </span></span>
+<span><span class="co">##  [21] httpuv_1.6.12                 cowplot_1.1.1                </span></span>
+<span><span class="co">##  [23] DBI_1.1.3                     RColorBrewer_1.1-3           </span></span>
+<span><span class="co">##  [25] abind_1.4-5                   zlibbioc_1.49.0              </span></span>
+<span><span class="co">##  [27] Rtsne_0.16                    RCurl_1.98-1.13              </span></span>
+<span><span class="co">##  [29] rappdirs_0.3.3                circlize_0.4.15              </span></span>
+<span><span class="co">##  [31] GenomeInfoDbData_1.2.11       ggrepel_0.9.4                </span></span>
+<span><span class="co">##  [33] irlba_2.3.5.1                 pheatmap_1.0.12              </span></span>
+<span><span class="co">##  [35] dqrng_0.3.2                   pkgdown_2.0.7                </span></span>
+<span><span class="co">##  [37] DelayedMatrixStats_1.25.1     codetools_0.2-19             </span></span>
+<span><span class="co">##  [39] DelayedArray_0.29.0           tidyselect_1.2.0             </span></span>
+<span><span class="co">##  [41] shape_1.4.6                   farver_2.1.1                 </span></span>
+<span><span class="co">##  [43] ScaledMatrix_1.11.0           viridis_0.6.4                </span></span>
+<span><span class="co">##  [45] BiocFileCache_2.11.1          jsonlite_1.8.8               </span></span>
+<span><span class="co">##  [47] GetoptLong_1.0.5              BiocNeighbors_1.21.1         </span></span>
+<span><span class="co">##  [49] multtest_2.59.0               ellipsis_0.3.2               </span></span>
+<span><span class="co">##  [51] ggridges_0.5.4                survival_3.5-7               </span></span>
+<span><span class="co">##  [53] iterators_1.0.14              systemfonts_1.0.5            </span></span>
+<span><span class="co">##  [55] foreach_1.5.2                 tools_4.4.0                  </span></span>
+<span><span class="co">##  [57] ragg_1.2.6                    Rcpp_1.0.11                  </span></span>
+<span><span class="co">##  [59] glue_1.6.2                    gridExtra_2.3                </span></span>
+<span><span class="co">##  [61] SparseArray_1.3.1             xfun_0.41                    </span></span>
+<span><span class="co">##  [63] withr_2.5.2                   BiocManager_1.30.22          </span></span>
+<span><span class="co">##  [65] fastmap_1.1.1                 bluster_1.13.0               </span></span>
+<span><span class="co">##  [67] fansi_1.0.5                   caTools_1.18.2               </span></span>
+<span><span class="co">##  [69] digest_0.6.33                 rsvd_1.0.5                   </span></span>
+<span><span class="co">##  [71] R6_2.5.1                      mime_0.12                    </span></span>
+<span><span class="co">##  [73] textshaping_0.3.7             colorspace_2.1-0             </span></span>
+<span><span class="co">##  [75] Cairo_1.6-2                   gtools_3.9.5                 </span></span>
+<span><span class="co">##  [77] RSQLite_2.3.3                 utf8_1.2.4                   </span></span>
+<span><span class="co">##  [79] generics_0.1.3                data.table_1.14.8            </span></span>
+<span><span class="co">##  [81] FNN_1.1.3.2                   htmlwidgets_1.6.3            </span></span>
+<span><span class="co">##  [83] httr_1.4.7                    S4Arrays_1.3.1               </span></span>
+<span><span class="co">##  [85] ggstats_0.5.1                 uwot_0.1.16                  </span></span>
+<span><span class="co">##  [87] pkgconfig_2.0.3               gtable_0.3.4                 </span></span>
+<span><span class="co">##  [89] blob_1.2.4                    ComplexHeatmap_2.19.0        </span></span>
+<span><span class="co">##  [91] XVector_0.43.0                htmltools_0.5.7              </span></span>
+<span><span class="co">##  [93] bookdown_0.37                 clue_0.3-65                  </span></span>
+<span><span class="co">##  [95] scales_1.3.0                  png_0.1-8                    </span></span>
+<span><span class="co">##  [97] rjson_0.2.21                  curl_5.1.0                   </span></span>
+<span><span class="co">##  [99] cachem_1.0.8                  GlobalOptions_0.1.2          </span></span>
+<span><span class="co">## [101] stringr_1.5.1                 BiocVersion_3.19.1           </span></span>
+<span><span class="co">## [103] KernSmooth_2.23-22            parallel_4.4.0               </span></span>
+<span><span class="co">## [105] vipor_0.4.5                   AnnotationDbi_1.65.2         </span></span>
+<span><span class="co">## [107] desc_1.4.2                    pillar_1.9.0                 </span></span>
+<span><span class="co">## [109] grid_4.4.0                    vctrs_0.6.5                  </span></span>
+<span><span class="co">## [111] gplots_3.1.3                  promises_1.2.1               </span></span>
+<span><span class="co">## [113] BiocSingular_1.19.0           dbplyr_2.4.0                 </span></span>
+<span><span class="co">## [115] beachmat_2.19.0               xtable_1.8-4                 </span></span>
+<span><span class="co">## [117] cluster_2.1.5                 beeswarm_0.4.0               </span></span>
+<span><span class="co">## [119] evaluate_0.23                 cli_3.6.1                    </span></span>
+<span><span class="co">## [121] locfit_1.5-9.8                compiler_4.4.0               </span></span>
+<span><span class="co">## [123] rlang_1.1.2                   crayon_1.5.2                 </span></span>
+<span><span class="co">## [125] labeling_0.4.3                plyr_1.8.9                   </span></span>
+<span><span class="co">## [127] fs_1.6.3                      ggbeeswarm_0.7.2             </span></span>
+<span><span class="co">## [129] stringi_1.8.2                 viridisLite_0.4.2            </span></span>
+<span><span class="co">## [131] BiocParallel_1.37.0           munsell_0.5.0                </span></span>
+<span><span class="co">## [133] Biostrings_2.71.1             lazyeval_0.2.2               </span></span>
+<span><span class="co">## [135] ExperimentHub_2.11.0          patchwork_1.1.3              </span></span>
+<span><span class="co">## [137] sparseMatrixStats_1.15.0      bit64_4.0.5                  </span></span>
+<span><span class="co">## [139] KEGGREST_1.43.0               statmod_1.5.0                </span></span>
+<span><span class="co">## [141] shiny_1.8.0                   highr_0.10                   </span></span>
+<span><span class="co">## [143] interactiveDisplayBase_1.41.0 AnnotationHub_3.11.0         </span></span>
+<span><span class="co">## [145] memoise_2.0.1                 bslib_0.6.1                  </span></span>
+<span><span class="co">## [147] bit_4.0.5</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>

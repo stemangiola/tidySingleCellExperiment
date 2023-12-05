@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySingleCellExperiment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.2</span>
       </span>
     </div>
 
@@ -58,11 +58,19 @@
           <p class="section-desc"></p>
         </th>
       </tr></tbody><tbody><tr><td>
-          <p><code><a href="aggregate_cells.html">aggregate_cells()</a></code> </p>
+          <p><code><a href="aggregate_cells.html">aggregate_cells(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
         </td>
         <td><p>Aggregate cells</p></td>
       </tr><tr><td>
-          <p><code><a href="bind.html">bind</a></code> </p>
+          <p><code><a href="arrange.html">arrange(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Order rows using column values</p></td>
+      </tr><tr><td>
+          <p><code><a href="as_tibble.html">as_tibble(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Coerce lists, matrices, and more to data frames</p></td>
+      </tr><tr><td>
+          <p><code><a href="bind_rows.html">bind_rows(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> <code><a href="bind_rows.html">bind_cols(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
         </td>
         <td><p>Efficiently bind multiple data frames by row and column</p></td>
       </tr><tr><td>
@@ -70,26 +78,66 @@
         </td>
         <td><p>Cell types of 80 PBMC single cells</p></td>
       </tr><tr><td>
-          <p><code><a href="extract-methods.html">extract(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
+          <p><code><a href="count.html">count(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> <code><a href="count.html">add_count(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Count the observations in each group</p></td>
+      </tr><tr><td>
+          <p><code><a href="distinct.html">distinct(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Keep distinct/unique rows</p></td>
+      </tr><tr><td>
+          <p><code><a href="extract.html">extract(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
         </td>
         <td><p>Extract a character column into multiple columns using regular
 expression groups</p></td>
       </tr><tr><td>
-          <p><code><a href="ggplot2-methods.html">ggplot</a></code> </p>
+          <p><code><a href="filter.html">filter(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Create a new ggplot from a tidySingleCellExperiment object</p></td>
+        <td><p>Keep rows that match a condition</p></td>
+      </tr><tr><td>
+          <p><code><a href="formatting.html">print(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Printing tibbles</p></td>
+      </tr><tr><td>
+          <p><code><a href="full_join.html">full_join(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Mutating joins</p></td>
+      </tr><tr><td>
+          <p><code><a href="ggplot.html">ggplot(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Create a new <code>ggplot</code> from a <code>tidySingleCellExperiment</code></p></td>
+      </tr><tr><td>
+          <p><code><a href="glimpse.html">glimpse(<i>&lt;tidySingleCellExperiment&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Get a glimpse of your data</p></td>
+      </tr><tr><td>
+          <p><code><a href="group_by.html">group_by(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Group by one or more variables</p></td>
+      </tr><tr><td>
+          <p><code><a href="inner_join.html">inner_join(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Mutating joins</p></td>
       </tr><tr><td>
           <p><code><a href="join_features.html">join_features(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Extract and join information for features.</p></td>
+        <td><p>join_features</p></td>
       </tr><tr><td>
           <p><code><a href="join_transcripts.html">join_transcripts()</a></code> </p>
         </td>
         <td><p>(DEPRECATED) Extract and join information for transcripts.</p></td>
       </tr><tr><td>
-          <p><code><a href="nest-methods.html">nest</a></code> </p>
+          <p><code><a href="left_join.html">left_join(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
         </td>
-        <td><p>nest</p></td>
+        <td><p>Mutating joins</p></td>
+      </tr><tr><td>
+          <p><code><a href="mutate.html">mutate(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Create, modify, and delete columns</p></td>
+      </tr><tr><td>
+          <p><code><a href="nest.html">nest(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Nest rows into a list-column of data frames</p></td>
       </tr><tr><td>
           <p><code><a href="pbmc_small.html">pbmc_small</a></code> </p>
         </td>
@@ -97,44 +145,73 @@ expression groups</p></td>
       </tr><tr><td>
           <p><code><a href="pbmc_small_nested_interactions.html">pbmc_small_nested_interactions</a></code> </p>
         </td>
-        <td><p>Intercellular ligand-receptor interactions for 38 ligands from a single cell RNA-seq cluster.</p></td>
+        <td><p>Intercellular ligand-receptor interactions for 
+38 ligands from a single cell RNA-seq cluster.</p></td>
       </tr><tr><td>
-          <p><code><a href="pivot-methods.html">pivot_longer</a></code> </p>
+          <p><code><a href="pivot_longer.html">pivot_longer(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
         </td>
         <td><p>Pivot data from wide to long</p></td>
       </tr><tr><td>
-          <p><code><a href="plot_ly.html">plot_ly()</a></code> </p>
+          <p><code><a href="plot_ly.html">plot_ly(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
         </td>
         <td><p>Initiate a plotly visualization</p></td>
       </tr><tr><td>
-          <p><code><a href="print.html">print(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
+          <p><code><a href="pull.html">pull(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Printing tibbles</p></td>
+        <td><p>Extract a single column</p></td>
       </tr><tr><td>
-          <p><code><a href="separate-methods.html">separate</a></code> </p>
+          <p><code><a href="rename.html">rename(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Rename columns</p></td>
+      </tr><tr><td>
+          <p><code><a href="return_arguments_of.html">return_arguments_of()</a></code> </p>
+        </td>
+        <td><p>returns variables from an expression</p></td>
+      </tr><tr><td>
+          <p><code><a href="right_join.html">right_join(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Mutating joins</p></td>
+      </tr><tr><td>
+          <p><code><a href="rowwise.html">rowwise(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Group input by rows</p></td>
+      </tr><tr><td>
+          <p><code><a href="sample_n.html">sample_n(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> <code><a href="sample_n.html">sample_frac(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Sample n rows from a table</p></td>
+      </tr><tr><td>
+          <p><code><a href="select.html">select(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Keep or drop columns using their names and types</p></td>
+      </tr><tr><td>
+          <p><code><a href="separate.html">separate(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
         </td>
         <td><p>Separate a character column into multiple columns with a regular
 expression or numeric locations</p></td>
       </tr><tr><td>
-          <p><code><a href="tbl_format_header-methods.html">tbl_format_header</a></code> </p>
+          <p><code><a href="slice.html">slice(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> <code><a href="slice.html">slice_sample(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> <code><a href="slice.html">slice_head(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> <code><a href="slice.html">slice_tail(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> <code><a href="slice.html">slice_min(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> <code><a href="slice.html">slice_max(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Subset rows using their positions</p></td>
+      </tr><tr><td>
+          <p><code><a href="summarise.html">summarise(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> <code><a href="summarise.html">summarize(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Summarise each group down to one row</p></td>
+      </tr><tr><td>
+          <p><code><a href="tbl_format_header.html">tbl_format_header(<i>&lt;tidySingleCellExperiment&gt;</i>)</a></code> </p>
         </td>
         <td><p>Format the header of a tibble</p></td>
       </tr><tr><td>
-          <p><code><a href="tibble-methods.html">as_tibble</a></code> <code><a href="tibble-methods.html">glimpse</a></code> </p>
-        </td>
-        <td><p>Coerce lists, matrices, and more to data frames</p></td>
-      </tr><tr><td>
           <p><code><a href="tidy.html">tidy()</a></code> </p>
         </td>
-        <td><p>tidy for SingleCellExperiment</p></td>
+        <td><p>tidy for `SingleCellExperiment`</p></td>
       </tr><tr><td>
-          <p><code><a href="unite-methods.html">unite</a></code> </p>
+          <p><code><a href="unite.html">unite(<i>&lt;SingleCellExperiment&gt;</i>)</a></code> </p>
         </td>
         <td><p>Unite multiple columns into one by pasting strings together</p></td>
       </tr><tr><td>
-          <p><code><a href="unnest-methods.html">unnest(<i>&lt;tidySingleCellExperiment_nested&gt;</i>)</a></code> <code><a href="unnest-methods.html">unnest_single_cell_experiment()</a></code> </p>
+          <p><code><a href="unnest.html">unnest(<i>&lt;tidySingleCellExperiment_nested&gt;</i>)</a></code> <code><a href="unnest.html">unnest_single_cell_experiment()</a></code> </p>
         </td>
-        <td><p>unnest</p></td>
+        <td><p>Unnest a list-column of data frames into rows and columns</p></td>
       </tr></tbody></table></div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
