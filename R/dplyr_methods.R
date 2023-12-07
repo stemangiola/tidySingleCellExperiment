@@ -878,21 +878,18 @@ pull.SingleCellExperiment <- function(.data, var=-1, name=NULL, ...) {
 
 #' @name group_split
 #' @rdname group_split
-#' @inherit dplyr::group_split title description details sections source
-#'
-#' @param .data A `tidySingleCellExperiment` object
-#' @param ... The grouping variables by which to split the object
+#' @inherit dplyr::group_split
 #'
 #' @export
 #'
 #' @examples
 #' data(pbmc_small)
 #' pbmc_small |> group_split(pbmc_small, groups)
-group_split.SingleCellExperiment <- function(.data, ...) {
+group_split.SingleCellExperiment <- function(.tbl, ..., .keep = TRUE) {
   
   var_list <- enquos(...)
   
-  group_df <- .data |> 
+  group_df <- .tbl |> 
       as_tibble()
   
   group_df <- group_df |> 
@@ -906,7 +903,11 @@ group_split.SingleCellExperiment <- function(.data, ...) {
   v <- vector(mode = "list", length = length(groups))
   
   for (i in seq_along(v)) {
-      v[[i]] <- .data[,group_list == groups[[i]]]
+      v[[i]] <- .tbl[,group_list == groups[[i]]]
+      
+      if(.keep == FALSE) {
+        v[[i]] <- select(v[[i]], !!!var_list)
+      }
   }
   
   v
