@@ -848,7 +848,7 @@ group_split.SingleCellExperiment <- function(.tbl, ..., .keep = TRUE) {
       v[[i]] <- .tbl[,group_list == groups[[i]]]
       
       if(.keep == FALSE) {
-        v[[i]] <- select(v[[i]], !!!var_list)
+        v[[i]] <- select(v[[i]], !(!!!var_list))
       }
   }
   
