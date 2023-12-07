@@ -164,6 +164,13 @@ tt |> left_join(tt |>
   distinct(groups) |> 
   mutate(new_column=1:2))
 
+library(S4Vectors)
+# y can be S4 DataFrame for _*join, though not tested on list columns
+DF <- tt |>  
+  distinct(groups) |> 
+  mutate(new_column=1:2) |> DataFrame()
+tt |> left_join(DF)
+
 }
 \seealso{
 Other joins: 
