@@ -889,13 +889,10 @@ group_split.SingleCellExperiment <- function(.tbl, ..., .keep = TRUE) {
   
   var_list <- enquos(...)
   
-  group_df <- .tbl |> 
-      as_tibble()
-  
-  group_df <- group_df |> 
-      unite("group_column___", !!!var_list, remove = FALSE)
-    
-  group_list <- group_df$group_column___
+  group_list <- .tbl |> 
+      as_tibble() |> 
+      unite("group_column___", !!!var_list, remove = FALSE) |> 
+      pull(group_column___)
   
   groups <- group_list |> 
       unique()
