@@ -827,10 +827,9 @@ pull.SingleCellExperiment <- function(.data, var=-1, name=NULL, ...) {
 #' 
 #' @examples
 #' data(pbmc_small)
-#' group_split(pbmc_small, groups)
+#' pbmc_small |> group_split(groups)
 #' 
 #' @importFrom ellipsis check_dots_used
-#' @importFrom dplyr group_split
 #' @export
 group_split.SingleCellExperiment <- function(.tbl, ..., .keep = TRUE) {
   
