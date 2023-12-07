@@ -825,6 +825,7 @@ pull.SingleCellExperiment <- function(.data, var=-1, name=NULL, ...) {
 #' @rdname group_split
 #' @inherit dplyr::group_split
 #'
+#' @importFrom ellipsis check_dots_used
 #' @export
 #'
 #' @examples
