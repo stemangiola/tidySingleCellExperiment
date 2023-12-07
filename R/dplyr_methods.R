@@ -837,7 +837,7 @@ group_split.SingleCellExperiment <- function(.tbl, ..., .keep = TRUE) {
   group_list <- .tbl |> 
       as_tibble() |> 
       unite("group_column___", !!!var_list, remove = FALSE) |> 
-      pull(group_column___)
+      pull("group_column___")
   
   groups <- group_list |> 
       unique()
