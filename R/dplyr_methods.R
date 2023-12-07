@@ -824,13 +824,14 @@ pull.SingleCellExperiment <- function(.data, var=-1, name=NULL, ...) {
 #' @name group_split
 #' @rdname group_split
 #' @inherit dplyr::group_split
-#'
-#' @importFrom ellipsis check_dots_used
-#' @export
-#'
+#' 
 #' @examples
 #' data(pbmc_small)
-#' pbmc_small |> group_split(pbmc_small, groups)
+#' group_split(pbmc_small, groups)
+#' 
+#' @importFrom ellipsis check_dots_used
+#' @importFrom dplyr group_split
+#' @export
 group_split.SingleCellExperiment <- function(.tbl, ..., .keep = TRUE) {
   
   var_list <- enquos(...)
