@@ -52,7 +52,7 @@ future.
 
 \examples{
 data(pbmc_small)
-group_split(pbmc_small, groups)
+pbmc_small |> group_split(groups)
 
 }
 \seealso{

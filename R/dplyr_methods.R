@@ -830,6 +830,8 @@ pull.SingleCellExperiment <- function(.data, var=-1, name=NULL, ...) {
 #' pbmc_small |> group_split(groups)
 #' 
 #' @importFrom ellipsis check_dots_used
+#' @importFrom dplyr group_by
+#' @importFrom dplyr group_rows
 #' @export
 group_split.SingleCellExperiment <- function(.tbl, ..., .keep = TRUE) {
   
@@ -837,16 +839,15 @@ group_split.SingleCellExperiment <- function(.tbl, ..., .keep = TRUE) {
   
   group_list <- .tbl |> 
       as_tibble() |> 
-      unite("group_column___", !!!var_list, remove = FALSE) |> 
-      pull("group_column___")
+      dplyr::group_by(!!!var_list)
   
   groups <- group_list |> 
-      unique()
+      dplyr::group_rows()
   
   v <- vector(mode = "list", length = length(groups))
   
   for (i in seq_along(v)) {
-      v[[i]] <- .tbl[,group_list == groups[[i]]]
+      v[[i]] <- .tbl[,groups[[i]]]
       
       if(.keep == FALSE) {
         v[[i]] <- select(v[[i]], !(!!!var_list))
