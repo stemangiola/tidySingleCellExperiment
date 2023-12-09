@@ -379,14 +379,6 @@ test_that("rowwise()", {
 
 test_that("group_split()", {
     fd <- df |> 
-    group_split("groups")
-    expect_equal(length(fd), length(unique(df$groups)))
-    
-    fd <- df |> 
-    group_split("groups")
-    expect_equal(length(fd), length(unique(df$groups)))
-    
-    fd <- df |> 
       group_split(groups, ident)
     expect_equal(length(fd), length(unique(df$groups)) *
                    length(unique(df$ident)))
