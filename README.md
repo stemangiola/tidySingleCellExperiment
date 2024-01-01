@@ -88,13 +88,13 @@ This is a *SingleCellExperiment* object but it is evaluated as a tibble.
 So it is compatible both with SingleCellExperiment and tidyverse.
 
 ``` r
-pbmc_small_tidy <- tidySingleCellExperiment::pbmc_small 
+data(pbmc_small, package="tidySingleCellExperiment")
 ```
 
 **It looks like a tibble**
 
 ``` r
-pbmc_small_tidy
+pbmc_small
 ```
 
     ## # A SingleCellExperiment-tibble abstraction: 80 × 17
@@ -119,7 +119,7 @@ pbmc_small_tidy
 **But it is a SingleCellExperiment object after all**
 
 ``` r
-assay(pbmc_small_tidy, "counts")[1:5, 1:5]
+assay(pbmc_small, "counts")[1:5, 1:5]
 ```
 
     ## 5 x 5 sparse Matrix of class "dgCMatrix"
@@ -136,13 +136,38 @@ assay(pbmc_small_tidy, "counts")[1:5, 1:5]
     ## HLA-DRA              1
     ## TCL1A                .
 
+The `SingleCellExperiment` object’s tibble visualisation can be turned
+off, or back on at any time.
+
+``` r
+# Turn off the tibble visualisation
+options("restore_SingleCellExperiment_show" = TRUE)
+pbmc_small
+```
+
+    ## class: SingleCellExperiment 
+    ## dim: 230 80 
+    ## metadata(0):
+    ## assays(2): counts logcounts
+    ## rownames(230): MS4A1 CD79B ... SPON2 S100B
+    ## rowData names(5): vst.mean vst.variance vst.variance.expected
+    ##   vst.variance.standardized vst.variable
+    ## colnames(80): ATGCCAGAACGACT CATGGCCTGTGCAT ... GGAACACTTCAGAC
+    ##   CTTGATTGATCTTC
+    ## colData names(9): orig.ident nCount_RNA ... file ident
+
+``` r
+# Turn on the tibble visualisation
+options("restore_SingleCellExperiment_show" = FALSE)
+```
+
 # Annotation polishing
 
 We may have a column that contains the directory each run was taken
-from, such as the “file” column in `pbmc_small_tidy`.
+from, such as the “file” column in `pbmc_small`.
 
 ``` r
-pbmc_small_tidy$file[1:5]
+pbmc_small$file[1:5]
 ```
 
     ## [1] "../data/sample2/outs/filtered_feature_bc_matrix/"
@@ -158,7 +183,7 @@ into multiple columns using regular expression groups.
 ``` r
 # Create sample column
 pbmc_small_polished <-
-    pbmc_small_tidy |>
+    pbmc_small |>
     extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove=FALSE)
 
 # Reorder to have sample column up front
@@ -233,7 +258,7 @@ pbmc_small_polished |>
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-![](man/figures/plot1-1.png)<!-- -->
+![](inst/extdata/readme_figures/plot1-1.png)<!-- -->
 
 Here we plot total features per cell.
 
@@ -245,7 +270,7 @@ pbmc_small_polished |>
     custom_theme
 ```
 
-![](man/figures/plot2-1.png)<!-- -->
+![](inst/extdata/readme_figures/plot2-1.png)<!-- -->
 
 Here we plot abundance of two features for each group.
 
@@ -259,9 +284,9 @@ pbmc_small_polished |>
     custom_theme
 ```
 
-    ## tidySingleCellExperiment says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.
+    ## tidySingleCellExperiment says: join_features produces duplicate cell names to accomadate the long data format. For this reason, a data frame is returned for independent data analysis. Assay feature abundance is appended as .abundance_counts and .abundance_logcounts.
 
-![](man/figures/unnamed-chunk-10-1.png)<!-- -->
+![](inst/extdata/readme_figures/unnamed-chunk-12-1.png)<!-- -->
 
 # Preprocess the dataset
 
@@ -288,6 +313,10 @@ pbmc_small_pca <-
     ## Warning in (function (A, nv = 5, nu = nv, maxit = 1000, work = nv + 7, reorth =
     ## TRUE, : You're computing too large a percentage of total singular values, use a
     ## standard svd instead.
+
+    ## Warning in (function (A, nv = 5, nu = nv, maxit = 1000, work = nv + 7, reorth =
+    ## TRUE, : did not converge--results might be invalid!; try increasing work or
+    ## maxit
 
 ``` r
 pbmc_small_pca
@@ -329,7 +358,7 @@ pbmc_small_pca |>
     ##   method from   
     ##   +.gg   ggplot2
 
-![](man/figures/pc_plot-1.png)<!-- -->
+![](inst/extdata/readme_figures/pc_plot-1.png)<!-- -->
 
 # Identify clusters
 
@@ -418,7 +447,7 @@ pbmc_small_cluster |>
     heatmap(.feature, .cell, .abundance_counts, .scale="column")
 ```
 
-    ## tidySingleCellExperiment says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.
+    ## tidySingleCellExperiment says: join_features produces duplicate cell names to accomadate the long data format. For this reason, a data frame is returned for independent data analysis. Assay feature abundance is appended as .abundance_counts and .abundance_logcounts.
 
     ## tidyHeatmap says: (once per session) from release 1.7.0 the scaling is set to "none" by default. Please use scale = "row", "column" or "both" to apply scaling
 
@@ -428,7 +457,7 @@ pbmc_small_cluster |>
     ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
     ## generated.
 
-![](man/figures/unnamed-chunk-11-1.png)<!-- -->
+![](inst/extdata/readme_figures/unnamed-chunk-13-1.png)<!-- -->
 
 # Reduce dimensions
 
@@ -455,7 +484,7 @@ pbmc_small_UMAP |>
 ```
 
 <figure>
-<img src="man/figures/plotly.png" alt="plotly screenshot" />
+<img src="inst/extdata/plotly.png" alt="plotly screenshot" />
 <figcaption aria-hidden="true">plotly screenshot</figcaption>
 </figure>
 
@@ -485,16 +514,17 @@ cell_type_df <-
 
 ``` r
 # Join UMAP and cell type info
+data(cell_type_df)
 pbmc_small_cell_type <-
     pbmc_small_UMAP |>
     left_join(cell_type_df, by="cell")
 ```
 
-    ## Warning in is_sample_feature_deprecated_used(x, when(by, !is.null(.) ~ by, :
+    ## Warning in is_sample_feature_deprecated_used(x, .cols):
     ## tidySingleCellExperiment says: from version 1.3.1, the special columns
     ## including cell id (colnames(se)) has changed to ".cell". This dataset is
-    ## returned with the old-style vocabulary (cell), however we suggest to update
-    ## your workflow to reflect the new vocabulary (.cell)
+    ## returned with the old-style vocabulary (cell), however, we suggest to update
+    ## your workflow to reflect the new vocabulary (.cell).
 
 ``` r
 # Reorder columns
@@ -502,11 +532,11 @@ pbmc_small_cell_type |>
     select(cell, first.labels, everything())
 ```
 
-    ## Warning in is_sample_feature_deprecated_used(.data, (enquos(..., .ignore_empty
-    ## = "all") %>% : tidySingleCellExperiment says: from version 1.3.1, the special
-    ## columns including cell id (colnames(se)) has changed to ".cell". This dataset
-    ## is returned with the old-style vocabulary (cell), however we suggest to update
-    ## your workflow to reflect the new vocabulary (.cell)
+    ## Warning in is_sample_feature_deprecated_used(.data, .cols):
+    ## tidySingleCellExperiment says: from version 1.3.1, the special columns
+    ## including cell id (colnames(se)) has changed to ".cell". This dataset is
+    ## returned with the old-style vocabulary (cell), however, we suggest to update
+    ## your workflow to reflect the new vocabulary (.cell).
 
     ## # A SingleCellExperiment-tibble abstraction: 80 × 23
     ## # [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m
@@ -575,7 +605,7 @@ pbmc_small_cell_type |>
 
     ## tidySingleCellExperiment says: A data frame is returned for independent data analysis.
 
-![](man/figures/unnamed-chunk-15-1.png)<!-- -->
+![](inst/extdata/readme_figures/unnamed-chunk-17-1.png)<!-- -->
 
 We can easily plot gene correlation per cell category, adding
 multi-layer annotations.
@@ -596,13 +626,13 @@ pbmc_small_cell_type |>
     custom_theme
 ```
 
-    ## Warning in is_sample_feature_deprecated_used(x, when(by, !is.null(.) ~ by, :
+    ## Warning in is_sample_feature_deprecated_used(x, .cols):
     ## tidySingleCellExperiment says: from version 1.3.1, the special columns
     ## including cell id (colnames(se)) has changed to ".cell". This dataset is
-    ## returned with the old-style vocabulary (cell), however we suggest to update
-    ## your workflow to reflect the new vocabulary (.cell)
+    ## returned with the old-style vocabulary (cell), however, we suggest to update
+    ## your workflow to reflect the new vocabulary (.cell).
 
-![](man/figures/unnamed-chunk-16-1.png)<!-- -->
+![](inst/extdata/readme_figures/unnamed-chunk-18-1.png)<!-- -->
 
 # Nested analyses
 
@@ -623,7 +653,7 @@ pbmc_small_nested <-
     ## The first warning was:
     ## ℹ In argument: `data = map(...)`.
     ## Caused by warning in `is_sample_feature_deprecated_used()`:
-    ## ! tidySingleCellExperiment says: from version 1.3.1, the special columns including cell id (colnames(se)) has changed to ".cell". This dataset is returned with the old-style vocabulary (cell), however we suggest to update your workflow to reflect the new vocabulary (.cell)
+    ## ! tidySingleCellExperiment says: from version 1.3.1, the special columns including cell id (colnames(se)) has changed to ".cell". This dataset is returned with the old-style vocabulary (cell), however, we suggest to update your workflow to reflect the new vocabulary (.cell).
     ## ℹ Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
 
 ``` r
@@ -691,7 +721,7 @@ pbmc_small_nested_reanalysed |>
     custom_theme
 ```
 
-![](man/figures/unnamed-chunk-19-1.png)<!-- -->
+![](inst/extdata/readme_figures/unnamed-chunk-21-1.png)<!-- -->
 
 We can perform a large number of functional analyses on data subsets.
 For example, we can identify intra-sample cell-cell interactions using
@@ -738,7 +768,8 @@ If the dataset was not so small, and interactions could be identified,
 you would see something like below.
 
 ``` r
-tidySingleCellExperiment::pbmc_small_nested_interactions
+data(pbmc_small_nested_interactions)
+pbmc_small_nested_interactions
 ```
 
     ## # A tibble: 100 × 9
@@ -767,7 +798,7 @@ In tidySingleCellExperiment, cell aggregation can be achieved using the
 `aggregate_cells` function.
 
 ``` r
-pbmc_small_tidy |>
+pbmc_small |>
   aggregate_cells(groups, assays = "counts")
 ```
 
@@ -776,6 +807,6 @@ pbmc_small_tidy |>
     ## metadata(0):
     ## assays(1): counts
     ## rownames(230): ACAP1 ACRBP ... ZNF330 ZNF76
-    ## rowData names(1): feature
+    ## rowData names(0):
     ## colnames(2): g1 g2
-    ## colData names(4): groups .aggregated_cells orig.ident file
+    ## colData names(4): .aggregated_cells groups orig.ident file

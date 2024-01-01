@@ -52,6 +52,7 @@ The following methods are currently available in loaded packages:
 }
 
 \examples{
+data(pbmc_small)
 pbmc_small |> pull(groups)
     
 }

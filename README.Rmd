@@ -9,7 +9,7 @@ always_allow_html: true
 <!-- badges: end -->
 
 ```{r echo=FALSE}
-knitr::opts_chunk$set(fig.path = "man/figures/")
+knitr::opts_chunk$set(fig.path = "inst/extdata/readme_figures/")
 ```
 
 **Brings SingleCellExperiment to the tidyverse!** 
@@ -82,27 +82,40 @@ library(tidySingleCellExperiment)
 This is a *SingleCellExperiment* object but it is evaluated as a tibble. So it is compatible both with SingleCellExperiment and tidyverse. 
 
 ```{r}
-pbmc_small_tidy <- tidySingleCellExperiment::pbmc_small 
+data(pbmc_small, package="tidySingleCellExperiment")
 ```
 
 **It looks like a tibble**
 
 ```{r}
-pbmc_small_tidy
+pbmc_small
 ```
 
 **But it is a SingleCellExperiment object after all**
 
 ```{r}
-assay(pbmc_small_tidy, "counts")[1:5, 1:5]
+assay(pbmc_small, "counts")[1:5, 1:5]
+```
+
+The `SingleCellExperiment` object's tibble visualisation can be turned off, or back on at any time.
+
+```{r}
+# Turn off the tibble visualisation
+options("restore_SingleCellExperiment_show" = TRUE)
+pbmc_small
+```
+
+```{r}
+# Turn on the tibble visualisation
+options("restore_SingleCellExperiment_show" = FALSE)
 ```
 
 # Annotation polishing
 
-We may have a column that contains the directory each run was taken from, such as the "file" column in `pbmc_small_tidy`.
+We may have a column that contains the directory each run was taken from, such as the "file" column in `pbmc_small`.
 
 ```{r}
-pbmc_small_tidy$file[1:5]
+pbmc_small$file[1:5]
 ```
 
 We may want to extract the run/sample name out of it into a separate column. Tidyverse `extract` can be used to convert a character column into multiple columns using regular expression groups.
@@ -110,7 +123,7 @@ We may want to extract the run/sample name out of it into a separate column. Tid
 ```{r}
 # Create sample column
 pbmc_small_polished <-
-    pbmc_small_tidy |>
+    pbmc_small |>
     extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove=FALSE)
 
 # Reorder to have sample column up front
@@ -281,7 +294,7 @@ pbmc_small_UMAP |>
 ```
 
 
-![plotly screenshot](man/figures/plotly.png)
+![plotly screenshot](inst/extdata/plotly.png)
 
 # Cell type prediction
 
@@ -308,6 +321,7 @@ cell_type_df <-
 
 ```{r}
 # Join UMAP and cell type info
+data(cell_type_df)
 pbmc_small_cell_type <-
     pbmc_small_UMAP |>
     left_join(cell_type_df, by="cell")
@@ -458,7 +472,8 @@ pbmc_small_nested_interactions |>
 If the dataset was not so small, and interactions could be identified, you would see something like below.
 
 ```{r}
-tidySingleCellExperiment::pbmc_small_nested_interactions
+data(pbmc_small_nested_interactions)
+pbmc_small_nested_interactions
 ```
 
 #  Aggregating cells 
@@ -468,6 +483,6 @@ Sometimes, it is necessary to aggregate the gene-transcript abundance from a gro
 In tidySingleCellExperiment, cell aggregation can be achieved using the `aggregate_cells` function.
  
 ```{r}
-pbmc_small_tidy |>
+pbmc_small |>
   aggregate_cells(groups, assays = "counts")
 ```

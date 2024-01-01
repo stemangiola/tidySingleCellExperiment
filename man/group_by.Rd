@@ -91,8 +91,8 @@ also force calls to \code{\link[dplyr:arrange]{arrange()}} to use the system loc
 }
 
 \examples{
-pbmc_small |> 
-    group_by(groups)
+data(pbmc_small)
+pbmc_small |> group_by(groups)
     
 }
 \seealso{

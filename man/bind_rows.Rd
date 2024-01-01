@@ -5,7 +5,7 @@
 \alias{bind_rows.SingleCellExperiment}
 \alias{bind_cols.SingleCellExperiment}
 \alias{bind_cols}
-\title{#' Efficiently bind multiple data frames by row and column}
+\title{Efficiently bind multiple data frames by row and column}
 \usage{
 \method{bind_rows}{SingleCellExperiment}(..., .id = NULL, add.cell.ids = NULL)
 
@@ -59,6 +59,7 @@ The output of `bind_rows()` will contain a column if that column
 appears in any of the inputs.
 }
 \examples{
+data(pbmc_small)
 tt <- pbmc_small
 bind_rows(tt, tt)
 

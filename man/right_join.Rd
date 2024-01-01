@@ -158,6 +158,7 @@ Methods available in currently loaded packages:
 }
 
 \examples{
+data(pbmc_small)
 tt <- pbmc_small
 tt |> right_join(tt |> 
   distinct(groups) |> 

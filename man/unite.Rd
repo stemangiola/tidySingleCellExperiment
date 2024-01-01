@@ -28,13 +28,17 @@ tidyverse; we support it here for backward compatibility).}
 \item{na.rm}{If \code{TRUE}, missing values will be removed prior to uniting
 each value.}
 }
+\value{
+`tidySingleCellExperiment`
+}
 \description{
 Convenience function to paste together multiple columns into one.
 }
 \examples{
+data(pbmc_small)
 pbmc_small |> unite(
   col="new_col", 
-  c(orig.ident, groups))
+  c("orig.ident", "groups"))
     
 }
 \seealso{

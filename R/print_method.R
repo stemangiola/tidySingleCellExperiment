@@ -19,6 +19,7 @@ tbl_format_header.tidySingleCellExperiment <- function(x, setup, ...) {
     number_of_features <- x |> attr("number_of_features")
     assay_names <- x |> attr("assay_names")
     altExpNames <- x |> attr("altExpNames")
+
     
     # Change name
     named_header <- setup$tbl_sum
@@ -31,12 +32,14 @@ tbl_format_header.tidySingleCellExperiment <- function(x, setup, ...) {
             align(paste0(names2(named_header), ":"), space=NBSP),
             " ", named_header) %>%
             # Add further info single-cell
+
           append(sprintf(
               "\033[90m Features=%s | Cells=%s | Assays=%s | altExpNames=%s\033[39m",
               number_of_features, nrow(x), 
               paste(assay_names, collapse=", "),
               if(length(nchar(altExpNames)) > 0) paste(altExpNames, collapse=", ") else {"NULL"}
           ), after=1)
+
     }
     style_subtle(pillar___format_comment(header, width=setup$width))
 }

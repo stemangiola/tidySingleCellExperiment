@@ -99,8 +99,8 @@ The following methods are currently available in loaded packages:
 }
 
 \examples{
-pbmc_small |> 
-    filter(groups == "g1")
+data(pbmc_small)
+pbmc_small |> filter(groups == "g1")
 
 # Learn more in ?dplyr_tidy_eval
 
