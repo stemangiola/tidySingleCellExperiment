@@ -14,37 +14,35 @@
 #' @importFrom pillar style_subtle
 #' @importFrom pillar tbl_format_header
 #' @export
-tbl_format_header.tidySingleCellExperiment <- function(x, setup, ...){
 
-  number_of_features = x |> attr("number_of_features")
-  assay_names = x |> attr("assay_names")
+tbl_format_header.tidySingleCellExperiment <- function(x, setup, ...) {
+    
+    number_of_features <- x |> attr("number_of_features")
+    assay_names <- x |> attr("assay_names")
+    altExpNames <- x |> attr("altExpNames")
 
-  named_header <- setup$tbl_sum
+    
+    # Change name
+    named_header <- setup$tbl_sum
+    names(named_header) <- "A SingleCellExperiment-tibble abstraction"
+    
+    if (all(names2(named_header) == "")) {
+        header <- named_header
+    } else {
+        header <- paste0(
+            align(paste0(names2(named_header), ":"), space=NBSP),
+            " ", named_header) %>%
+            # Add further info single-cell
 
-  # Change name
-  names(named_header) = "A SingleCellExperiment-tibble abstraction"
+          append(sprintf(
+              "\033[90m Features=%s | Cells=%s | Assays=%s | altExpNames=%s\033[39m",
+              number_of_features, nrow(x), 
+              paste(assay_names, collapse=", "),
+              if(length(nchar(altExpNames)) > 0) paste(altExpNames, collapse=", ") else {"NULL"}
+          ), after=1)
 
-  if (all(names2(named_header) == "")) {
-    header <- named_header
-  }
-  else {
-    header <-
-      paste0(
-        align(paste0(names2(named_header), ":"), space = NBSP),
-        " ",
-        named_header
-      ) %>%
-
-      # Add further info single-cell
-      append(sprintf(
-        "\033[90m Features=%s | Cells=%s | Assays=%s\033[39m",
-        number_of_features,
-        nrow(x),
-        assay_names
-      ), after = 1)
-  }
-
-  style_subtle(pillar___format_comment(header, width = setup$width))
+    }
+    style_subtle(pillar___format_comment(header, width=setup$width))
 }
 
 #' @name formatting
@@ -62,6 +60,7 @@ tbl_format_header.tidySingleCellExperiment <- function(x, setup, ...){
 #' @importFrom SummarizedExperiment assayNames
 #' @importFrom SingleCellExperiment altExpNames
 #' @export
+
 print.SingleCellExperiment <- function(x, ..., n = NULL, width = NULL, n_extra = NULL) {
   if (length(names(altExps(x))) > 0) {
     alt_exp_assays <- list()
