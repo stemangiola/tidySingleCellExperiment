@@ -147,8 +147,9 @@ tidy.SingleCellExperiment <- function(object) {
 #' @importFrom dplyr left_join
 #' @importFrom dplyr group_by
 #' @importFrom dplyr pick
-#' @importFrom dplyr group_rows
 #' @importFrom dplyr group_keys
+#' @importFrom dplyr group_rows
+#' @importFrom dplyr group_split
 #' @importFrom dplyr bind_rows
 #' @importFrom dplyr pull
 #' @importFrom tidyr unite
