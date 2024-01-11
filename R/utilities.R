@@ -324,7 +324,7 @@ return_arguments_of <- function(expression){
 #' @importFrom tidyselect eval_select
 select_helper <- function(.data, ...) {
     loc <- tidyselect::eval_select(expr(c(...)), .data)
-    dplyr::select(.data, loc)
+    dplyr::select(.data, all_of(loc))
 }
 
 data_frame_returned_message <- paste(
@@ -342,12 +342,12 @@ duplicated_cell_names <- paste(
 is_sample_feature_deprecated_used <- function(.data, 
     user_columns, use_old_special_names=FALSE) {
     
-    cell <- any(str_detect(user_columns, regex("\\bcell\\b")))
-    .cell <- any(str_detect(user_columns, regex("\\W*(\\.cell)\\W*")))
+    cell <- user_columns |> as.character() |>  str_detect(regex("\\bcell\\b")) |>  any()
+    .cell <- user_columns |> as.character() |> str_detect(regex("\\W*(\\.cell)\\W*")) |> any()
     
     old_standard_is_used <- 
         !"cell" %in% colnames(colData(.data)) &&
-        ("cell" %in% user_columns || (cell && !.cell))
+        ("cell" %in% as.character(user_columns) || (cell && !.cell))
     
     if (old_standard_is_used) {
         warning("tidySingleCellExperiment says:",

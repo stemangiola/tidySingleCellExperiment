@@ -5,7 +5,7 @@
 \alias{bind_rows.SingleCellExperiment}
 \alias{bind_cols.SingleCellExperiment}
 \alias{bind_cols}
-\title{#' Efficiently bind multiple data frames by row and column}
+\title{Efficiently bind multiple data frames by row and column}
 \usage{
 \method{bind_rows}{SingleCellExperiment}(..., .id = NULL, add.cell.ids = NULL)
 
