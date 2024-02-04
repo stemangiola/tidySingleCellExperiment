@@ -237,26 +237,13 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, prefix="", va
 #' @noRd
 get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_zeros = FALSE, variable_features = NA, ...) {
 
-  assay_names <- names(assays(.data))
-
-  # Check that I have assay names - can you even have an sce object with no assays?
-  if (length(assay_names) == 0) {
-    stop("tidySingleCellExperiment says: there are no assays names in the source SingleCellExperiment.")
-  }
-
   arg_list <- c(mget(ls(environment(), sorted=F)), match.call(expand.dots=F)$...)
   assays_to_use <- eval(arg_list$assays)
 
   # Solve CRAN warnings
   . <- NULL
 
-  # For SCE there is no a priori field for variable features
-  if(!all(is.na(variable_features))) {all <- FALSE}
-  if(!all(is.null(features))) {
-    all <- FALSE
-    variable_genes <- NULL
-    }
-  # Check if output would be too big without forcing
+# Check if output would be too big without forcing
   if (isFALSE(all) && is.null(features)) {
     if (all(is.na(variable_features))) {
       stop("Your object does not contain variable feature labels,\n",
@@ -316,10 +303,9 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
       assays(.data) %>%
         as.list() %>%
         .[unique(exp$assay_name)] %>%
-        # Take active assay
         purrr::map2(unique(exp$assay_id), ~ {
           # Subset specified features
-          .x <- .x[gs, , drop=FALSE]
+          .x <- .x[exp$feature, , drop=FALSE]
           # Replace 0 with NA
           if (isTRUE(exclude_zeros))
             .x[.x == 0] <- NA
@@ -338,10 +324,9 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
       assays(altExps(.data)[[unique(exp$exp_id)]]) %>%
         as.list() %>%
         .[unique(exp$assay_name)] %>%
-        # Take active assay
         purrr::map2(unique(exp$assay_id), ~ {
           # Subset specified features
-          .x <- .x[gs, , drop=FALSE]
+          .x <- .x[exp$feature, , drop=FALSE]
           # Replace 0 with NA
           if (isTRUE(exclude_zeros))
             .x[.x == 0] <- NA
