@@ -275,6 +275,23 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
     variable_genes <- NULL
   }
 
+  # Check that I have assay names
+  if (!length(assayNames(.data)))
+    stop("tidySingleCellExperiment says:",
+         " there are no assay names in the",
+         " source SingleCellExperiment.")
+
+  if (!is.null(variable_genes)) {
+    gs <- variable_genes
+  } else if (!is.null(features)){
+    gs <- features
+  } else if (isTRUE(all)) {
+    gs <- TRUE
+  } else {
+    stop("It is not convenient to extract all genes.",
+         " You should have either variable features,",
+         " or a feature list to extract.")
+  }
 
   # Get assays
   all_assay_names_ext_df <- get_all_assays(.data)
@@ -283,10 +300,10 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
   feature_df <- get_all_features(.data)
 
   # Get selected features - if all = TRUE then all features in the objects are selected
-  if(is.null(features) && isTRUE(all)) {
-    features <- unique(feature_df$feature)
+  if(is.null(gs) && isTRUE(gs)) {
+    gs <- unique(feature_df$feature)
   }
-  selected_features <- feature_df[(feature_df$feature %in% features), ]
+  selected_features <- feature_df[(feature_df$feature %in% gs), ]
   if(!is.null(assays_to_use)) selected_features <- selected_features[selected_features$assay_name %in% assays_to_use,]
   selected_features_exp <- unique(selected_features$exp_id)
   selected_experiments_list <- split(x = selected_features, f = as.character(selected_features$exp_id))
@@ -300,71 +317,45 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
         as.list() %>%
         .[unique(exp$assay_name)] %>%
         # Take active assay
-        purrr::map2(
-          unique(exp$assay_id),
-          ~ .x %>%
-            function(x) {
-              if(!is.null(variable_genes)) {
-                x[variable_genes, , drop = FALSE]
-              } else if(!is.null(features)) {
-                x[toupper(rownames(.x)) %in% toupper(features), , drop = FALSE]
-              } else if(all) {
-                x
-              } else stop("It is not convenient to extract all genes, you should have either variable features or a feature list to extract")
-            } %>%
-            # Replace 0 with NA
-            if(exclude_zeros) function(x) {
-              x[x == 0] <- NA
-              return(x)
-            } %>%
+        purrr::map2(unique(exp$assay_id), ~ {
+          # Subset specified features
+          .x <- .x[gs, , drop=FALSE]
+          # Replace 0 with NA
+          if (isTRUE(exclude_zeros))
+            .x[.x == 0] <- NA
+          .x %>%
             as.matrix() %>%
-            data.frame(check.names = FALSE) %>%
-            as_tibble(rownames = ".feature") %>%
+            data.frame(check.names=FALSE) %>%
+            as_tibble(rownames=".feature") %>%
             tidyr::pivot_longer(
-              cols = -.feature,
-              names_to = c_(.data)$name,
-              values_to = ".abundance" %>% paste(.y, sep = "_"),
-              values_drop_na = TRUE
-            )
-          # %>%
-          # mutate_if(is.character, as.factor) %>%
-        ) %>%
-        base::Reduce(function(...) full_join(..., by = c(".feature", c_(.data)$name)), .)
+              cols=-.feature,
+              names_to=c_(.data)$name,
+              values_to=".abundance" %>% paste(.y, sep="_"),
+              values_drop_na=TRUE)
+        }) %>% Reduce(function(...) full_join(...,
+                                              by=c(".feature", c_(.data)$name)), .)
     } else {
       assays(altExps(.data)[[unique(exp$exp_id)]]) %>%
         as.list() %>%
         .[unique(exp$assay_name)] %>%
         # Take active assay
-        purrr::map2(
-          unique(exp$assay_id),
-          ~ .x %>%
-            function(x) {
-              if(!is.null(variable_genes)) {
-                x[variable_genes, , drop = FALSE]
-              } else if(!is.null(features)) {
-                x[toupper(rownames(.x)) %in% toupper(features), , drop = FALSE]
-              } else if(all) {
-                x
-              } else stop("It is not convenient to extract all genes, you should have either variable features or a feature list to extract")
-            } %>%
-            # Replace 0 with NA
-            if(exclude_zeros) function(x) {
-              x[x == 0] <- NA
-              return(x)
-            } %>%
+        purrr::map2(unique(exp$assay_id), ~ {
+          # Subset specified features
+          .x <- .x[gs, , drop=FALSE]
+          # Replace 0 with NA
+          if (isTRUE(exclude_zeros))
+            .x[.x == 0] <- NA
+          .x %>%
             as.matrix() %>%
-            data.frame(check.names = FALSE) %>%
-            as_tibble(rownames = ".feature") %>%
+            data.frame(check.names=FALSE) %>%
+            as_tibble(rownames=".feature") %>%
             tidyr::pivot_longer(
-              cols = -.feature,
-              names_to = c_(.data)$name,
-              values_to = ".abundance" %>% paste(.y, sep = "_"),
-              values_drop_na = TRUE
-            )
-          # %>%
-          # mutate_if(is.character, as.factor) %>%
-        ) %>%
-        base::Reduce(function(...) full_join(..., by = c(".feature", c_(.data)$name)), .)
+              cols=-.feature,
+              names_to=c_(.data)$name,
+              values_to=".abundance" %>% paste(.y, sep="_"),
+              values_drop_na=TRUE)
+        }) %>% Reduce(function(...) full_join(...,
+                                              by=c(".feature", c_(.data)$name)), .)
     }
   }
   # Apply function that extracts feature values and bind_rows for all selected assays
