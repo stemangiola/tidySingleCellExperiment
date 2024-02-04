@@ -10,7 +10,7 @@ status](https://github.com/stemangiola/tidySingleCellExperiment/workflows/R-CMD-
 
 **Brings SingleCellExperiment to the tidyverse!**
 
-Website:
+Website: 
 [tidySingleCellExperiment](https://stemangiola.github.io/tidySingleCellExperiment/articles/introduction.html)
 
 Please also have a look at
