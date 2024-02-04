@@ -304,19 +304,20 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
         purrr::map2(
           unique(exp$assay_id),
           ~ .x %>%
-            when(
-              variable_genes %>% is.null() %>% `!`() ~ .x[variable_genes, , drop = FALSE],
-              features %>% is.null() %>% `!`() ~ .x[toupper(rownames(.x)) %in% toupper(features), , drop = FALSE],
-              all ~ .x,
-              ~ stop("It is not convenient to extract all genes, you should have either variable features or feature list to extract")
-            ) %>%
+            function(x) {
+              if(!is.null(variable_genes)) {
+                x[variable_genes, , drop = FALSE]
+              } else if(!is.null(features)) {
+                x[toupper(rownames(.x)) %in% toupper(features), , drop = FALSE]
+              } else if(all) {
+                x
+              } else stop("It is not convenient to extract all genes, you should have either variable features or a feature list to extract")
+            } %>%
             # Replace 0 with NA
-            when(exclude_zeros ~ (.) %>%
-                   {
-                     x <- (.)
-                     x[x == 0] <- NA
-                     x
-                   }, ~ (.)) %>%
+            if(exclude_zeros) function(x) {
+              x[x == 0] <- NA
+              return(x)
+            } %>%
             as.matrix() %>%
             data.frame(check.names = FALSE) %>%
             as_tibble(rownames = ".feature") %>%
@@ -338,19 +339,20 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
         purrr::map2(
           unique(exp$assay_id),
           ~ .x %>%
-            when(
-              variable_genes %>% is.null() %>% `!`() ~ .x[variable_genes, , drop = FALSE],
-              features %>% is.null() %>% `!`() ~ .x[toupper(rownames(.x)) %in% toupper(features), , drop = FALSE],
-              all ~ .x,
-              ~ stop("It is not convenient to extract all genes, you should have either variable features or feature list to extract")
-            ) %>%
+            function(x) {
+              if(!is.null(variable_genes)) {
+                x[variable_genes, , drop = FALSE]
+              } else if(!is.null(features)) {
+                x[toupper(rownames(.x)) %in% toupper(features), , drop = FALSE]
+              } else if(all) {
+                x
+              } else stop("It is not convenient to extract all genes, you should have either variable features or a feature list to extract")
+            } %>%
             # Replace 0 with NA
-            when(exclude_zeros ~ (.) %>%
-                   {
-                     x <- (.)
-                     x[x == 0] <- NA
-                     x
-                   }, ~ (.)) %>%
+            if(exclude_zeros) function(x) {
+              x[x == 0] <- NA
+              return(x)
+            } %>%
             as.matrix() %>%
             data.frame(check.names = FALSE) %>%
             as_tibble(rownames = ".feature") %>%
