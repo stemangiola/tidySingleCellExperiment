@@ -258,7 +258,7 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
       variable_genes <- variable_features
       features <- variable_features
     }
-  } else if (isTRUE(all)) {
+  } else {
     variable_genes <- NULL
   }
 
