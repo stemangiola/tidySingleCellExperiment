@@ -222,7 +222,6 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE, prefix="", va
 #' @importFrom magrittr "%$%"
 #' @importFrom tidyr pivot_longer
 #' @importFrom tibble as_tibble
-#' @importFrom purrr when
 #' @importFrom purrr map2
 #' @importFrom purrr reduce
 #' @importFrom dplyr full_join
@@ -468,7 +467,6 @@ return_arguments_of <- function(expression){
     variables
 }
 
-#' @importFrom purrr when
 #' @importFrom dplyr select
 #' @importFrom rlang expr
 #' @importFrom tidyselect eval_select
