@@ -243,7 +243,7 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
   # Solve CRAN warnings
   . <- NULL
 
-# Check if output would be too big without forcing
+  # Check if output would be too big without forcing
   if (isFALSE(all) && is.null(features)) {
     if (all(is.na(variable_features))) {
       stop("Your object does not contain variable feature labels,\n",
@@ -263,17 +263,18 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
   }
 
   # Check that I have assay names
-  if (!length(assayNames(.data)))
+  if (!length(assayNames(.data))) {
     stop("tidySingleCellExperiment says:",
          " there are no assay names in the",
          " source SingleCellExperiment.")
+  }
 
   if (!is.null(variable_genes)) {
     gs <- variable_genes
   } else if (!is.null(features)){
     gs <- features
-  } else if (isTRUE(all)) {
-    gs <- TRUE
+  } else if(is.null(gs) && isTRUE(gs)) {
+    gs <- unique(feature_df$feature)
   } else {
     stop("It is not convenient to extract all genes.",
          " You should have either variable features,",
@@ -287,9 +288,6 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
   feature_df <- get_all_features(.data)
 
   # Get selected features - if all = TRUE then all features in the objects are selected
-  if(is.null(gs) && isTRUE(gs)) {
-    gs <- unique(feature_df$feature)
-  }
   selected_features <- feature_df[(feature_df$feature %in% gs), ]
   if(!is.null(assays_to_use)) selected_features <- selected_features[selected_features$assay_name %in% assays_to_use,]
   selected_features_exp <- unique(selected_features$exp_id)
@@ -305,7 +303,7 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
         .[unique(exp$assay_name)] %>%
         purrr::map2(unique(exp$assay_id), ~ {
           # Subset specified features
-          .x <- .x[exp$feature, , drop=FALSE]
+          .x <- .x[unique(exp$feature), , drop=FALSE]
           # Replace 0 with NA
           if (isTRUE(exclude_zeros))
             .x[.x == 0] <- NA
@@ -326,7 +324,7 @@ get_abundance_sc_long <- function(.data, features = NULL, all = FALSE, exclude_z
         .[unique(exp$assay_name)] %>%
         purrr::map2(unique(exp$assay_id), ~ {
           # Subset specified features
-          .x <- .x[exp$feature, , drop=FALSE]
+          .x <- .x[unique(exp$feature), , drop=FALSE]
           # Replace 0 with NA
           if (isTRUE(exclude_zeros))
             .x[.x == 0] <- NA
