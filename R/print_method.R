@@ -16,15 +16,15 @@
 #' @export
 
 tbl_format_header.tidySingleCellExperiment <- function(x, setup, ...) {
-    
+
     number_of_features <- x |> attr("number_of_features")
     assay_names <- x |> attr("assay_names")
 
-    
+
     # Change name
     named_header <- setup$tbl_sum
     names(named_header) <- "A SingleCellExperiment-tibble abstraction"
-    
+
     if (all(names2(named_header) == "")) {
         header <- named_header
     } else {
@@ -35,7 +35,7 @@ tbl_format_header.tidySingleCellExperiment <- function(x, setup, ...) {
 
           append(sprintf(
               "\033[90m Features=%s | Cells=%s | Assays=%s\033[39m",
-              number_of_features, nrow(x), 
+              number_of_features, nrow(x),
               paste(assay_names, collapse=", ")), after=1)
 
     }
@@ -46,6 +46,7 @@ tbl_format_header.tidySingleCellExperiment <- function(x, setup, ...) {
 #' @rdname formatting
 #' @aliases print
 #' @inherit tibble::formatting
+#' @param n_extra number of extra lines
 #' @return Prints a message to the console describing
 #'   the contents of the `tidySingleCellExperiment`.
 #'
