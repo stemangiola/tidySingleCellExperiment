@@ -1,3 +1,4 @@
+library(MASS, include.only = "rnegbin")
 data("pbmc_small")
 # Mock up ADT and cell hashing experiments
 set.seed(2023-08-29)
@@ -10,7 +11,7 @@ all_myus <- sample(x = all_myus, size = length(all_myus))
 
 mat <- list()
 for(i in seq_along(all_myus)) {
-  mat[[i]] <-   MASS::rnegbin(n = dim(pbmc_small)[[2]], mu = all_myus[[i]], theta = all_myus[[i]]/500)
+  mat[[i]] <- rnegbin(n = dim(pbmc_small)[[2]], mu = all_myus[[i]], theta = all_myus[[i]]/500)
 }
 mat <- Reduce(f = cbind, x = mat)
 colnames(mat) <- paste("Ab", seq_along(mat[1,]), sep = "-")
@@ -22,7 +23,7 @@ altExps(pbmc_small)[["ADT"]] <- SingleCellExperiment(assays = list(counts = t(ma
 HTO_myus <- sample(x = c(100, 100000), size = 6, replace = TRUE)
 mat <- list()
 for(i in seq_along(HTO_myus)) {
-  mat[[i]] <-   MASS::rnegbin(n = dim(pbmc_small)[[2]], mu = HTO_myus[[i]], theta = HTO_myus[[i]]/500)
+  mat[[i]] <- rnegbin(n = dim(pbmc_small)[[2]], mu = HTO_myus[[i]], theta = HTO_myus[[i]]/500)
 }
 
 mat <- Reduce(f = cbind, x = mat)
@@ -37,7 +38,7 @@ df$factor <- sample(gl(3, 1, ncol(df)))
 
 test_that("ggplot()", {
     # cell metadata
-    p <- ggplot(df, aes(factor, number)) 
+    p <- ggplot(df, aes(factor, number))
     expect_silent(show(p))
     expect_s3_class(p, "ggplot")
     # assay data
@@ -54,17 +55,17 @@ test_that("ggplot()", {
 
 test_that("plotly()", {
     # cell metadata
-    p <- plot_ly(df, x=~factor, y=~number, type="violin") 
+    p <- plot_ly(df, x=~factor, y=~number, type="violin")
     expect_silent(show(p))
     expect_s3_class(p, "plotly")
     # assay data
     g <- sample(rownames(df), 1)
     fd <- join_features(df, g, shape="wide", assays = "counts")
-    p <- plot_ly(fd, x=~factor, y=g, type="violin") 
+    p <- plot_ly(fd, x=~factor, y=g, type="violin")
     expect_silent(show(p))
     expect_s3_class(p, "plotly")
     # reduced dimensions
-    p <- plot_ly(fd, x=~PC_1, y=~PC_2, type="scatter", mode="markers") 
+    p <- plot_ly(fd, x=~PC_1, y=~PC_2, type="scatter", mode="markers")
     expect_silent(show(p))
     expect_s3_class(p, "plotly")
 })
