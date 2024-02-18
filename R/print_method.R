@@ -46,7 +46,6 @@ tbl_format_header.tidySingleCellExperiment <- function(x, setup, ...) {
 #' @rdname formatting
 #' @aliases print
 #' @inherit tibble::formatting
-#' @param n_extra number of extra lines
 #' @return Prints a message to the console describing
 #'   the contents of the `tidySingleCellExperiment`.
 #'
@@ -59,7 +58,7 @@ tbl_format_header.tidySingleCellExperiment <- function(x, setup, ...) {
 #' @importFrom SingleCellExperiment altExpNames
 #' @export
 
-print.SingleCellExperiment <- function(x, ..., n = NULL, width = NULL, n_extra = NULL) {
+print.SingleCellExperiment <- function(x, ..., n = NULL, width = NULL) {
   if (length(names(altExps(x))) > 0) {
     alt_exp_assays <- list()
     assay_names_list <- lapply(altExps(x), assayNames)

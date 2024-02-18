@@ -1,5 +1,6 @@
 #' @importFrom tibble as_tibble
 #' @importFrom SummarizedExperiment colData
+#' @importFrom MASS rnegbin
 #'
 #' @keywords internal
 #'

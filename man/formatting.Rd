@@ -6,7 +6,7 @@
 \alias{print}
 \title{Printing tibbles}
 \usage{
-\method{print}{SingleCellExperiment}(x, ..., n = NULL, width = NULL, n_extra = NULL)
+\method{print}{SingleCellExperiment}(x, ..., n = NULL, width = NULL)
 }
 \arguments{
 \item{x}{Object to format or print.}
