@@ -15,7 +15,7 @@ as_tibble.SingleCellExperiment <- function(x, ...,
     .name_repair=c("check_unique", "unique", "universal", "minimal"),
     rownames=pkgconfig::get_config("tibble::rownames", NULL)) {
     df <- colData(x) %>%
-        as.data.frame() %>%
+        as(Class = "data.frame", strict = FALSE) %>%
         tibble::as_tibble(rownames=c_(x)$name)
     # Attach reduced dimensions only if 
     # there are any and for special datasets

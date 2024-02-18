@@ -1,5 +1,38 @@
 library(S4Vectors)
-data(pbmc_small)
+library(MASS, include.only = "rnegbin")
+data("pbmc_small")
+# Mock up ADT and cell hashing experiments
+set.seed(2023-08-29)
+# Antibody tags
+pos_myus <- sample(x = 7500:20000, size = 5)
+int_myus <- sample(x = 100:1500, size = 5)
+neg_myus <- sample(x = 1:30, size = 15)
+all_myus <- c(pos_myus, int_myus, neg_myus)
+all_myus <- sample(x = all_myus, size = length(all_myus))
+
+mat <- list()
+for(i in seq_along(all_myus)) {
+  mat[[i]] <- rnegbin(n = dim(pbmc_small)[[2]], mu = all_myus[[i]], theta = all_myus[[i]]/500)
+}
+mat <- Reduce(f = cbind, x = mat)
+colnames(mat) <- paste("Ab", seq_along(mat[1,]), sep = "-")
+rownames(mat) <- colnames(pbmc_small)
+
+altExps(pbmc_small)[["ADT"]] <- SingleCellExperiment(assays = list(counts = t(mat), logcounts = log10(t(mat) + 1)))
+
+# Cell hashing
+HTO_myus <- sample(x = c(100, 100000), size = 6, replace = TRUE)
+mat <- list()
+for(i in seq_along(HTO_myus)) {
+  mat[[i]] <- rnegbin(n = dim(pbmc_small)[[2]], mu = HTO_myus[[i]], theta = HTO_myus[[i]]/500)
+}
+
+mat <- Reduce(f = cbind, x = mat)
+colnames(mat) <- paste("HTO", seq_along(mat[1,]), sep = "-")
+rownames(mat) <- colnames(pbmc_small)
+
+altExps(pbmc_small)[["Hashtag demultiplex"]] <- SingleCellExperiment(assays = list(counts = t(mat), logcounts = log10(t(mat) + 1)))
+
 df <- pbmc_small
 df$number <- sample(seq(ncol(df)))
 df$factor <- sample(
@@ -8,15 +41,15 @@ df$factor <- sample(
 
 # test_that("arrange()", {
 #     expect_identical(
-#         arrange(df, number), 
+#         arrange(df, number),
 #         df[, order(df$number)])
 #     suppressWarnings({
 #         fd <- df %>%
-#             scater::logNormCounts() %>% 
+#             scater::logNormCounts() %>%
 #             scater::runPCA()
 #     })
 #     expect_identical(
-#         arrange(fd, PC1), 
+#         arrange(fd, PC1),
 #         fd[, order(reducedDim(fd)[, 1])])
 #     fd <- df %>%
 #         mutate(foo=seq(ncol(df))) %>%
@@ -38,7 +71,7 @@ test_that("bind_cols()", {
     expect_identical(fd[[i[1]]], df$factor)
     expect_identical(fd[[i[2]]], df$factor)
     expect_identical(
-        select(fd, -starts_with("factor")), 
+        select(fd, -starts_with("factor")),
         select(df, -factor))
 })
 
@@ -80,12 +113,12 @@ test_that("mutate()", {
     expect_true(all(fd$peter == "pan"))
     fd <- mutate(df, number=paste(number))
     expect_identical(fd$number, paste(df$number))
-    
+
     # special columns are blocked
     df |>
       mutate(.cell=1) |>
       expect_error("you are trying to mutate a column that is view only")
-    
+
     df |>
       mutate(PC_10=1) |>
       expect_error("you are trying to mutate a column that is view only")
@@ -95,35 +128,35 @@ test_that("rename()", {
     fd <- rename(df, num=number, fac=factor)
     expect_identical(fd$num, df$number)
     expect_identical(fd$fac, df$factor)
-    
-    df |> 
-      rename(ne=mo) |> 
+
+    df |>
+      rename(ne=mo) |>
       expect_error("Column `mo` doesn't exist")
-    
+
     # special columns are blocked
     # ...'to' cannot be special
-    
+
     df |>
       rename(a=PC_1) |>
-      expect_error("you are trying to rename a column that is view only")  
-    
-    df |> 
-      rename(a=.cell) |> 
+      expect_error("you are trying to rename a column that is view only")
+
+    df |>
+      rename(a=.cell) |>
       expect_error("you are trying to rename a column that is view only")
     # ...'from' cannot be special
-    
-    df |> 
-      rename(PC_1=number) |> 
+
+    df |>
+      rename(PC_1=number) |>
       expect_error("These names are duplicated")
-    
-    df |> 
-      rename(.cell=number) |> 
+
+    df |>
+      rename(.cell=number) |>
       expect_error("These names are duplicated")
 })
 
 test_that("left_join()", {
-    y <- df |> 
-        distinct(factor) |> 
+    y <- df |>
+        distinct(factor) |>
         mutate(string=letters[seq(nlevels(df$factor))])
     fd <- left_join(df, y, by="factor")
     expect_s4_class(fd, "SingleCellExperiment")
@@ -132,9 +165,9 @@ test_that("left_join()", {
 })
 
 test_that("left_join(), with DataFrame y", {
-    y <- df |> 
-        distinct(factor) |> 
-        mutate(string=letters[seq(nlevels(df$factor))]) |> 
+    y <- df |>
+        distinct(factor) |>
+        mutate(string=letters[seq(nlevels(df$factor))]) |>
         DataFrame()
     fd <- left_join(df, y, by="factor")
     expect_s4_class(fd, "SingleCellExperiment")
@@ -143,9 +176,9 @@ test_that("left_join(), with DataFrame y", {
 })
 
 test_that("inner_join()", {
-    y <- df |> 
-        distinct(factor) |> 
-        mutate(string=letters[seq(nlevels(df$factor))]) |> 
+    y <- df |>
+        distinct(factor) |>
+        mutate(string=letters[seq(nlevels(df$factor))]) |>
         slice(1)
     fd <- inner_join(df, y, by="factor")
     expect_s4_class(fd, "SingleCellExperiment")
@@ -154,9 +187,9 @@ test_that("inner_join()", {
 })
 
 test_that("inner_join(), with DataFrame y", {
-    y <- df |> 
-        distinct(factor) |> 
-        mutate(string=letters[seq(nlevels(df$factor))]) |> 
+    y <- df |>
+        distinct(factor) |>
+        mutate(string=letters[seq(nlevels(df$factor))]) |>
         slice(1) |> DataFrame()
     fd <- inner_join(df, y, by="factor")
     expect_s4_class(fd, "SingleCellExperiment")
@@ -196,12 +229,12 @@ test_that("full_join()", {
     expect_equal(nrow(fd), ncol(df)+2*sum(df$factor == "g2"))
     # w/o duplicates
     y <- tibble(factor="g2", other=1)
-    
+
     # I DON'T KNOW WHY THESE TESTS GIVES WARNING IN THE GITHUB ACTION
-    # fd <- expect_silent(full_join(df, y, by=join_by(factor)))   
+    # fd <- expect_silent(full_join(df, y, by=join_by(factor)))
     # expect_s4_class(fd, "SingleCellExperiment")
     # expect_identical(
-    #     select(fd, -other), 
+    #     select(fd, -other),
     #     mutate(df, factor=paste(factor)))
 })
 
@@ -215,21 +248,21 @@ test_that("full_join(), with DataFrame y", {
     expect_equal(nrow(fd), ncol(df)+2*sum(df$factor == "g2"))
     # w/o duplicates
     y <- tibble(factor="g2", other=1) |> DataFrame()
-    
+
     # I DON'T KNOW WHY THESE TESTS GIVES WARNING IN THE GITHUB ACTION
-    # fd <- expect_silent(full_join(df, y, by=join_by(factor)))   
+    # fd <- expect_silent(full_join(df, y, by=join_by(factor)))
     # expect_s4_class(fd, "SingleCellExperiment")
     # expect_identical(
-    #     select(fd, -other), 
+    #     select(fd, -other),
     #     mutate(df, factor=paste(factor)))
 })
 
 test_that("slice()", {
-  # I DON'T KNOW WHY THESE TESTS GIVES WARNING 
+  # I DON'T KNOW WHY THESE TESTS GIVES WARNING
   # Please use `all_of()` or `any_of()` instead.
     #expect_identical(slice(df), df[, 0])
     #expect_identical(slice(df, ncol(df)+1), df[, 0])
-  
+
     expect_identical(slice(df, 1), df[, 1])
     expect_identical(slice(df, -1), df[, -1])
     i <- sample(ncol(df), 5)
@@ -366,10 +399,10 @@ test_that("add_count()", {
 })
 
 test_that("rowwise()", {
-    df |> 
+    df |>
     summarise(sum(lys)) |>
     expect_error("object 'lys' not found")
-  
+
     df$lys <- replicate(ncol(df), sample(10, 3), FALSE)
     fd <- df |> rowwise() |> summarise(sum(lys))
     expect_s3_class(fd, "tbl_df")
@@ -378,22 +411,22 @@ test_that("rowwise()", {
 })
 
 test_that("group_split() works for one variable", {
-  fd <- df |> 
+  fd <- df |>
     group_split(groups)
   expect_equal(length(fd), length(unique(df$groups)))
 })
 
 test_that("group_split() works for combination of variables", {
-    fd <- df |> 
+    fd <- df |>
       group_split(groups, ident)
     expect_equal(length(fd), length(unique(df$groups)) *
                    length(unique(df$ident)))
 })
 
 test_that("group_split() works for one logical statement", {
-  fd_log <- df |> 
+  fd_log <- df |>
     group_split(groups=="g1")
-  fd_var <- df |> 
+  fd_var <- df |>
     group_split(groups=="g1")
   expect_equal(lapply(fd_var, count), lapply(fd_log, count))
 })
@@ -402,7 +435,7 @@ test_that("group_split() works for two logical statements", {
   fd <- df |>
     group_split(PC_1>0 & groups=="g1")
   fd_counts <- lapply(fd, count)
-  expect_equal(c(fd_counts[[1]], fd_counts[[2]], use.names = FALSE), 
+  expect_equal(c(fd_counts[[1]], fd_counts[[2]], use.names = FALSE),
                list(75, 5))
 })
 
