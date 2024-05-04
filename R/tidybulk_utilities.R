@@ -82,7 +82,7 @@ as_SummarizedExperiment <- function(.data,
     
     colData <- 
         .data %>%
-        select(!!.sample, sample_cols) %>%
+        select(!!.sample, any_of(sample_cols)) %>%
         distinct() %>%
         
         # Unite if multiple sample columns
@@ -97,7 +97,7 @@ as_SummarizedExperiment <- function(.data,
     
     rowData <- 
         .data %>%
-        select(!!.transcript, feature_cols) %>%
+        select(!!.transcript, any_of(feature_cols)) %>%
         distinct() %>%
         
         # Unite if multiple sample columns
@@ -123,7 +123,7 @@ as_SummarizedExperiment <- function(.data,
             !!feature__$symbol,
             !!.abundance,
             !!.abundance_scaled,
-            counts_cols) %>%
+            any_of(counts_cols)) %>%
         distinct() %>%
         
         pivot_longer(
@@ -135,7 +135,7 @@ as_SummarizedExperiment <- function(.data,
                 spread(!!sample__$symbol, .a) %>%
                 
                 # arrange sample
-                select(!!feature__$symbol, rownames(colData)) |>
+                select(!!feature__$symbol, any_of(rownames(colData))) |>
                 
                 # Arrange symbol
                 arrange(!!feature__$symbol) |>
@@ -236,16 +236,16 @@ get_x_y_annotation_columns <- function(.data, .horizontal, .vertical, .abundance
         select(-!!.horizontal, -!!.vertical, -!!.abundance) %>%
         colnames %>%
         map(
-            ~
-                .x %>%
-                when(
-                    .data %>%
-                        select(!!.horizontal, !!as.symbol(.x)) %>%
-                        distinct() |>
-                        nrow() %>%
-                        equals(n_x) ~ .x,
-                    ~ NULL
-                )
+            ~ {
+              
+              if(.data %>%
+                 select(!!.horizontal, !!as.symbol(.x)) %>%
+                 distinct() |>
+                 nrow() %>%
+                 equals(n_x)) .x
+              else NULL
+            }
+                
         ) %>%
         
         # Drop NULL
@@ -255,7 +255,7 @@ get_x_y_annotation_columns <- function(.data, .horizontal, .vertical, .abundance
     # Transcript wise columns
     vertical_cols <- 
         .data %>%
-        select(-!!.horizontal, -!!.vertical, -!!.abundance, -horizontal_cols) %>%
+        select(-!!.horizontal, -!!.vertical, -!!.abundance, -any_of(horizontal_cols)) %>%
         colnames %>%
         map(
             ~
@@ -283,12 +283,12 @@ get_x_y_annotation_columns <- function(.data, .horizontal, .vertical, .abundance
         # Exclude horizontal
         ifelse_pipe(
             !is.null(horizontal_cols), 
-            ~ .x %>% select(-horizontal_cols)) %>%
+            ~ .x %>% select(-any_of(horizontal_cols))) %>%
         
         # Exclude vertical
         ifelse_pipe(
             !is.null(vertical_cols), 
-            ~ .x %>% select(-vertical_cols)) %>%
+            ~ .x %>% select(-any_of(vertical_cols))) %>%
         
         # Exclude scaled counts if exist
         ifelse_pipe(
