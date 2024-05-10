@@ -1,7 +1,7 @@
 Type: Package
 Package: tidySingleCellExperiment
 Title: Brings SingleCellExperiment to the Tidyverse 
-Version: 1.13.3
+Version: 1.15.1
 Authors@R: c(person("Stefano", "Mangiola", 
     comment=c(ORCID="0000-0001-7474-836X"),
     email="mangiolastefano@gmail.com",
@@ -68,6 +68,6 @@ biocViews:
     AssayDomain, Infrastructure, RNASeq, DifferentialExpression, SingleCell,
     GeneExpression, Normalization, Clustering, QualityControl, Sequencing
 Encoding: UTF-8
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 URL: https://github.com/stemangiola/tidySingleCellExperiment
 BugReports: https://github.com/stemangiola/tidySingleCellExperiment/issues

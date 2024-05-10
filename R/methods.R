@@ -204,20 +204,32 @@ setMethod("aggregate_cells", "SingleCellExperiment", function(.data,
         ~ .x |> mutate(.aggregated_cells = .y)
       )
 
-
-    do.call(rbind, list_assays) |>
-
-        left_join(
-          .data |>
-            colData() |>
-            as_tibble() |>
-            subset(!!.sample) |>
-            unite("my_id_to_split_by___", !!.sample, remove=FALSE, sep = "___"),
-            by= join_by(".sample" == "my_id_to_split_by___")
-        ) |>
+    aggregated_sce = 
+      do.call(rbind, list_assays) |>
 
         as_SummarizedExperiment(
             .sample=.sample,
             .transcript=.feature,
-            .abundance=!!as.symbol(names(.data@assays)))
+            .abundance=!!as.symbol(names(.data@assays))
+          )
+    
+    new_col_data = 
+      .data |>
+      colData() |>
+      as_tibble() |>
+      subset(!!.sample) |>
+      unite("my_id_to_split_by___", !!.sample, remove=FALSE, sep = "___") 
+    
+    new_col_data = new_col_data |> DataFrame(row.names = new_col_data$my_id_to_split_by___) |> _[,-1]
+    
+    colData(aggregated_sce) = 
+      colData(aggregated_sce) |> 
+      cbind(
+        new_col_data[match(rownames(colData(aggregated_sce)), rownames(new_col_data)),]
+      )
+    
+    rowData(aggregated_sce)  = rowData(.data)
+    
+    aggregated_sce
+    
 })
