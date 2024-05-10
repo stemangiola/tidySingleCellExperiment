@@ -475,23 +475,23 @@ get_specific_annotation_columns <- function(.data, .col) {
 #'
 #' @keywords internal
 #' @noRd
-#' 
+#'
 #' @importFrom rlang enquo
-#' 
+#'
 #' @param .data A tibble
 #' @param .column A vector of column names
 #'
 #' @return A tibble
 subset <- function(.data, .column)	{
-    
+
     # Make col names
     .column <- enquo(.column)
-    
+
     # Check if column present
     if (!all(quo_names(.column) %in% colnames(.data)))
         stop("nanny says: some of the .column specified",
             " do not exist in the input data frame.")
-    
+
     .data |>
         # Selecting the right columns
         select(!!.column, get_specific_annotation_columns(.data, !!.column)) %>%
@@ -500,19 +500,19 @@ subset <- function(.data, .column)	{
 
 
 splitColData <- function(x, f) {
-  # This is by @jma1991 
+  # This is by @jma1991
   # at https://github.com/drisso/SingleCellExperiment/issues/55
-  
+
   i <- split(seq_along(f), f)
-  
+
   v <- vector(mode = "list", length = length(i))
-  
+
   names(v) <- names(i)
-  
-  for (n in names(i)) { v[[n]] <- x[, i[[n]]] }
-  
+
+  for (n in names(i)) { v[[n]] <- x[, i[[n]], drop=FALSE ] }
+
   return(v)
-  
+
 }
 
 cell__ <- get_special_column_name_symbol(".cell")
