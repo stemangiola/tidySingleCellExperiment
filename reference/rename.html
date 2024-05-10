@@ -19,7 +19,7 @@ function."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/m
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySingleCellExperiment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.15.1</span>
       </span>
     </div>
 
@@ -101,7 +101,7 @@ properties:</p><ul><li><p>Rows are not affected.</p></li>
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.</p>
 <p>The following methods are currently available in loaded packages:
- (<code>vector</code>, <code>Vector</code>), dbplyr (<code><a href="https://dbplyr.tidyverse.org/reference/select.tbl_lazy.html" class="external-link">tbl_lazy</a></code>), dplyr (<code>data.frame</code>), plotly (<code><a href="https://rdrr.io/pkg/plotly/man/plotly_data.html" class="external-link">plotly</a></code>), tidySingleCellExperiment (<code>SingleCellExperiment</code>)
+ (<code>Vector</code>, <code>vector</code>), dbplyr (<code><a href="https://dbplyr.tidyverse.org/reference/select.tbl_lazy.html" class="external-link">tbl_lazy</a></code>), dplyr (<code>data.frame</code>), plotly (<code><a href="https://rdrr.io/pkg/plotly/man/plotly_data.html" class="external-link">plotly</a></code>), tidySingleCellExperiment (<code>SingleCellExperiment</code>)
 .</p>
     </div>
     <div id="see-also">
@@ -117,22 +117,22 @@ individual methods for extra arguments and differences in behaviour.</p>
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">pbmc_small</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">pbmc_small</span> <span class="op">|&gt;</span> <span class="fu">rename</span><span class="op">(</span>s_score<span class="op">=</span><span class="va">nFeature_RNA</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A SingleCellExperiment-tibble abstraction: 80 × 17</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A SingleCellExperiment-tibble abstraction: 80 x 17</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># </span><span style="color: #555555;">Features=230 | Cells=80 | Assays=counts, logcounts</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .cell      orig.ident nCount_RNA s_score RNA_snn_res.0.8 letter.idents groups</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ATGCCAGAA… SeuratPro…         70      47 0               A             g2    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> CATGGCCTG… SeuratPro…         85      52 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> GAACCTGAT… SeuratPro…         87      50 1               B             g2    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> TGACTGGAT… SeuratPro…        127      56 0               A             g2    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> AGTCAGACT… SeuratPro…        173      53 0               A             g2    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> TCTGATACA… SeuratPro…         70      48 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> TGGTATCTA… SeuratPro…         64      36 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> GCAGCTCTG… SeuratPro…         72      45 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> GATATAACA… SeuratPro…         52      36 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> AATGTTGAC… SeuratPro…        100      41 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 70 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 10 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, ident &lt;fct&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ATGCCAGAA~ SeuratPro~         70      47 0               A             g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> CATGGCCTG~ SeuratPro~         85      52 0               A             g1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> GAACCTGAT~ SeuratPro~         87      50 1               B             g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> TGACTGGAT~ SeuratPro~        127      56 0               A             g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> AGTCAGACT~ SeuratPro~        173      53 0               A             g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> TCTGATACA~ SeuratPro~         70      48 0               A             g1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> TGGTATCTA~ SeuratPro~         64      36 0               A             g1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> GCAGCTCTG~ SeuratPro~         72      45 0               A             g1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> GATATAACA~ SeuratPro~         52      36 0               A             g1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> AATGTTGAC~ SeuratPro~        100      41 0               A             g1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># i 70 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># i 10 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, ident &lt;fct&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   tSNE_2 &lt;dbl&gt;</span></span>
 <span class="r-in"><span></span></span>

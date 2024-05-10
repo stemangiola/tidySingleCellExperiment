@@ -18,7 +18,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySingleCellExperiment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.15.1</span>
       </span>
     </div>
 
@@ -118,21 +118,21 @@
 <span class="r-in"><span><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">join_features</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  features<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HLA-DRA"</span>, <span class="st">"LYZ"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tidySingleCellExperiment says: join_features produces duplicate cell names to accomadate the long data format. For this reason, a data frame is returned for independent data analysis. Assay feature abundance is appended as .abundance_counts and .abundance_logcounts.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 160 × 34</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 160 x 34</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .cell   .feature .abundance_counts .abundance_logcounts orig.ident nCount_RNA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ATGCCA… HLA-DRA                  0                 0    SeuratPro…         70</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> ATGCCA… LYZ                      1                 4.97 SeuratPro…         70</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> CATGGC… HLA-DRA                  1                 4.78 SeuratPro…         85</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> CATGGC… LYZ                      1                 4.78 SeuratPro…         85</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> GAACCT… HLA-DRA                  0                 0    SeuratPro…         87</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> GAACCT… LYZ                      1                 4.75 SeuratPro…         87</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> TGACTG… HLA-DRA                  0                 0    SeuratPro…        127</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> TGACTG… LYZ                      0                 0    SeuratPro…        127</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> AGTCAG… HLA-DRA                  1                 4.07 SeuratPro…        173</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> AGTCAG… LYZ                      0                 0    SeuratPro…        173</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 150 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 28 more variables: nFeature_RNA &lt;int&gt;, RNA_snn_res.0.8 &lt;fct&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ATGCCA~ HLA-DRA                  0                 0    SeuratPro~         70</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> ATGCCA~ LYZ                      1                 4.97 SeuratPro~         70</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> CATGGC~ HLA-DRA                  1                 4.78 SeuratPro~         85</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> CATGGC~ LYZ                      1                 4.78 SeuratPro~         85</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> GAACCT~ HLA-DRA                  0                 0    SeuratPro~         87</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> GAACCT~ LYZ                      1                 4.75 SeuratPro~         87</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> TGACTG~ HLA-DRA                  0                 0    SeuratPro~        127</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> TGACTG~ LYZ                      0                 0    SeuratPro~        127</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> AGTCAG~ HLA-DRA                  1                 4.07 SeuratPro~        173</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> AGTCAG~ LYZ                      0                 0    SeuratPro~        173</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># i 150 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># i 28 more variables: nFeature_RNA &lt;int&gt;, RNA_snn_res.0.8 &lt;fct&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   letter.idents &lt;fct&gt;, groups &lt;chr&gt;, RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ident &lt;fct&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_6 &lt;dbl&gt;, PC_7 &lt;dbl&gt;, PC_8 &lt;dbl&gt;, PC_9 &lt;dbl&gt;, PC_10 &lt;dbl&gt;, PC_11 &lt;dbl&gt;,</span></span>

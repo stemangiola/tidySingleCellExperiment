@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">tidySingleCellExperiment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.15.1</span>
       </span>
     </div>
 
@@ -209,22 +209,22 @@
 <p><strong>It looks like a tibble</strong></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="do">## [90m# A SingleCellExperiment-tibble abstraction: 80 × 17[39m</span></span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="do">## [90m# A SingleCellExperiment-tibble abstraction: 80 x 17[39m</span></span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="do">## [90m# [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m[39m</span></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="do">##    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups</span></span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="do">##    [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m           [3m[90m&lt;dbl&gt;[39m[23m        [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m           [3m[90m&lt;fct&gt;[39m[23m         [3m[90m&lt;chr&gt;[39m[23m </span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="do">## [90m 1[39m ATGC… SeuratPro…         70           47 0               A             g2    </span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="do">## [90m 2[39m CATG… SeuratPro…         85           52 0               A             g1    </span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="do">## [90m 3[39m GAAC… SeuratPro…         87           50 1               B             g2    </span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="do">## [90m 4[39m TGAC… SeuratPro…        127           56 0               A             g2    </span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="do">## [90m 5[39m AGTC… SeuratPro…        173           53 0               A             g2    </span></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="do">## [90m 6[39m TCTG… SeuratPro…         70           48 0               A             g1    </span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="do">## [90m 7[39m TGGT… SeuratPro…         64           36 0               A             g1    </span></span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="do">## [90m 8[39m GCAG… SeuratPro…         72           45 0               A             g1    </span></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="do">## [90m 9[39m GATA… SeuratPro…         52           36 0               A             g1    </span></span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="do">## [90m10[39m AATG… SeuratPro…        100           41 0               A             g1    </span></span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="do">## [90m# ℹ 70 more rows[39m</span></span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="do">## [90m# ℹ 10 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, ident &lt;fct&gt;,[39m</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="do">## [90m 1[39m ATGC~ SeuratPro~         70           47 0               A             g2    </span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="do">## [90m 2[39m CATG~ SeuratPro~         85           52 0               A             g1    </span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="do">## [90m 3[39m GAAC~ SeuratPro~         87           50 1               B             g2    </span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="do">## [90m 4[39m TGAC~ SeuratPro~        127           56 0               A             g2    </span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="do">## [90m 5[39m AGTC~ SeuratPro~        173           53 0               A             g2    </span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="do">## [90m 6[39m TCTG~ SeuratPro~         70           48 0               A             g1    </span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="do">## [90m 7[39m TGGT~ SeuratPro~         64           36 0               A             g1    </span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="do">## [90m 8[39m GCAG~ SeuratPro~         72           45 0               A             g1    </span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="do">## [90m 9[39m GATA~ SeuratPro~         52           36 0               A             g1    </span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="do">## [90m10[39m AATG~ SeuratPro~        100           41 0               A             g1    </span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="do">## [90m# i 70 more rows[39m</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="do">## [90m# i 10 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, ident &lt;fct&gt;,[39m</span></span>
 <span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="do">## [90m#   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,[39m</span></span>
 <span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="do">## [90m#   tSNE_2 &lt;dbl&gt;[39m</span></span></code></pre></div>
 <p><strong>But it is a SingleCellExperiment object after all</strong></p>
@@ -283,22 +283,22 @@
 <span><span class="co"># Reorder to have sample column up front</span></span>
 <span><span class="va">pbmc_small_polished</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="reference/select.html">select</a></span><span class="op">(</span><span class="va">sample</span>, <span class="fu">everything</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="do">## [90m# A SingleCellExperiment-tibble abstraction: 80 × 18[39m</span></span>
+<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="do">## [90m# A SingleCellExperiment-tibble abstraction: 80 x 18[39m</span></span>
 <span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="do">## [90m# [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m[39m</span></span>
 <span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="do">##    .cell sample orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents</span></span>
 <span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="do">##    [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m  [3m[90m&lt;fct&gt;[39m[23m           [3m[90m&lt;dbl&gt;[39m[23m        [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m           [3m[90m&lt;fct&gt;[39m[23m        </span></span>
-<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="do">## [90m 1[39m ATGC… sampl… SeuratPro…         70           47 0               A            </span></span>
-<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="do">## [90m 2[39m CATG… sampl… SeuratPro…         85           52 0               A            </span></span>
-<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="do">## [90m 3[39m GAAC… sampl… SeuratPro…         87           50 1               B            </span></span>
-<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="do">## [90m 4[39m TGAC… sampl… SeuratPro…        127           56 0               A            </span></span>
-<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="do">## [90m 5[39m AGTC… sampl… SeuratPro…        173           53 0               A            </span></span>
-<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="do">## [90m 6[39m TCTG… sampl… SeuratPro…         70           48 0               A            </span></span>
-<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="do">## [90m 7[39m TGGT… sampl… SeuratPro…         64           36 0               A            </span></span>
-<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="do">## [90m 8[39m GCAG… sampl… SeuratPro…         72           45 0               A            </span></span>
-<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="do">## [90m 9[39m GATA… sampl… SeuratPro…         52           36 0               A            </span></span>
-<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a><span class="do">## [90m10[39m AATG… sampl… SeuratPro…        100           41 0               A            </span></span>
-<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a><span class="do">## [90m# ℹ 70 more rows[39m</span></span>
-<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a><span class="do">## [90m# ℹ 11 more variables: groups &lt;chr&gt;, RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,[39m</span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="do">## [90m 1[39m ATGC~ sampl~ SeuratPro~         70           47 0               A            </span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="do">## [90m 2[39m CATG~ sampl~ SeuratPro~         85           52 0               A            </span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="do">## [90m 3[39m GAAC~ sampl~ SeuratPro~         87           50 1               B            </span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="do">## [90m 4[39m TGAC~ sampl~ SeuratPro~        127           56 0               A            </span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="do">## [90m 5[39m AGTC~ sampl~ SeuratPro~        173           53 0               A            </span></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="do">## [90m 6[39m TCTG~ sampl~ SeuratPro~         70           48 0               A            </span></span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="do">## [90m 7[39m TGGT~ sampl~ SeuratPro~         64           36 0               A            </span></span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="do">## [90m 8[39m GCAG~ sampl~ SeuratPro~         72           45 0               A            </span></span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="do">## [90m 9[39m GATA~ sampl~ SeuratPro~         52           36 0               A            </span></span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a><span class="do">## [90m10[39m AATG~ sampl~ SeuratPro~        100           41 0               A            </span></span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a><span class="do">## [90m# i 70 more rows[39m</span></span>
+<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a><span class="do">## [90m# i 11 more variables: groups &lt;chr&gt;, RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,[39m</span></span>
 <span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a><span class="do">## [90m#   ident &lt;fct&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;,[39m</span></span>
 <span id="cb14-18"><a href="#cb14-18" tabindex="-1"></a><span class="do">## [90m#   tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;[39m</span></span></code></pre></div>
 </div>
@@ -330,7 +330,7 @@
 <span>            <span class="op">)</span></span>
 <span>    <span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb16"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="do">## Warning: [1m[22mThe `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.</span></span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="do">## [36mℹ[39m Please use the `linewidth` argument instead.</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="do">## [36mi[39m Please use the `linewidth` argument instead.</span></span>
 <span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="do">## [90mThis warning is displayed once every 8 hours.[39m</span></span>
 <span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="do">## [90mCall `lifecycle::last_lifecycle_warnings()` to see where this warning was[39m</span></span>
 <span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="do">## [90mgenerated.[39m</span></span></code></pre></div>
@@ -383,25 +383,29 @@
 <span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a></span>
 <span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="do">## Warning in (function (A, nv = 5, nu = nv, maxit = 1000, work = nv + 7, reorth =</span></span>
 <span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a><span class="do">## TRUE, : You're computing too large a percentage of total singular values, use a</span></span>
-<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a><span class="do">## standard svd instead.</span></span></code></pre></div>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a><span class="do">## standard svd instead.</span></span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a><span class="do">## Warning in (function (A, nv = 5, nu = nv, maxit = 1000, work = nv + 7, reorth =</span></span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a><span class="do">## TRUE, : did not converge--results might be invalid!; try increasing work or</span></span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a><span class="do">## maxit</span></span></code></pre></div>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_pca</span></span></code></pre></div>
-<div class="sourceCode" id="cb25"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="do">## [90m# A SingleCellExperiment-tibble abstraction: 80 × 18[39m</span></span>
+<div class="sourceCode" id="cb25"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="do">## [90m# A SingleCellExperiment-tibble abstraction: 80 x 18[39m</span></span>
 <span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="do">## [90m# [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m[39m</span></span>
 <span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a><span class="do">##    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups</span></span>
 <span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="do">##    [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m           [3m[90m&lt;dbl&gt;[39m[23m        [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m           [3m[90m&lt;fct&gt;[39m[23m         [3m[90m&lt;chr&gt;[39m[23m </span></span>
-<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a><span class="do">## [90m 1[39m ATGC… SeuratPro…         70           47 0               A             g2    </span></span>
-<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a><span class="do">## [90m 2[39m CATG… SeuratPro…         85           52 0               A             g1    </span></span>
-<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a><span class="do">## [90m 3[39m GAAC… SeuratPro…         87           50 1               B             g2    </span></span>
-<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a><span class="do">## [90m 4[39m TGAC… SeuratPro…        127           56 0               A             g2    </span></span>
-<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a><span class="do">## [90m 5[39m AGTC… SeuratPro…        173           53 0               A             g2    </span></span>
-<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a><span class="do">## [90m 6[39m TCTG… SeuratPro…         70           48 0               A             g1    </span></span>
-<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a><span class="do">## [90m 7[39m TGGT… SeuratPro…         64           36 0               A             g1    </span></span>
-<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a><span class="do">## [90m 8[39m GCAG… SeuratPro…         72           45 0               A             g1    </span></span>
-<span id="cb25-13"><a href="#cb25-13" tabindex="-1"></a><span class="do">## [90m 9[39m GATA… SeuratPro…         52           36 0               A             g1    </span></span>
-<span id="cb25-14"><a href="#cb25-14" tabindex="-1"></a><span class="do">## [90m10[39m AATG… SeuratPro…        100           41 0               A             g1    </span></span>
-<span id="cb25-15"><a href="#cb25-15" tabindex="-1"></a><span class="do">## [90m# ℹ 70 more rows[39m</span></span>
-<span id="cb25-16"><a href="#cb25-16" tabindex="-1"></a><span class="do">## [90m# ℹ 11 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, sample &lt;chr&gt;,[39m</span></span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a><span class="do">## [90m 1[39m ATGC~ SeuratPro~         70           47 0               A             g2    </span></span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a><span class="do">## [90m 2[39m CATG~ SeuratPro~         85           52 0               A             g1    </span></span>
+<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a><span class="do">## [90m 3[39m GAAC~ SeuratPro~         87           50 1               B             g2    </span></span>
+<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a><span class="do">## [90m 4[39m TGAC~ SeuratPro~        127           56 0               A             g2    </span></span>
+<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a><span class="do">## [90m 5[39m AGTC~ SeuratPro~        173           53 0               A             g2    </span></span>
+<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a><span class="do">## [90m 6[39m TCTG~ SeuratPro~         70           48 0               A             g1    </span></span>
+<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a><span class="do">## [90m 7[39m TGGT~ SeuratPro~         64           36 0               A             g1    </span></span>
+<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a><span class="do">## [90m 8[39m GCAG~ SeuratPro~         72           45 0               A             g1    </span></span>
+<span id="cb25-13"><a href="#cb25-13" tabindex="-1"></a><span class="do">## [90m 9[39m GATA~ SeuratPro~         52           36 0               A             g1    </span></span>
+<span id="cb25-14"><a href="#cb25-14" tabindex="-1"></a><span class="do">## [90m10[39m AATG~ SeuratPro~        100           41 0               A             g1    </span></span>
+<span id="cb25-15"><a href="#cb25-15" tabindex="-1"></a><span class="do">## [90m# i 70 more rows[39m</span></span>
+<span id="cb25-16"><a href="#cb25-16" tabindex="-1"></a><span class="do">## [90m# i 11 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, sample &lt;chr&gt;,[39m</span></span>
 <span id="cb25-17"><a href="#cb25-17" tabindex="-1"></a><span class="do">## [90m#   ident &lt;fct&gt;, PC1 &lt;dbl&gt;, PC2 &lt;dbl&gt;, PC3 &lt;dbl&gt;, PC4 &lt;dbl&gt;, PC5 &lt;dbl&gt;,[39m</span></span>
 <span id="cb25-18"><a href="#cb25-18" tabindex="-1"></a><span class="do">## [90m#   tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;[39m</span></span></code></pre></div>
 <p>If a tidyverse-compatible package is not included in the tidySingleCellExperiment collection, we can use <code>as_tibble</code> to permanently convert <code>tidySingleCellExperiment</code> into a tibble.</p>
@@ -436,22 +440,22 @@
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Reorder columns</span></span>
 <span><span class="va">pbmc_small_cluster</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/select.html">select</a></span><span class="op">(</span><span class="va">label</span>, <span class="fu">everything</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb31"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="do">## [90m# A SingleCellExperiment-tibble abstraction: 80 × 19[39m</span></span>
+<div class="sourceCode" id="cb31"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="do">## [90m# A SingleCellExperiment-tibble abstraction: 80 x 19[39m</span></span>
 <span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a><span class="do">## [90m# [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m[39m</span></span>
 <span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="do">##    .cell  label orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents</span></span>
 <span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a><span class="do">##    [3m[90m&lt;chr&gt;[39m[23m  [3m[90m&lt;fct&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m           [3m[90m&lt;dbl&gt;[39m[23m        [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m           [3m[90m&lt;fct&gt;[39m[23m        </span></span>
-<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a><span class="do">## [90m 1[39m ATGCC… 2     SeuratPro…         70           47 0               A            </span></span>
-<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a><span class="do">## [90m 2[39m CATGG… 2     SeuratPro…         85           52 0               A            </span></span>
-<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a><span class="do">## [90m 3[39m GAACC… 2     SeuratPro…         87           50 1               B            </span></span>
-<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a><span class="do">## [90m 4[39m TGACT… 1     SeuratPro…        127           56 0               A            </span></span>
-<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a><span class="do">## [90m 5[39m AGTCA… 2     SeuratPro…        173           53 0               A            </span></span>
-<span id="cb31-10"><a href="#cb31-10" tabindex="-1"></a><span class="do">## [90m 6[39m TCTGA… 2     SeuratPro…         70           48 0               A            </span></span>
-<span id="cb31-11"><a href="#cb31-11" tabindex="-1"></a><span class="do">## [90m 7[39m TGGTA… 1     SeuratPro…         64           36 0               A            </span></span>
-<span id="cb31-12"><a href="#cb31-12" tabindex="-1"></a><span class="do">## [90m 8[39m GCAGC… 2     SeuratPro…         72           45 0               A            </span></span>
-<span id="cb31-13"><a href="#cb31-13" tabindex="-1"></a><span class="do">## [90m 9[39m GATAT… 2     SeuratPro…         52           36 0               A            </span></span>
-<span id="cb31-14"><a href="#cb31-14" tabindex="-1"></a><span class="do">## [90m10[39m AATGT… 2     SeuratPro…        100           41 0               A            </span></span>
-<span id="cb31-15"><a href="#cb31-15" tabindex="-1"></a><span class="do">## [90m# ℹ 70 more rows[39m</span></span>
-<span id="cb31-16"><a href="#cb31-16" tabindex="-1"></a><span class="do">## [90m# ℹ 12 more variables: groups &lt;chr&gt;, RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,[39m</span></span>
+<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a><span class="do">## [90m 1[39m ATGCC~ 2     SeuratPro~         70           47 0               A            </span></span>
+<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a><span class="do">## [90m 2[39m CATGG~ 2     SeuratPro~         85           52 0               A            </span></span>
+<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a><span class="do">## [90m 3[39m GAACC~ 2     SeuratPro~         87           50 1               B            </span></span>
+<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a><span class="do">## [90m 4[39m TGACT~ 1     SeuratPro~        127           56 0               A            </span></span>
+<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a><span class="do">## [90m 5[39m AGTCA~ 2     SeuratPro~        173           53 0               A            </span></span>
+<span id="cb31-10"><a href="#cb31-10" tabindex="-1"></a><span class="do">## [90m 6[39m TCTGA~ 2     SeuratPro~         70           48 0               A            </span></span>
+<span id="cb31-11"><a href="#cb31-11" tabindex="-1"></a><span class="do">## [90m 7[39m TGGTA~ 1     SeuratPro~         64           36 0               A            </span></span>
+<span id="cb31-12"><a href="#cb31-12" tabindex="-1"></a><span class="do">## [90m 8[39m GCAGC~ 2     SeuratPro~         72           45 0               A            </span></span>
+<span id="cb31-13"><a href="#cb31-13" tabindex="-1"></a><span class="do">## [90m 9[39m GATAT~ 2     SeuratPro~         52           36 0               A            </span></span>
+<span id="cb31-14"><a href="#cb31-14" tabindex="-1"></a><span class="do">## [90m10[39m AATGT~ 2     SeuratPro~        100           41 0               A            </span></span>
+<span id="cb31-15"><a href="#cb31-15" tabindex="-1"></a><span class="do">## [90m# i 70 more rows[39m</span></span>
+<span id="cb31-16"><a href="#cb31-16" tabindex="-1"></a><span class="do">## [90m# i 12 more variables: groups &lt;chr&gt;, RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,[39m</span></span>
 <span id="cb31-17"><a href="#cb31-17" tabindex="-1"></a><span class="do">## [90m#   sample &lt;chr&gt;, ident &lt;fct&gt;, PC1 &lt;dbl&gt;, PC2 &lt;dbl&gt;, PC3 &lt;dbl&gt;, PC4 &lt;dbl&gt;,[39m</span></span>
 <span id="cb31-18"><a href="#cb31-18" tabindex="-1"></a><span class="do">## [90m#   PC5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;[39m</span></span></code></pre></div>
 <p>And interrogate the output as if it was a regular tibble.</p>
@@ -461,7 +465,7 @@
 <span>    <span class="fu"><a href="reference/count.html">count</a></span><span class="op">(</span><span class="va">groups</span>, <span class="va">label</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb33"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="do">## tidySingleCellExperiment says: A data frame is returned for independent data analysis.</span></span>
 <span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a></span>
-<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a><span class="do">## [90m# A tibble: 8 × 3[39m</span></span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a><span class="do">## [90m# A tibble: 8 x 3[39m</span></span>
 <span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a><span class="do">##   groups label     n</span></span>
 <span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a><span class="do">##   [3m[90m&lt;chr&gt;[39m[23m  [3m[90m&lt;fct&gt;[39m[23m [3m[90m&lt;int&gt;[39m[23m</span></span>
 <span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a><span class="do">## [90m1[39m g1     1        12</span></span>
@@ -494,7 +498,7 @@
 <span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a><span class="do">## tidyHeatmap says: (once per session) from release 1.7.0 the scaling is set to "none" by default. Please use scale = "row", "column" or "both" to apply scaling</span></span>
 <span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a></span>
 <span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a><span class="do">## Warning: [1m[22mThe `.scale` argument of `heatmap()` is deprecated as of tidyHeatmap 1.7.0.</span></span>
-<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a><span class="do">## [36mℹ[39m Please use scale (without dot prefix) instead: heatmap(scale = ...)</span></span>
+<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a><span class="do">## [36mi[39m Please use scale (without dot prefix) instead: heatmap(scale = ...)</span></span>
 <span id="cb35-7"><a href="#cb35-7" tabindex="-1"></a><span class="do">## [90mThis warning is displayed once every 8 hours.[39m</span></span>
 <span id="cb35-8"><a href="#cb35-8" tabindex="-1"></a><span class="do">## [90mCall `lifecycle::last_lifecycle_warnings()` to see where this warning was[39m</span></span>
 <span id="cb35-9"><a href="#cb35-9" tabindex="-1"></a><span class="do">## [90mgenerated.[39m</span></span></code></pre></div>
@@ -564,22 +568,22 @@ plotly screenshot
 <span id="cb42-4"><a href="#cb42-4" tabindex="-1"></a><span class="do">## returned with the old-style vocabulary (cell), however, we suggest to update</span></span>
 <span id="cb42-5"><a href="#cb42-5" tabindex="-1"></a><span class="do">## your workflow to reflect the new vocabulary (.cell).</span></span>
 <span id="cb42-6"><a href="#cb42-6" tabindex="-1"></a></span>
-<span id="cb42-7"><a href="#cb42-7" tabindex="-1"></a><span class="do">## [90m# A SingleCellExperiment-tibble abstraction: 80 × 23[39m</span></span>
+<span id="cb42-7"><a href="#cb42-7" tabindex="-1"></a><span class="do">## [90m# A SingleCellExperiment-tibble abstraction: 80 x 23[39m</span></span>
 <span id="cb42-8"><a href="#cb42-8" tabindex="-1"></a><span class="do">## [90m# [90mFeatures=230 | Cells=80 | Assays=counts, logcounts[0m[39m</span></span>
 <span id="cb42-9"><a href="#cb42-9" tabindex="-1"></a><span class="do">##    cell          first.labels orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8</span></span>
 <span id="cb42-10"><a href="#cb42-10" tabindex="-1"></a><span class="do">##    [3m[90m&lt;chr&gt;[39m[23m         [3m[90m&lt;chr&gt;[39m[23m        [3m[90m&lt;fct&gt;[39m[23m           [3m[90m&lt;dbl&gt;[39m[23m        [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m          </span></span>
-<span id="cb42-11"><a href="#cb42-11" tabindex="-1"></a><span class="do">## [90m 1[39m ATGCCAGAACGA… CD4+ T-cells SeuratPro…         70           47 0              </span></span>
-<span id="cb42-12"><a href="#cb42-12" tabindex="-1"></a><span class="do">## [90m 2[39m CATGGCCTGTGC… CD8+ T-cells SeuratPro…         85           52 0              </span></span>
-<span id="cb42-13"><a href="#cb42-13" tabindex="-1"></a><span class="do">## [90m 3[39m GAACCTGATGAA… CD8+ T-cells SeuratPro…         87           50 1              </span></span>
-<span id="cb42-14"><a href="#cb42-14" tabindex="-1"></a><span class="do">## [90m 4[39m TGACTGGATTCT… CD4+ T-cells SeuratPro…        127           56 0              </span></span>
-<span id="cb42-15"><a href="#cb42-15" tabindex="-1"></a><span class="do">## [90m 5[39m AGTCAGACTGCA… CD4+ T-cells SeuratPro…        173           53 0              </span></span>
-<span id="cb42-16"><a href="#cb42-16" tabindex="-1"></a><span class="do">## [90m 6[39m TCTGATACACGT… CD4+ T-cells SeuratPro…         70           48 0              </span></span>
-<span id="cb42-17"><a href="#cb42-17" tabindex="-1"></a><span class="do">## [90m 7[39m TGGTATCTAAAC… CD4+ T-cells SeuratPro…         64           36 0              </span></span>
-<span id="cb42-18"><a href="#cb42-18" tabindex="-1"></a><span class="do">## [90m 8[39m GCAGCTCTGTTT… CD4+ T-cells SeuratPro…         72           45 0              </span></span>
-<span id="cb42-19"><a href="#cb42-19" tabindex="-1"></a><span class="do">## [90m 9[39m GATATAACACGC… CD4+ T-cells SeuratPro…         52           36 0              </span></span>
-<span id="cb42-20"><a href="#cb42-20" tabindex="-1"></a><span class="do">## [90m10[39m AATGTTGACAGT… CD4+ T-cells SeuratPro…        100           41 0              </span></span>
-<span id="cb42-21"><a href="#cb42-21" tabindex="-1"></a><span class="do">## [90m# ℹ 70 more rows[39m</span></span>
-<span id="cb42-22"><a href="#cb42-22" tabindex="-1"></a><span class="do">## [90m# ℹ 17 more variables: letter.idents &lt;fct&gt;, groups &lt;chr&gt;, RNA_snn_res.1 &lt;fct&gt;,[39m</span></span>
+<span id="cb42-11"><a href="#cb42-11" tabindex="-1"></a><span class="do">## [90m 1[39m ATGCCAGAACGA~ CD4+ T-cells SeuratPro~         70           47 0              </span></span>
+<span id="cb42-12"><a href="#cb42-12" tabindex="-1"></a><span class="do">## [90m 2[39m CATGGCCTGTGC~ CD8+ T-cells SeuratPro~         85           52 0              </span></span>
+<span id="cb42-13"><a href="#cb42-13" tabindex="-1"></a><span class="do">## [90m 3[39m GAACCTGATGAA~ CD8+ T-cells SeuratPro~         87           50 1              </span></span>
+<span id="cb42-14"><a href="#cb42-14" tabindex="-1"></a><span class="do">## [90m 4[39m TGACTGGATTCT~ CD4+ T-cells SeuratPro~        127           56 0              </span></span>
+<span id="cb42-15"><a href="#cb42-15" tabindex="-1"></a><span class="do">## [90m 5[39m AGTCAGACTGCA~ CD4+ T-cells SeuratPro~        173           53 0              </span></span>
+<span id="cb42-16"><a href="#cb42-16" tabindex="-1"></a><span class="do">## [90m 6[39m TCTGATACACGT~ CD4+ T-cells SeuratPro~         70           48 0              </span></span>
+<span id="cb42-17"><a href="#cb42-17" tabindex="-1"></a><span class="do">## [90m 7[39m TGGTATCTAAAC~ CD4+ T-cells SeuratPro~         64           36 0              </span></span>
+<span id="cb42-18"><a href="#cb42-18" tabindex="-1"></a><span class="do">## [90m 8[39m GCAGCTCTGTTT~ CD4+ T-cells SeuratPro~         72           45 0              </span></span>
+<span id="cb42-19"><a href="#cb42-19" tabindex="-1"></a><span class="do">## [90m 9[39m GATATAACACGC~ CD4+ T-cells SeuratPro~         52           36 0              </span></span>
+<span id="cb42-20"><a href="#cb42-20" tabindex="-1"></a><span class="do">## [90m10[39m AATGTTGACAGT~ CD4+ T-cells SeuratPro~        100           41 0              </span></span>
+<span id="cb42-21"><a href="#cb42-21" tabindex="-1"></a><span class="do">## [90m# i 70 more rows[39m</span></span>
+<span id="cb42-22"><a href="#cb42-22" tabindex="-1"></a><span class="do">## [90m# i 17 more variables: letter.idents &lt;fct&gt;, groups &lt;chr&gt;, RNA_snn_res.1 &lt;fct&gt;,[39m</span></span>
 <span id="cb42-23"><a href="#cb42-23" tabindex="-1"></a><span class="do">## [90m#   file &lt;chr&gt;, sample &lt;chr&gt;, ident &lt;fct&gt;, label &lt;fct&gt;, PC1 &lt;dbl&gt;, PC2 &lt;dbl&gt;,[39m</span></span>
 <span id="cb42-24"><a href="#cb42-24" tabindex="-1"></a><span class="do">## [90m#   PC3 &lt;dbl&gt;, PC4 &lt;dbl&gt;, PC5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;, UMAP1 &lt;dbl&gt;,[39m</span></span>
 <span id="cb42-25"><a href="#cb42-25" tabindex="-1"></a><span class="do">## [90m#   UMAP2 &lt;dbl&gt;, UMAP3 &lt;dbl&gt;[39m</span></span></code></pre></div>
@@ -590,7 +594,7 @@ plotly screenshot
 <span>    <span class="fu"><a href="reference/count.html">count</a></span><span class="op">(</span><span class="va">label</span>, <span class="va">first.labels</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb44"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a><span class="do">## tidySingleCellExperiment says: A data frame is returned for independent data analysis.</span></span>
 <span id="cb44-2"><a href="#cb44-2" tabindex="-1"></a></span>
-<span id="cb44-3"><a href="#cb44-3" tabindex="-1"></a><span class="do">## [90m# A tibble: 11 × 3[39m</span></span>
+<span id="cb44-3"><a href="#cb44-3" tabindex="-1"></a><span class="do">## [90m# A tibble: 11 x 3[39m</span></span>
 <span id="cb44-4"><a href="#cb44-4" tabindex="-1"></a><span class="do">##    label first.labels     n</span></span>
 <span id="cb44-5"><a href="#cb44-5" tabindex="-1"></a><span class="do">##    [3m[90m&lt;fct&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m        [3m[90m&lt;int&gt;[39m[23m</span></span>
 <span id="cb44-6"><a href="#cb44-6" tabindex="-1"></a><span class="do">## [90m 1[39m 1     CD4+ T-cells     2</span></span>
@@ -655,13 +659,13 @@ plotly screenshot
 <span>    <span class="fu"><a href="reference/nest.html">nest</a></span><span class="op">(</span>data<span class="op">=</span><span class="op">-</span><span class="va">cell_class</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb50"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a><span class="do">## Warning: [1m[22mThere were 2 warnings in `mutate()`.</span></span>
 <span id="cb50-2"><a href="#cb50-2" tabindex="-1"></a><span class="do">## The first warning was:</span></span>
-<span id="cb50-3"><a href="#cb50-3" tabindex="-1"></a><span class="do">## [1m[22m[36mℹ[39m In argument: `data = map(...)`.</span></span>
+<span id="cb50-3"><a href="#cb50-3" tabindex="-1"></a><span class="do">## [1m[22m[36mi[39m In argument: `data = map(...)`.</span></span>
 <span id="cb50-4"><a href="#cb50-4" tabindex="-1"></a><span class="do">## Caused by warning in `is_sample_feature_deprecated_used()`:</span></span>
 <span id="cb50-5"><a href="#cb50-5" tabindex="-1"></a><span class="do">## [33m![39m tidySingleCellExperiment says: from version 1.3.1, the special columns including cell id (colnames(se)) has changed to ".cell". This dataset is returned with the old-style vocabulary (cell), however, we suggest to update your workflow to reflect the new vocabulary (.cell).</span></span>
-<span id="cb50-6"><a href="#cb50-6" tabindex="-1"></a><span class="do">## [1m[22m[36mℹ[39m Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.</span></span></code></pre></div>
+<span id="cb50-6"><a href="#cb50-6" tabindex="-1"></a><span class="do">## [1m[22m[36mi[39m Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.</span></span></code></pre></div>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_nested</span></span></code></pre></div>
-<div class="sourceCode" id="cb52"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="do">## [90m# A tibble: 2 × 2[39m</span></span>
+<div class="sourceCode" id="cb52"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="do">## [90m# A tibble: 2 x 2[39m</span></span>
 <span id="cb52-2"><a href="#cb52-2" tabindex="-1"></a><span class="do">##   cell_class data           </span></span>
 <span id="cb52-3"><a href="#cb52-3" tabindex="-1"></a><span class="do">##   [3m[90m&lt;chr&gt;[39m[23m      [3m[90m&lt;list&gt;[39m[23m         </span></span>
 <span id="cb52-4"><a href="#cb52-4" tabindex="-1"></a><span class="do">## [90m1[39m lymphoid   [90m&lt;SnglCllE[,40]&gt;[39m</span></span>
@@ -691,7 +695,7 @@ plotly screenshot
 <span>    <span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pbmc_small_nested_reanalysed</span></span></code></pre></div>
-<div class="sourceCode" id="cb54"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a><span class="do">## [90m# A tibble: 2 × 2[39m</span></span>
+<div class="sourceCode" id="cb54"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a><span class="do">## [90m# A tibble: 2 x 2[39m</span></span>
 <span id="cb54-2"><a href="#cb54-2" tabindex="-1"></a><span class="do">##   cell_class data           </span></span>
 <span id="cb54-3"><a href="#cb54-3" tabindex="-1"></a><span class="do">##   [3m[90m&lt;chr&gt;[39m[23m      [3m[90m&lt;list&gt;[39m[23m         </span></span>
 <span id="cb54-4"><a href="#cb54-4" tabindex="-1"></a><span class="do">## [90m1[39m lymphoid   [90m&lt;SnglCllE[,40]&gt;[39m</span></span>
@@ -747,21 +751,21 @@ plotly screenshot
 <div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">pbmc_small_nested_interactions</span><span class="op">)</span></span>
 <span><span class="va">pbmc_small_nested_interactions</span></span></code></pre></div>
-<div class="sourceCode" id="cb58"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a><span class="do">## [90m# A tibble: 100 × 9[39m</span></span>
+<div class="sourceCode" id="cb58"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a><span class="do">## [90m# A tibble: 100 x 9[39m</span></span>
 <span id="cb58-2"><a href="#cb58-2" tabindex="-1"></a><span class="do">##    sample  ligand          receptor ligand.name receptor.name origin destination</span></span>
 <span id="cb58-3"><a href="#cb58-3" tabindex="-1"></a><span class="do">##    [3m[90m&lt;chr&gt;[39m[23m   [3m[90m&lt;chr&gt;[39m[23m           [3m[90m&lt;chr&gt;[39m[23m    [3m[90m&lt;chr&gt;[39m[23m       [3m[90m&lt;chr&gt;[39m[23m         [3m[90m&lt;chr&gt;[39m[23m  [3m[90m&lt;chr&gt;[39m[23m      </span></span>
-<span id="cb58-4"><a href="#cb58-4" tabindex="-1"></a><span class="do">## [90m 1[39m sample1 cluster 1.PTMA  cluster… PTMA        VIPR1         clust… cluster 2  </span></span>
-<span id="cb58-5"><a href="#cb58-5" tabindex="-1"></a><span class="do">## [90m 2[39m sample1 cluster 1.B2M   cluster… B2M         KLRD1         clust… cluster 2  </span></span>
-<span id="cb58-6"><a href="#cb58-6" tabindex="-1"></a><span class="do">## [90m 3[39m sample1 cluster 1.IL16  cluster… IL16        CD4           clust… cluster 2  </span></span>
-<span id="cb58-7"><a href="#cb58-7" tabindex="-1"></a><span class="do">## [90m 4[39m sample1 cluster 1.HLA-B cluster… HLA-B       KLRD1         clust… cluster 2  </span></span>
-<span id="cb58-8"><a href="#cb58-8" tabindex="-1"></a><span class="do">## [90m 5[39m sample1 cluster 1.CALM1 cluster… CALM1       VIPR1         clust… cluster 2  </span></span>
-<span id="cb58-9"><a href="#cb58-9" tabindex="-1"></a><span class="do">## [90m 6[39m sample1 cluster 1.HLA-E cluster… HLA-E       KLRD1         clust… cluster 2  </span></span>
-<span id="cb58-10"><a href="#cb58-10" tabindex="-1"></a><span class="do">## [90m 7[39m sample1 cluster 1.GNAS  cluster… GNAS        VIPR1         clust… cluster 2  </span></span>
-<span id="cb58-11"><a href="#cb58-11" tabindex="-1"></a><span class="do">## [90m 8[39m sample1 cluster 1.B2M   cluster… B2M         HFE           clust… cluster 2  </span></span>
-<span id="cb58-12"><a href="#cb58-12" tabindex="-1"></a><span class="do">## [90m 9[39m sample1 cluster 1.PTMA  cluster… PTMA        VIPR1         clust… cluster 3  </span></span>
-<span id="cb58-13"><a href="#cb58-13" tabindex="-1"></a><span class="do">## [90m10[39m sample1 cluster 1.CALM1 cluster… CALM1       VIPR1         clust… cluster 3  </span></span>
-<span id="cb58-14"><a href="#cb58-14" tabindex="-1"></a><span class="do">## [90m# ℹ 90 more rows[39m</span></span>
-<span id="cb58-15"><a href="#cb58-15" tabindex="-1"></a><span class="do">## [90m# ℹ 2 more variables: interaction.type &lt;chr&gt;, LRscore &lt;dbl&gt;[39m</span></span></code></pre></div>
+<span id="cb58-4"><a href="#cb58-4" tabindex="-1"></a><span class="do">## [90m 1[39m sample1 cluster 1.PTMA  cluster~ PTMA        VIPR1         clust~ cluster 2  </span></span>
+<span id="cb58-5"><a href="#cb58-5" tabindex="-1"></a><span class="do">## [90m 2[39m sample1 cluster 1.B2M   cluster~ B2M         KLRD1         clust~ cluster 2  </span></span>
+<span id="cb58-6"><a href="#cb58-6" tabindex="-1"></a><span class="do">## [90m 3[39m sample1 cluster 1.IL16  cluster~ IL16        CD4           clust~ cluster 2  </span></span>
+<span id="cb58-7"><a href="#cb58-7" tabindex="-1"></a><span class="do">## [90m 4[39m sample1 cluster 1.HLA-B cluster~ HLA-B       KLRD1         clust~ cluster 2  </span></span>
+<span id="cb58-8"><a href="#cb58-8" tabindex="-1"></a><span class="do">## [90m 5[39m sample1 cluster 1.CALM1 cluster~ CALM1       VIPR1         clust~ cluster 2  </span></span>
+<span id="cb58-9"><a href="#cb58-9" tabindex="-1"></a><span class="do">## [90m 6[39m sample1 cluster 1.HLA-E cluster~ HLA-E       KLRD1         clust~ cluster 2  </span></span>
+<span id="cb58-10"><a href="#cb58-10" tabindex="-1"></a><span class="do">## [90m 7[39m sample1 cluster 1.GNAS  cluster~ GNAS        VIPR1         clust~ cluster 2  </span></span>
+<span id="cb58-11"><a href="#cb58-11" tabindex="-1"></a><span class="do">## [90m 8[39m sample1 cluster 1.B2M   cluster~ B2M         HFE           clust~ cluster 2  </span></span>
+<span id="cb58-12"><a href="#cb58-12" tabindex="-1"></a><span class="do">## [90m 9[39m sample1 cluster 1.PTMA  cluster~ PTMA        VIPR1         clust~ cluster 3  </span></span>
+<span id="cb58-13"><a href="#cb58-13" tabindex="-1"></a><span class="do">## [90m10[39m sample1 cluster 1.CALM1 cluster~ CALM1       VIPR1         clust~ cluster 3  </span></span>
+<span id="cb58-14"><a href="#cb58-14" tabindex="-1"></a><span class="do">## [90m# i 90 more rows[39m</span></span>
+<span id="cb58-15"><a href="#cb58-15" tabindex="-1"></a><span class="do">## [90m# i 2 more variables: interaction.type &lt;chr&gt;, LRscore &lt;dbl&gt;[39m</span></span></code></pre></div>
 </div>
 <div class="section level1">
 <h1 id="aggregating-cells">Aggregating cells<a class="anchor" aria-label="anchor" href="#aggregating-cells"></a>
@@ -776,9 +780,10 @@ plotly screenshot
 <span id="cb60-3"><a href="#cb60-3" tabindex="-1"></a><span class="do">## metadata(0):</span></span>
 <span id="cb60-4"><a href="#cb60-4" tabindex="-1"></a><span class="do">## assays(1): counts</span></span>
 <span id="cb60-5"><a href="#cb60-5" tabindex="-1"></a><span class="do">## rownames(230): ACAP1 ACRBP ... ZNF330 ZNF76</span></span>
-<span id="cb60-6"><a href="#cb60-6" tabindex="-1"></a><span class="do">## rowData names(0):</span></span>
-<span id="cb60-7"><a href="#cb60-7" tabindex="-1"></a><span class="do">## colnames(2): g1 g2</span></span>
-<span id="cb60-8"><a href="#cb60-8" tabindex="-1"></a><span class="do">## colData names(4): .aggregated_cells groups orig.ident file</span></span></code></pre></div>
+<span id="cb60-6"><a href="#cb60-6" tabindex="-1"></a><span class="do">## rowData names(5): vst.mean vst.variance vst.variance.expected</span></span>
+<span id="cb60-7"><a href="#cb60-7" tabindex="-1"></a><span class="do">##   vst.variance.standardized vst.variable</span></span>
+<span id="cb60-8"><a href="#cb60-8" tabindex="-1"></a><span class="do">## colnames(2): g1 g2</span></span>
+<span id="cb60-9"><a href="#cb60-9" tabindex="-1"></a><span class="do">## colData names(4): .aggregated_cells groups orig.ident file</span></span></code></pre></div>
 </div>
 
   </div>

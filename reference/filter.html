@@ -21,7 +21,7 @@ the row will be dropped, unlike base subsetting with [."><!-- mathjax --><script
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidySingleCellExperiment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.15.1</span>
       </span>
     </div>
 
@@ -171,22 +171,22 @@ dbplyr (<code><a href="https://dbplyr.tidyverse.org/reference/filter.tbl_lazy.ht
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">pbmc_small</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">pbmc_small</span> <span class="op">|&gt;</span> <span class="fu">filter</span><span class="op">(</span><span class="va">groups</span> <span class="op">==</span> <span class="st">"g1"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A SingleCellExperiment-tibble abstraction: 44 × 17</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A SingleCellExperiment-tibble abstraction: 44 x 17</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># </span><span style="color: #555555;">Features=230 | Cells=44 | Assays=counts, logcounts</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> CATG… SeuratPro…         85           52 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> TCTG… SeuratPro…         70           48 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> TGGT… SeuratPro…         64           36 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> GCAG… SeuratPro…         72           45 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> GATA… SeuratPro…         52           36 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> AATG… SeuratPro…        100           41 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> AGAG… SeuratPro…        191           61 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> CTAA… SeuratPro…        168           44 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> TTGG… SeuratPro…        135           45 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> CATC… SeuratPro…         79           43 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 34 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 10 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, ident &lt;fct&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> CATG~ SeuratPro~         85           52 0               A             g1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> TCTG~ SeuratPro~         70           48 0               A             g1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> TGGT~ SeuratPro~         64           36 0               A             g1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> GCAG~ SeuratPro~         72           45 0               A             g1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> GATA~ SeuratPro~         52           36 0               A             g1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> AATG~ SeuratPro~        100           41 0               A             g1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> AGAG~ SeuratPro~        191           61 0               A             g1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> CTAA~ SeuratPro~        168           44 0               A             g1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> TTGG~ SeuratPro~        135           45 0               A             g1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> CATC~ SeuratPro~         79           43 0               A             g1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># i 34 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># i 10 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, ident &lt;fct&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   tSNE_2 &lt;dbl&gt;</span></span>
 <span class="r-in"><span></span></span>
