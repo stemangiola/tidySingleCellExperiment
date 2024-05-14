@@ -149,22 +149,22 @@ represent what you are nesting by.</p>
 <span class="r-in"><span><span class="va">pbmc_small</span> <span class="op">|&gt;</span> </span></span>
 <span class="r-in"><span>    <span class="fu">nest</span><span class="op">(</span>data<span class="op">=</span><span class="op">-</span><span class="va">groups</span><span class="op">)</span> <span class="op">|&gt;</span> </span></span>
 <span class="r-in"><span>    <span class="fu"><a href="unnest.html">unnest</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A SingleCellExperiment-tibble abstraction: 80 x 17</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A SingleCellExperiment-tibble abstraction: 80 × 17</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># </span><span style="color: #555555;">Features=230 | Cells=80 | Assays=counts, logcounts</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .cell        orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ATGCCAGAACG~ SeuratPro~         70           47 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> GAACCTGATGA~ SeuratPro~         87           50 1               B            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> TGACTGGATTC~ SeuratPro~        127           56 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> AGTCAGACTGC~ SeuratPro~        173           53 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> AGGTCATGAGT~ SeuratPro~         62           31 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> GGGTAACTCTA~ SeuratPro~        101           41 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> CATGAGACACG~ SeuratPro~         51           26 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> TACGCCACTCC~ SeuratPro~         99           45 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> GTAAGCACTCA~ SeuratPro~         67           33 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> TACATCACGCT~ SeuratPro~        109           41 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># i 70 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># i 11 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, ident &lt;fct&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ATGCCAGAACG… SeuratPro…         70           47 0               A            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> GAACCTGATGA… SeuratPro…         87           50 1               B            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> TGACTGGATTC… SeuratPro…        127           56 0               A            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> AGTCAGACTGC… SeuratPro…        173           53 0               A            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> AGGTCATGAGT… SeuratPro…         62           31 0               A            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> GGGTAACTCTA… SeuratPro…        101           41 0               A            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> CATGAGACACG… SeuratPro…         51           26 0               A            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> TACGCCACTCC… SeuratPro…         99           45 0               A            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> GTAAGCACTCA… SeuratPro…         67           33 0               A            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> TACATCACGCT… SeuratPro…        109           41 0               A            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 70 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 11 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, ident &lt;fct&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   groups &lt;chr&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span>
 <span class="r-in"><span>    </span></span>
