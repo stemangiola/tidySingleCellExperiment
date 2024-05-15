@@ -55,7 +55,7 @@ prepend <- function(x, values, before=1) {
 #'
 #' @return A tibble with an additional attribute
 add_class <- function(var, name) {
-    if (!name %in% class(var)) 
+    if (!name %in% class(var))
         class(var) <- prepend(class(var), name)
     return(var)
 }
@@ -86,21 +86,21 @@ drop_class <- function(var, name) {
 #' @param .data A `tidySingleCellExperiment`
 #' @param features A character
 #' @param all A boolean
-#' @param ... Parameters to pass to join wide, i.e., 
+#' @param ... Parameters to pass to join wide, i.e.,
 #'   `assay` to extract feature abundances from
 #'
 #' @return A tidySingleCellExperiment object
 #'
 #' @noRd
-get_abundance_sc_wide <- function(.data, 
+get_abundance_sc_wide <- function(.data,
     features=NULL, all=FALSE, assay=rev(assayNames(.data))[1], prefix="") {
-    
+
     # Solve CRAN warnings
     . <- NULL
-    
+
     # For SCE there is not filed for variable features
     variable_feature <- c()
-    
+
     # Check if output would be too big without forcing
     if (isFALSE(all) && is.null(features)) {
         if (!length(variable_feature)) {
@@ -118,7 +118,7 @@ get_abundance_sc_wide <- function(.data,
     } else {
         variable_genes <- NULL
     }
-    
+
     if (!is.null(variable_genes)) {
         gs <- variable_genes
     } else if (!is.null(features)) {
@@ -130,7 +130,7 @@ get_abundance_sc_wide <- function(.data,
     }
     mtx <- assay(.data, assay)
     mtx <- mtx[gs, , drop=FALSE]
-    
+
     mtx %>%
         as.matrix() %>% t() %>%
         as_tibble(rownames=c_(.data)$name) %>%
@@ -156,15 +156,15 @@ get_abundance_sc_wide <- function(.data,
 #' @return A tidySingleCellExperiment object
 #'
 #' @noRd
-get_abundance_sc_long <- function(.data, 
+get_abundance_sc_long <- function(.data,
     features=NULL, all=FALSE, exclude_zeros=FALSE) {
-    
+
     # Solve CRAN warnings
     . <- NULL
-    
+
     # For SCE there is not filed for variable features
     variable_feature <- c()
-    
+
     # Check if output would be too big without forcing
     if (isFALSE(all) && is.null(features)) {
         if (!length(variable_feature)) {
@@ -182,13 +182,13 @@ get_abundance_sc_long <- function(.data,
     } else {
         variable_genes <- NULL
     }
-    
+
     # Check that I have assay names
     if (!length(assayNames(.data)))
         stop("tidySingleCellExperiment says:",
             " there are no assay names in the",
             " source SingleCellExperiment.")
-    
+
     if (!is.null(variable_genes)) {
         gs <- variable_genes
     } else if (!is.null(features)){
@@ -200,7 +200,7 @@ get_abundance_sc_long <- function(.data,
             " You should have either variable features,",
             " or a feature list to extract.")
     }
-    
+
     assays(.data) %>%
         as.list() %>%
         # Take active assay
@@ -208,7 +208,7 @@ get_abundance_sc_long <- function(.data,
             # Subset specified features
             .x <- .x[gs, , drop=FALSE]
             # Replace 0 with NA
-            if (isTRUE(exclude_zeros)) 
+            if (isTRUE(exclude_zeros))
                 .x[.x == 0] <- NA
             .x %>%
                 as.matrix() %>%
@@ -219,7 +219,7 @@ get_abundance_sc_long <- function(.data,
                     names_to=c_(.data)$name,
                     values_to=".abundance" %>% paste(.y, sep="_"),
                     values_drop_na=TRUE)
-        }) %>% Reduce(function(...) full_join(..., 
+        }) %>% Reduce(function(...) full_join(...,
             by=c(".feature", c_(.data)$name)), .)
 }
 
@@ -236,21 +236,21 @@ as_meta_data <- function(.data, SingleCellExperiment_object) {
 
     col_to_exclude <-
         get_special_columns(SingleCellExperiment_object) |>
-        # Need this in case we have multiple reduced dimensions 
+        # Need this in case we have multiple reduced dimensions
         # with overlapping column names, e.g., multiple PCAs
         vctrs::vec_as_names(repair="unique") |>
         # To avoid name change by the 'bind_cols()' of 'as_tibble()'
         trick_to_avoid_renaming_of_already_unique_columns_by_dplyr()
-    
+
     .data_df <- .data %>%
         select(-any_of(col_to_exclude)) %>%
         data.frame()
-    
-    # Set row names in a robust way; the 'row.names' argument 
+
+    # Set row names in a robust way; the 'row.names' argument
     # of 'data.frame()' does not work for 1-row 'data.frame's
     sym <- c_(SingleCellExperiment_object)$symbol
     rownames(.data_df) <- pull(.data_df, !!sym)
-    
+
     .data_df <- select(.data_df, -!!sym)
     return(DataFrame(.data_df))
 }
@@ -271,15 +271,15 @@ get_special_columns <- function(SingleCellExperiment_object) {
 
 #' @importFrom SingleCellExperiment reducedDims
 get_special_datasets <- function(SingleCellExperiment_object, n_dimensions_to_return=Inf) {
-    
+
     rd <- reducedDims(SingleCellExperiment_object)
 
     map2(as.list(rd), names(rd), ~ {
         n_dims <- min(n_dimensions_to_return, ncol(.x))
         mat <- .x[, seq_len(n_dims), drop=FALSE]
-        # Set names as SCE is much less constrained 
+        # Set names as SCE is much less constrained
         # and there could be missing names
-        if (is.null(colnames(mat))) colnames(mat) <- 
+        if (is.null(colnames(mat))) colnames(mat) <-
             sprintf("%s%s", .y, seq_len(ncol(mat)))
         return(mat)
     })
@@ -339,16 +339,18 @@ duplicated_cell_names <- paste(
 # Check if "sample" is included in the query and is not part of any other existing annotation
 #' @importFrom stringr str_detect
 #' @importFrom stringr regex
-is_sample_feature_deprecated_used <- function(.data, 
-    user_columns, use_old_special_names=FALSE) {
-    
+is_sample_feature_deprecated_used <- function(
+    .data,
+    user_columns, use_old_special_names=FALSE
+  ) {
+
     cell <- user_columns |> as.character() |>  str_detect(regex("\\bcell\\b")) |>  any()
     .cell <- user_columns |> as.character() |> str_detect(regex("\\W*(\\.cell)\\W*")) |> any()
-    
-    old_standard_is_used <- 
+
+    old_standard_is_used <-
         !"cell" %in% colnames(colData(.data)) &&
         ("cell" %in% as.character(user_columns) || (cell && !.cell))
-    
+
     if (old_standard_is_used) {
         warning("tidySingleCellExperiment says:",
             " from version 1.3.1, the special columns including",
@@ -415,9 +417,9 @@ special_datasets_to_tibble <- function(.singleCellExperiment, ...) {
                 tibble::enframe() %>%
                 tidyr::spread(name, value)
         }) %>% purrr::reduce(bind_cols)
-    
+
     # To avoid name change by the 'bind_cols()' of 'as_tibble()'
-    colnames(x) <- colnames(x) |> 
+    colnames(x) <- colnames(x) |>
         trick_to_avoid_renaming_of_already_unique_columns_by_dplyr()
     return(x)
 }
@@ -431,37 +433,37 @@ trick_to_avoid_renaming_of_already_unique_columns_by_dplyr <- function(x) {
 #'
 #' @keywords internal
 #' @noRd
-#' 
+#'
 #' @importFrom rlang enquo
 #' @importFrom purrr map
 #' @importFrom dplyr distinct_at
 #' @importFrom magrittr equals
 #' @importFrom dplyr vars
-#' 
+#'
 #' @param .data A tibble
 #' @param .col A vector of column names
-#' 
+#'
 #' @return A character
 get_specific_annotation_columns <- function(.data, .col) {
-    
+
     # Comply with CRAN NOTES
     . <- NULL
-    
+
     # Make col names
     .col <- enquo(.col)
-    
+
     # x-annotation df
     n_x <- .data |> distinct_at(vars(!!.col)) |> nrow()
-    
+
     # Exclude columns that have more values than my .col
     columns_unique_length = .data |> select(-!!.col) |> lapply(function(x) unique(x) |> length())
     columns_unique_length = columns_unique_length[columns_unique_length<=n_x]
-    
+
     .sample = .data |> select(!!.col) |> unite(".sample", !!.col) |> pull(.sample)
-    
+
     # element wise columns
     columns_unique_length |>
-      names() |> 
+      names() |>
         map(~ {
             n_.x <- .data |> pull(all_of(.x)) |> paste(.sample)  |> unique() |> length()
             if (n_.x == n_x) .x else NULL
