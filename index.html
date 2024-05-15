@@ -383,7 +383,11 @@
 <span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a></span>
 <span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="do">## Warning in (function (A, nv = 5, nu = nv, maxit = 1000, work = nv + 7, reorth =</span></span>
 <span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a><span class="do">## TRUE, : You're computing too large a percentage of total singular values, use a</span></span>
-<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a><span class="do">## standard svd instead.</span></span></code></pre></div>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a><span class="do">## standard svd instead.</span></span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a><span class="do">## Warning in (function (A, nv = 5, nu = nv, maxit = 1000, work = nv + 7, reorth =</span></span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a><span class="do">## TRUE, : did not converge--results might be invalid!; try increasing work or</span></span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a><span class="do">## maxit</span></span></code></pre></div>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_pca</span></span></code></pre></div>
 <div class="sourceCode" id="cb25"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="do">## [90m# A SingleCellExperiment-tibble abstraction: 80 × 18[39m</span></span>
@@ -652,22 +656,16 @@ plotly screenshot
 <span>    <span class="va">pbmc_small_cell_type</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="reference/filter.html">filter</a></span><span class="op">(</span><span class="va">first.labels</span> <span class="op">!=</span> <span class="st">"Erythrocytes"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="reference/mutate.html">mutate</a></span><span class="op">(</span>cell_class<span class="op">=</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">`first.labels`</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Macrophages"</span>, <span class="st">"Monocytes"</span><span class="op">)</span>, <span class="st">"myeloid"</span>, <span class="st">"lymphoid"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="reference/nest.html">nest</a></span><span class="op">(</span>data<span class="op">=</span><span class="op">-</span><span class="va">cell_class</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb50"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a><span class="do">## Warning: [1m[22mThere were 2 warnings in `mutate()`.</span></span>
-<span id="cb50-2"><a href="#cb50-2" tabindex="-1"></a><span class="do">## The first warning was:</span></span>
-<span id="cb50-3"><a href="#cb50-3" tabindex="-1"></a><span class="do">## [1m[22m[36mℹ[39m In argument: `data = map(...)`.</span></span>
-<span id="cb50-4"><a href="#cb50-4" tabindex="-1"></a><span class="do">## Caused by warning in `is_sample_feature_deprecated_used()`:</span></span>
-<span id="cb50-5"><a href="#cb50-5" tabindex="-1"></a><span class="do">## [33m![39m tidySingleCellExperiment says: from version 1.3.1, the special columns including cell id (colnames(se)) has changed to ".cell". This dataset is returned with the old-style vocabulary (cell), however, we suggest to update your workflow to reflect the new vocabulary (.cell).</span></span>
-<span id="cb50-6"><a href="#cb50-6" tabindex="-1"></a><span class="do">## [1m[22m[36mℹ[39m Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.</span></span></code></pre></div>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pbmc_small_nested</span></span></code></pre></div>
-<div class="sourceCode" id="cb52"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="do">## [90m# A tibble: 2 × 2[39m</span></span>
-<span id="cb52-2"><a href="#cb52-2" tabindex="-1"></a><span class="do">##   cell_class data           </span></span>
-<span id="cb52-3"><a href="#cb52-3" tabindex="-1"></a><span class="do">##   [3m[90m&lt;chr&gt;[39m[23m      [3m[90m&lt;list&gt;[39m[23m         </span></span>
-<span id="cb52-4"><a href="#cb52-4" tabindex="-1"></a><span class="do">## [90m1[39m lymphoid   [90m&lt;SnglCllE[,40]&gt;[39m</span></span>
-<span id="cb52-5"><a href="#cb52-5" tabindex="-1"></a><span class="do">## [90m2[39m myeloid    [90m&lt;SnglCllE[,31]&gt;[39m</span></span></code></pre></div>
+<span>    <span class="fu"><a href="reference/nest.html">nest</a></span><span class="op">(</span>data<span class="op">=</span><span class="op">-</span><span class="va">cell_class</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pbmc_small_nested</span></span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a><span class="do">## [90m# A tibble: 2 × 2[39m</span></span>
+<span id="cb50-2"><a href="#cb50-2" tabindex="-1"></a><span class="do">##   cell_class data           </span></span>
+<span id="cb50-3"><a href="#cb50-3" tabindex="-1"></a><span class="do">##   [3m[90m&lt;chr&gt;[39m[23m      [3m[90m&lt;list&gt;[39m[23m         </span></span>
+<span id="cb50-4"><a href="#cb50-4" tabindex="-1"></a><span class="do">## [90m1[39m lymphoid   [90m&lt;SnglCllE[,40]&gt;[39m</span></span>
+<span id="cb50-5"><a href="#cb50-5" tabindex="-1"></a><span class="do">## [90m2[39m myeloid    [90m&lt;SnglCllE[,31]&gt;[39m</span></span></code></pre></div>
 <p>Now we can independently for the lymphoid and myeloid subsets (i) find variable features, (ii) reduce dimensions, and (iii) cluster using both tidyverse and SingleCellExperiment seamlessly.</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_nested_reanalysed</span> <span class="op">&lt;-</span></span>
 <span>    <span class="va">pbmc_small_nested</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="reference/mutate.html">mutate</a></span><span class="op">(</span>data<span class="op">=</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span></span>
@@ -691,13 +689,13 @@ plotly screenshot
 <span>    <span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pbmc_small_nested_reanalysed</span></span></code></pre></div>
-<div class="sourceCode" id="cb54"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a><span class="do">## [90m# A tibble: 2 × 2[39m</span></span>
-<span id="cb54-2"><a href="#cb54-2" tabindex="-1"></a><span class="do">##   cell_class data           </span></span>
-<span id="cb54-3"><a href="#cb54-3" tabindex="-1"></a><span class="do">##   [3m[90m&lt;chr&gt;[39m[23m      [3m[90m&lt;list&gt;[39m[23m         </span></span>
-<span id="cb54-4"><a href="#cb54-4" tabindex="-1"></a><span class="do">## [90m1[39m lymphoid   [90m&lt;SnglCllE[,40]&gt;[39m</span></span>
-<span id="cb54-5"><a href="#cb54-5" tabindex="-1"></a><span class="do">## [90m2[39m myeloid    [90m&lt;SnglCllE[,31]&gt;[39m</span></span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="do">## [90m# A tibble: 2 × 2[39m</span></span>
+<span id="cb52-2"><a href="#cb52-2" tabindex="-1"></a><span class="do">##   cell_class data           </span></span>
+<span id="cb52-3"><a href="#cb52-3" tabindex="-1"></a><span class="do">##   [3m[90m&lt;chr&gt;[39m[23m      [3m[90m&lt;list&gt;[39m[23m         </span></span>
+<span id="cb52-4"><a href="#cb52-4" tabindex="-1"></a><span class="do">## [90m1[39m lymphoid   [90m&lt;SnglCllE[,40]&gt;[39m</span></span>
+<span id="cb52-5"><a href="#cb52-5" tabindex="-1"></a><span class="do">## [90m2[39m myeloid    [90m&lt;SnglCllE[,31]&gt;[39m</span></span></code></pre></div>
 <p>We can then unnest and plot the new classification.</p>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_nested_reanalysed</span> <span class="op">|&gt;</span></span>
 <span></span>
 <span>    <span class="co"># Convert to tibble otherwise SingleCellExperiment drops reduced dimensions when unifying data sets.</span></span>
@@ -714,7 +712,7 @@ plotly screenshot
 <span>    <span class="va">custom_theme</span></span></code></pre></div>
 <p><img src="inst/extdata/readme_figures/unnamed-chunk-21-1.png"><!-- --></p>
 <p>We can perform a large number of functional analyses on data subsets. For example, we can identify intra-sample cell-cell interactions using <em>SingleCellSignalR</em> [@cabello2020singlecellsignalr], and then compare whether interactions are stronger or weaker across conditions. The code below demonstrates how this analysis could be performed. It won’t work with this small example dataset as we have just two samples (one for each condition). But some example output is shown below and you can imagine how you can use tidyverse on the output to perform t-tests and visualisation.</p>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_nested_interactions</span> <span class="op">&lt;-</span></span>
 <span>    <span class="va">pbmc_small_nested_reanalysed</span> <span class="op">|&gt;</span></span>
 <span></span>
@@ -744,42 +742,42 @@ plotly screenshot
 <span>    <span class="fu"><a href="reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">data</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="reference/unnest.html">unnest</a></span><span class="op">(</span><span class="va">interactions</span><span class="op">)</span></span></code></pre></div>
 <p>If the dataset was not so small, and interactions could be identified, you would see something like below.</p>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">pbmc_small_nested_interactions</span><span class="op">)</span></span>
 <span><span class="va">pbmc_small_nested_interactions</span></span></code></pre></div>
-<div class="sourceCode" id="cb58"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a><span class="do">## [90m# A tibble: 100 × 9[39m</span></span>
-<span id="cb58-2"><a href="#cb58-2" tabindex="-1"></a><span class="do">##    sample  ligand          receptor ligand.name receptor.name origin destination</span></span>
-<span id="cb58-3"><a href="#cb58-3" tabindex="-1"></a><span class="do">##    [3m[90m&lt;chr&gt;[39m[23m   [3m[90m&lt;chr&gt;[39m[23m           [3m[90m&lt;chr&gt;[39m[23m    [3m[90m&lt;chr&gt;[39m[23m       [3m[90m&lt;chr&gt;[39m[23m         [3m[90m&lt;chr&gt;[39m[23m  [3m[90m&lt;chr&gt;[39m[23m      </span></span>
-<span id="cb58-4"><a href="#cb58-4" tabindex="-1"></a><span class="do">## [90m 1[39m sample1 cluster 1.PTMA  cluster… PTMA        VIPR1         clust… cluster 2  </span></span>
-<span id="cb58-5"><a href="#cb58-5" tabindex="-1"></a><span class="do">## [90m 2[39m sample1 cluster 1.B2M   cluster… B2M         KLRD1         clust… cluster 2  </span></span>
-<span id="cb58-6"><a href="#cb58-6" tabindex="-1"></a><span class="do">## [90m 3[39m sample1 cluster 1.IL16  cluster… IL16        CD4           clust… cluster 2  </span></span>
-<span id="cb58-7"><a href="#cb58-7" tabindex="-1"></a><span class="do">## [90m 4[39m sample1 cluster 1.HLA-B cluster… HLA-B       KLRD1         clust… cluster 2  </span></span>
-<span id="cb58-8"><a href="#cb58-8" tabindex="-1"></a><span class="do">## [90m 5[39m sample1 cluster 1.CALM1 cluster… CALM1       VIPR1         clust… cluster 2  </span></span>
-<span id="cb58-9"><a href="#cb58-9" tabindex="-1"></a><span class="do">## [90m 6[39m sample1 cluster 1.HLA-E cluster… HLA-E       KLRD1         clust… cluster 2  </span></span>
-<span id="cb58-10"><a href="#cb58-10" tabindex="-1"></a><span class="do">## [90m 7[39m sample1 cluster 1.GNAS  cluster… GNAS        VIPR1         clust… cluster 2  </span></span>
-<span id="cb58-11"><a href="#cb58-11" tabindex="-1"></a><span class="do">## [90m 8[39m sample1 cluster 1.B2M   cluster… B2M         HFE           clust… cluster 2  </span></span>
-<span id="cb58-12"><a href="#cb58-12" tabindex="-1"></a><span class="do">## [90m 9[39m sample1 cluster 1.PTMA  cluster… PTMA        VIPR1         clust… cluster 3  </span></span>
-<span id="cb58-13"><a href="#cb58-13" tabindex="-1"></a><span class="do">## [90m10[39m sample1 cluster 1.CALM1 cluster… CALM1       VIPR1         clust… cluster 3  </span></span>
-<span id="cb58-14"><a href="#cb58-14" tabindex="-1"></a><span class="do">## [90m# ℹ 90 more rows[39m</span></span>
-<span id="cb58-15"><a href="#cb58-15" tabindex="-1"></a><span class="do">## [90m# ℹ 2 more variables: interaction.type &lt;chr&gt;, LRscore &lt;dbl&gt;[39m</span></span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a><span class="do">## [90m# A tibble: 100 × 9[39m</span></span>
+<span id="cb56-2"><a href="#cb56-2" tabindex="-1"></a><span class="do">##    sample  ligand          receptor ligand.name receptor.name origin destination</span></span>
+<span id="cb56-3"><a href="#cb56-3" tabindex="-1"></a><span class="do">##    [3m[90m&lt;chr&gt;[39m[23m   [3m[90m&lt;chr&gt;[39m[23m           [3m[90m&lt;chr&gt;[39m[23m    [3m[90m&lt;chr&gt;[39m[23m       [3m[90m&lt;chr&gt;[39m[23m         [3m[90m&lt;chr&gt;[39m[23m  [3m[90m&lt;chr&gt;[39m[23m      </span></span>
+<span id="cb56-4"><a href="#cb56-4" tabindex="-1"></a><span class="do">## [90m 1[39m sample1 cluster 1.PTMA  cluster… PTMA        VIPR1         clust… cluster 2  </span></span>
+<span id="cb56-5"><a href="#cb56-5" tabindex="-1"></a><span class="do">## [90m 2[39m sample1 cluster 1.B2M   cluster… B2M         KLRD1         clust… cluster 2  </span></span>
+<span id="cb56-6"><a href="#cb56-6" tabindex="-1"></a><span class="do">## [90m 3[39m sample1 cluster 1.IL16  cluster… IL16        CD4           clust… cluster 2  </span></span>
+<span id="cb56-7"><a href="#cb56-7" tabindex="-1"></a><span class="do">## [90m 4[39m sample1 cluster 1.HLA-B cluster… HLA-B       KLRD1         clust… cluster 2  </span></span>
+<span id="cb56-8"><a href="#cb56-8" tabindex="-1"></a><span class="do">## [90m 5[39m sample1 cluster 1.CALM1 cluster… CALM1       VIPR1         clust… cluster 2  </span></span>
+<span id="cb56-9"><a href="#cb56-9" tabindex="-1"></a><span class="do">## [90m 6[39m sample1 cluster 1.HLA-E cluster… HLA-E       KLRD1         clust… cluster 2  </span></span>
+<span id="cb56-10"><a href="#cb56-10" tabindex="-1"></a><span class="do">## [90m 7[39m sample1 cluster 1.GNAS  cluster… GNAS        VIPR1         clust… cluster 2  </span></span>
+<span id="cb56-11"><a href="#cb56-11" tabindex="-1"></a><span class="do">## [90m 8[39m sample1 cluster 1.B2M   cluster… B2M         HFE           clust… cluster 2  </span></span>
+<span id="cb56-12"><a href="#cb56-12" tabindex="-1"></a><span class="do">## [90m 9[39m sample1 cluster 1.PTMA  cluster… PTMA        VIPR1         clust… cluster 3  </span></span>
+<span id="cb56-13"><a href="#cb56-13" tabindex="-1"></a><span class="do">## [90m10[39m sample1 cluster 1.CALM1 cluster… CALM1       VIPR1         clust… cluster 3  </span></span>
+<span id="cb56-14"><a href="#cb56-14" tabindex="-1"></a><span class="do">## [90m# ℹ 90 more rows[39m</span></span>
+<span id="cb56-15"><a href="#cb56-15" tabindex="-1"></a><span class="do">## [90m# ℹ 2 more variables: interaction.type &lt;chr&gt;, LRscore &lt;dbl&gt;[39m</span></span></code></pre></div>
 </div>
 <div class="section level1">
 <h1 id="aggregating-cells">Aggregating cells<a class="anchor" aria-label="anchor" href="#aggregating-cells"></a>
 </h1>
 <p>Sometimes, it is necessary to aggregate the gene-transcript abundance from a group of cells into a single value. For example, when comparing groups of cells across different samples with fixed-effect models.</p>
 <p>In tidySingleCellExperiment, cell aggregation can be achieved using the <code>aggregate_cells</code> function.</p>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/aggregate_cells.html">aggregate_cells</a></span><span class="op">(</span><span class="va">groups</span>, assays <span class="op">=</span> <span class="st">"counts"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb60"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a><span class="do">## class: SummarizedExperiment </span></span>
-<span id="cb60-2"><a href="#cb60-2" tabindex="-1"></a><span class="do">## dim: 230 2 </span></span>
-<span id="cb60-3"><a href="#cb60-3" tabindex="-1"></a><span class="do">## metadata(0):</span></span>
-<span id="cb60-4"><a href="#cb60-4" tabindex="-1"></a><span class="do">## assays(1): counts</span></span>
-<span id="cb60-5"><a href="#cb60-5" tabindex="-1"></a><span class="do">## rownames(230): ACAP1 ACRBP ... ZNF330 ZNF76</span></span>
-<span id="cb60-6"><a href="#cb60-6" tabindex="-1"></a><span class="do">## rowData names(5): vst.mean vst.variance vst.variance.expected</span></span>
-<span id="cb60-7"><a href="#cb60-7" tabindex="-1"></a><span class="do">##   vst.variance.standardized vst.variable</span></span>
-<span id="cb60-8"><a href="#cb60-8" tabindex="-1"></a><span class="do">## colnames(2): g1 g2</span></span>
-<span id="cb60-9"><a href="#cb60-9" tabindex="-1"></a><span class="do">## colData names(4): .aggregated_cells groups orig.ident file</span></span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a><span class="do">## class: SummarizedExperiment </span></span>
+<span id="cb58-2"><a href="#cb58-2" tabindex="-1"></a><span class="do">## dim: 230 2 </span></span>
+<span id="cb58-3"><a href="#cb58-3" tabindex="-1"></a><span class="do">## metadata(0):</span></span>
+<span id="cb58-4"><a href="#cb58-4" tabindex="-1"></a><span class="do">## assays(1): counts</span></span>
+<span id="cb58-5"><a href="#cb58-5" tabindex="-1"></a><span class="do">## rownames(230): ACAP1 ACRBP ... ZNF330 ZNF76</span></span>
+<span id="cb58-6"><a href="#cb58-6" tabindex="-1"></a><span class="do">## rowData names(5): vst.mean vst.variance vst.variance.expected</span></span>
+<span id="cb58-7"><a href="#cb58-7" tabindex="-1"></a><span class="do">##   vst.variance.standardized vst.variable</span></span>
+<span id="cb58-8"><a href="#cb58-8" tabindex="-1"></a><span class="do">## colnames(2): g1 g2</span></span>
+<span id="cb58-9"><a href="#cb58-9" tabindex="-1"></a><span class="do">## colData names(4): .aggregated_cells groups orig.ident file</span></span></code></pre></div>
 </div>
 
   </div>
