@@ -47,6 +47,7 @@ Suggests:
     BiocStyle,
     testthat,
     knitr,
+    markdown,
     rmarkdown,
     SingleCellSignalR,
     SingleR,
