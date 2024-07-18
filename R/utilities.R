@@ -490,9 +490,9 @@ subset <- function(.data, .column)	{
     .column <- enquo(.column)
 
     # Check if column present
-    if (!all(quo_names(.column) %in% colnames(.data)))
-        stop("nanny says: some of the .column specified",
-            " do not exist in the input data frame.")
+    if (.data |> select(!!.column) |> colnames() %in% colnames(.data) %>% all %>% `!`)
+      stop("tidySingleCellExperiment says: some of the .column specified",
+           " do not exist in the input data frame.")
 
     .data |>
         # Selecting the right columns
