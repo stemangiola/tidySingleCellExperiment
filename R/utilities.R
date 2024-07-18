@@ -210,7 +210,16 @@ get_abundance_sc_long <- function(.data,
             # Replace 0 with NA
             if (isTRUE(exclude_zeros)) 
                 .x[.x == 0] <- NA
-            .x %>%
+            
+            # In case I have duplicated cell IDs
+            duplicated_cell_ids = (colnames(.x) |> table() |> table() |> names() > 1) |> any()
+            if(duplicated_cell_ids ){
+              colnames(.x) = paste(colnames(.x), .x |> ncol() |> seq_len() |> as.character(), sep="__int__")
+            }
+            
+            # Process. NEED TO GET FASTER FOR ~ 500K cells
+            .x = 
+              .x %>%
                 as.matrix() %>%
                 data.frame(check.names=FALSE) %>%
                 as_tibble(rownames=".feature") %>%
@@ -219,7 +228,16 @@ get_abundance_sc_long <- function(.data,
                     names_to=c_(.data)$name,
                     values_to=".abundance" %>% paste(.y, sep="_"),
                     values_drop_na=TRUE)
-        }) %>% Reduce(function(...) full_join(..., 
+            
+            # Set original column names back if needed
+            if(duplicated_cell_ids)
+              .x |> mutate(.cell  = gsub("__int__.*$", "", .cell)) 
+            
+            
+            .x
+            
+        }) %>%
+      Reduce(function(...) full_join(..., 
             by=c(".feature", c_(.data)$name)), .)
 }
 
