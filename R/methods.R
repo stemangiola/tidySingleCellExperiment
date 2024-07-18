@@ -139,6 +139,7 @@ tidy.SingleCellExperiment <- function(object) {
 #' @importFrom S4Vectors split
 #' @importFrom stringr str_remove
 #' @importFrom dplyr group_split
+#' @importFrom tidyr pivot_wider
 #'
 #'
 #' @export
