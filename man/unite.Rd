@@ -37,9 +37,9 @@ Convenience function to paste together multiple columns into one.
 \examples{
 data(pbmc_small)
 pbmc_small |> unite(
-  col="new_col", 
+  col="new_col",
   c("orig.ident", "groups"))
-    
+
 }
 \seealso{
 \code{\link[tidyr:separate]{separate()}}, the complement.

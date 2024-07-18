@@ -115,8 +115,8 @@ unnest <- unnest_legacy
 
 \examples{
 data(pbmc_small)
-pbmc_small |> 
-    nest(data=-groups) |> 
+pbmc_small |>
+    nest(data=-groups) |>
     unnest(data)
 
 }

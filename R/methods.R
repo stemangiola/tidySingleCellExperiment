@@ -135,11 +135,22 @@ tidy.SingleCellExperiment <- function(object) {
 #' @importFrom tibble enframe
 #' @importFrom Matrix rowSums
 #' @importFrom ttservice aggregate_cells
-#' @importFrom SummarizedExperiment assays assays<- assayNames
-#' @importFrom S4Vectors split
+#' @importFrom SummarizedExperiment assays
+#' @importFrom SummarizedExperiment assays<-
+#' @importFrom SummarizedExperiment assayNames
+#' @importFrom SummarizedExperiment rowData
+#' @importFrom SummarizedExperiment rowData<-
 #' @importFrom stringr str_remove
 #' @importFrom dplyr group_split
+#' @importFrom dplyr select
 #' @importFrom tidyr pivot_wider
+#' @importFrom tidyr unite
+#' @importFrom dplyr mutate
+#' @importFrom dplyr pull
+#' @importFrom dplyr left_join
+#' @importFrom dplyr unnest
+#' @importFrom S4Vectors DataFrame
+#' @importFrom methods as
 #'
 #'
 #' @export

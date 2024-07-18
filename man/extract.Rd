@@ -56,9 +56,9 @@ is NA, the output will be NA.
 \examples{
 data(pbmc_small)
 pbmc_small |>
-  extract(groups, 
-    into="g", 
-    regex="g([0-9])", 
+  extract(groups,
+    into="g",
+    regex="g([0-9])",
     convert=TRUE)
 
 }
