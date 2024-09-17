@@ -232,12 +232,12 @@ setMethod("aggregate_cells", "SingleCellExperiment", function(.data,
       subset(!!.sample) |>
       unite("my_id_to_split_by___", !!.sample, remove=FALSE, sep = "___") 
     
-    new_col_data = new_col_data |> DataFrame(row.names = new_col_data$my_id_to_split_by___) |> _[,-1]
+    new_col_data = new_col_data |> DataFrame(row.names = new_col_data$my_id_to_split_by___) |> _[,-1,drop=FALSE]
     
     colData(aggregated_sce) = 
       colData(aggregated_sce) |> 
       cbind(
-        new_col_data[match(rownames(colData(aggregated_sce)), rownames(new_col_data)),]
+        new_col_data[match(rownames(colData(aggregated_sce)), rownames(new_col_data)),,drop=FALSE]
       )
     
     rowData(aggregated_sce)  = rowData(.data)

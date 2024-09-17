@@ -1,7 +1,7 @@
 Type: Package
 Package: tidySingleCellExperiment
 Title: Brings SingleCellExperiment to the Tidyverse 
-Version: 1.15.4
+Version: 1.15.5
 Authors@R: c(person("Stefano", "Mangiola", 
     comment=c(ORCID="0000-0001-7474-836X"),
     email="mangiolastefano@gmail.com",
