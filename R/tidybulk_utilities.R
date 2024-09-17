@@ -132,7 +132,7 @@ as_SummarizedExperiment <- function(.data,
         tidyr::nest(`data`=-`assay`) %>%
         mutate(`data`=`data` %>%  map(
             ~ .x %>%
-                spread(!!sample__$symbol, .a) %>%
+                pivot_wider(names_from =  !!sample__$symbol, values_from = .a) %>%
                 
                 # arrange sample
                 select(!!feature__$symbol, any_of(rownames(colData))) |>
