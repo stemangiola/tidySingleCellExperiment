@@ -224,6 +224,17 @@ test_that("full_join(), with DataFrame y", {
     #     mutate(df, factor=paste(factor)))
 })
 
+test_that("anti_join()", {
+  y <- df |> 
+    distinct(factor) |> 
+    mutate(string=letters[seq(nlevels(df$factor))]) |> 
+    filter(factor !="g1")
+  fd <- anti_join(df, y, by="factor")
+  expect_s4_class(fd, "SingleCellExperiment")
+  expect_equal(n <- ncol(colData(fd)), ncol(colData(df)))
+  expect_lt(ncol(fd), ncol(df))
+})
+
 test_that("slice()", {
   # I DON'T KNOW WHY THESE TESTS GIVES WARNING 
   # Please use `all_of()` or `any_of()` instead.
