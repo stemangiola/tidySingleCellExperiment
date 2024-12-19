@@ -5,7 +5,7 @@
 \alias{anti_join.SingleCellExperiment}
 \title{Filtering joins}
 \usage{
-\method{anti_join}{SingleCellExperiment}(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
+\method{anti_join}{SingleCellExperiment}(x, y, by = NULL, copy = FALSE, ...)
 }
 \arguments{
 \item{x, y}{A pair of data frames, data frame extensions (e.g. a tibble), or

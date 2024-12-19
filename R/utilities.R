@@ -521,46 +521,7 @@ splitColData <- function(x, f) {
 
 }
 
-#' Retrieve the Original Name of a Function
-#'
-#' This function identifies the original name of a function object by searching
-#' its environment. It works for functions defined in packages, global
-#' environments, or custom user-defined functions.
-#'
-#' @param f A function object whose original name you want to retrieve.
-#'
-#' @return A character string with the name of the function if found, or `NULL`
-#'   if the name cannot be determined (e.g., for anonymous functions).
-#'
-#' @details The function works by inspecting the environment where the function
-#'   is defined. It searches for objects that are identical to the provided
-#'   function and returns the name of the first match. For package functions,
-#'   the search is limited to the package's namespace.
-#'
-#' @examples
-#' library(dplyr)
-#' fun <- anti_join
-#' get_function_name(fun) # Returns "anti_join"
-#'
-#' custom_fun <- function(x) x^2
-#' get_function_name(custom_fun) # Returns "custom_fun"
-#'
-#' # Anonymous function
-#' get_function_name(function(x) x^2) # Returns NULL
-#'
-#' @importFrom base identical ls get
-#' @noRd
-get_function_name <- function(f) {
-  if (is.function(f)) {
-    env <- environment(f) # The environment where the function is defined
-    all_names <- ls(env)  # List all names in that environment
-    matches <- all_names[sapply(all_names, function(n) identical(get(n, envir = env), f))]
-    if (length(matches) > 0) {
-      return(matches[1]) # Return the first match
-    }
-  }
-  return(NULL)
-}
+
 
 cell__ <- get_special_column_name_symbol(".cell")
 feature__ <- get_special_column_name_symbol(".feature")

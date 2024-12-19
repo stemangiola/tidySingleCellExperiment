@@ -337,11 +337,6 @@ rowwise.SingleCellExperiment <- function(data, ...) {
         }
         if (is(y, "DataFrame")) y <- as.data.frame(y)
         
-        if(get_function_name(fun) == "anti_join")
-          z <- x |>
-            as_tibble() |>
-            fun(y, by=by, copy=copy, ...)
-        else
           z <- x |>
               as_tibble() |>
               fun(y, by=by, copy=copy, suffix=suffix, ...)
@@ -359,6 +354,36 @@ rowwise.SingleCellExperiment <- function(data, ...) {
         colData(new_obj) <- z |> as_meta_data(new_obj)
         return(new_obj)
     }
+}
+
+.join_factory_anti_join <- function(fun, change_x) {
+  function(x, y, 
+           by=NULL, copy=FALSE, ...) {
+    
+    # Deprecation of special column names
+    .cols <- if (!is.null(by)) by else colnames(y)
+    if (is_sample_feature_deprecated_used(x, .cols)) {
+      x <- ping_old_special_column_into_metadata(x)
+    }
+    if (is(y, "DataFrame")) y <- as.data.frame(y)
+    
+    z <- x |>
+        as_tibble() |>
+        fun(y, by=by, copy=copy, ...)
+    
+    # If duplicated cells returns tibble
+    if (any(duplicated(z[[c_(x)$name]]))) {
+      message(duplicated_cell_names)
+      return(z)
+    }
+    
+    # Otherwise return updated tidySingleCellExperiment
+    if (change_x)
+      new_obj <- x[, pull(z, c_(x)$name)]
+    else new_obj <- x
+    colData(new_obj) <- z |> as_meta_data(new_obj)
+    return(new_obj)
+  }
 }
 
 #' @name left_join
@@ -419,7 +444,7 @@ inner_join.SingleCellExperiment <- .join_factory(dplyr::inner_join, TRUE)
 #' @importFrom dplyr anti_join
 #' @importFrom dplyr pull
 #' @export
-anti_join.SingleCellExperiment <- .join_factory(dplyr::anti_join, TRUE)
+anti_join.SingleCellExperiment <- .join_factory_anti_join(dplyr::anti_join, TRUE)
 
 #' @name right_join
 #' @rdname right_join
