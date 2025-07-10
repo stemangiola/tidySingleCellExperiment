@@ -23,7 +23,7 @@
     \item Use .cell for cell column name to avoid errors when cell column is defined by the user
 }}
 
-\section{Changes in version 1.5.2, Bioconductor 3.22 Release}{
+\section{Changes in version 1.19.2, Bioconductor 3.22 Release}{
 \itemize{
     \item \strong{BREAKING CHANGE}: Changed default shape parameter in \code{join_features()} from "long" to "wide". 
     This means that \code{join_features()} now returns a SingleCellExperiment object by default instead of a tibble. 
