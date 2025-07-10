@@ -25,6 +25,8 @@ coerced to a tibble.}
 \item \code{"check_unique"}: (default value), no name repair, but check they are
 \code{unique},
 \item \code{"universal"}: Make the names \code{unique} and syntactic
+\item \code{"unique_quiet"}: Same as \code{"unique"}, but "quiet"
+\item \code{"universal_quiet"}: Same as \code{"universal"}, but "quiet"
 \item a function: apply custom name repair (e.g., \code{.name_repair = make.names}
 for names in the style of base R).
 \item A purrr-style anonymous function, see \code{\link[rlang:as_function]{rlang::as_function()}}
@@ -98,6 +100,11 @@ prefer the more expressive \code{as_tibble_row()} and
 data(pbmc_small)
 pbmc_small |> as_tibble()
 
+}
+\references{
+Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+
+Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
 }
 \seealso{
 \code{\link[tibble:tibble]{tibble()}} constructs a tibble from individual columns. \code{\link[tibble:enframe]{enframe()}}

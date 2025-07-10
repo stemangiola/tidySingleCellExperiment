@@ -10,6 +10,11 @@
 #'     nest(data=-groups) |>
 #'     unnest(data)
 #'
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
+#'
 #' @importFrom tidyr unnest
 #' @importFrom purrr when
 #' @export
@@ -80,6 +85,11 @@ unnest_single_cell_experiment  <-  function(data, cols, ...,
 #'     nest(data=-groups) |>
 #'     unnest(data)
 #'
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
+#'
 #' @importFrom tidyr nest
 #' @importFrom rlang enquos
 #' @importFrom rlang :=
@@ -132,6 +142,11 @@ nest.SingleCellExperiment <- function(.data, ..., .names_sep = NULL) {
 #'     regex="g([0-9])",
 #'     convert=TRUE)
 #'
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
+#'
 #' @importFrom SummarizedExperiment colData
 #' @importFrom SummarizedExperiment colData<-
 #' @importFrom tidyr extract
@@ -167,6 +182,11 @@ extract.SingleCellExperiment <- function(data, col, into,
 #' pbmc_small |> pivot_longer(
 #'   cols=c(orig.ident, groups),
 #'   names_to="name", values_to="value")
+#'
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
 #'
 #' @importFrom ellipsis check_dots_used
 #' @importFrom tidyr pivot_longer
@@ -215,6 +235,11 @@ pivot_longer.SingleCellExperiment <- function(data,
 #' pbmc_small |> unite(
 #'   col="new_col",
 #'   c("orig.ident", "groups"))
+#'
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
 #'
 #' @importFrom SummarizedExperiment colData
 #' @importFrom SummarizedExperiment colData<-
@@ -269,6 +294,11 @@ unite.SingleCellExperiment <- function(data, col,
 #' data(pbmc_small)
 #' un <- pbmc_small |> unite("new_col", c(orig.ident, groups))
 #' un |> separate(new_col, c("orig.ident", "groups"))
+#'
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
 #'
 #' @importFrom SummarizedExperiment colData
 #' @importFrom SummarizedExperiment colData<-

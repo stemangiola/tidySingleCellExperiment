@@ -8,6 +8,9 @@
 #' @examples
 #' # TODO
 #' 
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
 #' @importFrom rlang names2
 #' @importFrom pillar align
 #' @importFrom pillar get_extent
@@ -49,6 +52,9 @@ tbl_format_header.tidySingleCellExperiment <- function(x, setup, ...) {
 #' @examples
 #' data(pbmc_small)
 #' print(pbmc_small)
+#' 
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
 #' 
 #' @importFrom vctrs new_data_frame
 #' @importFrom SummarizedExperiment assayNames

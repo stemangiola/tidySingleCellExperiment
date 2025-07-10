@@ -8,6 +8,11 @@
 #' pbmc_small |> 
 #'     arrange(nFeature_RNA)
 #'     
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
+#'     
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr arrange
 #' @importFrom dplyr pull
@@ -32,6 +37,9 @@ arrange.SingleCellExperiment <- function(.data, ..., .by_group=FALSE) {
 #'
 #' tt_bind <- tt |> select(nCount_RNA, nFeature_RNA)
 #' tt |> bind_cols(tt_bind)
+#' 
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
 #' 
 #' @importFrom rlang flatten_if
 #' @importFrom rlang is_spliced
@@ -82,6 +90,11 @@ bind_cols.SingleCellExperiment <- bind_cols_
 #' data(pbmc_small)
 #' pbmc_small |> distinct(groups)
 #'
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
+#'
 #' @importFrom dplyr distinct
 #' @export
 distinct.SingleCellExperiment <- function(.data, ..., .keep_all=FALSE) {
@@ -108,6 +121,11 @@ distinct.SingleCellExperiment <- function(.data, ..., .keep_all=FALSE) {
 #' pbmc_small |> filter(groups == "g1")
 #'
 #' # Learn more in ?dplyr_tidy_eval
+#' 
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
 #' 
 #' @importFrom purrr map
 #' @importFrom dplyr filter
@@ -147,6 +165,11 @@ filter.SingleCellExperiment <- function(.data, ..., .preserve=FALSE) {
 #' data(pbmc_small)
 #' pbmc_small |> group_by(groups)
 #'     
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
+#'     
 #' @importFrom dplyr group_by_drop_default
 #' @importFrom dplyr group_by
 #' @export
@@ -176,6 +199,11 @@ group_by.SingleCellExperiment <- function(.data, ...,
 #' @examples
 #' data(pbmc_small)
 #' pbmc_small |> summarise(mean(nCount_RNA))
+#'
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
 #'
 #' @importFrom dplyr summarise
 #' @importFrom purrr map
@@ -209,6 +237,11 @@ summarize.SingleCellExperiment <- summarise.SingleCellExperiment
 #' @examples
 #' data(pbmc_small)
 #' pbmc_small |> mutate(nFeature_RNA=1)
+#'
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
 #'
 #' @importFrom SummarizedExperiment colData
 #' @importFrom SummarizedExperiment colData<-
@@ -263,6 +296,11 @@ mutate.SingleCellExperiment <- function(.data, ...) {
 #' data(pbmc_small)
 #' pbmc_small |> rename(s_score=nFeature_RNA)
 #'
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
+#'
 #' @importFrom SummarizedExperiment colData
 #' @importFrom SummarizedExperiment colData<-
 #' @importFrom tidyselect eval_select
@@ -315,6 +353,11 @@ rename.SingleCellExperiment <- function(.data, ...) {
 #'
 #' @examples
 #' # TODO
+#'
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
 #'
 #' @importFrom dplyr rowwise
 #' @export
@@ -404,6 +447,11 @@ rowwise.SingleCellExperiment <- function(data, ...) {
 #'   mutate(new_column=1:2) |> DataFrame()
 #' tt |> left_join(DF)
 #' 
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
+#' 
 #' @importFrom SummarizedExperiment colData
 #' @importFrom dplyr left_join
 #' @importFrom dplyr count
@@ -421,6 +469,11 @@ left_join.SingleCellExperiment <- .join_factory(dplyr::left_join, FALSE)
 #'   distinct(groups) |>  
 #'   mutate(new_column=1:2) |> 
 #'   slice(1))
+#'
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
 #'
 #' @importFrom SummarizedExperiment colData
 #' @importFrom dplyr inner_join
@@ -440,6 +493,11 @@ inner_join.SingleCellExperiment <- .join_factory(dplyr::inner_join, TRUE)
 #'   mutate(new_column=1:2) |> 
 #'   slice(1))
 #'
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
+#'
 #' @importFrom SummarizedExperiment colData
 #' @importFrom dplyr anti_join
 #' @importFrom dplyr pull
@@ -458,6 +516,11 @@ anti_join.SingleCellExperiment <- .join_factory_anti_join(dplyr::anti_join, TRUE
 #'   mutate(new_column=1:2) |> 
 #'   slice(1))
 #'
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
+#'
 #' @importFrom SummarizedExperiment colData
 #' @importFrom dplyr right_join
 #' @importFrom dplyr pull
@@ -472,6 +535,11 @@ right_join.SingleCellExperiment <- .join_factory(dplyr::right_join, TRUE)
 #' data(pbmc_small)
 #' tt <- pbmc_small
 #' tt |> full_join(tibble::tibble(groups="g1", other=1:4))
+#'
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
 #'
 #' @importFrom dplyr full_join
 #' @importFrom dplyr pull
@@ -488,6 +556,11 @@ full_join.SingleCellExperiment <- .join_factory(dplyr::full_join, TRUE)
 #' @examples
 #' data(pbmc_small)
 #' pbmc_small |> slice(1)
+#'
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
 #'
 #' @importFrom SummarizedExperiment colData
 #' @importFrom dplyr slice
@@ -508,6 +581,11 @@ slice.SingleCellExperiment <- function(.data, ..., .by=NULL, .preserve=FALSE) {
 #' data(pbmc_small)
 #' pbmc_small |> slice_sample(n=1)
 #' pbmc_small |> slice_sample(prop=0.1)
+#'
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
 #'
 #' @importFrom SummarizedExperiment colData
 #' @importFrom dplyr slice_sample
@@ -563,6 +641,11 @@ slice_sample.SingleCellExperiment <- function(.data, ..., n=NULL,
 #' # First rows based on existing order
 #' pbmc_small |> slice_head(n=5)
 #' 
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
+#' 
 #' @importFrom dplyr slice_head
 #' @importFrom tibble rowid_to_column
 #' @export
@@ -587,6 +670,11 @@ slice_head.SingleCellExperiment <- function(.data, ..., n, prop, by=NULL) {
 #' data(pbmc_small)
 #' # First rows based on existing order
 #' pbmc_small |> slice_tail(n=5)
+#' 
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
 #' 
 #' @importFrom dplyr slice_tail
 #' @importFrom tibble rowid_to_column
@@ -627,6 +715,11 @@ slice_tail.SingleCellExperiment <- function(.data, ..., n, prop, by=NULL) {
 #' # Use by for group-wise operations
 #' pbmc_small |> slice_min(nFeature_RNA, n=5, by=groups)
 #'
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
+#'
 #' @importFrom dplyr slice_min
 #' @importFrom tibble rowid_to_column
 #' @export
@@ -657,6 +750,11 @@ slice_min.SingleCellExperiment <- function(.data, order_by, ..., n, prop,
 #' data(pbmc_small)
 #' # Rows with minimum and maximum values of a metadata variable
 #' pbmc_small |> slice_max(nFeature_RNA, n=5)
+#' 
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
 #' 
 #' @importFrom dplyr slice_max
 #' @importFrom tibble rowid_to_column
@@ -690,6 +788,11 @@ slice_max.SingleCellExperiment <- function(.data, order_by, ..., n, prop,
 #' @examples
 #' data(pbmc_small)
 #' pbmc_small |> select(cell, orig.ident)
+#' 
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
 #' 
 #' @importFrom SummarizedExperiment colData
 #' @importFrom dplyr select
@@ -730,6 +833,11 @@ select.SingleCellExperiment <- function(.data, ...) {
 #' data(pbmc_small)
 #' pbmc_small |> sample_n(50)
 #' pbmc_small |> sample_frac(0.1)
+#' 
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
 #' 
 #' @importFrom SummarizedExperiment colData
 #' @importFrom dplyr sample_n
@@ -802,6 +910,11 @@ sample_frac.SingleCellExperiment <- function(tbl, size=1,
 #' data(pbmc_small)
 #' pbmc_small |> count(groups)
 #'     
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
+#'     
 #' @importFrom dplyr count
 #' @export
 count.SingleCellExperiment <- function(x, ..., 
@@ -853,6 +966,11 @@ add_count.SingleCellExperiment <- function(x, ...,
 #' data(pbmc_small)
 #' pbmc_small |> pull(groups)
 #'     
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
+#'     
 #' @importFrom ellipsis check_dots_used
 #' @importFrom dplyr pull
 #' @export
@@ -877,6 +995,11 @@ pull.SingleCellExperiment <- function(.data, var=-1, name=NULL, ...) {
 #' @examples
 #' data(pbmc_small)
 #' pbmc_small |> group_split(groups)
+#' 
+#' @references
+#' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
+#' 
+#' Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, et al. Welcome to the tidyverse. Journal of Open Source Software. 2019;4(43):1686. https://doi.org/10.21105/joss.01686
 #' 
 #' @importFrom ellipsis check_dots_used
 #' @importFrom dplyr group_by
