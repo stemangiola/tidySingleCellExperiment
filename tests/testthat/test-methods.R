@@ -12,6 +12,13 @@ test_that("show()", {
 
 test_that("join_features()", {
     gs <- sample(rownames(df), 3)
+    # wide (default)
+    fd <- join_features(df, gs, assay="counts")
+    expect_s4_class(fd, "SingleCellExperiment")
+    expect_null(fd$.feature)
+    expect_identical(
+        unname(t(as.matrix(as_tibble(fd)[, make.names(gs)]))),
+        as.matrix(unname(counts(df)[gs, ])))
     # long
     fd <- join_features(df, gs, shape="long")
     expect_s3_class(fd, "tbl_df")
@@ -20,13 +27,6 @@ test_that("join_features()", {
     expect_identical(
         matrix(fd$.abundance_counts, nrow=length(gs)),
         as.matrix(unname(counts(df)[fd$.feature[seq_along(gs)], ])))
-    # wide
-    fd <- join_features(df, gs, shape="wide", assay="counts")
-    expect_s4_class(fd, "SingleCellExperiment")
-    expect_null(fd$.feature)
-    expect_identical(
-        unname(t(as.matrix(as_tibble(fd)[, make.names(gs)]))),
-        as.matrix(unname(counts(df)[gs, ])))
 })
 
 test_that("as_tibble()", {
