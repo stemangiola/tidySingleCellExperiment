@@ -34,7 +34,7 @@ __*tidyverse*__ |
 `plotly`        | Plotting with `plot_ly()`
 **Utilities**   |  
 `as_tibble()`   | Convert cell-wise information to a `tbl_df`
-`join_features()`   | Add feature-wise information; <br> returns a `tbl_df`
+`join_features()`   | Add feature-wise information; <br> returns a `tidySingleCellExperiment` object
 `aggregate_cells()` | Aggregate feature abundances as pseudobulks; <br> returns a `SummarizedExperiment`
 : (\#tab:table) Available `tidySingleCellExperiment` functions and utilities.
 

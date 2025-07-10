@@ -10,7 +10,7 @@ status](https://github.com/stemangiola/tidySingleCellExperiment/workflows/R-CMD-
 
 **Brings SingleCellExperiment to the tidyverse!**
 
-Website: 
+Website:
 [tidySingleCellExperiment](https://stemangiola.github.io/tidySingleCellExperiment/articles/introduction.html)
 
 Please also have a look at
@@ -38,9 +38,9 @@ tidyverse worlds.
 
 ## Functions/utilities available
 
-| SingleCellExperiment-compatible Functions | Description                                                                        |
-|-------------------------------------------|------------------------------------------------------------------------------------|
-| `all`                                     | After all `tidySingleCellExperiment` is a SingleCellExperiment object, just better |
+| SingleCellExperiment-compatible Functions | Description |
+|----|----|
+| `all` | After all `tidySingleCellExperiment` is a SingleCellExperiment object, just better |
 
 | tidyverse Packages | Description                                        |
 |--------------------|----------------------------------------------------|
@@ -49,10 +49,10 @@ tidyverse worlds.
 | `ggplot2`          | `ggplot` (`ggplot`)                                |
 | `plotly`           | `plot_ly` (`plot_ly`)                              |
 
-| Utilities         | Description                                                      |
-|-------------------|------------------------------------------------------------------|
-| `as_tibble`       | Convert cell-wise information to a `tbl_df`                      |
-| `join_features`   | Add feature-wise information, returns a `tbl_df`                 |
+| Utilities | Description |
+|----|----|
+| `as_tibble` | Convert cell-wise information to a `tbl_df` |
+| `join_features` | Add feature-wise information, returns a `tidySingleCellExperiment` object |
 | `aggregate_cells` | Aggregate cell gene-transcription abundance as pseudobulk tissue |
 
 ## Installation
@@ -256,7 +256,7 @@ pbmc_small_polished |>
     custom_theme
 ```
 
-    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+    ## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.
 
 ![](inst/extdata/readme_figures/plot1-1.png)<!-- -->
 
@@ -374,12 +374,7 @@ colLabels(pbmc_small_cluster) <-
     igraph::cluster_walktrap() %$%
     membership |>
     as.factor()
-```
 
-    ## Warning in (function (to_check, X, clust_centers, clust_info, dtype, nn, :
-    ## detected tied distances to neighbors, see ?'BiocNeighbors-ties'
-
-``` r
 # Reorder columns
 pbmc_small_cluster |> select(label, everything())
 ```
@@ -647,16 +642,7 @@ pbmc_small_nested <-
     filter(first.labels != "Erythrocytes") |>
     mutate(cell_class=dplyr::if_else(`first.labels` %in% c("Macrophages", "Monocytes"), "myeloid", "lymphoid")) |>
     nest(data=-cell_class)
-```
 
-    ## Warning: There were 2 warnings in `mutate()`.
-    ## The first warning was:
-    ## ℹ In argument: `data = map(...)`.
-    ## Caused by warning in `is_sample_feature_deprecated_used()`:
-    ## ! tidySingleCellExperiment says: from version 1.3.1, the special columns including cell id (colnames(se)) has changed to ".cell". This dataset is returned with the old-style vocabulary (cell), however, we suggest to update your workflow to reflect the new vocabulary (.cell).
-    ## ℹ Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
-
-``` r
 pbmc_small_nested
 ```
 
@@ -807,6 +793,7 @@ pbmc_small |>
     ## metadata(0):
     ## assays(1): counts
     ## rownames(230): ACAP1 ACRBP ... ZNF330 ZNF76
-    ## rowData names(0):
+    ## rowData names(5): vst.mean vst.variance vst.variance.expected
+    ##   vst.variance.standardized vst.variable
     ## colnames(2): g1 g2
     ## colData names(4): .aggregated_cells groups orig.ident file

@@ -46,7 +46,7 @@ tidyverse Packages | Description
 Utilities | Description
 ------------ | -------------
 `as_tibble` | Convert cell-wise information to a `tbl_df`
-`join_features` | Add feature-wise information, returns a `tbl_df`
+`join_features` | Add feature-wise information, returns a `tidySingleCellExperiment` object
 `aggregate_cells` | Aggregate cell gene-transcription abundance as pseudobulk tissue
 
 

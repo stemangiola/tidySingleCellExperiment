@@ -1,7 +1,7 @@
 Type: Package
 Package: tidySingleCellExperiment
 Title: Brings SingleCellExperiment to the Tidyverse 
-Version: 1.15.6
+Version: 1.19.1
 Authors@R: c(person("Stefano", "Mangiola", 
     comment=c(ORCID="0000-0001-7474-836X"),
     email="mangiolastefano@gmail.com",
@@ -18,11 +18,11 @@ Description: 'tidySingleCellExperiment' is an adapter that abstracts
 License: GPL-3
 Depends:
     R (>= 4.4.0),
-    SingleCellExperiment
+    SingleCellExperiment,
+    ttservice (>= 0.4.0)
 Imports:
     dplyr, 
     tidyr, 
-    ttservice (>= 0.4.0),
     SummarizedExperiment,
     tibble,
     ggplot2,
@@ -59,7 +59,8 @@ Suggests:
     uwot,
     celldex,
     dittoSeq,
-    plotly
+    plotly,
+    rbibutils
 VignetteBuilder: 
     knitr
 RdMacros:

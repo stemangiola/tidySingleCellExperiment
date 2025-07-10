@@ -3,7 +3,7 @@
 \name{tidy}
 \alias{tidy}
 \alias{tidy.SingleCellExperiment}
-\title{tidy for `SingleCellExperiment`}
+\title{(DEPRECATED) tidy for `SingleCellExperiment`}
 \usage{
 tidy(object)
 
@@ -13,10 +13,10 @@ tidy(object)
 \item{object}{A `SingleCellExperiment` object.}
 }
 \value{
-A `tidySingleCellExperiment` object.
+A `tidySingleCellExperiment` object. (DEPRECATED - not needed anymore)
 }
 \description{
-tidy for `SingleCellExperiment`
+(DEPRECATED) tidy for `SingleCellExperiment`
 }
 \examples{
 data(pbmc_small)

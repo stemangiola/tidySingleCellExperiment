@@ -95,10 +95,10 @@ setMethod("join_features", "SingleCellExperiment", function(.data,
 
 #' @name tidy
 #' @rdname tidy
-#' @title tidy for `SingleCellExperiment`
+#' @title (DEPRECATED) tidy for `SingleCellExperiment`
 #'
 #' @param object A `SingleCellExperiment` object.
-#' @return A `tidySingleCellExperiment` object.
+#' @return A `tidySingleCellExperiment` object. (DEPRECATED - not needed anymore)
 #'
 #' @examples
 #' data(pbmc_small)
