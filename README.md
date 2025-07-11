@@ -314,10 +314,6 @@ pbmc_small_pca <-
     ## TRUE, : You're computing too large a percentage of total singular values, use a
     ## standard svd instead.
 
-    ## Warning in (function (A, nv = 5, nu = nv, maxit = 1000, work = nv + 7, reorth =
-    ## TRUE, : did not converge--results might be invalid!; try increasing work or
-    ## maxit
-
 ``` r
 pbmc_small_pca
 ```
@@ -742,7 +738,7 @@ pbmc_small_nested_interactions <-
             cell_signaling(genes=rownames(data), cluster=cluster) |>
             inter_network(data=data, signal=_, genes=rownames(data), cluster=cluster) %$%
             `individual-networks` |>
-            map_dfr(~ bind_rows(as_tibble(.x)))
+            map_dfr(~ append_samples(as_tibble(.x)))
     }))
 
 pbmc_small_nested_interactions |>

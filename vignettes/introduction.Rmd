@@ -278,6 +278,24 @@ pbmc_small_cluster %>%
         .value=.abundance_counts, scale="column")
 ```
 
+# Combining datasets
+
+We can use `append_samples()` to combine multiple SingleCellExperiment objects by samples.
+This is useful when you have multiple datasets that you want to analyze together.
+
+```{r}
+# Create two subsets of the data
+pbmc_subset1 <- pbmc_small_cluster %>%
+    filter(groups == "g1")
+
+pbmc_subset2 <- pbmc_small_cluster %>%
+    filter(groups == "g2")
+
+# Combine them using append_samples
+combined_data <- append_samples(pbmc_subset1, pbmc_subset2)
+combined_data
+```
+
 # Reduce dimensions
 
 We can calculate the first 3 UMAP dimensions using `r BiocStyle::Biocpkg("scater")`.
@@ -459,7 +477,7 @@ pbmc_small_nested_interactions <-
             cell_signaling(genes=rownames(data), cluster=cluster) %>%
             inter_network(data=data, signal=., genes=rownames(data), cluster=cluster) %$%
             `individual-networks` %>%
-            map_dfr(~ bind_rows(as_tibble(.x)))
+            map_dfr(~ append_samples(as_tibble(.x)))
     }))
 
 pbmc_small_nested_interactions %>%

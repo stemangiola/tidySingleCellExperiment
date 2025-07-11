@@ -1,6 +1,14 @@
 \name{NEWS}
 \title{News for Package \pkg{tidySingleCellExperiment}}
 
+\section{Changes in version 1.19.2, Bioconductor 3.22 Release}{
+\itemize{
+    \item Soft deprecated \code{bind_rows()} in favor of \code{append_samples()} from ttservice.
+    \item Added \code{append_samples()} method for SingleCellExperiment objects.
+    \item \code{bind_rows()} is not a generic method in dplyr and may cause conflicts.
+    \item Users are encouraged to use \code{append_samples()} instead.
+}}
+
 \section{Changes in version 1.4.0, Bioconductor 3.14 Release}{
 \itemize{
     \item Improved sample_n, and sample_frac functions.

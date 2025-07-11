@@ -461,7 +461,7 @@ pbmc_small_nested_interactions <-
             cell_signaling(genes=rownames(data), cluster=cluster) |>
             inter_network(data=data, signal=_, genes=rownames(data), cluster=cluster) %$%
             `individual-networks` |>
-            map_dfr(~ bind_rows(as_tibble(.x)))
+            map_dfr(~ append_samples(as_tibble(.x)))
     }))
 
 pbmc_small_nested_interactions |>

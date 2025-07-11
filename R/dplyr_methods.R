@@ -29,14 +29,7 @@ arrange.SingleCellExperiment <- function(.data, ..., .by_group=FALSE) {
 #' @name bind_rows
 #' @rdname bind_rows
 #' @inherit ttservice::bind_rows
-#' 
-#' @examples
-#' data(pbmc_small)
-#' tt <- pbmc_small
-#' bind_rows(tt, tt)
-#'
-#' tt_bind <- tt |> select(nCount_RNA, nFeature_RNA)
-#' tt |> bind_cols(tt_bind)
+#' @noRd
 #' 
 #' @references
 #' Hutchison, W.J., Keyes, T.J., The tidyomics Consortium. et al. The tidyomics ecosystem: enhancing omic data analyses. Nat Methods 21, 1166–1170 (2024). https://doi.org/10.1038/s41592-024-02299-2
@@ -48,6 +41,13 @@ arrange.SingleCellExperiment <- function(.data, ..., .by_group=FALSE) {
 #' @importFrom SingleCellExperiment cbind
 #' @export
 bind_rows.SingleCellExperiment <- function(..., .id=NULL, add.cell.ids=NULL) {
+    lifecycle::deprecate_warn(
+        when = "1.19.2",
+        what = "bind_rows()",
+        with = "append_samples()",
+        details = "bind_rows is not a generic method in dplyr and may cause conflicts. Use append_samples."
+    )
+    
     tts <- flatten_if(dots_values(...), is_spliced)
     
     new_obj <- SingleCellExperiment::cbind(tts[[1]], tts[[2]])
@@ -59,6 +59,45 @@ bind_rows.SingleCellExperiment <- function(..., .id=NULL, add.cell.ids=NULL) {
             " they will be made unique.")
     colnames(new_obj) <- make.unique(colnames(new_obj), sep="_")
     
+    new_obj
+}
+
+#' @name append_samples
+#' @rdname append_samples
+#' @title Append samples from multiple SingleCellExperiment objects
+#' 
+#' @description
+#' Append samples from multiple SingleCellExperiment objects by column-binding them.
+#' This function is equivalent to `cbind` but provides a tidyverse-like interface.
+#' 
+#' @param x First SingleCellExperiment object to combine
+#' @param ... Additional SingleCellExperiment objects to combine by samples
+#' @param .id Object identifier (currently not used)
+#' 
+#' @return A combined SingleCellExperiment object
+#' 
+#' @examples
+#' data(pbmc_small)
+#' append_samples(pbmc_small, pbmc_small)
+#' 
+#' @importFrom ttservice append_samples
+#' @importFrom rlang flatten_if
+#' @importFrom rlang is_spliced
+#' @importFrom SingleCellExperiment cbind
+#' @export
+append_samples.SingleCellExperiment <- function(x, ..., .id = NULL) {
+    # Combine all arguments into a list
+    tts <- flatten_if(list(x, ...), is_spliced)
+    new_obj <- do.call(cbind, tts)
+
+    # If duplicated cell names
+    if (any(duplicated(colnames(new_obj)))) {
+        warning("tidySingleCellExperiment says:",
+                " you have duplicated cell names, they will be made unique.")
+        unique_colnames <- make.unique(colnames(new_obj), sep = "_")
+        colnames(new_obj) <- unique_colnames
+    }
+
     new_obj
 }
 

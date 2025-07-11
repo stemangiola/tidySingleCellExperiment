@@ -24,9 +24,9 @@ df$factor <- sample(
 #     expect_identical(fd, df)
 # })
 
-test_that("bind_rows()", {
+test_that("append_samples()", {
     # warn about duplicated cells names
-    expect_warning(fd <- bind_rows(df, df))
+    expect_warning(fd <- append_samples(df, df))
     # cell names should be unique after binding
     expect_true(!any(duplicated(pull(fd, .cell))))
 })
