@@ -35,7 +35,7 @@ join_transcripts <-
     transcripts=NULL,
     all=FALSE,
     exclude_zeros=FALSE,
-    shape="long", ...)
+    shape="wide", ...)
     {
         UseMethod("join_transcripts", .data)
     }
@@ -45,7 +45,7 @@ join_transcripts.default <-
         transcripts=NULL,
         all=FALSE,
         exclude_zeros=FALSE,
-        shape="long", ...)
+        shape="wide", ...)
     {
         print("tidySingleCellExperiment says:",
             " This function cannot be applied to this object")
@@ -56,7 +56,7 @@ join_transcripts.Seurat <-
         transcripts=NULL,
         all=FALSE,
         exclude_zeros=FALSE,
-        shape="long", ...)
+        shape="wide", ...)
     {
         deprecate_warn(
             "1.1.2", "join_transcripts()", 

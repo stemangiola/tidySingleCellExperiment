@@ -40,7 +40,7 @@ setClass("tidySingleCellExperiment", contains="SingleCellExperiment")
 #' @importFrom stringr str_subset
 #' @export
 setMethod("join_features", "SingleCellExperiment", function(.data,
-    features=NULL, all=FALSE, exclude_zeros=FALSE, shape="long", ...) {
+    features=NULL, all=FALSE, exclude_zeros=FALSE, shape="wide", ...) {
     # CRAN Note
     .cell <- NULL
     .feature <- NULL
