@@ -60,7 +60,8 @@ Suggests:
     celldex,
     dittoSeq,
     plotly,
-    rbibutils
+    rbibutils,
+    prettydoc
 VignetteBuilder: 
     knitr
 RdMacros:
