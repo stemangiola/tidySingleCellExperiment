@@ -5,10 +5,10 @@ author: "Stefano Mangiola"
 output:
   prettydoc::html_pretty:
     theme: cayman
-    toc: yes
+    toc: true
     toc_depth: 2
-    number_sections: yes
-    fig_caption: yes
+    number_sections: true
+    fig_caption: true
     df_print: paged
 bibliography: tidySingleCellExperiment.bib
 vignette: >
