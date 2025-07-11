@@ -3,8 +3,13 @@ title: "Overview of the tidySingleCellExperiment package"
 package: "`r BiocStyle::pkg_ver('tidySingleCellExperiment')`"
 author: "Stefano Mangiola"
 output:
-  BiocStyle::html_document:
-    toc_float: true
+  prettydoc::html_pretty:
+    theme: cayman
+    toc: yes
+    toc_depth: 2
+    number_sections: yes
+    fig_caption: yes
+    df_print: paged
 bibliography: tidySingleCellExperiment.bib
 vignette: >
   %\VignetteIndexEntry{Overview of the tidySingleCellExperiment package}
